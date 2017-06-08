@@ -1,2 +1,6 @@
-ozone/*
-!ozone/model/*.d.ts
+ozone/api
+/ozone/configuration.ts
+/ozone/git_push.sh
+/ozone/index.ts
+/ozone/variables.ts
+/ozone/**.*.js
