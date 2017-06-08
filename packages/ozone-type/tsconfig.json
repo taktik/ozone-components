@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "es2015", // Use of ES6
+    "module": "amd",    // Module strategy that is likely to be use with official Polymer/typeScript support. See PolymerLabs/IMD
+    "experimentalDecorators": true, //
+    "emitDecoratorMetadata": true,
+    "strictNullChecks": true,
+    "noImplicitThis": true,
+    "noImplicitAny" : true,
+    "lib": ["es2017", "dom"],
+    "declaration": true,    /* Generates corresponding '.d.ts' file. */
+    "rootDir": "./angular/model"      /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
+
+  }
+}
