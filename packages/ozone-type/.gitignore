@@ -3,4 +3,4 @@ ozone/api
 /ozone/git_push.sh
 /ozone/index.ts
 /ozone/variables.ts
-/ozone/**.*.js
+/ozone/**/*.js
