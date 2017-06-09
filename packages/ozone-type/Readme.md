@@ -6,5 +6,9 @@ swagger-codegen generate -i swagger.json -l typescript-angular2   -o ozone
 
 genertate declaration file (webstorm)
 
-git add ozone/model/*.d.ts -f
+git add ozone/model/*
+
+gulp build
+
+git add ozone/include.html
 git commit -m'add new types'

@@ -12,5 +12,5 @@
 import * as models from './models';
 export interface ListQueryUpdate {
     query?: models.Query;
-    patch?: Array;
+    patch?: Array<any>;
 }

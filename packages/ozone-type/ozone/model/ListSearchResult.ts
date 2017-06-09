@@ -19,6 +19,6 @@ export interface ListSearchResult {
 
     size?: number;
 
-    results?: Array<Array>;
+    results?: Array<Array<any>>;
 
 }
