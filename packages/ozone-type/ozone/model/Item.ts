@@ -34,5 +34,7 @@ export interface Item {
     version?: string;
 
     tenant?: string;
+    
+    [key:string]: any;
 
 }
