@@ -22,4 +22,5 @@ export interface Item {
     type: string;
     version?: string;
     tenant?: string;
+    [key:string]: any;
 }
