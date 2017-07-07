@@ -13,6 +13,6 @@
 import * as models from './models';
 
 export interface Filter {
-    $Type: string;
+    $type: string;
 
 }

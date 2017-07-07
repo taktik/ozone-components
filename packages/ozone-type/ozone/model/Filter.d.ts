@@ -1,3 +1,3 @@
 export interface Filter {
-    $Type: string;
+    $type: string;
 }
