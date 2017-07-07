@@ -14,5 +14,5 @@ import * as models from './models';
 
 export interface Filter {
     $type: string;
-
+    queryString?: string;
 }

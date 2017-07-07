@@ -11,13 +11,14 @@
  */
 define(["require", "exports"], function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var SearchRequest;
     (function (SearchRequest) {
+        var SearchModeEnum;
         (function (SearchModeEnum) {
             SearchModeEnum[SearchModeEnum["DEFAULT"] = 'DEFAULT'] = "DEFAULT";
             SearchModeEnum[SearchModeEnum["TRASH"] = 'TRASH'] = "TRASH";
             SearchModeEnum[SearchModeEnum["ALL"] = 'ALL'] = "ALL";
-        })(SearchRequest.SearchModeEnum || (SearchRequest.SearchModeEnum = {}));
-        var SearchModeEnum = SearchRequest.SearchModeEnum;
+        })(SearchModeEnum = SearchRequest.SearchModeEnum || (SearchRequest.SearchModeEnum = {}));
     })(SearchRequest = exports.SearchRequest || (exports.SearchRequest = {}));
 });

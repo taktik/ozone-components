@@ -25,7 +25,7 @@ export interface SearchRequest {
 
     sorts?: Array<models.Sort>;
 
-    aggregations?: Array<models.Aggregation>;
+    aggregations?: Array<models.TermsAggregation>;
 
 }
 export namespace SearchRequest {

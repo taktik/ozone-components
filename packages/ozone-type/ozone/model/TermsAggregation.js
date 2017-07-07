@@ -11,14 +11,15 @@
  */
 define(["require", "exports"], function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var TermsAggregation;
     (function (TermsAggregation) {
+        var OrderEnum;
         (function (OrderEnum) {
             OrderEnum[OrderEnum["TERMASC"] = 'TERM_ASC'] = "TERMASC";
             OrderEnum[OrderEnum["TERMDESC"] = 'TERM_DESC'] = "TERMDESC";
             OrderEnum[OrderEnum["COUNTASC"] = 'COUNT_ASC'] = "COUNTASC";
             OrderEnum[OrderEnum["COUNTDESC"] = 'COUNT_DESC'] = "COUNTDESC";
-        })(TermsAggregation.OrderEnum || (TermsAggregation.OrderEnum = {}));
-        var OrderEnum = TermsAggregation.OrderEnum;
+        })(OrderEnum = TermsAggregation.OrderEnum || (TermsAggregation.OrderEnum = {}));
     })(TermsAggregation = exports.TermsAggregation || (exports.TermsAggregation = {}));
 });
