@@ -13,6 +13,6 @@
 import * as models from './models';
 
 export interface Aggregation {
-    $Type: string;
+    $type: string;
 
 }

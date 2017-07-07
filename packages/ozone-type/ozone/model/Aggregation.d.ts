@@ -1,3 +1,3 @@
 export interface Aggregation {
-    $Type: string;
+    $type: string;
 }
