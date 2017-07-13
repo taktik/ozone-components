@@ -1,7 +1,6 @@
 /// <amd-module name="ozone-api-upload"/>
 
 import {jsElement} from 'decorators'
-import {} from 'ozone-type'
 
 export interface UploadSessionResult {
     file: FormData;
