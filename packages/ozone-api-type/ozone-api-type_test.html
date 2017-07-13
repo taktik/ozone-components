@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>ozone-components-demo test</title>
+
+    <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../../bower_components/web-component-tester/browser.js"></script>
+    <link rel="import" href="../../../bower_components/polymer/polymer.html">
+    <link rel="import" href="../ozone-api-item/fake-ozone-config.html">
+
+
+    <link rel="import" href="ozone-api-type.html">
+</head>
+<body>
+<fake-ozone-config id="ozoneConfig"></fake-ozone-config>
+<test-fixture id="basic">
+    <template>
+        <ozone-api-type collection="a_Collection"></ozone-api-type>
+    </template>
+</test-fixture>
+
+
+<script>
+    addEventListener('WebComponentsReady', function() {
+        describe('ozone-api-type tests', function () {
+            describe('default collection', function () {
+
+                let element,
+                    server,
+                    responseHeaders = {json: {'Content-Type': 'application/json'}},
+                    fields = [{"name":{"strings":{"en":"a_field_name"}}}],
+                    type = {fields : fields};
+
+                beforeEach((done) => {
+
+                    server = sinon.fakeServer.create();
+                    server.respondWith(
+                        'GET',
+                        '/ozone/rest/v3/type/a_Collection',
+                        [
+                            200,
+                            responseHeaders.json,
+                            JSON.stringify(type)
+                        ]);
+                    element = fixture('basic');
+                    getOzoneConfig().serverRespondWithConfig();
+                    flush(done); //make sure every components are ready
+                });
+
+                afterEach(() => {
+                    server.restore();
+                });
+
+                describe('loadType', function(){
+
+                    it('should set typeDescriptor', (done)=>{
+                        element.loadType().then(()=>{
+                            expect(element._typeDescriptor).to.be.an.instanceof(Promise)
+                            done();
+                        });
+                        setTimeout(()=>{server.respond()},0);
+                    });
+                    it('should resolve with typeDescriptor', (done)=>{
+                        element.loadType().then((typeDescriptor)=>{
+                            expect(typeDescriptor).to.deep.equal(type)
+                            done();
+                        });
+                        setTimeout(()=>{server.respond()},0);
+                    });
+                });
+
+                describe('getFields', function(){
+
+                    it('should list fields', (done)=>{
+
+                        element.loadType();
+                        element.getFields().then((getFields)=>{
+                            expect(getFields).to.deep.equal(fields)
+                            done();
+                        });
+                        setTimeout(()=>{server.respond()},0);
+                    });
+                });
+            });
+            describe('given collection', function () {
+
+                let element,
+                    server,
+                    responseHeaders = {json: {'Content-Type': 'application/json'}},
+                    fields = [{"name":{"strings":{"en":"a_field_name"}}}],
+                    type = {fields : fields};
+
+                beforeEach((done) => {
+
+                    server = sinon.fakeServer.create();
+                    server.respondWith(
+                        'GET',
+                        '/ozone/rest/v3/type/an_Other',
+                        [
+                            200,
+                            responseHeaders.json,
+                            JSON.stringify(type)
+                        ]);
+                    element = fixture('basic');
+                    getOzoneConfig().serverRespondWithConfig();
+                    flush(done); //make sure every components are ready
+                });
+
+                afterEach(() => {
+                    server.restore();
+                });
+
+                describe('loadType', function(){
+
+                    it('should set typeDescriptor', (done)=>{
+                        element.loadType('an_Other').then(()=>{
+                            expect(element._typeDescriptor).to.be.an.instanceof(Promise)
+                            done();
+                        });
+                        setTimeout(()=>{server.respond()},0);
+                    });
+                    it('should resolve with typeDescriptor', (done)=>{
+                        element.loadType('an_Other').then((typeDescriptor)=>{
+                            expect(typeDescriptor).to.deep.equal(type)
+                            done();
+                        });
+                        setTimeout(()=>{server.respond()},0);
+                    });
+                });
+
+                describe('getFields', function(){
+
+                    it('should list fields', (done)=>{
+
+                        element.loadType('an_Other');
+                        element.getFields().then((getFields)=>{
+                            expect(getFields).to.deep.equal(fields)
+                            done();
+                        });
+                        setTimeout(()=>{server.respond()},0);
+                    });
+                });
+                describe('setType', function(){
+
+                    it('should resolve with cached value if exist', (done)=>{
+
+                        element.typeCached.set('an_Other', {value: 'any'});
+                        element.loadType = sinon.stub().returns(Promise.resolve());
+
+                        element.setType('an_Other').then((result)=>{
+                            expect(result).to.deep.equal(element.typeCached);
+                            assert.isTrue(element.typeCached.has('an_Other'))
+                            assert.isFalse(element.loadType.called, 'loadType should not has been called')
+                            done();
+                        });
+                    });
+                    it('should resolve loadType if no cached exist', (done)=>{
+
+                        element.loadType = sinon.stub().returns(Promise.resolve());
+
+                        element.setType('an_Other').then((result)=>{
+                            expect(result).to.deep.equal(element.typeCached);
+                            assert.isTrue(element.typeCached.has('an_Other'))
+                            assert.isTrue(element.loadType.called, 'loadType should have been called');
+                            done();
+                        });
+                    });
+                    describe('getType', function(){
+
+                        it('should resolve with cached value if exist', (done)=>{
+
+                            element.typeCached.set('an_Other', {value: 'any'});
+                            element.setType = sinon.stub().returns(Promise.resolve(element.typeCached));
+                            element.loadType = sinon.stub().returns(Promise.resolve());
+
+                            element.getType('an_Other').then((result)=>{
+                                expect(result).to.deep.equal({value: 'any'});
+                                assert.isFalse(element.loadType.called, 'loadType should not has been called');
+                                done();
+                            });
+                        });
+                        it('should resolve with setType if no cached exist', (done)=>{
+
+                            const localCollection = new Map()
+                            element.setType = sinon.stub()
+                                .returns(Promise.resolve(localCollection.set('not_yet_there', {value: 'any_not_yet_there'})));
+
+                            element.getType('not_yet_there').then((result)=>{
+                                expect(result).to.deep.equal({value: 'any_not_yet_there'});
+                                assert.isTrue(element.setType.called, 'loadType should have been called');
+                                done();
+                            });
+                        });
+                    });
+                    describe('findFieldInCollection', function(){
+
+                        it('should resolve with FieldDescriptor if exist in the collection', (done)=>{
+                            const expectedFields =  {fields:[{identifier: 'id', value: 'any'}], superType: 'super'};
+                            element.getType = sinon.stub();
+                            element.getType.withArgs('an_Other').returns(Promise.resolve(expectedFields));
+
+                            element.findFieldInCollection('an_Other', 'id').then((result)=>{
+                                expect(result).to.deep.equal(expectedFields.fields[0]);
+                                done();
+                            });
+                        });
+                        it('should resolve with findFieldInCollection in superType', (done)=>{
+
+                            const expectedField1 =  {fields:[{identifier: 'id', value: 'any'}], superType: 'super'};
+                            const expectedField2 =  {fields:[{identifier: 'parentId', value: 'some'}]};
+                            element.getType = sinon.stub();
+                            element.getType.withArgs('an_Other').returns(Promise.resolve(expectedField1));
+                            element.getType.withArgs('super').returns(Promise.resolve(expectedField2));
+
+                            element.findFieldInCollection('an_Other', 'parentId').then((result)=>{
+                                expect(result).to.deep.equal(expectedField2.fields[0]);
+                                done();
+                            });
+                        });
+                        it('should resolve with null if not found', (done)=>{
+
+                            const expectedField1 =  {fields:[{identifier: 'id', value: 'any'}], superType: 'super'};
+                            const expectedField2 =  {fields:[{identifier: 'parentId', value: 'some'}]};
+                            element.getType = sinon.stub();
+                            element.getType.withArgs('an_Other').returns(Promise.resolve(expectedField1));
+                            element.getType.withArgs('super').returns(Promise.resolve(expectedField2));
+
+                            element.findFieldInCollection('an_Other', 'not_exist').then((result)=>{
+                                assert.isNull(result);
+                                done();
+                            });
+                        });
+                    });
+
+                    describe('ifIsTypeInstanceOf', function(){
+
+                        it('should resolve with true if types are equal', (done)=>{
+                            element.ifIsTypeInstanceOf('a', 'a').then(()=>{
+                                done();
+                            })
+                        });
+
+                        it('should resolve if instance type is equal to parent', (done)=>{
+                            const type1 =  {fields:[{identifier: 'id', value: 'any'}], superType: 'super'};
+                            const type2 =  {fields:[{identifier: 'parentId', value: 'some'}]};
+                            element.getType = sinon.stub();
+                            element.getType.withArgs('child').returns(Promise.resolve(type1));
+                            element.getType.withArgs('super').returns(Promise.resolve(type2));
+
+                            element.ifIsTypeInstanceOf('child', 'super').then((result)=>{
+                                assert.isTrue(result);
+                                done();
+                            })
+                        });
+
+                        it('should resolve with false if is not an instance', (done)=>{
+                            const type1 =  {fields:[{identifier: 'id', value: 'any'}], superType: 'super'};
+                            const type2 =  {fields:[{identifier: 'parentId', value: 'some'}]};
+                            element.getType = sinon.stub();
+                            element.getType.withArgs('child').returns(Promise.resolve(type1));
+                            element.getType.withArgs('super').returns(Promise.resolve(type2));
+
+                            element.ifIsTypeInstanceOf('child', 'other').then((result)=>{
+                                assert.isFalse(result);
+                                done();
+                            });
+                        });
+                    })
+                });
+            });
+        });
+    });
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+<head>
+    <link rel="import" href="../../decorators.html">
+    <link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+    <link rel="import" href="../../../bower_components/iron-ajax/iron-ajax.html">
+    <link rel="import" href="../ozone-api-behaviors/ozone-api-ajax-mixin.html">
+</head>
+<body>
+<!--
+
+
+`ozone-api-item` is low level ozone api module.
+It provide CRUD operation and search in a given collection.
+
+Example:
+
+```html
+<ozone-api-search collection="item"></ozone-api-search>
+```
+
+@demo
+-->
+    <dom-module id="ozone-api-type">
+    <template>
+        <iron-ajax id="ozoneAccess"
+                   content-type="application/json"
+        ></iron-ajax>
+    </template>
+    <script src="ozone-api-type.js"></script>
+    </dom-module>
+</body>
