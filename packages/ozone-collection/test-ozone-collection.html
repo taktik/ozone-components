@@ -1,0 +1,358 @@
+<!doctype html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <title>ozone-suggest</title>
+
+    <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../../bower_components/web-component-tester/browser.js"></script>
+    <script src="../../../bower_components/iron-test-helpers/mock-interactions.js"></script>
+    <link rel="import" href="../../../bower_components/polymer/polymer.html">
+    <link rel="import" href="ozone-api-fake.html">
+
+    <!-- Step 1: import the element to test -->
+   <link rel="import" href="ozone-collection.html">
+
+</head>
+<body>
+<test-fixture id="basic">
+    <template>
+        <ozone-api-fake id="fakeApi"></ozone-api-fake>
+        <ozone-collection
+                id="moduleUnderTest"
+                source-id="fakeApi"
+        ></ozone-collection>
+    </template>
+</test-fixture>
+<test-fixture id="noApi">
+    <template>
+        <ozone-collection
+                id="moduleUnderTest"
+        ></ozone-collection>
+    </template>
+</test-fixture>
+<test-fixture id="autosave">
+    <template>
+        <ozone-api-fake id="fakeApi"></ozone-api-fake>
+        <ozone-collection
+                id="moduleUnderTest"
+                source-id="fakeApi"
+                autosave
+        ></ozone-collection>
+    </template>
+</test-fixture>
+
+
+<script>
+    describe('ozone-collection', function () {
+        addEventListener('WebComponentsReady', function () {
+            let element,
+                fakeApi;
+
+
+            beforeEach((done) => {
+                fakeApi = fixture('basic')[0];
+                element = fixture('basic')[1];
+                flush(()=>{done()})
+            });
+            afterEach(() => {
+
+            });
+            describe('collection CRUD api on a valid source', function () {
+
+                describe('findOne', function () {
+                    beforeEach((done) => {
+                        element.items=[
+                            {id: '1_local', name: 'one'},
+                            {id: '2_local', name: 'two'}
+                        ];
+
+                        flush(()=>{done()})
+                    });
+                    it('should look in loaded items', (done)=>{
+                        element.findOne('1_local')
+                            .then(result => {
+                                expect(result).to.be.deep.equal({id: '1_local', name: 'one'})
+                                assert.isFalse(element._source.getOne.called);
+                                done();
+                            });
+                    });
+                    it('should request server and add', (done)=>{
+
+                        element._source.getOne.withArgs('3_server')
+                            .returns(Promise.resolve({id: '3_server', name: 'three'}));
+                        element.findOne('3_server')
+                            .then(result => {
+                                expect(result).to.be.deep.equal({id: '3_server', name: 'three'})
+                                assert.isTrue(element._source.getOne.called);
+                                expect(element.items).to.deep.include({id: '3_server', name: 'three'})
+                                done();
+                            });
+                    });
+                    it('should return null when not found', (done)=>{
+                        element._source.getOne.withArgs('not_exist')
+                            .returns(Promise.resolve(null));
+
+                        element.findOne('not_exist')
+                            .then(result => {
+                                assert.isNull(result);
+                                done();
+                            });
+                    })
+                });
+
+                describe('saveAll', function () {
+                    it('should save all items and update items with api results', (done)=>{
+                        element.items = [
+                            {id: '1_local', name: 'one'},
+                            {id: '2_local', name: 'two'}
+                        ];
+                        element._source.bulkSave
+                            .withArgs(element.items)
+                            .returns(Promise.resolve([
+                            {id: '1_local', name: 'one', server:'tag'},
+                            {id: '2_local', name: 'two', server:'tag'}
+                        ]));
+                        element.saveAll().then(()=>{
+                            expect(element.items).to.deep.include({id: '2_local', name: 'two', server:'tag'});
+                            expect(element.items).to.deep.include({id: '1_local', name: 'one', server:'tag'});
+                            expect(element.items.length).to.equal(2);
+                            done()
+                        });
+                    })
+                });
+
+                describe('getIndexById', function () {
+
+                    it('should index on an existing items', (done)=>{
+                        element.items = [
+                            {id: '1_local', name: 'one'},
+                            {id: '2_local', name: 'two'}
+                        ];
+                        const response = element.getIndexById('1_local');
+                        expect(response).to.equal(0);
+                        done();
+                    });
+                    it('should return -1 when not found', (done)=>{
+                        element.items = [
+                            {id: '1_local', name: 'one'},
+                            {id: '2_local', name: 'two'}
+                        ];
+                        const response = element.getIndexById('not exist');
+                        expect(response).to.equal(-1);
+                        done();
+                    });
+                    it('should return -1 if id is undefined', (done)=>{
+                        element.items = [
+                            {id: '1_local', name: 'one'},
+                            {id: '2_local', name: 'two'}
+                        ];
+                        const response = element.getIndexById(undefined);
+                        expect(response).to.equal(-1);
+                        done();
+                    });
+                });
+
+                describe('saveOne', function () {
+                    it('should save an item and update items with api response', (done)=>{
+                        element.items = [
+                            {id: '1_local', name: 'one'},
+                            {id: '2_local', name: 'two'}
+                        ];
+
+                        element._source.update.withArgs({id: '1_local', name: 'one'}).returns(Promise.resolve(
+                            {id: '1_local', name: 'one', server:'tag'}));
+
+
+                        element.saveOne({id: '1_local', name: 'one'})
+                            .then((index)=>{
+                                expect(element.items).to.deep.include({id: '1_local', name: 'one', server:'tag'})
+                                expect(index).to.equal(0);
+                                done();
+                            })
+
+                    });
+                    it('should call add if the item is not in items', (done)=>{
+                        element.items = [
+                            {id: '1_local', name: 'one'},
+                            {id: '2_local', name: 'two'}
+                        ];
+                        element.add = sinon.stub();
+                        element.saveOne({id: 'new', name: 'new name'});
+                        assert.isTrue(element.add.called, 'add has not been called');
+                        done()
+
+                    })
+                });
+
+                describe('add', function () {
+                    it('should create a new item and added to items', (done)=>{
+                        element.items = [
+                            {id: '1_local', name: 'one'},
+                            {id: '2_local', name: 'two'}
+                        ];
+
+
+                        element._source.create
+                            .withArgs({id: 'new', name: 'one'})
+                            .returns(Promise.resolve(
+                                {id: 'new', name: 'new name', server:'tag'}));
+
+                        element.add({id: 'new', name: 'one'})
+                            .then((index)=>{
+                                expect(element.items).to.deep.include({id: 'new', name: 'new name', server:'tag'});
+                                expect(index).to.equal(2);
+                                done();
+                            });
+                    })
+                });
+
+                describe('deleteAll', function () {
+                    it('should bulkDelete with all items id and delete all items', (done)=>{
+                        element.items = [
+                            {id: '1_local', name: 'one'},
+                            {id: '2_local', name: 'two'}
+                        ];
+
+                        element._source.bulkDelete
+                            .withArgs(['1_local', '2_local'])
+                            .returns(Promise.resolve(
+                                ['1_local', '2_local']));
+
+                        element.deleteAll()
+                            .then((index)=>{
+                                expect(element.items).to.deep.equal([]);
+                                done();
+                            });
+                    });
+                });
+
+                describe('deleteItems', function () {
+                    it('should bulkDelete with selected items id and remove them from items', (done)=>{
+                        element.items = [
+                            {id: '1_local', name: 'one'},
+                            {id: '2_local', name: 'two'},
+                            {id: '3_local', name: 'three'}
+                        ];
+
+                        element._source.bulkDelete
+                            .withArgs(['1_local', '3_local'])
+                            .returns(Promise.resolve(
+                            ['1_local', '3_local']));
+
+                        element.deleteItems(['1_local', '3_local']).then(()=>{
+                            expect(element.items).to.deep.include({id: '2_local', name: 'two'});
+                            expect(element.items.length).to.equal(1);
+                            done();
+                        })
+                    });
+                });
+
+                describe('deleteOne', function () {
+                    it('should deleteOne one items id and remove it from items', (done)=>{
+                        element.items = [
+                            {id: '1_local', name: 'one'},
+                            {id: '2_local', name: 'two'}
+                        ];
+
+                        element._source.deleteOne
+                            .withArgs('1_local')
+                            .returns(Promise.resolve('1_local'));
+
+                        element.deleteOne('1_local').then(()=>{
+                            expect(element.items).to.deep.include({id: '2_local', name: 'two'});
+                            expect(element.items.length).to.equal(1);
+                            done();
+                        })
+                    })
+                });
+            });
+
+            describe('collection CRUD api on un configured source', function () {
+
+                beforeEach((done) => {
+                    element = fixture('noApi');
+                    flush(()=>{done()})
+                });
+
+                it('should use default ozoneAPI', (done) =>{
+                    expect(element._source).to.be.an.instanceof(OzoneApiItem)
+                    done()
+                });
+            });
+
+
+            describe('collection search', function () {
+
+                describe('quickSearch', function () {
+                    it('should create a quicksearch query and search', (done)=>{
+                       element.search = sinon.stub();
+
+                       element.quickSearch('hello');
+                       assert.isTrue(element.search.called);
+                       done()
+                    });
+                });
+
+                describe('search', function () {
+                    it('should call ozoneApi.search and loadNextItems',(done)=>{
+                        element.loadNextItems = sinon.stub();
+                        element._source.search.returns('returned _searchIterator');
+                        element.search('hello');
+                        assert.isTrue(element.loadNextItems.called);
+                        expect(element._searchIterator).to.be.equal('returned _searchIterator');
+                        done()
+                    })
+                });
+            });
+
+            describe('items management', function () {
+
+                describe('loadItems', function () {
+                    it('should create an empty quicksearch',(done)=>{
+                        element.quickSearch = sinon.stub();
+                        element.loadItems();
+                        assert.isTrue(element.quickSearch.withArgs('').calledOnce);
+                        done()
+                    })
+                });
+
+                describe('loadNextItems', function () {
+                    it('should load next items from the server and push them in items', (done)=>{
+                        element._searchIterator = {next: sinon.stub()};
+                        element._searchIterator.next.returns(Promise.resolve({results:['item_1', 'item_2']}));
+                        element.loadNextItems().then(()=>{
+                            expect(element.items).to.be.deep.equal(['item_1', 'item_2']);
+                            done();
+                        })
+                    });
+                });
+            });
+
+            describe('autosave mode', function(){
+                beforeEach((done) => {
+                    fakeApi = fixture('autosave')[0];
+                    element = fixture('autosave')[1];
+                    flush(()=>{done()})
+                });
+            });
+
+            describe('nice to have', function () {
+
+                describe('filter', function () {
+                    it('should create a filter search query')
+                });
+
+                describe('sort', function () {
+                    it('should create a sorted search query')
+                });
+
+                it('autosave')
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
