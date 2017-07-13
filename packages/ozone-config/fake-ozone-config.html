@@ -1,0 +1,58 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-ajax/iron-ajax.html">
+
+
+<dom-module id="fake-ozone-config">
+  <template>
+
+  </template>
+  <script>
+      class FakeOzoneConfig extends Polymer.Element {
+          static get is () { return 'fake-ozone-config'; }
+
+          static get properties() {
+              return {
+                  /**
+                   * Ozone config value in a promise.
+                   */
+                  configPromise: {
+                      type: Object,
+                      readOnly: true
+                  }
+              }
+          }
+
+          constructor() {
+              super();
+              this._setConfigPromise(this._createConfigPromise())
+          }
+
+          _createConfigPromise() {
+              return new Promise(function (resolve) {
+                  let fakeConfig = {
+                      "host": "/ozone",
+                      "hostProxy": "https://alpha.flowr.cloud/ozone",
+                      "endPoints": {
+                          "login": "/rest/v3/authentication/login",
+                          "logout": "/rest/v3/authentication/logout",
+                        "items": "/rest/v3/items",
+                        "session": "/rest/v3/authentication/current/session"
+                      }
+                  };
+                  resolve(fakeConfig);
+              })
+                  .then((config) => {
+                    const configReady = new CustomEvent('config-ready', {
+                    bubbles: true,
+                    composed: true,
+                    detail: config,
+                  });
+
+            this.dispatchEvent(configReady);
+            return config;
+          });
+          }
+      }
+      window.customElements.define(FakeOzoneConfig.is, FakeOzoneConfig);
+  </script>
+</dom-module>

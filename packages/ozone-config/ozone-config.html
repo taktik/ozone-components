@@ -1,0 +1,60 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-ajax/iron-ajax.html">
+
+
+<dom-module id="ozone-config">
+  <template>
+    <iron-ajax
+            id="requestConfig"
+                ></iron-ajax>
+  </template>
+  <script>
+      class OzoneConfig extends Polymer.Element {
+          static get is () { return 'ozone-config'; }
+
+          static get properties() {
+              return {
+                  /**
+                   * Ozone config value in a promise.
+                   */
+                  configPromise: {
+                      type: Object,
+                      readOnly: true
+                  }
+              }
+          }
+
+          ready (){
+              super.ready();
+              this._setConfigPromise(this._createConfigPromise());
+              this.$.requestConfig.url="./conf.ozone.json";
+              this.$.requestConfig.generateRequest();
+          }
+
+          _handleResponse (event) {
+              const config = event.detail.response.ozoneApi;
+              const configReady = new CustomEvent('config-ready', {
+                  bubbles: true,
+                  composed: true,
+                  detail: config,
+              });
+              this.dispatchEvent(configReady);
+              return config;
+          }
+
+          _createConfigPromise () {
+              const requestConfig = this.$.requestConfig;
+              return new Promise(function (resolve, reject) {
+                  requestConfig.addEventListener('response', resolve);
+                  requestConfig.addEventListener('error', reject);
+              })
+                  .then(this._handleResponse.bind(this))
+                  .catch((error) => {
+                    console.log(error);
+                    throw error;
+                  });
+          }
+      }
+      window.customElements.define(OzoneConfig.is, OzoneConfig);
+  </script>
+</dom-module>
