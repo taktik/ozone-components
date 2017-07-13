@@ -5,8 +5,6 @@
 
 import {customElement, domElement, jsElement} from 'decorators'
 import {TypeDescriptor, FieldDescriptor, Grants} from 'ozone-type'
-import GrantsEnum = Grants.GrantsEnum;
-
 export type TypeDescriptorCollection = Map<string, Promise<TypeDescriptor>>
 
 /**
