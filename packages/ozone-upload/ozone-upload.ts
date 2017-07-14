@@ -5,7 +5,7 @@
 
 /// <amd-module name="ozone-upload"/>
 
-import {customElement} from 'decorators'
+import {customElement} from 'taktik-polymer-typeScript'
 import {UploadFileRequest, XMLHttpRequestLike} from 'ozone-api-upload'
 
 
