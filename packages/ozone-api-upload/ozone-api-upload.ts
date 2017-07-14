@@ -1,6 +1,6 @@
 /// <amd-module name="ozone-api-upload"/>
 
-import {jsElement} from 'decorators'
+import {jsElement} from 'taktik-polymer-typeScript'
 
 export interface UploadSessionResult {
     file: FormData;
