@@ -1,5 +1,5 @@
 /// <amd-module name="ozone-collection"/>
-import {customElement, domElement} from 'decorators';
+import {customElement, domElement} from 'taktik-polymer-typeScript';
 import {Item} from 'ozone-type';
 import {OzoneApiItem, getOzoneApiItem} from 'ozone-api-item';
 import {SearchGenerator, SearchQuery} from 'ozone-search-helper'
