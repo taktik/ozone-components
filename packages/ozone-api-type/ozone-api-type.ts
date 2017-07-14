@@ -3,7 +3,7 @@
  * Created by hubert on 19/06/17.
  */
 
-import {customElement, domElement, jsElement} from 'decorators'
+import {customElement, domElement, jsElement} from 'taktik-polymer-typeScript'
 import {TypeDescriptor, FieldDescriptor, Grants} from 'ozone-type'
 export type TypeDescriptorCollection = Map<string, Promise<TypeDescriptor>>
 
