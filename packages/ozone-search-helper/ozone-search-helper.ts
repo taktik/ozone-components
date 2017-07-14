@@ -4,7 +4,7 @@
  * Created by hubert on 8/06/17.
  */
 
-import {jsElement} from 'decorators'
+import {jsElement} from 'taktik-polymer-typeScript'
 import {Item, SearchRequest, ItemSearchResult} from 'ozone-type'
 
 
