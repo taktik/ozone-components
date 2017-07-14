@@ -4,7 +4,7 @@
  * Created by hubert on 8/06/17.
  */
 
-import {customElement, domElement} from 'decorators'
+import {customElement, domElement} from 'taktik-polymer-typeScript'
 import {Item} from 'ozone-type'
 import {SearchGenerator, SearchQuery} from 'ozone-search-helper';
 
