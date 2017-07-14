@@ -1,0 +1,101 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    // Use of ES6
+    "module": "amd",
+    // Module strategy that is likely to be use with official Polymer/typeScript support. See PolymerLabs/IMD
+    "experimentalDecorators": true,
+    //
+    "emitDecoratorMetadata": true,
+    "strictNullChecks": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "lib": [
+      "es2017",
+      "es6",
+      "es5",
+      "dom"
+    ],
+    "types":[],
+    "declaration": true,
+    /* Generates corresponding '.d.ts' file. */
+    "rootDir": "./",
+    /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
+    "baseUrl": "./",
+    "paths": {
+      "ozone-type": [
+        "./bower_components/ozone-type/ozone/include"
+        ],
+      "ozone-api-upload": [
+        "./bower_components/ozone-api-upload/ozone-api-upload"
+        ],
+      "ozone-api-item": [
+        "./bower_components/ozone-api-item/ozone-api-item"
+        ],
+      "ozone-api-type": [
+        "./bower_components/ozone-api-type/ozone-api-type"
+        ],
+      "ozone-collection": [
+        "./bower_components/ozone-collection/ozone-collection"
+        ],
+      "ozone-media-url": [
+        "./bower_components/ozone-media-url/ozone-media-url"
+        ],
+      "ozone-search-helper": [
+        "./bower_components/ozone-search-helper/ozone-search-helper"
+        ],
+      "ozone-edit-entry": [
+        "./bower_components/ozone-edit-entry/ozone-edit-entry"
+      ],
+      "ozone-edit-number-entry": [
+        "./bower_components/ozone-edit-number-entry/ozone-edit-number-entry"
+      ],
+      "ozone-edit-panel": [
+        "./bower_components/ozone-edit-panel/ozone-edit-panel"
+      ],
+      "ozone-edit-set-entry": [
+        "./bower_components/ozone-edit-set-entry/ozone-edit-set-entry"
+      ],
+      "ozone-edit-text-entry": [
+        "./bower_components/ozone-edit-text-entry/ozone-edit-text-entry"
+      ],
+      "ozone-item-abstract-view": [
+        "./bower_components/ozone-item-abstract-view/ozone-item-abstract-view"
+      ],
+      "ozone-item-preview": [
+        "./bower_components/ozone-item-preview/ozone-item-preview"
+      ],
+      "ozone-localized-string": [
+        "./bower_components/ozone-localized-string/ozone-localized-string"
+      ],
+      "ozone-media-edit": [
+        "./bower_components/ozone-media-edit/ozone-media-edit"
+      ],
+      "ozone-mosaic": [
+        "./bower_components/ozone-mosaic/ozone-mosaic"
+      ],
+      "ozone-upload": [
+        "./bower_components/ozone-upload/ozone-upload"
+      ],
+      "taktik-language-selection": [
+        "./bower_components/taktik-language-selection/taktik-language-selection"
+        ],
+      "taktik-clappr-wrapper": [
+        "./bower_components/taktik-clappr-wrapper/taktik-clappr-wrapper"
+        ],
+      "taktik-polymer-typeScript": [
+        "./bower_components/taktik-polymer-typeScript/taktik-polymer-typeScript"
+        ]
+      }
+    },
+  "include": [
+    "**/*",
+    "types"
+  ],
+  "exclude": [
+    "dist",
+    "build",
+    "node_modules",
+    "bower_components"
+  ]
+}
