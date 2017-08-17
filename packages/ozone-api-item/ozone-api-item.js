@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define("ozone-api-item", ["require", "exports", "decorators", "ozone-search-helper"], function (require, exports, taktik_polymer_typeScript_1, ozone_search_helper_1) {
+define("ozone-api-item", ["require", "exports", "taktik-polymer-typeScript", "ozone-search-helper"], function (require, exports, taktik_polymer_typeScript_1, ozone_search_helper_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     /**
