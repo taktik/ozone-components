@@ -16,7 +16,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-define("ozone-api-type", ["require", "exports", "taktik-polymer-typeScript"], function (require, exports, taktik_polymer_typeScript_1) {
+define("ozone-api-type", ["require", "exports", "decorators"], function (require, exports, taktik_polymer_typeScript_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     /**
