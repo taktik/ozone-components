@@ -2,7 +2,9 @@
   "name": "ozone-api-upload",
   "main": "ozone-api-upload.html",
   "dependencies": {
-    "polymer": "Polymer/polymer#^2.0.0"
+    "polymer": "Polymer/polymer#^2.0.0",
+    "taktik-polymer-typeScript": "taktik/taktik-polymer-typescript",
+    "ozone-config": "taktik/ozone-config"
   },
   "devDependencies": {
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
