@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define("ozone-search-helper", ["require", "exports", "taktik-polymer-typeScript"], function (require, exports, taktik_polymer_typeScript_1) {
+define("ozone-search-helper", ["require", "exports", "decorators"], function (require, exports, taktik_polymer_typeScript_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     /**

@@ -2,7 +2,8 @@
   "name": "ozone-search-helper",
   "main": "ozone-search-helper.html",
   "dependencies": {
-    "polymer": "Polymer/polymer#^2.0.0"
+    "polymer": "Polymer/polymer#^2.0.0",
+    "taktik-polymer-typeScript": "taktik/taktik-polymer-typescript"
   },
   "devDependencies": {
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
