@@ -22,7 +22,12 @@
       <h3>Basic ozone-search-helper demo</h3>
       <demo-snippet>
         <template>
-          <ozone-search-helper></ozone-search-helper>
+          <link rel="import" href="../bower_components/ozone-search-helper.html">
+          <script>
+              let searchQuery = new SearchQuery();
+              searchQuery.quicksearch('');
+              const searchGenerator = ozoneItemApi.search(searchQuery);
+          </script>
         </template>
       </demo-snippet>
     </div>
