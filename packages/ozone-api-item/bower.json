@@ -2,7 +2,12 @@
   "name": "ozone-api-item",
   "main": "ozone-api-item.html",
   "dependencies": {
-    "polymer": "Polymer/polymer#^2.0.0"
+    "polymer": "Polymer/polymer#^2.0.0",
+    "taktik-polymer-typeScript": "taktik/taktik-polymer-typescript",
+    "ozone-config": "taktik/ozone-config",
+    "ozone-api-behaviors": "taktik/ozone-api-behaviors",
+    "ozone-media-url": "taktik/ozone-media-url",
+    "ozone-search-helper": "taktik/ozone-search-helper"
   },
   "devDependencies": {
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
