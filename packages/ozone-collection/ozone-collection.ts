@@ -1,10 +1,18 @@
 /// <amd-module name="ozone-collection"/>
+
+import "polymer/polymer.html"
+import "polymer/polymer-element.html"
+import "ozone-api-item/ozone-api-item.html"
+
+import "./ozone-collection.html"
+
 import {customElement, domElement} from 'taktik-polymer-typeScript';
 import {Item} from 'ozone-type';
+import 'ozone-api-item';
 import {OzoneApiItem, getOzoneApiItem} from 'ozone-api-item';
-import {SearchGenerator, SearchQuery} from 'ozone-search-helper'
+import 'ozone-search-helper';
+import {SearchGenerator, SearchQuery} from 'ozone-search-helper';
 
-export type uuid = string;
 /**
  * <ozone-collection> is a generic component to manage collection of item.
  */
