@@ -4,6 +4,12 @@
  * Created by hubert on 8/06/17.
  */
 
+
+import "polymer/polymer-element.html";
+import "iron-ajax/iron-ajax.html";
+import "ozone-api-behaviors/ozone-api-ajax-mixin.html";
+import './ozone-api-item.html'
+
 import {customElement, domElement} from 'taktik-polymer-typeScript'
 import {Item} from 'ozone-type'
 import {SearchGenerator, SearchQuery} from 'ozone-search-helper';
