@@ -192,7 +192,6 @@ export class UploadFileRequest implements XMLHttpRequestLike {
             .then((result) => this._endUploadSession(result))
             .then((result) => this._waitForTask(result))
             .then((mediaId: string) => {
-                console.log("upload session complete", mediaId);
                 this.status = 200;
                 this.readyState = 4;
                 this.callOneadystatechange();
