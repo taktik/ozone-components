@@ -3,6 +3,11 @@
  * Created by hubert on 19/06/17.
  */
 
+import "polymer/polymer-element.html";
+import "iron-ajax/iron-ajax.html";
+import "ozone-api-behaviors/ozone-api-ajax-mixin.html";
+import "./ozone-api-type.html"
+
 import {customElement, domElement, jsElement} from 'taktik-polymer-typeScript'
 import {TypeDescriptor, FieldDescriptor, Grants} from 'ozone-type'
 export type TypeDescriptorCollection = Map<string, Promise<TypeDescriptor>>
