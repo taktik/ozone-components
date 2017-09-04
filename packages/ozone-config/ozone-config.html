@@ -1,12 +1,13 @@
-<link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../iron-ajax/iron-ajax.html">
+<script>
+    import "polymer/polymer.html"
+    import "iron-ajax/iron-ajax.html"
 
+</script>
 
 <dom-module id="ozone-config">
   <template>
     <iron-ajax
-            id="requestConfig"
-                ></iron-ajax>
+            id="requestConfig"></iron-ajax>
   </template>
   <script>
       class OzoneConfig extends Polymer.Element {
@@ -56,5 +57,20 @@
           }
       }
       window.customElements.define(OzoneConfig.is, OzoneConfig);
+
+
+      function ozoneConfigGenerator() {
+          let ozoneConfig;
+
+          return () => {
+              if (!document.querySelector('#ozoneConfig')) {
+                  ozoneConfig = document.createElement('ozone-config');
+                  ozoneConfig.id = 'ozoneConfig';
+                  document.body.appendChild(ozoneConfig);
+              }
+              return document.querySelector('#ozoneConfig')
+          }
+      }
+      window.getOzoneConfig = ozoneConfigGenerator();
   </script>
 </dom-module>

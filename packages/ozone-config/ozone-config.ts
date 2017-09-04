@@ -1,6 +1,4 @@
 
-declare type uuid = string;
-
 /**
  * Structure that should verify the config.ozone.json file.
  */
