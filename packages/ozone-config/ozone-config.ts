@@ -36,6 +36,12 @@ declare interface ConfigType {
     endPoints: {
         [key: string]: string
     }
+    format:{
+        "hls": string,
+        "mp4": string,
+        "jpg": string,
+        "png": string,
+    }
 }
 
 declare function getOzoneConfig(): {configPromise: Promise<ConfigType>};
