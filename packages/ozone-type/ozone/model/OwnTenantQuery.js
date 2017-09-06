@@ -11,8 +11,10 @@
  */
 define(["require", "exports"], function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var OwnTenantQuery;
     (function (OwnTenantQuery) {
+        let ModeEnum;
         (function (ModeEnum) {
             ModeEnum[ModeEnum["OWN"] = 'OWN'] = "OWN";
             ModeEnum[ModeEnum["OWNANDCHILDREN"] = 'OWN_AND_CHILDREN'] = "OWNANDCHILDREN";
@@ -21,7 +23,6 @@ define(["require", "exports"], function (require, exports) {
             ModeEnum[ModeEnum["CHILDREN"] = 'CHILDREN'] = "CHILDREN";
             ModeEnum[ModeEnum["PARENTS"] = 'PARENTS'] = "PARENTS";
             ModeEnum[ModeEnum["PARENTSANDCHILDREN"] = 'PARENTS_AND_CHILDREN'] = "PARENTSANDCHILDREN";
-        })(OwnTenantQuery.ModeEnum || (OwnTenantQuery.ModeEnum = {}));
-        var ModeEnum = OwnTenantQuery.ModeEnum;
+        })(ModeEnum = OwnTenantQuery.ModeEnum || (OwnTenantQuery.ModeEnum = {}));
     })(OwnTenantQuery = exports.OwnTenantQuery || (exports.OwnTenantQuery = {}));
 });

@@ -12,12 +12,14 @@
 
 import * as models from './models';
 
-export interface Recording extends models.Item {
+export interface Recording extends models.File {
     duration?: number;
 
     stop?: Date;
 
     start?: Date;
+
+    video?: string;
 
     channelId?: string;
 

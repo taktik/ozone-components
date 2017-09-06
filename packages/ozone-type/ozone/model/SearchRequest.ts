@@ -27,6 +27,8 @@ export interface SearchRequest {
 
     aggregations?: Array<models.TermsAggregation>;
 
+    projectionFields?: Array<string>;
+
 }
 export namespace SearchRequest {
     export enum SearchModeEnum {

@@ -11,20 +11,21 @@
  */
 define(["require", "exports"], function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var User;
     (function (User) {
+        let TypeEnum;
         (function (TypeEnum) {
             TypeEnum[TypeEnum["Database"] = 'database'] = "Database";
             TypeEnum[TypeEnum["Ldap"] = 'ldap'] = "Ldap";
             TypeEnum[TypeEnum["Token"] = 'token'] = "Token";
             TypeEnum[TypeEnum["Saml"] = 'saml'] = "Saml";
-        })(User.TypeEnum || (User.TypeEnum = {}));
-        var TypeEnum = User.TypeEnum;
+        })(TypeEnum = User.TypeEnum || (User.TypeEnum = {}));
+        let StatusEnum;
         (function (StatusEnum) {
             StatusEnum[StatusEnum["ACTIVE"] = 'ACTIVE'] = "ACTIVE";
             StatusEnum[StatusEnum["DISABLED"] = 'DISABLED'] = "DISABLED";
             StatusEnum[StatusEnum["REGISTERING"] = 'REGISTERING'] = "REGISTERING";
-        })(User.StatusEnum || (User.StatusEnum = {}));
-        var StatusEnum = User.StatusEnum;
+        })(StatusEnum = User.StatusEnum || (User.StatusEnum = {}));
     })(User = exports.User || (exports.User = {}));
 });

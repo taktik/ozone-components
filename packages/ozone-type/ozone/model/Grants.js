@@ -11,12 +11,15 @@
  */
 define(["require", "exports"], function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var Grants;
     (function (Grants) {
+        let GrantsEnum;
         (function (GrantsEnum) {
             GrantsEnum[GrantsEnum["AUTHENTICATE"] = 'AUTHENTICATE'] = "AUTHENTICATE";
             GrantsEnum[GrantsEnum["ADMIN"] = 'ADMIN'] = "ADMIN";
             GrantsEnum[GrantsEnum["UPLOAD"] = 'UPLOAD'] = "UPLOAD";
+            GrantsEnum[GrantsEnum["TYPESEARCH"] = 'TYPE_SEARCH'] = "TYPESEARCH";
             GrantsEnum[GrantsEnum["ENTITYVIEW"] = 'ENTITY_VIEW'] = "ENTITYVIEW";
             GrantsEnum[GrantsEnum["ENTITYCREATE"] = 'ENTITY_CREATE'] = "ENTITYCREATE";
             GrantsEnum[GrantsEnum["ENTITYEDIT"] = 'ENTITY_EDIT'] = "ENTITYEDIT";
@@ -29,12 +32,13 @@ define(["require", "exports"], function (require, exports) {
             GrantsEnum[GrantsEnum["FILEDOWNLOAD"] = 'FILE_DOWNLOAD'] = "FILEDOWNLOAD";
             GrantsEnum[GrantsEnum["FIELDVIEW"] = 'FIELD_VIEW'] = "FIELDVIEW";
             GrantsEnum[GrantsEnum["FIELDEDIT"] = 'FIELD_EDIT'] = "FIELDEDIT";
-        })(Grants.GrantsEnum || (Grants.GrantsEnum = {}));
-        var GrantsEnum = Grants.GrantsEnum;
+        })(GrantsEnum = Grants.GrantsEnum || (Grants.GrantsEnum = {}));
+        let FieldGrantsEnum;
         (function (FieldGrantsEnum) {
             FieldGrantsEnum[FieldGrantsEnum["AUTHENTICATE"] = 'AUTHENTICATE'] = "AUTHENTICATE";
             FieldGrantsEnum[FieldGrantsEnum["ADMIN"] = 'ADMIN'] = "ADMIN";
             FieldGrantsEnum[FieldGrantsEnum["UPLOAD"] = 'UPLOAD'] = "UPLOAD";
+            FieldGrantsEnum[FieldGrantsEnum["TYPESEARCH"] = 'TYPE_SEARCH'] = "TYPESEARCH";
             FieldGrantsEnum[FieldGrantsEnum["ENTITYVIEW"] = 'ENTITY_VIEW'] = "ENTITYVIEW";
             FieldGrantsEnum[FieldGrantsEnum["ENTITYCREATE"] = 'ENTITY_CREATE'] = "ENTITYCREATE";
             FieldGrantsEnum[FieldGrantsEnum["ENTITYEDIT"] = 'ENTITY_EDIT'] = "ENTITYEDIT";
@@ -47,7 +51,6 @@ define(["require", "exports"], function (require, exports) {
             FieldGrantsEnum[FieldGrantsEnum["FILEDOWNLOAD"] = 'FILE_DOWNLOAD'] = "FILEDOWNLOAD";
             FieldGrantsEnum[FieldGrantsEnum["FIELDVIEW"] = 'FIELD_VIEW'] = "FIELDVIEW";
             FieldGrantsEnum[FieldGrantsEnum["FIELDEDIT"] = 'FIELD_EDIT'] = "FIELDEDIT";
-        })(Grants.FieldGrantsEnum || (Grants.FieldGrantsEnum = {}));
-        var FieldGrantsEnum = Grants.FieldGrantsEnum;
+        })(FieldGrantsEnum = Grants.FieldGrantsEnum || (Grants.FieldGrantsEnum = {}));
     })(Grants = exports.Grants || (exports.Grants = {}));
 });

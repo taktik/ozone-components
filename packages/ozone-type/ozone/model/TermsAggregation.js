@@ -14,7 +14,7 @@ define(["require", "exports"], function (require, exports) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var TermsAggregation;
     (function (TermsAggregation) {
-        var OrderEnum;
+        let OrderEnum;
         (function (OrderEnum) {
             OrderEnum[OrderEnum["TERMASC"] = 'TERM_ASC'] = "TERMASC";
             OrderEnum[OrderEnum["TERMDESC"] = 'TERM_DESC'] = "TERMDESC";

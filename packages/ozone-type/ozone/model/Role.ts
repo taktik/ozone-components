@@ -17,7 +17,7 @@ export interface Role {
 
     tenantId?: string;
 
-    name?: string;
+    name: string;
 
     virtualHostDependency?: Role.VirtualHostDependencyEnum;
 
@@ -26,6 +26,14 @@ export interface Role {
     revokes?: Array<models.Permission>;
 
     scopes?: Array<models.Permission>;
+
+    children?: Array<string>;
+
+    parents?: Array<string>;
+
+    users?: Array<string>;
+
+    virtualHosts?: Array<string>;
 
 }
 export namespace Role {

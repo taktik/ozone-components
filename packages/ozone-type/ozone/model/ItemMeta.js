@@ -11,24 +11,25 @@
  */
 define(["require", "exports"], function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var ItemMeta;
     (function (ItemMeta) {
+        let StateEnum;
         (function (StateEnum) {
             StateEnum[StateEnum["OK"] = 'OK'] = "OK";
             StateEnum[StateEnum["ERROR"] = 'ERROR'] = "ERROR";
-        })(ItemMeta.StateEnum || (ItemMeta.StateEnum = {}));
-        var StateEnum = ItemMeta.StateEnum;
+        })(StateEnum = ItemMeta.StateEnum || (ItemMeta.StateEnum = {}));
+        let ValidityEnum;
         (function (ValidityEnum) {
             ValidityEnum[ValidityEnum["VALID"] = 'VALID'] = "VALID";
             ValidityEnum[ValidityEnum["INVALID"] = 'INVALID'] = "INVALID";
             ValidityEnum[ValidityEnum["UNKNOWN"] = 'UNKNOWN'] = "UNKNOWN";
-        })(ItemMeta.ValidityEnum || (ItemMeta.ValidityEnum = {}));
-        var ValidityEnum = ItemMeta.ValidityEnum;
+        })(ValidityEnum = ItemMeta.ValidityEnum || (ItemMeta.ValidityEnum = {}));
+        let SecurityEnum;
         (function (SecurityEnum) {
             SecurityEnum[SecurityEnum["ALLOWED"] = 'ALLOWED'] = "ALLOWED";
             SecurityEnum[SecurityEnum["FORBIDDEN"] = 'FORBIDDEN'] = "FORBIDDEN";
             SecurityEnum[SecurityEnum["UNKNOWN"] = 'UNKNOWN'] = "UNKNOWN";
-        })(ItemMeta.SecurityEnum || (ItemMeta.SecurityEnum = {}));
-        var SecurityEnum = ItemMeta.SecurityEnum;
+        })(SecurityEnum = ItemMeta.SecurityEnum || (ItemMeta.SecurityEnum = {}));
     })(ItemMeta = exports.ItemMeta || (exports.ItemMeta = {}));
 });

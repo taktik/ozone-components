@@ -13,13 +13,11 @@
 import * as models from './models';
 
 export interface Item {
-    deleted?: boolean;
-
     creationUser?: string;
 
-    traits?: Array<string>;
+    deleted?: boolean;
 
-    organization?: number;
+    traits?: Array<string>;
 
     modificationUser?: string;
 
@@ -34,7 +32,7 @@ export interface Item {
     version?: string;
 
     tenant?: string;
-    
+
     [key:string]: any;
 
 }

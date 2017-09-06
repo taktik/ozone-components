@@ -37,9 +37,11 @@ export interface FieldDescriptor {
 
     overridable?: boolean;
 
-    constraints?: Array<models.Constraint>;
+    deprecated?: boolean;
 
-    stocks?: Array<string>;
+    deprecationReason?: string;
+
+    constraints?: Array<models.Constraint>;
 
     defaultValue?: any;
 

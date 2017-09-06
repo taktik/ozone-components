@@ -11,13 +11,14 @@
  */
 define(["require", "exports"], function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var Connector;
     (function (Connector) {
+        let TypeEnum;
         (function (TypeEnum) {
             TypeEnum[TypeEnum["HTTP"] = 'HTTP'] = "HTTP";
             TypeEnum[TypeEnum["FTP"] = 'FTP'] = "FTP";
             TypeEnum[TypeEnum["RTSP"] = 'RTSP'] = "RTSP";
-        })(Connector.TypeEnum || (Connector.TypeEnum = {}));
-        var TypeEnum = Connector.TypeEnum;
+        })(TypeEnum = Connector.TypeEnum || (Connector.TypeEnum = {}));
     })(Connector = exports.Connector || (exports.Connector = {}));
 });

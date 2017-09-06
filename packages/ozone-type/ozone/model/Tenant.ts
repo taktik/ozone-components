@@ -17,7 +17,7 @@ export interface Tenant {
 
     parentId?: string;
 
-    identifier?: string;
+    identifier: string;
 
     grants?: Array<models.Permission>;
 

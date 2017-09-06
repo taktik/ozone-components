@@ -11,13 +11,14 @@
  */
 define(["require", "exports"], function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var Role;
     (function (Role) {
+        let VirtualHostDependencyEnum;
         (function (VirtualHostDependencyEnum) {
             VirtualHostDependencyEnum[VirtualHostDependencyEnum["NONE"] = 'NONE'] = "NONE";
             VirtualHostDependencyEnum[VirtualHostDependencyEnum["DIRECT"] = 'DIRECT'] = "DIRECT";
             VirtualHostDependencyEnum[VirtualHostDependencyEnum["FULL"] = 'FULL'] = "FULL";
-        })(Role.VirtualHostDependencyEnum || (Role.VirtualHostDependencyEnum = {}));
-        var VirtualHostDependencyEnum = Role.VirtualHostDependencyEnum;
+        })(VirtualHostDependencyEnum = Role.VirtualHostDependencyEnum || (Role.VirtualHostDependencyEnum = {}));
     })(Role = exports.Role || (exports.Role = {}));
 });

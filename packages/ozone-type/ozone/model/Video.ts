@@ -13,4 +13,6 @@
 import * as models from './models';
 
 export interface Video extends models.Media {
+    logo?: string;
+
 }

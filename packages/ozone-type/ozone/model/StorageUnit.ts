@@ -15,11 +15,11 @@ import * as models from './models';
 export interface StorageUnit {
     id?: string;
 
-    name?: string;
+    name: string;
 
-    uri?: string;
+    uri: string;
 
-    typeIdentifier?: string;
+    typeIdentifier: string;
 
     instances?: Array<string>;
 

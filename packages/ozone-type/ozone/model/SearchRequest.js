@@ -14,7 +14,7 @@ define(["require", "exports"], function (require, exports) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var SearchRequest;
     (function (SearchRequest) {
-        var SearchModeEnum;
+        let SearchModeEnum;
         (function (SearchModeEnum) {
             SearchModeEnum[SearchModeEnum["DEFAULT"] = 'DEFAULT'] = "DEFAULT";
             SearchModeEnum[SearchModeEnum["TRASH"] = 'TRASH'] = "TRASH";

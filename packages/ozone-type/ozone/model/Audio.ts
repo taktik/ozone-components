@@ -13,4 +13,6 @@
 import * as models from './models';
 
 export interface Audio extends models.Media {
+    logo?: string;
+
 }

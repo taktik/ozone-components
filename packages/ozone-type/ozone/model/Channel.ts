@@ -13,17 +13,17 @@
 import * as models from './models';
 
 export interface Channel extends models.Item {
-    paid?: boolean;
-
     restricted?: boolean;
+
+    logo?: string;
 
     ottUrl?: string;
 
     aliases?: Array<string>;
 
-    languages?: Array<string>;
-
     keywords?: Array<string>;
+
+    languages?: Array<string>;
 
     tvGuideNames?: Array<string>;
 
@@ -32,6 +32,8 @@ export interface Channel extends models.Item {
     channelUuid?: string;
 
     channelType?: string;
+
+    storage?: string;
 
     multicastUrl?: string;
 
@@ -44,8 +46,6 @@ export interface Channel extends models.Item {
     defaultPackages?: Array<string>;
 
     scenes?: Array<string>;
-
-    logo?: string;
 
     horizontalRes?: number;
 

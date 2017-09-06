@@ -13,11 +13,11 @@
 import * as models from './models';
 
 export interface TermsAggregation extends models.Aggregation {
-    name?: string;
+    name: string;
 
-    field?: string;
+    field: string;
 
-    order?: TermsAggregation.OrderEnum | string;
+    order?: TermsAggregation.OrderEnum;
 
     size?: number;
 

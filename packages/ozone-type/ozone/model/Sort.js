@@ -11,18 +11,19 @@
  */
 define(["require", "exports"], function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var Sort;
     (function (Sort) {
+        let OrderEnum;
         (function (OrderEnum) {
             OrderEnum[OrderEnum["ASC"] = 'ASC'] = "ASC";
             OrderEnum[OrderEnum["DESC"] = 'DESC'] = "DESC";
             OrderEnum[OrderEnum["NONE"] = 'NONE'] = "NONE";
-        })(Sort.OrderEnum || (Sort.OrderEnum = {}));
-        var OrderEnum = Sort.OrderEnum;
+        })(OrderEnum = Sort.OrderEnum || (Sort.OrderEnum = {}));
+        let MissingEnum;
         (function (MissingEnum) {
             MissingEnum[MissingEnum["FIRST"] = 'FIRST'] = "FIRST";
             MissingEnum[MissingEnum["LAST"] = 'LAST'] = "LAST";
-        })(Sort.MissingEnum || (Sort.MissingEnum = {}));
-        var MissingEnum = Sort.MissingEnum;
+        })(MissingEnum = Sort.MissingEnum || (Sort.MissingEnum = {}));
     })(Sort = exports.Sort || (exports.Sort = {}));
 });

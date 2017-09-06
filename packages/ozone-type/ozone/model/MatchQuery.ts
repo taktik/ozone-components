@@ -17,7 +17,7 @@ export interface MatchQuery extends models.Query {
 
     text: any;
 
-    operator: MatchQuery.OperatorEnum;
+    operator?: MatchQuery.OperatorEnum;
 
 }
 export namespace MatchQuery {

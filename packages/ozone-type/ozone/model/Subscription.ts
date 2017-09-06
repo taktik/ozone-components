@@ -13,8 +13,6 @@
 import * as models from './models';
 
 export interface Subscription extends models.Item {
-    roles?: Array<string>;
-
     devices?: Array<string>;
 
     endDate?: Date;

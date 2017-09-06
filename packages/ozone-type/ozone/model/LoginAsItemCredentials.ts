@@ -13,8 +13,8 @@
 import * as models from './models';
 
 export interface LoginAsItemCredentials {
-    itemId?: string;
+    itemId: string;
 
-    secret?: string;
+    secret: string;
 
 }

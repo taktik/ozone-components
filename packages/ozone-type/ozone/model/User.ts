@@ -37,6 +37,8 @@ export interface User {
 
     password?: string;
 
+    passwordHash?: string;
+
     passwordToken?: string;
 
     passwordTokenExpirationDate?: Date;

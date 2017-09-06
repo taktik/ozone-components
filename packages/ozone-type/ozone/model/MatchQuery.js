@@ -11,12 +11,13 @@
  */
 define(["require", "exports"], function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var MatchQuery;
     (function (MatchQuery) {
+        let OperatorEnum;
         (function (OperatorEnum) {
             OperatorEnum[OperatorEnum["OR"] = 'OR'] = "OR";
             OperatorEnum[OperatorEnum["AND"] = 'AND'] = "AND";
-        })(MatchQuery.OperatorEnum || (MatchQuery.OperatorEnum = {}));
-        var OperatorEnum = MatchQuery.OperatorEnum;
+        })(OperatorEnum = MatchQuery.OperatorEnum || (MatchQuery.OperatorEnum = {}));
     })(MatchQuery = exports.MatchQuery || (exports.MatchQuery = {}));
 });

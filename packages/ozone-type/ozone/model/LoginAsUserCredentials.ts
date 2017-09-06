@@ -13,8 +13,8 @@
 import * as models from './models';
 
 export interface LoginAsUserCredentials {
-    username?: string;
+    username: string;
 
-    password?: string;
+    password: string;
 
 }

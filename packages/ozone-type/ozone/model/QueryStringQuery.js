@@ -11,12 +11,13 @@
  */
 define(["require", "exports"], function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var QueryStringQuery;
     (function (QueryStringQuery) {
+        let DefaultOperatorEnum;
         (function (DefaultOperatorEnum) {
             DefaultOperatorEnum[DefaultOperatorEnum["OR"] = 'OR'] = "OR";
             DefaultOperatorEnum[DefaultOperatorEnum["AND"] = 'AND'] = "AND";
-        })(QueryStringQuery.DefaultOperatorEnum || (QueryStringQuery.DefaultOperatorEnum = {}));
-        var DefaultOperatorEnum = QueryStringQuery.DefaultOperatorEnum;
+        })(DefaultOperatorEnum = QueryStringQuery.DefaultOperatorEnum || (QueryStringQuery.DefaultOperatorEnum = {}));
     })(QueryStringQuery = exports.QueryStringQuery || (exports.QueryStringQuery = {}));
 });

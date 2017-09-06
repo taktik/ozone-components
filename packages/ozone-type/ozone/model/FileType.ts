@@ -15,7 +15,7 @@ import * as models from './models';
 export interface FileType {
     id?: string;
 
-    identifier?: string;
+    identifier: string;
 
     uti?: string;
 

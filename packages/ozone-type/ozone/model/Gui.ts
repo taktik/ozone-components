@@ -13,6 +13,8 @@
 import * as models from './models';
 
 export interface Gui extends models.Item {
+    restricted?: boolean;
+
     onlyShowIfAssetsAvailable?: boolean;
 
     parent?: string;
@@ -25,9 +27,9 @@ export interface Gui extends models.Item {
 
     inheritedFrom?: string;
 
-    i18n?: string;
-
     guiUuid?: string;
+
+    i18n?: string;
 
     tags?: Array<string>;
 
