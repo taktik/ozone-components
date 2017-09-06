@@ -17,7 +17,7 @@ export interface TermsAggregation extends models.Aggregation {
 
     field: string;
 
-    order?: TermsAggregation.OrderEnum;
+    order?: TermsAggregation.OrderEnum| string;
 
     size?: number;
 

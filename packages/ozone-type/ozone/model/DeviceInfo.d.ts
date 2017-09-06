@@ -11,16 +11,16 @@
  */
 import * as models from './models';
 export interface DeviceInfo extends models.Item {
-    roles?: Array<string>;
-    deviceType?: string;
-    macAddress?: string;
-    extraInformation?: Array<string>;
-    operaProxy?: boolean;
     lastLoginIpAddress?: string;
-    model?: string;
-    location?: string;
+    roles?: Array<string>;
     lastLoginDate?: Date;
-    secret?: string;
+    deviceType?: string;
+    extraInformation?: Array<string>;
+    macAddress?: string;
+    location?: string;
+    model?: string;
+    deviceVersion?: string;
     subLocation?: string;
+    network?: string;
     status?: string;
 }

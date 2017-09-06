@@ -11,10 +11,9 @@
  */
 import * as models from './models';
 export interface Item {
-    deleted?: boolean;
     creationUser?: string;
+    deleted?: boolean;
     traits?: Array<string>;
-    organization?: number;
     modificationUser?: string;
     name?: string;
     meta?: models.ItemMeta;

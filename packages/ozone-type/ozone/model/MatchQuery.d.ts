@@ -13,7 +13,7 @@ import * as models from './models';
 export interface MatchQuery extends models.Query {
     field: string;
     text: any;
-    operator: MatchQuery.OperatorEnum;
+    operator?: MatchQuery.OperatorEnum;
 }
 export declare namespace MatchQuery {
     enum OperatorEnum {

@@ -23,6 +23,7 @@ export interface User {
     expirationDate?: Date;
     lastLoginDate?: Date;
     password?: string;
+    passwordHash?: string;
     passwordToken?: string;
     passwordTokenExpirationDate?: Date;
     activationToken?: string;

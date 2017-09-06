@@ -11,10 +11,4 @@
  */
 import * as models from './models';
 export interface SubscriptionAction extends models.Item {
-    roles?: Array<string>;
-    actionType?: string;
-    action?: string;
-    actionRoles?: Array<string>;
-    unlimitedRights?: boolean;
-    tags?: Array<string>;
 }

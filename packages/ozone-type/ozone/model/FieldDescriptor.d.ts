@@ -23,7 +23,8 @@ export interface FieldDescriptor {
     serverSide?: boolean;
     inQuickSearch?: boolean;
     overridable?: boolean;
+    deprecated?: boolean;
+    deprecationReason?: string;
     constraints?: Array<models.Constraint>;
-    stocks?: Array<string>;
     defaultValue?: any;
 }

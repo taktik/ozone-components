@@ -11,22 +11,22 @@
  */
 import * as models from './models';
 export interface Channel extends models.Item {
-    paid?: boolean;
     restricted?: boolean;
+    logo?: string;
     ottUrl?: string;
     aliases?: Array<string>;
-    languages?: Array<string>;
     keywords?: Array<string>;
+    languages?: Array<string>;
     tvGuideNames?: Array<string>;
     verticalRes?: number;
     channelUuid?: string;
     channelType?: string;
+    storage?: string;
     multicastUrl?: string;
     languageIndexes?: Array<string>;
     cbUrl?: string;
     bufferDuration?: number;
     defaultPackages?: Array<string>;
     scenes?: Array<string>;
-    logo?: string;
     horizontalRes?: number;
 }

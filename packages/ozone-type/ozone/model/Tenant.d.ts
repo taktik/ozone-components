@@ -13,7 +13,7 @@ import * as models from './models';
 export interface Tenant {
     id?: string;
     parentId?: string;
-    identifier?: string;
+    identifier: string;
     grants?: Array<models.Permission>;
     revokes?: Array<models.Permission>;
     scopes?: Array<models.Permission>;

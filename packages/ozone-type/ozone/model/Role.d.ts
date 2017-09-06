@@ -13,11 +13,15 @@ import * as models from './models';
 export interface Role {
     id?: string;
     tenantId?: string;
-    name?: string;
+    name: string;
     virtualHostDependency?: Role.VirtualHostDependencyEnum;
     grants?: Array<models.Permission>;
     revokes?: Array<models.Permission>;
     scopes?: Array<models.Permission>;
+    children?: Array<string>;
+    parents?: Array<string>;
+    users?: Array<string>;
+    virtualHosts?: Array<string>;
 }
 export declare namespace Role {
     enum VirtualHostDependencyEnum {

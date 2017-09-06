@@ -18,6 +18,7 @@ export interface SearchRequest {
     query?: models.Query;
     sorts?: Array<models.Sort>;
     aggregations?: Array<models.TermsAggregation>;
+    projectionFields?: Array<string>;
 }
 export declare namespace SearchRequest {
     enum SearchModeEnum {
