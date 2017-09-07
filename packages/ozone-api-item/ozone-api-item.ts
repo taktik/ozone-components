@@ -89,6 +89,12 @@ export class OzoneApiItem  extends OzoneApiAjaxMixin(Polymer.Element){
         }
     }
 
+    setCollection(collection: string){
+       if (collection != this.collection){
+           this.set('collection', collection)
+       }
+    }
+
     /**
      * Create or update a collection item.
      * @param data Item item to create.
@@ -202,7 +208,7 @@ export class OzoneApiItem  extends OzoneApiAjaxMixin(Polymer.Element){
             .generateRequest().completes.then((res:any) => res.response)
     }
 
-    private _buildUrl(action:string):string{
+    private _buildUrl(action:string, type?: string ):string{
         return `${this.serviceUrl}/${action}`;
     }
 
