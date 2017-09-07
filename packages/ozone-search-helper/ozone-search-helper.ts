@@ -76,7 +76,11 @@ export class SearchQuery {
             field: "_quicksearch",
             queryString: `${searchString}*`
         };
+        this._searchRequest = searchParam;
+    }
 
+    custom(searchParam:SearchRequest){
+        this._searchRequest = searchParam;
     }
 
 }
