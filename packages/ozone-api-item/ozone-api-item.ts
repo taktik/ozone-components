@@ -10,7 +10,7 @@ import "iron-ajax/iron-ajax.html";
 import "ozone-api-behaviors/ozone-api-ajax-mixin.html";
 import './ozone-api-item.html'
 
-import {customElement, domElement} from 'taktik-polymer-typeScript'
+import {customElement, domElement, jsElement} from 'taktik-polymer-typeScript'
 import {Item} from 'ozone-type'
 import {SearchGenerator, SearchQuery} from 'ozone-search-helper';
 
@@ -59,6 +59,8 @@ export class OzoneApiItem  extends OzoneApiAjaxMixin(Polymer.Element){
      */
     collection:string;
 
+    config: ConfigType;
+
 
     static get properties() {
         return {
@@ -89,10 +91,18 @@ export class OzoneApiItem  extends OzoneApiAjaxMixin(Polymer.Element){
         }
     }
 
+    on(collection: string){
+        this.setCollection(collection);
+        return this;
+    }
+
+    setConfig(config: ConfigType){
+        this.set('config', config);
+    }
+
     setCollection(collection: string){
-       if (collection != this.collection){
-           this.set('collection', collection)
-       }
+       this.set('collection', collection);
+       this.computeServiceUrl(this.config.endPoints[collection]);
     }
 
     /**
@@ -211,9 +221,6 @@ export class OzoneApiItem  extends OzoneApiAjaxMixin(Polymer.Element){
     private _buildUrl(action:string, type?: string ):string{
         return `${this.serviceUrl}/${action}`;
     }
-
-
-
 }
 
 function OzoneApiItemGenerator() {
@@ -233,3 +240,188 @@ function OzoneApiItemGenerator() {
  * @type {()=>OzoneApiItem}
  */
 export const getOzoneApiItem = OzoneApiItemGenerator();
+
+
+export class OzoneAcess{
+    url: string;
+    method: string;
+    body: string;
+
+
+    generateRequest(){
+        return new Promise((resolve, reject)=>{
+            const xmlhttp = new XMLHttpRequest();
+            xmlhttp.withCredentials = true;
+            xmlhttp.responseType = 'json';
+            xmlhttp.open(this.method, this.url, true);
+            xmlhttp.setRequestHeader("Content-Type", "application/json");
+            xmlhttp.setRequestHeader('Accept', 'application/json');
+
+            xmlhttp.onload = function() {
+                resolve(xmlhttp);
+            };
+            xmlhttp.onerror = function() {
+                reject(xmlhttp.statusText)
+            };
+            console.log(this.body)
+            xmlhttp.send(this.body);
+        });
+    }
+
+
+}
+@jsElement()
+export class OzoneApi {
+
+
+    /**
+     * type of the ozone collection.
+     * Default value is 'item'
+     */
+    collection:string;
+
+    config: ConfigType;
+
+    serviceUrl: string;
+
+
+
+    on(collection: string){
+        this.setCollection(collection);
+        return this;
+    }
+
+    setConfig(config: ConfigType){
+        this.config = config;
+    }
+
+    setCollection(collection: string){
+        this.collection = collection;
+        this.computeServiceUrl(this.config.endPoints[collection]);
+    }
+    computeServiceUrl(ozoneEndPoint: string) {
+        this.serviceUrl = this.config.host + ozoneEndPoint;
+    }
+
+    /**
+     * Create or update a collection item.
+     * @param data Item item to create.
+     * @return {Promise<Item>}
+     */
+    create(data:Item): Promise<Item> {
+        return this.update(data);
+    }
+
+    /**
+     * Create or update a collection item.
+     * @param data Item item to update.
+     * @return {Promise<Item>}
+     */
+    update(data:Item): Promise<Item> {
+        const url = this._buildUrl('');
+        return this._postRequest(url, data, this._readItemResponse);
+    }
+
+    /**
+     * get one collection item by uuid.
+     * @param id
+     * @return {Promise<Item | null>}
+     */
+    getOne(id:uuid):Promise<Item | null> {
+        const url = this._buildUrl(id);
+        return this._getRequest(url)
+            .then(response => {
+                if(response == ''){
+                    return null;
+                } else {
+                    return response
+                }
+            });
+    }
+
+    /**
+     * delete one collection item by uuid.
+     * @param id
+     * @return {Promise<any>}
+     */
+    deleteOne(id:uuid):Promise<uuid> {
+        const url = this._buildUrl(id);
+        return this._deleteRequest(url);
+    }
+
+    /**
+     * get collection items from a list of id.
+     * @param ids {Array<uuid>} array of id to get
+     * @return {Promise<Iterator<Item>>} promise resole with an iterator of collection item
+     */
+    bulkGet(ids:Array<uuid>):Promise<Array<Item>> {
+        const url = this._buildUrl('bulkGet');
+        return this._postRequest(url, ids, this._readBulkItemResponse);
+    }
+
+    /**
+     * delete items from a list of id.
+     * @param ids
+     * @return {Promise<Array<uuid>>} promise resole with an array of deleted id
+     */
+    bulkDelete(ids:Array<uuid| undefined>):Promise<Array<uuid>> {
+        const url = this._buildUrl('bulkDelete');
+        return this._postRequest(url, ids, this._readItemResponse);
+    }
+
+    /**
+     * save an array of items
+     * @param items
+     * @return {Promise<Iterator<Item>>} promise resole with an iterator of collection item
+     */
+    bulkSave(items:Array<Item>):Promise<Array<Item>> {
+        const url = this._buildUrl('bulkSave');
+        return this._postRequest(url, items, this._readBulkItemResponse);
+    }
+
+    /**
+     * Submit ozone search query
+     */
+    search (search: SearchQuery): SearchGenerator {
+        const url = this._buildUrl('search');
+
+        const ozoneAccess = new OzoneAcess();
+
+        return new SearchGenerator(url, search, ozoneAccess);
+    }
+
+    private _readItemResponse = (res:ItemResponse) => res.response;
+
+    private _readBulkItemResponse =  (res:BulkResponse):Array<Item> => {
+        return res.response;
+    };
+
+    private _postRequest(url:string, body:any, responseFilter:any): Promise<any> {
+        const ozoneAccess = new OzoneAcess();
+        ozoneAccess.url = url;
+        ozoneAccess.method = 'POST';
+        ozoneAccess.body = JSON.stringify(body);
+        return ozoneAccess
+            .generateRequest().then(responseFilter.bind(this))
+    }
+
+    private _getRequest(url:string): Promise<any> {
+        const ozoneAccess = new OzoneAcess();
+        ozoneAccess.url = url;
+        ozoneAccess.method = 'GET';
+        return ozoneAccess
+            .generateRequest().then((res:any) => res.response)
+    }
+
+    private _deleteRequest(url:string): Promise<any> {
+        const ozoneAccess = new OzoneAcess();
+        ozoneAccess.url = url;
+        ozoneAccess.method = 'DELETE';
+        return ozoneAccess
+            .generateRequest().then((res:any) => res.response)
+    }
+
+    private _buildUrl(action:string, type?: string ):string{
+        return `${this.serviceUrl}/${action}`;
+    }
+}
