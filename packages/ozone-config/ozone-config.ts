@@ -38,14 +38,12 @@ declare interface ConfigType {
             mp4: string,
             jpg: string,
             png: string,
+            [key: string]: string
         },
         priority:{
             video: Array<string>,
             audio: Array<string>,
         }
-    },
-    constant: {
-        originalFileTypeId: string
     }
 }
 
