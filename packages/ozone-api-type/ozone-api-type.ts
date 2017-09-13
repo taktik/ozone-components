@@ -7,6 +7,7 @@ import "polymer/polymer-element.html";
 import "iron-ajax/iron-ajax.html";
 import "ozone-api-behaviors/ozone-api-ajax-mixin.html";
 import "./ozone-api-type.html"
+import * as Config from 'ozone-config'
 
 import {customElement, domElement, jsElement} from 'taktik-polymer-typeScript'
 import {TypeDescriptor, FieldDescriptor, Grants} from 'ozone-type'
@@ -119,7 +120,7 @@ export class OzoneApiType  extends OzoneApiAjaxMixin(Polymer.Element){
      * @private
      */
     _buildTypeUrl(collection:string):Promise<string>{
-        return getOzoneConfig().configPromise.then((config) => {
+        return Config.OzoneConfig.get().then((config) => {
             return `${config.host}${config.type}`
                 .replace(/\{type\}/, collection);
         });
@@ -129,7 +130,7 @@ export class OzoneApiType  extends OzoneApiAjaxMixin(Polymer.Element){
      * @private
      */
     _buildPermissionsUrl(fields:Array<string>):Promise<string>{
-        return getOzoneConfig().configPromise.then((config) => {
+        return Config.OzoneConfig.get().then((config) => {
             return `${config.host}${config.permissions}?fields=${fields.join(',')}`;
         });
     }
