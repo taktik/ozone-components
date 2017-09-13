@@ -6,7 +6,7 @@
 
 import {jsElement} from 'taktik-polymer-typeScript'
 import {Item, SearchRequest, ItemSearchResult} from 'ozone-type'
-
+import {OzoneRequest} from 'ozone-request'
 
 export interface SearchResponse {
     response: ItemSearchResult;
@@ -103,14 +103,12 @@ export class SearchGenerator {
     searchParam:SearchQuery;
     url:string;
     total: number;
-    ozoneAccess:IronAjax;
     offset:number = 0;
     done:boolean = false;
 
-    constructor(url:string, searchParam: SearchQuery, ozoneAccess:any){
+    constructor(url:string, searchParam: SearchQuery){
         this.searchParam = searchParam;
         this.url = url;
-        this.ozoneAccess = ozoneAccess
     }
 
     /**
@@ -123,11 +121,12 @@ export class SearchGenerator {
     }
 
     private _postRequest(url:string, body:string, responseFilter:any): Promise<any> {
-        this.ozoneAccess.url = url;
-        this.ozoneAccess.method = 'POST';
-        this.ozoneAccess.body = body;
-        return this.ozoneAccess
-            .generateRequest().completes.then(responseFilter.bind(this))
+        const ozoneAccess =  new OzoneRequest();
+        ozoneAccess.url = url;
+        ozoneAccess.method = 'POST';
+        ozoneAccess.body = body;
+        return ozoneAccess
+            .sendRequest().then(responseFilter.bind(this))
     }
 
     private _readSearchResponse (res:SearchResponse):SearchResult {
