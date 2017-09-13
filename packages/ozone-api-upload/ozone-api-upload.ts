@@ -1,6 +1,7 @@
 /// <amd-module name="ozone-api-upload"/>
 
 import {jsElement} from 'taktik-polymer-typeScript'
+import * as Config from 'ozone-config'
 
 export interface UploadSessionResult {
     file: FormData;
@@ -97,18 +98,11 @@ export class UploadFileRequest implements XMLHttpRequestLike {
      */
     status: number;
 
-
-    protected configPromise: Promise<ConfigType>;
-    protected config: ConfigType;
-
+    private config: Config.ConfigType;
     private isAbort:boolean = false;
     private currentRequest: XMLHttpRequest ;
 
     constructor() {
-        this.configPromise = getOzoneConfig().configPromise as Promise<ConfigType>;
-        this.configPromise.then((config) => {
-            this.config = config;
-        });
         this.upload = {
             onprogress: () => {},
             onloadstart: () => {},
@@ -183,8 +177,10 @@ export class UploadFileRequest implements XMLHttpRequestLike {
      * @return {Promise<string | void>}
      */
     uploadFile(file: FormData, folderId: string = '0'): Promise<string | void> {
-        return this.configPromise
-            .then(() => {
+
+        return Config.OzoneConfig.get()
+            .then((config) => {
+                this.config = config;
                 return this._startUploadSession(file, folderId)
             })
             .then((result) => this._getUploadId(result))
