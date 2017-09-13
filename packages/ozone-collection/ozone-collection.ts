@@ -2,14 +2,13 @@
 
 import "polymer/polymer.html"
 import "polymer/polymer-element.html"
-import "ozone-api-item/ozone-api-item.html"
 
 import "./ozone-collection.html"
 
 import {customElement, domElement} from 'taktik-polymer-typeScript';
 import {Item} from 'ozone-type';
 import 'ozone-api-item';
-import {OzoneApiItem, getOzoneApiItem} from 'ozone-api-item';
+import {OzoneApiItem} from 'ozone-api-item';
 import 'ozone-search-helper';
 import {SearchGenerator, SearchQuery} from 'ozone-search-helper';
 
@@ -21,7 +20,6 @@ export class OzoneCollection  extends Polymer.Element{
 
     @domElement()
     $: {
-        ozoneApi: OzoneApiItem
         scrollTheshold: {
             clearTriggers(): void
         }
@@ -29,10 +27,10 @@ export class OzoneCollection  extends Polymer.Element{
 
 
     /**
-     * id of the OzoneApiItem element to be use as source
-     * By default it use default ozone-api-item
+     * collection of the OzoneApiItem to be use as source
+     * By default it use default item collection
      */
-    sourceId: string;
+    collection: string;
 
     /**
      * Array of items loaded from the source
@@ -52,7 +50,7 @@ export class OzoneCollection  extends Polymer.Element{
      */
     dataRemain: Boolean;
 
-    private _source: OzoneApiItem | null;
+    private _source: OzoneApiItem;
 
     private get _getSource() {return this._source as OzoneApiItem};
 
@@ -60,9 +58,10 @@ export class OzoneCollection  extends Polymer.Element{
 
     static get properties() {
         return {
-            sourceId: {
+            collection: {
                 type: String,
-                observer: "_updateSource"
+                observer: "_updateSource",
+                value: 'item',
             },
             items: {
                 type: Array,
@@ -84,18 +83,15 @@ export class OzoneCollection  extends Polymer.Element{
         }
     }
 
-    ready(){
-        super.ready();
-        if(! this._source) {
-            this._source = getOzoneApiItem();
-        }
+    constructor(){
+        super();
+        this._source = new OzoneApiItem();
     }
 
 
-    private _updateSource(sourceId: string){
-        if(! (this.parentNode == null)) {
-            this._source = this.parentNode.querySelector(`#${this.sourceId}`) as OzoneApiItem;
-        }
+    private _updateSource(collection: string){
+        this.collection = collection;
+        this._source.setCollection(this.collection);
     }
 
     /**
@@ -125,9 +121,9 @@ export class OzoneCollection  extends Polymer.Element{
      * found items are added to the items array.
      * @param searchQuery {SearchQuery} search query
      */
-    search(searchQuery:SearchQuery){
+    async search(searchQuery:SearchQuery){
         this._verifySource();
-        this._searchIterator = this._getSource.search(searchQuery);
+        this._searchIterator = await this._getSource.search(searchQuery);
         this.loadNextItems()
     }
 
