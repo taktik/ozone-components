@@ -8,30 +8,21 @@
   <script src="../../web-component-tester/browser.js"></script>
 
   <!-- Step 1: import the element to test -->
-  <link rel="import" href="../ozone-config.html">
+  <script src="../dist.ozone-config.js"></script>
 
 
 </head>
 <body>
-<fake-ozone-config id="ozoneConfig"></fake-ozone-config>
-<test-fixture id="basic">
-  <template>
-    <ozone-config id="moduleUnderTest"></ozone-config>
-  </template>
-</test-fixture>
+
 
 <script>
-  addEventListener('WebComponentsReady', function() {
   describe('ozone-config tests', function() {
-    let configModule,
-      element,
-      afterFunctions = [],
+    let afterFunctions = [],
       server,
       responseHeaders = {json: {'Content-Type': 'application/json'}};
 
     beforeEach((done) => {
       server = sinon.fakeServer.create();
-      configModule = fixture('basic');
       flush(done);
     });
     afterEach(() => {
@@ -54,7 +45,7 @@
       );
       // -- start test
 
-      configModule.configPromise.then(function(config){
+      OzoneConfig.get().then(function(config){
         expect(config).to.deep.equal({server: "https://alpha.flowr.cloud/",endpoint: "ozone/"});
       })
         .then(() => done())
@@ -77,12 +68,11 @@
         ]
       );
       // -- start test
-      configModule.configPromise.catch((event) => {
+      OzoneConfig.get().catch((event) => {
         assert.isDefined(event.detail.error);
         done()
       });
       server.respond(); //Flush server
     });
-  });
   });
 </script>

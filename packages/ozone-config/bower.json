@@ -1,17 +1,11 @@
 {
   "name": "ozone-config",
-  "main": "ozone-config.html",
+  "main": "ozone-config.js",
   "dependencies": {
-    "polymer": "Polymer/polymer#^2.0.0",
-    "taktik-polymer-typeScript": "taktik/taktik-polymer-typescript",
-    "iron-ajax": "^2.0.5"
+    "taktik-polymer-typeScript": "taktik/taktik-polymer-typescript"
   },
   "devDependencies": {
-    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
     "web-component-tester": "Polymer/web-component-tester#^6.0.0",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
-  },
-  "resolutions": {
-    "polymer": "^2.0.0"
   }
 }
