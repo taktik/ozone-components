@@ -2,8 +2,8 @@
   "name": "ozone-api-request",
   "version": "1.0.0",
   "description": "light api for ozone ajax call",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/src/ozone-api-request.js",
+  "types": "dist/src/ozone-api-request.d.ts",
   "scripts": {
     "prepublish": "npm run build",
     "build": "tsc",
