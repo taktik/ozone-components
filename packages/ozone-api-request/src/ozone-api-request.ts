@@ -1,7 +1,7 @@
 /// <amd-module name="ozone-api-request"/>
 
 
-import {jsElement} from 'taktik-polymer-typeScript'
+import {jsElement} from 'taktik-polymer-typescript'
 
 /**
  * OzoneAPIRequest is a light wrapper over XMLHttpRequest to manager AJAX request to Ozone.
