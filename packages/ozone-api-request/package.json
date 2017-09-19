@@ -2,6 +2,10 @@
   "name": "ozone-api-request",
   "version": "1.0.0",
   "description": "light api for ozone ajax call",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/taktik/ozone-api-request"
+  },
   "main": "dist/src/ozone-api-request.js",
   "types": "dist/src/ozone-api-request.d.ts",
   "scripts": {
