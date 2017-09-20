@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "ozone-api-request": "^1.0.2",
+    "ozone-config": "^1.0.0",
     "ozone-search-helper": "^1.0.0",
     "taktik-polymer-typescript": "^2.2.0"
   }
