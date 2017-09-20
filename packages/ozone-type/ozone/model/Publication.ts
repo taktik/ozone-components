@@ -21,13 +21,13 @@ export interface Publication {
 
     fileTypes?: Array<string>;
 
-    creationDate?: Date;
+    creationDate?: models.Date;
 
-    startValidityDate?: Date;
+    startValidityDate?: models.Date;
 
-    endValidityDate?: Date;
+    endValidityDate?: models.Date;
 
-    accessDate?: Date;
+    accessDate?: models.Date;
 
     accessCount?: number;
 

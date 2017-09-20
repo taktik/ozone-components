@@ -23,7 +23,7 @@ export interface Media extends models.Item {
     };
     paid?: boolean;
     restricted?: boolean;
-    date?: Date;
+    date?: models.Date;
     country?: string;
     keywords?: Array<string>;
     city?: string;
@@ -36,16 +36,16 @@ export interface Media extends models.Item {
     stocks?: Array<string>;
     parentFolder?: string;
     file?: string;
-    previewDate?: Date;
+    previewDate?: models.Date;
     collections?: Array<string>;
     credit?: string;
     height?: number;
     byLine?: string;
     previewRatio?: number;
     length?: number;
-    creationDate?: Date;
+    creationDate?: models.Date;
     derivedFiles?: Array<string>;
-    modificationDate?: Date;
+    modificationDate?: models.Date;
     specialInstructions?: string;
     width?: number;
     objectName?: string;

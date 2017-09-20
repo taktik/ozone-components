@@ -17,7 +17,7 @@ export interface SurveyResponse extends models.Item {
 
     survey?: string;
 
-    creationDate?: Date;
+    creationDate?: models.Date;
 
     lang?: string;
 

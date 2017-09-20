@@ -13,7 +13,7 @@ import * as models from './models';
 export interface DeviceInfo extends models.Item {
     lastLoginIpAddress?: string;
     roles?: Array<string>;
-    lastLoginDate?: Date;
+    lastLoginDate?: models.Date;
     deviceType?: string;
     extraInformation?: Array<string>;
     macAddress?: string;

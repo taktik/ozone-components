@@ -17,7 +17,7 @@ export interface DeviceInfo extends models.Item {
 
     roles?: Array<string>;
 
-    lastLoginDate?: Date;
+    lastLoginDate?: models.Date;
 
     deviceType?: string;
 

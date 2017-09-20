@@ -52,6 +52,7 @@ export * from './Connector';
 export * from './ConstFieldFilter';
 export * from './Constraint';
 export * from './CurrentUserQuery';
+export * from './models.Date';
 export * from './DeviceInfo';
 export * from './DeviceInfoIdsSearchResult';
 export * from './DeviceInfoQueryUpdate';

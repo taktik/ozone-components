@@ -15,9 +15,9 @@ import * as models from './models';
 export interface Recording extends models.File {
     duration?: number;
 
-    stop?: Date;
+    stop?: models.Date;
 
-    start?: Date;
+    start?: models.Date;
 
     video?: string;
 

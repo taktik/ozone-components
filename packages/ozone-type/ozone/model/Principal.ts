@@ -17,6 +17,6 @@ export interface Principal {
 
     roles?: Array<string>;
 
-    lastLoginDate?: Date;
+    lastLoginDate?: models.Date;
 
 }

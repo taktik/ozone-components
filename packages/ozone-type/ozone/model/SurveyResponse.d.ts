@@ -13,7 +13,7 @@ import * as models from './models';
 export interface SurveyResponse extends models.Item {
     response?: string;
     survey?: string;
-    creationDate?: Date;
+    creationDate?: models.Date;
     lang?: string;
     device?: string;
     submitId?: string;

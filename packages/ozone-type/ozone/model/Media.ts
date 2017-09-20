@@ -25,7 +25,7 @@ export interface Media extends models.Item {
 
     restricted?: boolean;
 
-    date?: Date;
+    date?: models.Date;
 
     country?: string;
 
@@ -51,7 +51,7 @@ export interface Media extends models.Item {
 
     file?: string;
 
-    previewDate?: Date;
+    previewDate?: models.Date;
 
     collections?: Array<string>;
 
@@ -65,11 +65,11 @@ export interface Media extends models.Item {
 
     length?: number;
 
-    creationDate?: Date;
+    creationDate?: models.Date;
 
     derivedFiles?: Array<string>;
 
-    modificationDate?: Date;
+    modificationDate?: models.Date;
 
     specialInstructions?: string;
 

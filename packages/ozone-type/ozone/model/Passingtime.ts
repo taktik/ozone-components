@@ -17,6 +17,6 @@ export interface Passingtime extends models.Item {
 
     lineId?: number;
 
-    expectedArrivalTime?: Date;
+    expectedArrivalTime?: models.Date;
 
 }

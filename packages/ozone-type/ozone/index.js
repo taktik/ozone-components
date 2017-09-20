@@ -1,10 +1,4 @@
-define(["require", "exports", './api/api', './model/models', './variables', './configuration'], function (require, exports, api_1, models_1, variables_1, configuration_1) {
+define(["require", "exports"], function (require, exports) {
     "use strict";
-    function __export(m) {
-        for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-    }
-    __export(api_1);
-    __export(models_1);
-    __export(variables_1);
-    __export(configuration_1);
+    Object.defineProperty(exports, "__esModule", { value: true });
 });

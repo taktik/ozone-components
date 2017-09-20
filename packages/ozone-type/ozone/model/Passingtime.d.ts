@@ -13,5 +13,5 @@ import * as models from './models';
 export interface Passingtime extends models.Item {
     pointId?: number;
     lineId?: number;
-    expectedArrivalTime?: Date;
+    expectedArrivalTime?: models.Date;
 }

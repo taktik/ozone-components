@@ -17,7 +17,7 @@ export interface FlowrAgent extends models.Item {
 
     roles?: Array<string>;
 
-    lastLoginDate?: Date;
+    lastLoginDate?: models.Date;
 
     websocketUrl?: string;
 

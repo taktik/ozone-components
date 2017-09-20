@@ -11,7 +11,7 @@
  */
 import * as models from './models';
 export interface EshopOrder extends models.Item {
-    creationDate?: Date;
+    creationDate?: models.Date;
     body?: string;
     device?: string;
 }

@@ -29,11 +29,11 @@ export interface User {
 
     email?: string;
 
-    createdDate?: Date;
+    createdDate?: models.Date;
 
-    expirationDate?: Date;
+    expirationDate?: models.Date;
 
-    lastLoginDate?: Date;
+    lastLoginDate?: models.Date;
 
     password?: string;
 
@@ -41,13 +41,13 @@ export interface User {
 
     passwordToken?: string;
 
-    passwordTokenExpirationDate?: Date;
+    passwordTokenExpirationDate?: models.Date;
 
     activationToken?: string;
 
-    activationTokenExpirationDate?: Date;
+    activationTokenExpirationDate?: models.Date;
 
-    termsOfUseDate?: Date;
+    termsOfUseDate?: models.Date;
 
     roles?: Array<string>;
 

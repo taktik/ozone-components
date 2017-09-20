@@ -15,9 +15,9 @@ import * as models from './models';
 export interface ChannelSegment extends models.File {
     outputId?: number;
 
-    stop?: Date;
+    stop?: models.Date;
 
-    start?: Date;
+    start?: models.Date;
 
     channelId?: string;
 

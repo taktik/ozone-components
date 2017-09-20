@@ -13,7 +13,7 @@
 import * as models from './models';
 
 export interface File extends models.Item {
-    subFiles?: Array<string>;
+    subFiles?: {[key: string]:string};
 
     blob?: string;
 

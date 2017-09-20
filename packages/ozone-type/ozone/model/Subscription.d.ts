@@ -12,9 +12,9 @@
 import * as models from './models';
 export interface Subscription extends models.Item {
     devices?: Array<string>;
-    endDate?: Date;
+    endDate?: models.Date;
     action?: string;
     description?: string;
     isActive?: boolean;
-    startDate?: Date;
+    startDate?: models.Date;
 }
