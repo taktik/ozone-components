@@ -10,7 +10,7 @@
 
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
-    <link rel="import" href="../ozone-config.html">
+    <script src="../dist/ozone-config.js"></script>
 
     <custom-style>
       <style is="custom-style" include="demo-pages-shared-styles">
@@ -20,9 +20,15 @@
   <body>
     <div class="vertical-section-container centered">
       <h3>Basic ozone-config demo</h3>
+      Expose ozone API configuration.
+      Configuration is loaded from ./conf.ozone.json
       <demo-snippet>
         <template>
-          <ozone-config></ozone-config>
+          <script>
+              OzoneConfig().get().then((config) => {
+                  // Do something with the config
+              });
+          </script>
         </template>
       </demo-snippet>
     </div>

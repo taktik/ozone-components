@@ -1,33 +1,25 @@
 {
   "name": "ozone-config",
   "version": "1.0.0",
-  "description": "",
-  "main": "ozone-config.js",
-  "directories": {
-    "test": "test"
+  "description": "Ozone config loader",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/taktik/ozone-config"
   },
+  "main": "dist/ozone-config.js",
+  "types": "dist/ozone-config.d.ts",
   "scripts": {
-    "test": "mocha -r ts-node/register test/test.ts"
+    "prepublish": "npm run build",
+    "build": "tsc",
+    "test": "tsc && git diff --exit-code"
   },
-  "keywords": [],
-  "author": "",
+  "author": "hj@taktik",
   "license": "ISC",
   "devDependencies": {
-    "@types/chai": "^4.0.4",
-    "@types/mocha": "^2.2.43",
-    "chai": "^4.1.2",
-    "mocha": "^3.5.3",
-    "ts-node": "^3.3.0",
     "typescript": "^2.4.1"
   },
   "dependencies": {
-    "gulp": "^3.9.1",
-    "gulp-browserstack": "^1.0.3",
-    "gulp-typescript": "^3.2.1",
-    "merge2": "^1.1.0",
-    "polymer-build": "^2.0.0",
-    "run-sequence": "^2.1.0",
-    "wct-junit-reporter": "git+https://github.com/marcelmeulemans/wct-junit-reporter.git",
-    "web-component-tester": "^6.0.0"
+    "ozone-api-request": "^1.0.2",
+    "taktik-polymer-typescript": "^2.2.0"
   }
 }

@@ -1,35 +1,30 @@
 # \<ozone-config\>
 
+Expose ozone API configuration.
+Configuration is loaded from ./conf.ozone.json
 
+## Usage
 
-## Install the Polymer-CLI
-
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your element locally.
-
-## install project dependency
-
-run nmp and bower install.
-```
-$ npm install
-$ bower install
-```
-
-## compile your code
-
-```
-$ node_modules/typescript/bin/tsc
+Import from source
+```html
+<script src="../dist/ozone-config.js"></script>
+<script>
+  OzoneConfig().get().then((config) => {
+      // Do something with the config
+  });
+</script>
 ```
 
-## Viewing Your Element
+
+Using es6 import
+```javaSript
+import * as Config from 'ozone-config';
+const configPromise = Config.OzoneConfig.get();
 
 ```
-$ polymer serve
-```
 
-## Running Tests
+## Install
 
 ```
-$ polymer test
+$ npm install ozone-config
 ```
-
-Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.
