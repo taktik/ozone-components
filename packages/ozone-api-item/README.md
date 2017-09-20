@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/taktik/ozone-api-item.svg?branch=master)](https://travis-ci.org/taktik/ozone-api-item)
+
 # \<ozone-api-item\>
 
 
