@@ -1,7 +1,7 @@
 /// <amd-module name="ozone-config"/>
 
-import {OzoneRequest} from 'ozone-request'
-import {jsElement} from "taktik-polymer-typeScript";
+import {OzoneAPIRequest} from 'ozone-api-request'
+import {jsElement} from "taktik-polymer-typescript";
 /**
  * Structure that should verify the config.ozone.json file.
  */
@@ -50,21 +50,19 @@ export interface ConfigType {
         }
     }
 }
-console.log('!!!!!!!!!!!! CONFIG !!!!!!!!!!!!!!')
+
 const configUrl = './conf.ozone.json';
-const ozoneRequest = new OzoneRequest();
-ozoneRequest.url = configUrl;
-ozoneRequest.method = 'GET';
-const configPromise = ozoneRequest.sendRequest()
+const ozoneAPIRequest = new OzoneAPIRequest();
+ozoneAPIRequest.url = configUrl;
+ozoneAPIRequest.method = 'GET';
+const configPromise = ozoneAPIRequest.sendRequest()
     .then((res:XMLHttpRequest) => {
-        console.log('!!!!!!!!!!!! OK !!!!!!!!!!!!!!')
         return res.response.ozoneApi as ConfigType
         })
     .catch((failRequest)=>{
         console.error('Unable to find config at ', configUrl);
         throw new Error('Unable to find config')
         });
-
 
 @jsElement()
 export class OzoneConfig {
