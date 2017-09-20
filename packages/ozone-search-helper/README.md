@@ -1,35 +1,25 @@
 # \<ozone-search-helper\>
 
+Helper to build ozone-search query
 
+## usage
+```javaScript
+  import {SearchQuery, SearchGenerator} from 'ozone-search-helper'
 
-## Install the Polymer-CLI
-
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your element locally.
-
-## install project dependency
-
-run nmp and bower install.
-```
-$ npm install
-$ bower install
-```
-
-## compile your code
+  let searchQuery = new SearchQuery();
+  searchQuery.quicksearch('');
+  const searchGenerator = ozoneItemApi.search(searchQuery);
+  searchGenerator.next().then((results){
+     console.log(results)
+  });
 
 ```
-$ node_modules/typescript/bin/tsc
-```
 
-## Viewing Your Element
 
-```
-$ polymer serve
-```
-
-## Running Tests
+## Install
 
 ```
-$ polymer test
+$ npm install ozone-search-helper
 ```
 
-Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.
+

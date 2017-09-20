@@ -2,27 +2,24 @@
   "name": "ozone-search-helper",
   "version": "1.0.0",
   "description": "",
-  "main": "ozone-search-helper.js",
-  "directories": {
-    "test": "test"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/taktik/ozone-config"
   },
+  "main": "dist/ozone-search-helper.js",
+  "types": "dist/ozone-search-helper.d.ts",
   "scripts": {
-    "test": "gulp test:browserstack"
+    "prepublish": "npm run build",
+    "build": "tsc",
+    "test": "tsc && git diff --exit-code"
   },
-  "keywords": [],
-  "author": "",
+  "author": "hj@taktik",
   "license": "ISC",
   "devDependencies": {
     "typescript": "^2.4.1"
   },
   "dependencies": {
-    "gulp": "^3.9.1",
-    "gulp-browserstack": "^1.0.3",
-    "gulp-typescript": "^3.2.1",
-    "merge2": "^1.1.0",
-    "polymer-build": "^2.0.0",
-    "run-sequence": "^2.1.0",
-    "wct-junit-reporter": "git+https://github.com/marcelmeulemans/wct-junit-reporter.git",
-    "web-component-tester": "^6.0.1"
+    "ozone-api-request": "^1",
+    "taktik-polymer-typescript": "^2"
   }
 }

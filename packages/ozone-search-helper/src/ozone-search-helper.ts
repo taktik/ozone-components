@@ -4,9 +4,9 @@
  * Created by hubert on 8/06/17.
  */
 
-import {jsElement} from 'taktik-polymer-typeScript'
+import {jsElement} from 'taktik-polymer-typescript'
 import {Item, SearchRequest, ItemSearchResult} from 'ozone-type'
-import {OzoneRequest} from 'ozone-request'
+import {OzoneAPIRequest} from 'ozone-api-request'
 
 export interface SearchResponse {
     response: ItemSearchResult;
@@ -121,7 +121,7 @@ export class SearchGenerator {
     }
 
     private _postRequest(url:string, body:string, responseFilter:any): Promise<any> {
-        const ozoneAccess =  new OzoneRequest();
+        const ozoneAccess =  new OzoneAPIRequest();
         ozoneAccess.url = url;
         ozoneAccess.method = 'POST';
         ozoneAccess.body = body;
