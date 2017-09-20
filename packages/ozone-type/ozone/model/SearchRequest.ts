@@ -16,6 +16,7 @@ export interface SearchRequest {
     searchMode?: SearchRequest.SearchModeEnum;
 
     id?: number;
+    ids?: Array<number>
 
     offset?: number;
 

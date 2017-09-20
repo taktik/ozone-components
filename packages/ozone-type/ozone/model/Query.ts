@@ -15,4 +15,6 @@ import * as models from './models';
 export interface Query extends models.QueriableItemFilter {
     field?: string;
     queryString?: string;
+    ids?: Array<string>; // remove see IdsQuery
+    [key: string]: any
 }

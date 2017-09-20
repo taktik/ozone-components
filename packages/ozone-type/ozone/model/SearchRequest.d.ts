@@ -13,6 +13,7 @@ import * as models from './models';
 export interface SearchRequest {
     searchMode?: SearchRequest.SearchModeEnum;
     id?: number;
+    ids?: Array<number>;
     offset?: number;
     size?: number;
     query?: models.Query;

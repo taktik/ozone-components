@@ -1,1 +1,1 @@
-export type models.Date = string;
+export declare type Date = string;
