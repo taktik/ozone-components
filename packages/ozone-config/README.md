@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/taktik/ozone-config.svg?branch=master)](https://travis-ci.org/taktik/ozone-config)
+
 # \<ozone-config\>
 
 Expose ozone API configuration.
