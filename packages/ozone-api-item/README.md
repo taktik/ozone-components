@@ -1,35 +1,21 @@
 # \<ozone-api-item\>
 
 
+`ozone-api-item` is low level es6 module to ozone api.
+It provide CRUD operation and search in a given collection.
 
-## Install the Polymer-CLI
+## Usage
 
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your element locally.
 
-## install project dependency
-
-run nmp and bower install.
-```
-$ npm install
-$ bower install
-```
-
-## compile your code
-
-```
-$ node_modules/typescript/bin/tsc
+```javaScript
+import {OzoneApiItem} from 'ozone-api-item'
+const ozoneApiSearch = new OzoneApiItem(); // return instance of OzoneApiItem located in the dom
+const result = ozoneApiSearch.on('item').getOne('an-id');
 ```
 
-## Viewing Your Element
+
+## Install
 
 ```
-$ polymer serve
+$ npm install ozone-config
 ```
-
-## Running Tests
-
-```
-$ polymer test
-```
-
-Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.

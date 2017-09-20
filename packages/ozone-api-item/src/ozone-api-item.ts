@@ -1,12 +1,10 @@
-/// <amd-module name="ozone-api-item"/>
-
 /**
  * Created by hubert on 8/06/17.
  */
 
 import * as Config from 'ozone-config'
-import {OzoneRequest} from 'ozone-request'
-import {customElement, domElement, jsElement} from 'taktik-polymer-typeScript'
+import {OzoneAPIRequest} from 'ozone-api-request'
+import {customElement, domElement, jsElement} from 'taktik-polymer-typescript'
 import {Item} from 'ozone-type'
 import {SearchGenerator, SearchQuery} from 'ozone-search-helper';
 
@@ -19,25 +17,14 @@ export interface ItemResponse {
 }
 
 /**
- * `ozone-api-item` is low level polymer module to ozone api.
+ * `ozone-api-item` is low level es6 module to ozone api.
  * It provide CRUD operation and search in a given collection.
  *
- * By default a `ozone-api-item` will be add in the root document
- * and can loaded form javaScript using *getOzoneApiItem*
- *
- * * Example in Html
- * ```html
- * <ozone-api-search id="myAPI" collection="item"></ozone-api-search>
- * ```
  * * Example
  * ```javaScript
- * const ozoneApiSearch = getOzoneApiItem(); // return instance of OzoneApiItem located in the dom
+ * const ozoneApiSearch = new OzoneApiItem(); // return instance of OzoneApiItem located in the dom
+ * const result = ozoneApiSearch.on('item').getOne('an-id');
  * ```
- *
- * ### Events
- *
- * *configured* Fired when element is configured.
- *  This event will be fired if the config change.
  *
  */
 
@@ -51,12 +38,20 @@ export class OzoneApiItem {
      */
     private collection:string = 'item';
 
-
+    /**
+     * set collection and return this to be chain by a query.
+     * @param {string} collection
+     * @return {OzoneApiItem} this
+     */
     on(collection: string){
         this.setCollection(collection);
         return this;
     }
-    
+
+    /**
+     * Set ozone collection to query
+     * @param {string} collection
+     */
     setCollection(collection: string){
         this.collection = collection;
     }
@@ -152,7 +147,7 @@ export class OzoneApiItem {
     };
 
     private _postRequest(url:string, body:any, responseFilter:any): Promise<any> {
-        const ozoneAccess = new OzoneRequest();
+        const ozoneAccess = new OzoneAPIRequest();
         ozoneAccess.url = url;
         ozoneAccess.method = 'POST';
         ozoneAccess.body = JSON.stringify(body);
@@ -161,7 +156,7 @@ export class OzoneApiItem {
     }
 
     private _getRequest(url:string): Promise<any> {
-        const ozoneAccess = new OzoneRequest();
+        const ozoneAccess = new OzoneAPIRequest();
         ozoneAccess.url = url;
         ozoneAccess.method = 'GET';
         return ozoneAccess
@@ -169,7 +164,7 @@ export class OzoneApiItem {
     }
 
     private _deleteRequest(url:string): Promise<any> {
-        const ozoneAccess = new OzoneRequest();
+        const ozoneAccess = new OzoneAPIRequest();
         ozoneAccess.url = url;
         ozoneAccess.method = 'DELETE';
         return ozoneAccess
