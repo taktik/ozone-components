@@ -4,7 +4,7 @@
   "description": "",
   "repository": {
     "type": "git",
-    "url": "https://github.com/taktik/ozone-config"
+    "url": "https://github.com/taktik/ozone-search-helper"
   },
   "main": "dist/ozone-search-helper.js",
   "types": "dist/ozone-search-helper.d.ts",

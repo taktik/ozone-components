@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/taktik/ozone-search-helper.svg?branch=master)](https://travis-ci.org/taktik/ozone-search-helper)
+
 # \<ozone-search-helper\>
 
 Helper to build ozone-search query
