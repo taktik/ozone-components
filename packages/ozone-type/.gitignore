@@ -4,4 +4,4 @@ ozone/api
 /ozone/index.ts
 /ozone/variables.ts
 /**/*.js
-*.d.ts
+/ozone/model/*.d.ts
