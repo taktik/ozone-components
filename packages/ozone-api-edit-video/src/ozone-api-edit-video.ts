@@ -26,7 +26,28 @@ export declare class VideoArea {
 export declare type VideoMarker = Array<VideoArea>
 
 /**
- * <ozone-api-edit-video>
+ * ozone-api-edit-video
+ *
+ * ES6 module to save selected video chunk
+ *
+ *
+ * # Usage
+ *
+ * ```javaScript
+ * import {OzoneApiEditVideo} from 'ozone-api-edit-video'
+ * const ozoneApiEditVideo =  new OzoneApiEditVideo();
+ *
+ * // TODO get originalVideo from ozone-api-item
+ * // TODO get selectedChunks from ozone-video-player
+ *
+ * ozoneApiEditVideo
+ *    .createSubVideo(originalVideo, selectedChunks)
+ *    .then((video) => {
+ *       console.log('new video created with id', video.id)
+ *    });
+ * ```
+ *
+ *
  */
 @jsElement()
 export class OzoneApiEditVideo {
@@ -34,7 +55,7 @@ export class OzoneApiEditVideo {
     ozoneApi: OzoneApiItem;
     private _ozoneMediaUrlCollection : Map<string, OzoneMediaUrl> =  new Map();
 
-    async mediaUrlFactory(video: OzoneType.Video): Promise<OzoneMediaUrl>{
+    private async mediaUrlFactory(video: OzoneType.Video): Promise<OzoneMediaUrl>{
         if(video.id && this._ozoneMediaUrlCollection.has(video.id)){
             return this._ozoneMediaUrlCollection.get(video.id) as OzoneMediaUrl;
         } else {
@@ -76,7 +97,7 @@ export class OzoneApiEditVideo {
         return HLS.stringify(playList);
     }
 
-    async _savePlayList(playList:string): Promise<object>{
+    private async _savePlayList(playList:string): Promise<object>{
 
         const config = await (Config.OzoneConfig.get());
         const url = config.host + config.endPoints.blob;
@@ -196,7 +217,7 @@ export class OzoneApiEditVideo {
         return (await this.ozoneApi.on('video').create(newVideo)) as OzoneType.Video
     }
 
-    async createSubVideo(originalVideo: OzoneType.Video, chunks: Array<Array<string>>): Promise<any> {
+    public async createSubVideo(originalVideo: OzoneType.Video, chunks: Array<Array<string>>): Promise<OzoneType.Video> {
         //console.log('originalVideo', originalVideo)
 
         const chunksListFlatten :Array<string> = [].concat.apply([],chunks);

@@ -1,11 +1,12 @@
 {
   "name": "ozone-api-edit-video",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Ozone API to save a edited video",
   "scripts": {
     "test": "tsc && git diff --exit-code",
     "build": "tsc",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "doc": "typedoc  --out  doc/"
   },
   "repository": {
     "type": "git",
@@ -34,6 +35,7 @@
   "main": "dist/ozone-api-edit-video.js",
   "types": "dist/ozone-api-edit-video.d.ts",
   "devDependencies": {
+    "typedoc": "^0.8.0",
     "typescript": "^2.5.3"
   }
 }
