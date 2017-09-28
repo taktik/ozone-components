@@ -1,6 +1,5 @@
 
 import {jsElement} from 'taktik-polymer-typescript'
-import 'ozone-video-player'
 import {OzoneMediaUrl} from 'ozone-media-url'
 import * as Config from 'ozone-config';
 import * as OzoneType from 'ozone-type'

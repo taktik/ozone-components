@@ -1,0 +1,39 @@
+{
+  "name": "ozone-api-edit-video",
+  "version": "1.0.0",
+  "description": "Ozone API to save a edited video",
+  "scripts": {
+    "test": "tsc && git diff --exit-code",
+    "build": "tsc",
+    "prepublish": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/taktik/ozone-api-edit-video.git"
+  },
+  "keywords": [
+    "ozone",
+    "video",
+    "edit"
+  ],
+  "author": "taktik",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/taktik/ozone-api-edit-video/issues"
+  },
+  "homepage": "https://github.com/taktik/ozone-api-edit-video#readme",
+  "dependencies": {
+    "hls-parser": "^0.1.6",
+    "ozone-api-item": "^1.0.0",
+    "ozone-api-request": "^1.0.2",
+    "ozone-config": "^1.0.0",
+    "ozone-media-url": "^1.0.0",
+    "ozone-search-helper": "^1.0.0",
+    "taktik-polymer-typescript": "^2.2.0"
+  },
+  "main": "dist/ozone-api-edit-video.js",
+  "types": "dist/ozone-api-edit-video.d.ts",
+  "devDependencies": {
+    "typescript": "^2.5.3"
+  }
+}
