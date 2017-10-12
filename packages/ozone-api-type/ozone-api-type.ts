@@ -2,15 +2,13 @@
 /**
  * Created by hubert on 19/06/17.
  */
-
-import "polymer/polymer-element.html";
-import "iron-ajax/iron-ajax.html";
-import "ozone-api-behaviors/ozone-api-ajax-mixin.html";
-import "./ozone-api-type.html"
 import * as Config from 'ozone-config'
 
-import {customElement, domElement, jsElement} from 'taktik-polymer-typeScript'
+import {customElement, domElement, jsElement} from 'taktik-polymer-typescript'
 import {TypeDescriptor, FieldDescriptor, Grants} from 'ozone-type'
+import {OzoneAPIRequest} from 'ozone-api-request'
+
+
 export type TypeDescriptorCollection = Map<string, Promise<TypeDescriptor>>
 
 /**
@@ -29,19 +27,19 @@ export type TypeDescriptorCollection = Map<string, Promise<TypeDescriptor>>
  * const ozoneTypeAPI = getOzoneApiType(); // return instance of OzoneApiType located in the dom
  * ```
  */
-@customElement('ozone-api-type')
-export class OzoneApiType  extends OzoneApiAjaxMixin(Polymer.Element){
+@jsElement()
+export class OzoneApiType  {
 
     /**
      * collection type.
      * @value: item
      */
-    collection: string;
+    collection: string = 'item';
 
     /**
      * cached value of types
      */
-    typeCached: TypeDescriptorCollection;
+    typeCached: TypeDescriptorCollection = new Map<string, Promise<TypeDescriptor>>();
 
     /**
      *
@@ -49,23 +47,6 @@ export class OzoneApiType  extends OzoneApiAjaxMixin(Polymer.Element){
      */
     _typeDescriptor: Promise<TypeDescriptor>;
 
-
-    static get properties() {
-        return {
-            collection: {
-                type: String,
-                notify: false,
-                value: 'item'
-            },
-            _typeDescriptor: {
-                type: Object
-            },
-            typeCached:{
-                type: Object,
-                value: ():TypeDescriptorCollection =>{return new Map<string, Promise<TypeDescriptor>>()}
-            }
-        }
-    }
     /**
      * Load api type description form ozone and set typeDescriptor attribute.
      *
@@ -87,18 +68,20 @@ export class OzoneApiType  extends OzoneApiAjaxMixin(Polymer.Element){
      * @private
      */
     _getRequest(url:string): Promise<any> {
-        this.$.ozoneAccess.url = url;
-        this.$.ozoneAccess.method = 'GET';
-        return this.$.ozoneAccess
-            .generateRequest().completes.then((res:any) => res.response)
+        const ozoneAccess = new OzoneAPIRequest();
+        ozoneAccess.url = url;
+        ozoneAccess.method = 'GET';
+        return ozoneAccess
+            .sendRequest().then((res:any) => res.response)
     }
 
     _postRequest(url:string, body:any): Promise<any> {
-        this.$.ozoneAccess.url = url;
-        this.$.ozoneAccess.method = 'POST';
-        this.$.ozoneAccess.body = JSON.stringify(body);
-        return this.$.ozoneAccess
-            .generateRequest().completes.then((res:any)=> res.response)
+        const ozoneAccess = new OzoneAPIRequest();
+        ozoneAccess.url = url;
+        ozoneAccess.method = 'POST';
+        ozoneAccess.body = JSON.stringify(body);
+        return ozoneAccess
+            .sendRequest().then((res)=> res.response)
     }
 
     /**
@@ -244,15 +227,10 @@ export class FieldsPermission{
 }
 
 function OzoneApiTypeGenerator(){
-    let ozoneTypeAPI;
+    const  ozoneTypeAPI = new OzoneApiType();
 
     return (): OzoneApiType => {
-        if (!document.querySelector('#ozoneTypeAPI')) {
-            ozoneTypeAPI = document.createElement('ozone-api-type');
-            ozoneTypeAPI.id = 'ozoneTypeAPI';
-            document.body.appendChild(ozoneTypeAPI);
-        }
-        return (document.querySelector('#ozoneTypeAPI')) as OzoneApiType
+        return ozoneTypeAPI
     }
 }
 
