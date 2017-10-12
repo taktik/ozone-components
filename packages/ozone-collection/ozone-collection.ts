@@ -5,7 +5,7 @@ import "polymer/polymer-element.html"
 
 import "./ozone-collection.html"
 
-import {customElement, domElement} from 'taktik-polymer-typeScript';
+import {customElement, domElement} from 'taktik-polymer-typescript';
 import {Item} from 'ozone-type';
 import 'ozone-api-item';
 import {OzoneApiItem} from 'ozone-api-item';
