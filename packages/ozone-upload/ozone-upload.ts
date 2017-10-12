@@ -6,7 +6,7 @@
 /// <amd-module name="ozone-upload"/>
 import "polymer/polymer-element.html"
 import "vaadin-upload/vaadin-upload.html"
-import {customElement} from 'taktik-polymer-typeScript'
+import {customElement} from 'taktik-polymer-typescript'
 import {UploadFileRequest, XMLHttpRequestLike} from 'ozone-api-upload'
 import './ozone-upload.html'
 
