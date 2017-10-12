@@ -1,6 +1,6 @@
 /// <amd-module name="ozone-api-upload"/>
 
-import {jsElement} from 'taktik-polymer-typeScript'
+import {jsElement} from 'taktik-polymer-typescript'
 import * as Config from 'ozone-config'
 
 export interface UploadSessionResult {
