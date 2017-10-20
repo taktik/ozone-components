@@ -16,6 +16,7 @@
 ```
 * Example in javaScript
 ```javaScript
+import {OzoneApiType, getOzoneApiType} from 'ozone-api-type'
 const ozoneTypeAPI = getOzoneApiType(); // return instance of OzoneApiType located in the dom
 ```
 
