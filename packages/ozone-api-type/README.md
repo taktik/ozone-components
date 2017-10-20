@@ -7,6 +7,10 @@
  `ozone-api-type` is low level polymer module to ozone type.
  It provide read operation on collection type.
 
+```bash
+$ npm install --save ozone-api-type
+```
+
  By default it create a instance of OzoneApiType in the dom.
  You can retrieve the default ItemApi with *getOzoneApiType*
 
@@ -20,11 +24,16 @@ import {OzoneApiType, getOzoneApiType} from 'ozone-api-type'
 const ozoneTypeAPI = getOzoneApiType(); // return instance of OzoneApiType located in the dom
 ```
 
+
+
+# development
+
 ## install project dependency
 
 run nmp and bower install.
 ```
 $ npm install
+$ bower install
 ```
 
 

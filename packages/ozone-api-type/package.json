@@ -8,7 +8,6 @@
     "test": "test"
   },
   "scripts": {
-    "postinstall": "bower install",
     "prepublish": "npm run build",
     "build": "webpack --config webpack.config.js",
     "tsc": "tsc",
