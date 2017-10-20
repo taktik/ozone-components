@@ -1,38 +1,39 @@
 [![Build Status](https://travis-ci.org/taktik/ozone-api-type.svg?branch=master)](https://travis-ci.org/taktik/ozone-api-type)
-
+[![NPM version][npm-image]][npm-url]
+ [![Dependency Status][daviddm-image]][daviddm-url]
 
 # \<ozone-api-type\>
 
+ `ozone-api-type` is low level polymer module to ozone type.
+ It provide read operation on collection type.
 
+ By default it create a instance of OzoneApiType in the dom.
+ You can retrieve the default ItemApi with *getOzoneApiType*
 
-## Install the Polymer-CLI
-
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your element locally.
+* Example in html
+```html
+<ozone-api-type id="ozoneTypeApi" ></ozone-api-type>
+```
+* Example in javaScript
+```javaScript
+const ozoneTypeAPI = getOzoneApiType(); // return instance of OzoneApiType located in the dom
+```
 
 ## install project dependency
 
 run nmp and bower install.
 ```
 $ npm install
-$ bower install
 ```
 
-## compile your code
-
-```
-$ node_modules/typescript/bin/tsc
-```
-
-## Viewing Your Element
-
-```
-$ polymer serve
-```
 
 ## Running Tests
 
 ```
-$ polymer test
+$ npm test
 ```
 
-Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.
+[npm-image]: https://badge.fury.io/js/ozone-api-type.svg
+[npm-url]: https://npmjs.org/package/ozone-api-type
+[daviddm-image]: https://david-dm.org/taktik/ozone-api-type.svg?theme=shields.io
+[daviddm-url]: https://david-dm.org/taktik/ozone-api-type
