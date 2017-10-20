@@ -4,7 +4,7 @@
  */
 import * as Config from 'ozone-config'
 
-import {customElement, domElement, jsElement} from 'taktik-polymer-typescript'
+import {customElement, jsElement} from 'taktik-polymer-typescript'
 import {TypeDescriptor, FieldDescriptor, Grants} from 'ozone-type'
 import {OzoneAPIRequest} from 'ozone-api-request'
 

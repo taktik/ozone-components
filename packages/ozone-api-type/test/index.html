@@ -16,17 +16,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <title>Elements Test Runner</title>
   <meta charset="UTF-8">
 
-  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-  <script src="../../web-component-tester/browser.js"></script>
+  <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../bower_components/web-component-tester/browser.js"></script>
 </head>
 
 <body>
 
   <script>
-    WCT.loadSuites([
-        'ozone-api-type_test.html',
+    const request =  new XMLHttpRequest();
+    request.open('GET', 'modules.json', false);
+    request.send(null);
+    const modules = JSON.parse(request.responseText);
 
-    ]);
+    WCT.loadSuites(modules.map((m)=>{
+        return `build/${m.module}_test.html`
+    }));
   </script>
 
 

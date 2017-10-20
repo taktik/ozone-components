@@ -1,0 +1,6 @@
+{
+  "ozoneApi": {
+    "host": "ozone",
+    "type": "/rest/v3/type/{type}"
+  }
+}
