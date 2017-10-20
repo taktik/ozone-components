@@ -1,4 +1,6 @@
-[![Build Status](https://travis-ci.org/hubjac1/ozone-api-request.svg?branch=master)](https://travis-ci.org/hubjac1/ozone-api-requestt)
+[![Build Status](https://travis-ci.org/hubjac1/ozone-api-request.svg?branch=master)](https://travis-ci.org/hubjac1/ozone-api-requestt) 
+[![NPM version][npm-image]][npm-url]
+ [![Dependency Status][daviddm-image]][daviddm-url]
 
 # \<ozone-api-request\>
 
@@ -91,5 +93,12 @@ OzoneAPIRequest.sendRequest(request);
 
 - step 3: import where you need
 ```typescript
-import {customElement} from 'ozone-api-request' // Import elements
+import {OzoneAPIRequest} from 'ozone-api-request' // Import elements
 ```
+
+[npm-image]: https://badge.fury.io/js/ozone-api-request.svg
+[npm-url]: https://npmjs.org/package/ozone-api-request
+[daviddm-image]: https://david-dm.org/taktik/ozone-api-request.svg?theme=shields.io
+[daviddm-url]: https://david-dm.org/taktik/ozone-api-request
+
+
