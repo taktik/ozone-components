@@ -4,6 +4,7 @@
   "description": "",
   "main": "dist/ozone-api-item.js",
   "types": "dist/ozone-api-item.d.ts",
+   "repository": "taktik/ozone-api-item",
   "scripts": {
     "prepublish": "npm run build",
     "test": "tsc && git diff --exit-code",
