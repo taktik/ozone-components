@@ -34,7 +34,7 @@ var ret = {
 
 console.log('Run test locally');
 ret.plugins.local.browsers = ALL_BROWSERS.map((browser) => browser.browserName);
-ret.plugins.headless.browsers = [ALL_BROWSERS[0]];
+ret.plugins.headless.browsers = [ALL_BROWSERS[1]];
 
 
 module.exports = ret;
