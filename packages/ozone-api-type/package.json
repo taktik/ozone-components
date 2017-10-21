@@ -1,9 +1,9 @@
 {
   "name": "ozone-api-type",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "",
-  "main": "build/index.js",
-  "types": "build/dist/index.d.ts",
+  "main": "dist/ozone-api-type/ozone-api-type.js",
+  "types": "dist/ozone-api-type/ozone-api-type.d.ts",
   "directories": {
     "test": "test"
   },
