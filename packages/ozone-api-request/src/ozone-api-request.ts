@@ -135,13 +135,29 @@ export class OzoneAPIRequest{
 
         return new Promise((resolve, reject)=>{
 
-
-            xmlhttp.onload = () => {
-                this.eventTarget.dispatchEvent(new CustomEvent('ozone-api-request-success', {
-                    bubbles: true, composed: true, detail: xmlhttp
-                }));
-                resolve(xmlhttp);
+            const handleResponse = ()=>{
+                switch (xmlhttp.status){
+                    case 200:
+                        this.eventTarget.dispatchEvent(new CustomEvent('ozone-api-request-success', {
+                            bubbles: true, composed: true, detail: xmlhttp
+                        }));
+                        resolve(xmlhttp);
+                        break;
+                    case 403:
+                        this.eventTarget.dispatchEvent(new CustomEvent('ozone-api-request-unauthorized', {
+                            bubbles: true, composed: true, detail: xmlhttp
+                        }));
+                        reject(xmlhttp);
+                        break;
+                    default:
+                        this.eventTarget.dispatchEvent(new CustomEvent('ozone-api-request-error', {
+                            bubbles: true, composed: true, detail: xmlhttp
+                        }));
+                        reject(xmlhttp);
+                }
             };
+
+            xmlhttp.onload = handleResponse;
 
             xmlhttp.ontimeout = () =>{
                 this.eventTarget.dispatchEvent(new CustomEvent('ozone-api-request-timeout', {
@@ -150,20 +166,8 @@ export class OzoneAPIRequest{
                 reject(xmlhttp);
             };
 
-            xmlhttp.onerror = () => {
-                switch (xmlhttp.status){
-                    case 403:
-                        this.eventTarget.dispatchEvent(new CustomEvent('ozone-api-request-unauthorized', {
-                            bubbles: true, composed: true, detail: xmlhttp
-                        }));
-                        break;
-                    default:
-                        this.eventTarget.dispatchEvent(new CustomEvent('ozone-api-request-error', {
-                            bubbles: true, composed: true, detail: xmlhttp
-                        }));
-                }
-                reject(xmlhttp)
-            };
+            xmlhttp.onerror = handleResponse;
+
             xmlhttp.send(this.body);
         });
     }
