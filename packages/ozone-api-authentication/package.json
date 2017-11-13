@@ -1,7 +1,7 @@
 {
-  "name": "my-app",
-  "version": "1.0.0",
-  "description": "",
+  "name": "ozone-api-authentication",
+  "version": "0.0.0",
+  "description": "low level wrapper around ozone login, logout and authentication api",
   "scripts": {
     "postinstall": "bower install",
     "build": "webpack --config webpack.config.js",
@@ -13,6 +13,8 @@
     "pretest": "webpack --config webpack.test.js",
     "doc": "typedoc --entryPoint src/index.ts --out  doc/ src/"
   },
+  "main": "build/index.js",
+  "types": "build/dist/index.d.ts",
   "author": "",
   "license": "ISC",
   "dependencies": {
