@@ -1,6 +1,6 @@
 {
   "name": "ozone-api-request",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "light api for ozone ajax call",
   "repository": {
     "type": "git",
