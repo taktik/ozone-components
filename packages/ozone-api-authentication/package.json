@@ -1,6 +1,6 @@
 {
   "name": "ozone-api-authentication",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "low level wrapper around ozone login, logout and authentication api",
   "scripts": {
     "start": "webpack --config webpack.config.js",
