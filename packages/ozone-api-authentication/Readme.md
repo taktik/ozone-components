@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/taktik/ozone-api-authentication.svg?branch=master)](https://travis-ci.org/taktik/ozone-api-authentication)
 [![NPM version][npm-image]][npm-url]
  [![Dependency Status][daviddm-image]][daviddm-url]
-https://travis-ci.org/taktik/ozone-api-authentication.svg?branch=master
+
 # ozone-api-authentication
 
 Low level wrapper around ozone login, logout and authentication api
