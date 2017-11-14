@@ -3,7 +3,6 @@
   "version": "0.0.2",
   "description": "low level wrapper around ozone login, logout and authentication api",
   "scripts": {
-    "postinstall": "bower install",
     "start": "webpack --config webpack.config.js",
     "build": "tsc",
     "demo": "webpack-dev-server --config webpack.config.js",
