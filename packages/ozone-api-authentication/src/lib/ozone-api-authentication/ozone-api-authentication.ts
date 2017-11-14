@@ -3,27 +3,32 @@ import * as Config from 'ozone-config';
 
 /**
  * OzoneApiAuthentication class to manage Authentication API
- *
+ * Low level wrapper around ozone login, logout and authentication api
+ * It use OzoneAPIRequest to perform ajax request. Report to OzoneAPIRequest documentation for fire events.
  *
  * ### Usage
  *
  * ```javascript
+ * import {OzoneApiAuthentication, getOzoneApiAuthentication} from 'ozone-api-authentication'
  * ```
  */
 export class OzoneApiAuthentication{
 
 
-    eventTarget: EventTarget = document;
+    private eventTarget: EventTarget = document;
+
+    /**
+     * Set event target to redirect OzoneAPIRequest events to an other target.
+     * The default value is document
+     * @param {EventTarget} element
+     */
     setEventTarget(element: EventTarget){
         this.eventTarget = element;
     }
 
-    _connectionMessage: string;
-
-
     /**
      * connect to ozone
-     * @return {Promise<string>}
+     * @return {Promise<XMLHttpRequest>}
      */
     async ozoneConnect(username: string, password: string): Promise<XMLHttpRequest>{
         const config = await Config.OzoneConfig.get();
@@ -39,6 +44,10 @@ export class OzoneApiAuthentication{
         return request.sendRequest();
     }
 
+    /**
+     * ozone logout
+     * @return {Promise<XMLHttpRequest>}
+     */
     async logout(): Promise<XMLHttpRequest>{
         const config = await Config.OzoneConfig.get();
 
@@ -50,6 +59,10 @@ export class OzoneApiAuthentication{
         return request.sendRequest();
     }
 
+    /**
+     * Verify ozone connection
+     * @return {Promise<boolean>}
+     */
     async checkConnectionStatus(): Promise<boolean>{
         const config = await Config.OzoneConfig.get();
 

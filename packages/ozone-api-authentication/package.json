@@ -1,10 +1,11 @@
 {
   "name": "ozone-api-authentication",
-  "version": "0.0.3",
+  "version": "2.0.0",
   "description": "low level wrapper around ozone login, logout and authentication api",
   "scripts": {
     "start": "webpack --config webpack.config.js",
     "build": "tsc",
+    "prepublish": "tsc",
     "demo": "webpack-dev-server --config webpack.config.js",
     "test": "wct --skip-plugin=local --configFile wct.conf.js",
     "test:persist": "wct --skip-plugin=headless -p --configFile wct.conf.js",
