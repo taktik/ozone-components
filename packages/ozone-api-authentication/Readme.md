@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/hubjac1/ozone-api-authentication.svg?branch=master)](https://travis-ci.org/hubjac1/ozone-api-authenticationt)
+[![Build Status](https://travis-ci.org/hubjac1/ozone-api-authentication.svg?branch=master)](https://travis-ci.org/hubjac1/ozone-api-authentication)
 [![NPM version][npm-image]][npm-url]
  [![Dependency Status][daviddm-image]][daviddm-url]
 
