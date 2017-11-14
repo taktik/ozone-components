@@ -50,7 +50,7 @@ export class OzoneApiAuthentication{
         return request.sendRequest();
     }
 
-    async checkConnectionStatus(): Promise<XMLHttpRequest>{
+    async checkConnectionStatus(): Promise<boolean>{
         const config = await Config.OzoneConfig.get();
 
         const request = new OzoneAPIRequest();
@@ -58,14 +58,20 @@ export class OzoneApiAuthentication{
         request.method = 'GET';
         request.url = config.host + config.endPoints.session;
 
-        return request.sendRequest();
+        const response = await request.sendRequest();
+
+        if (response.response && response.response.sessionId){
+            return true
+        } else {
+            return false
+        }
     }
 }
 
 const ozoneApiAuthentication =  new OzoneApiAuthentication();
 /**
- * MyApi factory
- * @return {MyAPI}
+ * OzoneApiAuthentication factory
+ * @return {OzoneApiAuthentication}
  */
 export const getOzoneApiAuthentication= function ():OzoneApiAuthentication{
     return ozoneApiAuthentication

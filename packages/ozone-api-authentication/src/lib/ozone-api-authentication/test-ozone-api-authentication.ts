@@ -4,31 +4,27 @@ import * as sinon from 'sinon'
 
 describe('ozone-api-authentication', function() {
     let server : sinon.SinonFakeServer ;
+    let callback: {():void};
+    let eventToListen: string | null;
+    const listener = (event:Event)=>{
+        callback()
+    };
 
     beforeEach(()=>{
+        eventToListen = null;
         server = sinon.fakeServer.create();
     });
 
-    afterEach(()=>{
+    afterEach((done)=>{
+
+        if(eventToListen){
+            document.removeEventListener(eventToListen, listener);
+        }
         server.restore();
+        done()
     });
 
-    describe('logout', function() {
-        it('should return resolve promise on logout succeed', function (done) {
-            server.respondWith("GET", "/ozone/rest/v3/authentication/logout",
-                [200, {"Content-Type": "application/json"},
-                    '"disconnected"']);
 
-            const api = getOzoneApiAuthentication();
-
-            api.logout().then((response) => {
-                done()
-            }).catch((err) => {
-                done(err);
-            });
-            setTimeout(() => server.respond());
-        });
-    })
     describe('ozoneConnect (login)', function() {
         it('should return resolve promise on connection succeed', function (done) {
             server.respondWith("POST", "/ozone/rest/v3/authentication/login/user",
@@ -38,7 +34,7 @@ describe('ozone-api-authentication', function() {
             const api = getOzoneApiAuthentication();
 
             api.ozoneConnect('toto', 'foo').then((response) => {
-                //assert.equal(response, "Connected");
+                assert.equal(response.status, 200);
                 done()
             }).catch((err) => {
                 done(err);
@@ -52,12 +48,11 @@ describe('ozone-api-authentication', function() {
 
             const api = getOzoneApiAuthentication();
 
-            api.ozoneConnect('toto', 'foo')
+            api.ozoneConnect('toto', 'foo');
 
-            document.addEventListener('ozone-api-request-success', ()=>{
-                debugger
-                done();
-            });
+            eventToListen ='ozone-api-request-success';
+            callback = done;
+            document.addEventListener(eventToListen, listener);
 
             setTimeout(() => server.respond());
         });
@@ -69,8 +64,7 @@ describe('ozone-api-authentication', function() {
             const api = getOzoneApiAuthentication();
 
             api.ozoneConnect('toto', 'foo').then((response) => {
-
-                done('ERROR, sould not resolve')
+                done('ERROR, should not resolve')
             }).catch((err) => {
                 done();
             });
@@ -100,12 +94,26 @@ describe('ozone-api-authentication', function() {
 
             api.ozoneConnect('toto', 'foo')
 
-            document.addEventListener('ozone-api-request-error', ()=>{
-                debugger
-                done();
-            });
-
+            eventToListen ='ozone-api-request-error';
+            callback = done;
+            document.addEventListener(eventToListen, listener);
             setTimeout(() => server.respond());
         });
     });
+    describe('logout', function() {
+        it('should return resolve promise on logout succeed', function (done) {
+            server.respondWith("GET", "/ozone/rest/v3/authentication/logout",
+                [200, {"Content-Type": "application/json"},
+                    '"disconnected"']);
+
+            const api = getOzoneApiAuthentication();
+
+            api.logout().then((response) => {
+                done()
+            }).catch((err) => {
+                done(err);
+            });
+            setTimeout(() => server.respond());
+        });
+    })
 });
