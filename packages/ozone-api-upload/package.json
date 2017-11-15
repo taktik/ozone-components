@@ -18,6 +18,7 @@
     "typescript": "^2.4.1"
   },
   "dependencies": {
+    "ozone-config": "^1.0.0"
   },
   "repository": "https://github.com/taktik/ozone-api-upload"
 }
