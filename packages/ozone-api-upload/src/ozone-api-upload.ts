@@ -1,6 +1,3 @@
-/// <amd-module name="ozone-api-upload"/>
-
-import {jsElement} from 'taktik-polymer-typescript'
 import * as Config from 'ozone-config'
 
 export interface UploadSessionResult {
@@ -41,12 +38,13 @@ export interface XMLHttpRequestLike {
 
 /**
  * UploadFileRequest is a JavaScrip class that can be use as an
- * XMLHttpRequest to upload file on ozone.
- * If mask the complex series of AJAX call to one XMLHttpRequest like request.
+ * XMLHttpRequest to upload media using ozone v2 upload chanel.
+ * It mask the complex series of AJAX call to one XMLHttpRequest like request.
  * Note: that UploadFileRequest implement only a subset of XMLHttpRequest
  *
  * example:
  * ```javaScript
+ *  import {UploadFileRequest} from 'ozone-api-upload'
  *  const uploader = new UploadFileRequest();
  *  uploader.open();
  *  const formData = new FormData();
@@ -59,7 +57,6 @@ export interface XMLHttpRequestLike {
  *    Fired when upload is complete with detail: {mediaId: uuid}
 *
 */
-@jsElement()
 export class UploadFileRequest implements XMLHttpRequestLike {
 
     /**
@@ -97,6 +94,18 @@ export class UploadFileRequest implements XMLHttpRequestLike {
      * @type {number}
      */
     status: number;
+
+    private _mediaId:string | null = null;
+
+    /**
+     * Accessor to uploaded media id.
+     * default value is null
+     *
+     * @return {string | null}
+     */
+    get mediaId(): string | null{
+        return this._mediaId;
+    }
 
     private config: Config.ConfigType;
     private isAbort:boolean = false;
@@ -176,7 +185,7 @@ export class UploadFileRequest implements XMLHttpRequestLike {
      * @param {string} folderId
      * @return {Promise<string | void>}
      */
-    uploadFile(file: FormData, folderId: string = '0'): Promise<string | void> {
+    uploadFile(file: FormData, folderId: string = '0'): Promise<string | null> {
 
         return Config.OzoneConfig.get()
             .then((config) => {
@@ -192,6 +201,8 @@ export class UploadFileRequest implements XMLHttpRequestLike {
                 this.readyState = 4;
                 this.callOneadystatechange();
 
+                this._mediaId = mediaId;
+
                 document.dispatchEvent(
                     new CustomEvent('ozone-upload-completed',
                         {bubbles: true, detail: {mediaId}})
@@ -202,6 +213,7 @@ export class UploadFileRequest implements XMLHttpRequestLike {
                 this.readyState = 4;
                 this.callOneadystatechange();
                 console.error(error.message)
+                return null
         });
     }
 

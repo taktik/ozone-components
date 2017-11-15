@@ -1,35 +1,34 @@
+[![Build Status](https://travis-ci.org/taktik/ozone-api-upload.svg?branch=master)](https://travis-ci.org/taktik/ozone-api-upload)
+[![NPM version][npm-image]][npm-url]
+[![Dependency Status][daviddm-image]][daviddm-url]
+
+
 # \<ozone-api-upload\>
 
+UploadFileRequest is a JavaScrip class that can be use as an XMLHttpRequest to upload media using ozone v2 upload chanel.
+It mask the complex series of AJAX call to one XMLHttpRequest like request.
+Note: that UploadFileRequest implement only a subset of XMLHttpRequest
 
 
-## Install the Polymer-CLI
-
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your element locally.
-
-## install project dependency
-
-run nmp and bower install.
-```
-$ npm install
-$ bower install
-```
-
-## compile your code
+## install
 
 ```
-$ node_modules/typescript/bin/tsc
+$ npm install --save ozone-api-upload
 ```
 
-## Viewing Your Element
+## usage
 
-```
-$ polymer serve
+```javaScript
+  import {UploadFileRequest} from 'ozone-api-upload'
+
+  const uploader = new UploadFileRequest();
+  uploader.open();
+  const formData = new FormData();
+  formData.append(file.formDataName, file, file.name);
+  uploader.send(formData);
 ```
 
-## Running Tests
-
-```
-$ polymer test
-```
-
-Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.
+[npm-image]: https://badge.fury.io/js/ozone-api-upload.svg
+[npm-url]: https://npmjs.org/package/ozone-api-upload
+[daviddm-image]: https://david-dm.org/taktik/ozone-api-upload.svg?theme=shields.io
+[daviddm-url]: https://david-dm.org/taktik/ozone-api-upload
