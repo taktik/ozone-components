@@ -10,8 +10,8 @@
   "scripts": {
     "build": "webpack --config webpack.config.js",
     "test:persist": "wct --skip-plugin=headless -p --configFile wct.conf.js",
-    "test": "wct --skip-plugin=local --configFile wct.conf.js",
-    "pretest": "webpack --config webpack.config.js",
+    "test": "sleep 10 && wct --skip-plugin=local --configFile wct.conf.js",
+    "pretest": "webpack --config webpack.config.js && sleep 1",
     "prepublish": "tsc && cp src/*.html dist/"
   },
   "keywords": [],
