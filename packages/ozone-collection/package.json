@@ -2,27 +2,52 @@
   "name": "ozone-collection",
   "version": "1.0.0",
   "description": "",
-  "main": "ozone-collection.js",
+  "main": "dist/ozone-collection.js",
+  "types": "dist/ozone-collection.d.ts",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "gulp test:browserstack"
+    "postinstall": "bower install",
+    "build": "webpack --config webpack.config.js",
+    "test:persist": "wct --skip-plugin=headless -p --configFile wct.conf.js",
+    "test": "wct --skip-plugin=local --configFile wct.conf.js",
+    "pretest": "npm run build",
+    "prepublish": "tsc"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "typescript": "^2.4.1"
+    "@types/chai": "^4.0.4",
+    "@types/mocha": "^2.2.43",
+    "@types/redux": "^3.6.0",
+    "@types/sinon": "^2.3.6",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-es2015": "^6.24.1",
+    "clean-webpack-plugin": "^0.1.16",
+    "copy-webpack-plugin": "^4.0.1",
+    "html-webpack-plugin": "^2.30.1",
+    "polymer-webpack-loader": "^2.0.0",
+    "taktik-polymer-typescript": "^2.2.2",
+    "ts-loader": "^2.3.7",
+    "typedoc": "^0.9.0",
+    "typescript": "^2.5.3",
+    "wct-headless": "^2.2.0",
+    "wct-istanbul": "^0.12.4",
+    "web-component-tester": "^6.3.0",
+    "webpack": "^3.6.0",
+    "webpack-dev-server": "^2.9.1"
   },
   "dependencies": {
-    "gulp": "^3.9.1",
-    "gulp-browserstack": "^1.0.3",
-    "gulp-typescript": "^3.2.1",
-    "merge2": "^1.1.0",
-    "polymer-build": "^2.0.0",
-    "run-sequence": "^2.1.0",
-    "wct-junit-reporter": "git+https://github.com/marcelmeulemans/wct-junit-reporter.git",
-    "web-component-tester": "^6.0.1"
+    "global": "^4.3.2",
+    "ozone-api-item": "^1.0.0",
+    "ozone-api-request": "^1.0.2",
+    "ozone-config": "^1.0.0",
+    "ozone-search-helper": "^1.0.0",
+    "reflect-metadata": "^0.1.10"
   }
 }

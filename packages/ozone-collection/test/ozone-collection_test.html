@@ -7,21 +7,32 @@
 
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <script src="../../web-component-tester/browser.js"></script>
-    <script src="../../iron-test-helpers/mock-interactions.js"></script>
-    <link rel="import" href="../../polymer/polymer.html">
-    <link rel="import" href="../ozone-api-fake.html">
 
     <!-- Step 1: import the element to test -->
-   <link rel="import" href="../ozone-collection.html">
+    <script>
+        window.moduleIsReady = false;
+        (function() {
+            document.addEventListener('WebComponentsReady', function componentsReady() {
+                document.removeEventListener('WebComponentsReady', componentsReady, false);
+
+                var script = document.createElement('script');
+                script.src = '../build/index.js';
+                var refScript = document.getElementsByTagName('script')[0];
+                refScript.parentNode.insertBefore(script, refScript);
+                setTimeout(()=>{
+                    window.moduleIsReady = true;
+                    document.dispatchEvent(new CustomEvent('module-ready', {bubbles: true}))
+                },1000)
+            }, false);
+        })();
+    </script>
 
 </head>
 <body>
 <test-fixture id="basic">
     <template>
-        <ozone-api-fake id="fakeApi"></ozone-api-fake>
         <ozone-collection
                 id="moduleUnderTest"
-                source-id="fakeApi"
         ></ozone-collection>
     </template>
 </test-fixture>
@@ -34,10 +45,8 @@
 </test-fixture>
 <test-fixture id="autosave">
     <template>
-        <ozone-api-fake id="fakeApi"></ozone-api-fake>
         <ozone-collection
                 id="moduleUnderTest"
-                source-id="fakeApi"
                 autosave
         ></ozone-collection>
     </template>
@@ -45,16 +54,39 @@
 
 
 <script>
+    class OzoneApiFake {
+        constructor(){
+            this.create = sinon.stub();
+
+            this.update = sinon.stub();
+
+            this.getOne = sinon.stub();
+
+            this.deleteOne = sinon.stub();
+
+            this.bulkGet = sinon.stub();
+
+            this.bulkDelete = sinon.stub();
+
+            this.bulkSave = sinon.stub();
+
+            this.search = sinon.stub();
+        }
+    }
     describe('ozone-collection', function () {
-        addEventListener('WebComponentsReady', function () {
-            let element,
-                fakeApi;
+
+        //document.addEventListener('module-ready', function () {
+            let element;
 
 
             beforeEach((done) => {
-                fakeApi = fixture('basic')[0];
-                element = fixture('basic')[1];
-                flush(()=>{done()})
+                element = fixture('basic');
+                element._source = new OzoneApiFake();
+                if(window.moduleIsReady){
+                    done()
+                } else{
+                    document.addEventListener('module-ready',() =>{done()});
+                }
             });
             afterEach(() => {
 
@@ -67,6 +99,7 @@
                             {id: '1_local', name: 'one'},
                             {id: '2_local', name: 'two'}
                         ];
+                        element._source = new OzoneApiFake();
 
                         flush(()=>{done()})
                     });
@@ -297,12 +330,14 @@
 
                 describe('search', function () {
                     it('should call ozoneApi.search and loadNextItems',(done)=>{
+                        element._source = new OzoneApiFake();
                         element.loadNextItems = sinon.stub();
                         element._source.search.returns('returned _searchIterator');
-                        element.search('hello');
-                        assert.isTrue(element.loadNextItems.called);
-                        expect(element._searchIterator).to.be.equal('returned _searchIterator');
-                        done()
+                        element.search('hello').then(()=>{
+                            assert.isTrue(element.loadNextItems.called);
+                            expect(element._searchIterator).to.be.equal('returned _searchIterator');
+                            done()
+                        })
                     })
                 });
             });
@@ -332,8 +367,8 @@
 
             describe('autosave mode', function(){
                 beforeEach((done) => {
-                    fakeApi = fixture('autosave')[0];
-                    element = fixture('autosave')[1];
+                    element = fixture('autosave');
+                    element._source = new OzoneApiFake();
                     flush(()=>{done()})
                 });
             });
@@ -350,7 +385,7 @@
 
                 it('autosave')
             });
-        });
+        //});
     });
 </script>
 

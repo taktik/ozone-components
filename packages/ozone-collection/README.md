@@ -1,35 +1,31 @@
-# \<ozone-collection\>
+ [![Build Status](https://travis-ci.org/taktik/ozone-collection.svg?branch=master)](https://travis-ci.org/taktik/ozone-collection)
+ [![NPM version][npm-image]][npm-url]
+ [![Dependency Status][daviddm-image]][daviddm-url]
+ 
+ 
+ # \<ozone-collection\>
+ 
 
-
-
-## Install the Polymer-CLI
-
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your element locally.
-
-## install project dependency
-
-run nmp and bower install.
-```
-$ npm install
-$ bower install
-```
-
-## compile your code
-
-```
-$ node_modules/typescript/bin/tsc
-```
-
-## Viewing Your Element
-
-```
-$ polymer serve
-```
-
-## Running Tests
-
-```
-$ polymer test
-```
-
-Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.
+ 
+ 
+ ## install
+ 
+ ```
+ $ npm install --save ozone-collection
+ ```
+ 
+ ## usage
+ 
+ ```html
+         <ozone-collection
+         id="mosaicCollection"
+         items="{{searchResults}}"
+         total="{{total}}"
+         collection="video"
+         data-remain="{{dataRemain}}"></ozone-collection>
+ ```
+ 
+ [npm-image]: https://badge.fury.io/js/ozone-collection.svg
+ [npm-url]: https://npmjs.org/package/ozone-collection
+ [daviddm-image]: https://david-dm.org/taktik/ozone-collection.svg?theme=shields.io
+ [daviddm-url]: https://david-dm.org/taktik/ozone-collection

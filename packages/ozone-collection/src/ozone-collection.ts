@@ -5,7 +5,7 @@ import "polymer/polymer-element.html"
 
 import "./ozone-collection.html"
 
-import {customElement, domElement} from 'taktik-polymer-typescript';
+import {customElement} from 'taktik-polymer-typescript';
 import {Item} from 'ozone-type';
 import 'ozone-api-item';
 import {OzoneApiItem} from 'ozone-api-item';
@@ -14,11 +14,22 @@ import {SearchGenerator, SearchQuery} from 'ozone-search-helper';
 
 /**
  * <ozone-collection> is a generic component to manage collection of item.
+ *
+ * ## usage
+ *
+ * ```html
+ *        <ozone-collection
+ *        id="mosaicCollection"
+ *        items="{{searchResults}}"
+ *        total="{{total}}"
+ *        collection="video"
+ *        data-remain="{{dataRemain}}"></ozone-collection>
+ * ```
+ *
  */
 @customElement('ozone-collection')
 export class OzoneCollection  extends Polymer.Element{
 
-    @domElement()
     $: {
         scrollTheshold: {
             clearTriggers(): void
