@@ -5,7 +5,7 @@
  
  # \<ozone-collection\>
  
-
+<ozone-collection> is a generic polymer web-component to manage collection of ozone items.
  
  
  ## install
