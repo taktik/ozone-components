@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
     <title>ozone-suggest</title>
 
-    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-    <script src="../../web-component-tester/browser.js"></script>
+    <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../bower_components/web-component-tester/browser.js"></script>
 
     <!-- Step 1: import the element to test -->
     <script>
@@ -22,7 +22,7 @@
                 setTimeout(()=>{
                     window.moduleIsReady = true;
                     document.dispatchEvent(new CustomEvent('module-ready', {bubbles: true}))
-                },1000)
+                },5000)
             }, false);
         })();
     </script>

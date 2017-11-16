@@ -2,6 +2,7 @@ var ALL_BROWSERS =
     [
         {
             maxInstances: 1,
+            version:62,
             browserName: 'chrome',
             os: 'OS X',
             os_version: 'Sierra',
