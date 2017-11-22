@@ -71,7 +71,7 @@ export class OzoneCollection  extends Polymer.Element{
         return {
             collection: {
                 type: String,
-                observer: "_updateSource",
+                observer: "updateSource",
                 value: 'item',
             },
             items: {
@@ -100,7 +100,7 @@ export class OzoneCollection  extends Polymer.Element{
     }
 
 
-    private _updateSource(collection: string){
+    updateSource(collection: string){
         this.collection = collection;
         this._source.setCollection(this.collection);
     }
