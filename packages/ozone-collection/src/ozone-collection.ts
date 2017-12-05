@@ -59,7 +59,7 @@ export class OzoneCollection  extends Polymer.Element{
      * true if there is still data to be loaded in the collection.
      * @notify: true
      */
-    dataRemain: Boolean;
+    dataRemain: boolean;
 
     private _source: OzoneApiItem;
 
@@ -110,8 +110,8 @@ export class OzoneCollection  extends Polymer.Element{
      * items are added to the items array.
      * @param size {number} number of items to load default value is 10
      */
-    loadItems(size:number){
-        this.quickSearch('', size);
+    async loadItems(size:number): Promise<Array<Item>>{
+        return this.quickSearch('', size);
     }
 
     /**
@@ -119,12 +119,12 @@ export class OzoneCollection  extends Polymer.Element{
      * @param searchString
      * @param size {number} number of items to load default value is 10
      */
-    quickSearch(searchString:string, size?:number){
+    async quickSearch(searchString:string, size?:number): Promise<Array<Item>>{
         size = size || 10;
         let searchQuery = new SearchQuery();
         searchQuery.size = size;
         searchQuery.quicksearch(searchString);
-        this.search(searchQuery);
+        return this.search(searchQuery);
     }
 
     /**
@@ -132,10 +132,10 @@ export class OzoneCollection  extends Polymer.Element{
      * found items are added to the items array.
      * @param searchQuery {SearchQuery} search query
      */
-    async search(searchQuery:SearchQuery){
+    async search(searchQuery:SearchQuery): Promise<Array<Item>>{
         this._verifySource();
         this._searchIterator = await this._getSource.search(searchQuery);
-        this.loadNextItems()
+        return this.loadNextItems()
     }
 
     /**
@@ -143,7 +143,7 @@ export class OzoneCollection  extends Polymer.Element{
      * found items are added to the items array.
      * @return {Promise}
      */
-    loadNextItems(){
+    loadNextItems(): Promise<Array<Item>>{
         if(this._searchIterator) {
             return this._searchIterator.next().then((searchResult)=>{
                 this.set('dataRemain', this._searchIterator.done)
@@ -151,6 +151,7 @@ export class OzoneCollection  extends Polymer.Element{
                 searchResult.results.forEach((item)=>{
                     this.push('items', item);
                 })
+                return this.items;
             });
         }
         return Promise.reject('_searchIterator not define you probably did not search for items')
@@ -162,7 +163,7 @@ export class OzoneCollection  extends Polymer.Element{
      * @param id {uuid} id of the item to get.
      * @return {Promise<Item>} promise resolve with the item or null (if not found).
      */
-    findOne(id:uuid):Promise<Item | null>{
+    findOne(id:uuid): Promise<Item | null>{
         try {
             this.isDefined(id);
 
@@ -175,7 +176,7 @@ export class OzoneCollection  extends Polymer.Element{
                         if (item) {
                             this.push('items', item);
                         }
-                        return item;
+                        return item as Item | null;
                     });
             } else {
                 result = Promise.resolve(this.items[index]);
@@ -195,13 +196,13 @@ export class OzoneCollection  extends Polymer.Element{
      * items are updated with the result of the save.
      * @return {Promise<Array<Items>>} promise resolve with the list io items saved.
      */
-    saveAll():Promise<any>{
+    saveAll(): Promise<Array<Item>>{
         try {
             this._verifySource();
-            return this._getSource.bulkSave(this.items)
+            return this._getSource.bulkSave(this.items as Array<Item>)
                 .then(items => {
                     this.set('items', items);
-                    return items;
+                    return this.items;
                 })
         } catch (err){
             return Promise.reject(err);
@@ -277,7 +278,7 @@ export class OzoneCollection  extends Polymer.Element{
      * @param reflect {boolean} reflect change from ozone in items list
      * @return {Promise}
      */
-    deleteAll(reflect:boolean=true):Promise<any>{
+    deleteAll(reflect:boolean=true):Promise<void>{
         try {
             this._verifySource();
             const ids = this.items.map(item => item.id);
@@ -286,7 +287,6 @@ export class OzoneCollection  extends Polymer.Element{
                     if(reflect) {
                         this.set('items', []);
                     }
-                    return result;
                 });
         } catch (err){
             return Promise.reject(err);
@@ -299,7 +299,7 @@ export class OzoneCollection  extends Polymer.Element{
      * @param reflect {boolean} reflect change from ozone in items list
      * @return {any}
      */
-    deleteItems(ids:Array<uuid>, reflect:boolean=true){
+    async deleteItems(ids:Array<uuid>, reflect:boolean=true): Promise<void>{
         try {
             this.isDefined(ids);
             this._verifySource();
@@ -324,7 +324,7 @@ export class OzoneCollection  extends Polymer.Element{
      * @param reflect {boolean} reflect change from ozone in items list
      * @return {any}
      */
-    deleteOne(id:uuid, reflect:boolean=true){
+    deleteOne(id:uuid, reflect:boolean=true): Promise<void>{
         try {
             this.isDefined(id);
             this._verifySource();
