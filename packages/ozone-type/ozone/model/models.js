@@ -1,9 +1,10 @@
-define(["require", "exports", "./Connector", "./ExportSpec", "./Grants", "./ItemMeta", "./MatchQuery", "./OwnTenantEntityFilter", "./OwnTenantQuery", "./QueryStringQuery", "./Role", "./SearchRequest", "./Sort", "./TermsAggregation", "./User"], function (require, exports, Connector_1, ExportSpec_1, Grants_1, ItemMeta_1, MatchQuery_1, OwnTenantEntityFilter_1, OwnTenantQuery_1, QueryStringQuery_1, Role_1, SearchRequest_1, Sort_1, TermsAggregation_1, User_1) {
+define(["require", "exports", "./Blob", "./Connector", "./ExportSpec", "./Grants", "./ItemMeta", "./MatchQuery", "./OwnTenantEntityFilter", "./OwnTenantQuery", "./QueryStringQuery", "./Role", "./SearchRequest", "./Sort", "./TermsAggregation", "./User"], function (require, exports, Blob_1, Connector_1, ExportSpec_1, Grants_1, ItemMeta_1, MatchQuery_1, OwnTenantEntityFilter_1, OwnTenantQuery_1, QueryStringQuery_1, Role_1, SearchRequest_1, Sort_1, TermsAggregation_1, User_1) {
     "use strict";
     function __export(m) {
         for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
     }
     Object.defineProperty(exports, "__esModule", { value: true });
+    __export(Blob_1);
     __export(Connector_1);
     __export(ExportSpec_1);
     __export(Grants_1);

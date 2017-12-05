@@ -10,10 +10,10 @@
  * Do not edit the class manually.
  */
 import * as models from './models';
-export interface Recording extends models.File {
+export interface Recording extends models.Item {
     duration?: number;
-    stop?: models.Date;
-    start?: models.Date;
+    stop?: Date;
+    start?: Date;
     video?: string;
     channelId?: string;
 }

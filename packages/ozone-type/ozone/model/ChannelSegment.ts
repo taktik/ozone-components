@@ -21,4 +21,6 @@ export interface ChannelSegment extends models.File {
 
     channelId?: string;
 
+    md5?: string;
+
 }

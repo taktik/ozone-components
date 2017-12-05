@@ -45,4 +45,6 @@ export interface FieldDescriptor {
 
     defaultValue?: any;
 
+    suggestions?: Array<any>;
+
 }

@@ -24,7 +24,11 @@ export interface Channel extends models.Item {
     storage?: string;
     multicastUrl?: string;
     languageIndexes?: Array<string>;
+    enabled?: boolean;
     cbUrl?: string;
+    output?: any;
+    input?: any;
+    transcodingEnabled?: boolean;
     bufferDuration?: number;
     defaultPackages?: Array<string>;
     scenes?: Array<string>;

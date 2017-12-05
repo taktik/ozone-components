@@ -17,10 +17,12 @@ export interface DeviceInfo extends models.Item {
     deviceType?: string;
     extraInformation?: Array<string>;
     macAddress?: string;
-    location?: string;
+    serialNumber?: string;
     model?: string;
+    location?: string;
     deviceVersion?: string;
     subLocation?: string;
-    network?: string;
+    frontendVersion?: string;
     status?: string;
+    network?: string;
 }

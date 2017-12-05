@@ -14,7 +14,6 @@
     "gulp": "^3.9.1",
     "gulp-build": "^0.5.3",
     "gulp-clean": "^0.3.2",
-    "gulp-inject": "^4.2.0",
-    "hls-parser": "^0.1.6"
+    "gulp-inject": "^4.2.0"
   }
 }

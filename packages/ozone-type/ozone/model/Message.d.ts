@@ -15,12 +15,12 @@ export interface Message extends models.Item {
     fidelioId?: number;
     attachments?: string;
     read?: number;
-    subject?: string;
     toDeviceId?: string;
+    subject?: string;
     externalId?: number;
-    creationDate?: number;
-    body?: string;
     priority?: number;
+    body?: string;
+    creationDate?: number;
     internalLink?: string;
     messageType?: string;
     from?: string;

@@ -35,6 +35,7 @@ export namespace Grants {
         ITEMEDIT = <any> 'ITEM_EDIT',
         ITEMDELETE = <any> 'ITEM_DELETE',
         ITEMPUBLISH = <any> 'ITEM_PUBLISH',
+        ITEMBROADCAST = <any> 'ITEM_BROADCAST',
         FILEDOWNLOAD = <any> 'FILE_DOWNLOAD',
         FIELDVIEW = <any> 'FIELD_VIEW',
         FIELDEDIT = <any> 'FIELD_EDIT'
@@ -53,6 +54,7 @@ export namespace Grants {
         ITEMEDIT = <any> 'ITEM_EDIT',
         ITEMDELETE = <any> 'ITEM_DELETE',
         ITEMPUBLISH = <any> 'ITEM_PUBLISH',
+        ITEMBROADCAST = <any> 'ITEM_BROADCAST',
         FILEDOWNLOAD = <any> 'FILE_DOWNLOAD',
         FIELDVIEW = <any> 'FIELD_VIEW',
         FIELDEDIT = <any> 'FIELD_EDIT'

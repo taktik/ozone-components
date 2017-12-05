@@ -26,7 +26,7 @@ export interface SearchRequest {
 
     sorts?: Array<models.Sort>;
 
-    aggregations?: Array<models.TermsAggregation>;
+    aggregations?: Array<models.Aggregation>;
 
     projectionFields?: Array<string>;
 

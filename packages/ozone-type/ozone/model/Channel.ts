@@ -39,7 +39,15 @@ export interface Channel extends models.Item {
 
     languageIndexes?: Array<string>;
 
+    enabled?: boolean;
+
     cbUrl?: string;
+
+    output?: any;
+
+    input?: any;
+
+    transcodingEnabled?: boolean;
 
     bufferDuration?: number;
 

@@ -12,9 +12,13 @@
 
 import * as models from './models';
 
-export interface TizenfirmwareQueryUpmodelsdate {
-    query?: models.Query;
+export interface DeviceFirmwareRawSearchResult {
+    id?: number;
 
-    patch?: models.Tizenfirmware;
+    total?: number;
+
+    size?: number;
+
+    results?: Array<any>;
 
 }

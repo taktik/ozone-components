@@ -12,13 +12,7 @@
 
 import * as models from './models';
 
-export interface TizenfirmwareRawSearchResult {
-    id?: number;
-
-    total?: number;
-
-    size?: number;
-
-    results?: Array<any>;
+export interface DeviceMessageLogs extends models.DeviceMessage {
+    activate?: boolean;
 
 }

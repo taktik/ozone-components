@@ -21,8 +21,6 @@ export interface Media extends models.Item {
 
     localizedTitle?: { [key: string]: string; };
 
-    paid?: boolean;
-
     restricted?: boolean;
 
     date?: models.Date;
@@ -35,13 +33,13 @@ export interface Media extends models.Item {
 
     fileUTI?: Array<string>;
 
-    fullText?: string;
-
     caption?: string;
 
-    representedBy?: string;
+    fullText?: string;
 
     source?: string;
+
+    representedBy?: string;
 
     title?: string;
 
@@ -79,8 +77,8 @@ export interface Media extends models.Item {
 
     category?: string;
 
-    publications?: Array<string>;
-
     status?: string;
+
+    publications?: Array<string>;
 
 }

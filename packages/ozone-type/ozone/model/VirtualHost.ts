@@ -29,6 +29,6 @@ export interface VirtualHost {
 
     scopes?: Array<models.Permission>;
 
-    roles?: Array<string>;
+    allowedConnectors?: Array<string>;
 
 }

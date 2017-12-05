@@ -12,13 +12,13 @@
 
 import * as models from './models';
 
-export interface TizenfirmwareSearchResult {
+export interface DeviceFirmwareTizenRawSearchResult {
     id?: number;
 
     total?: number;
 
     size?: number;
 
-    results?: Array<models.Tizenfirmware>;
+    results?: Array<any>;
 
 }

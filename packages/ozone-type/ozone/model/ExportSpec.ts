@@ -13,15 +13,15 @@
 import * as models from './models';
 
 export interface ExportSpec {
-    storageUnitId?: string;
-
-    type?: string;
-
     query?: models.Query;
+
+    rootTenantId?: string;
 
     searchMode?: ExportSpec.SearchModeEnum;
 
-    rootTenantId?: string;
+    storageUnitId?: string;
+
+    type?: string;
 
 }
 export namespace ExportSpec {

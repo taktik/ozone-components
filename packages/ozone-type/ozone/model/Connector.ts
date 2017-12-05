@@ -21,6 +21,8 @@ export interface Connector {
 
     defaultVirtualHostId: string;
 
+    defaultVirtualHostInstanceId?: string;
+
     configuration?: string;
 
 }

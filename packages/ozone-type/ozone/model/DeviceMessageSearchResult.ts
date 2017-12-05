@@ -12,15 +12,13 @@
 
 import * as models from './models';
 
-export interface Tizenfirmware extends models.Item {
-    fileName?: string;
+export interface DeviceMessageSearchResult {
+    id?: number;
 
-    sizeByte?: number;
+    total?: number;
 
-    swVersion?: string;
+    size?: number;
 
-    binary?: string;
-
-    description?: string;
+    results?: Array<models.DeviceMessage>;
 
 }

@@ -27,4 +27,5 @@ export interface FieldDescriptor {
     deprecationReason?: string;
     constraints?: Array<models.Constraint>;
     defaultValue?: any;
+    suggestions?: Array<any>;
 }

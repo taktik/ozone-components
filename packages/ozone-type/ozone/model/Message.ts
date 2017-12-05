@@ -21,17 +21,17 @@ export interface Message extends models.Item {
 
     read?: number;
 
-    subject?: string;
-
     toDeviceId?: string;
+
+    subject?: string;
 
     externalId?: number;
 
-    creationDate?: number;
+    priority?: number;
 
     body?: string;
 
-    priority?: number;
+    creationDate?: number;
 
     internalLink?: string;
 

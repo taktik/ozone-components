@@ -13,9 +13,9 @@
 import * as models from './models';
 
 export interface Item {
-    creationUser?: string;
-
     deleted?: boolean;
+
+    creationUser?: string;
 
     traits?: Array<string>;
 

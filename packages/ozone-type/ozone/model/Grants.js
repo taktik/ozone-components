@@ -29,6 +29,7 @@ define(["require", "exports"], function (require, exports) {
             GrantsEnum[GrantsEnum["ITEMEDIT"] = 'ITEM_EDIT'] = "ITEMEDIT";
             GrantsEnum[GrantsEnum["ITEMDELETE"] = 'ITEM_DELETE'] = "ITEMDELETE";
             GrantsEnum[GrantsEnum["ITEMPUBLISH"] = 'ITEM_PUBLISH'] = "ITEMPUBLISH";
+            GrantsEnum[GrantsEnum["ITEMBROADCAST"] = 'ITEM_BROADCAST'] = "ITEMBROADCAST";
             GrantsEnum[GrantsEnum["FILEDOWNLOAD"] = 'FILE_DOWNLOAD'] = "FILEDOWNLOAD";
             GrantsEnum[GrantsEnum["FIELDVIEW"] = 'FIELD_VIEW'] = "FIELDVIEW";
             GrantsEnum[GrantsEnum["FIELDEDIT"] = 'FIELD_EDIT'] = "FIELDEDIT";
@@ -48,6 +49,7 @@ define(["require", "exports"], function (require, exports) {
             FieldGrantsEnum[FieldGrantsEnum["ITEMEDIT"] = 'ITEM_EDIT'] = "ITEMEDIT";
             FieldGrantsEnum[FieldGrantsEnum["ITEMDELETE"] = 'ITEM_DELETE'] = "ITEMDELETE";
             FieldGrantsEnum[FieldGrantsEnum["ITEMPUBLISH"] = 'ITEM_PUBLISH'] = "ITEMPUBLISH";
+            FieldGrantsEnum[FieldGrantsEnum["ITEMBROADCAST"] = 'ITEM_BROADCAST'] = "ITEMBROADCAST";
             FieldGrantsEnum[FieldGrantsEnum["FILEDOWNLOAD"] = 'FILE_DOWNLOAD'] = "FILEDOWNLOAD";
             FieldGrantsEnum[FieldGrantsEnum["FIELDVIEW"] = 'FIELD_VIEW'] = "FIELDVIEW";
             FieldGrantsEnum[FieldGrantsEnum["FIELDEDIT"] = 'FIELD_EDIT'] = "FIELDEDIT";

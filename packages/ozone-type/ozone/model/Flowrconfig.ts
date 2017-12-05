@@ -13,6 +13,8 @@
 import * as models from './models';
 
 export interface Flowrconfig extends models.Item {
+    rootFolder?: string;
+
     backendVersion?: number;
 
 }

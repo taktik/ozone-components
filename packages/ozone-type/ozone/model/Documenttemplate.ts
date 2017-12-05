@@ -12,13 +12,9 @@
 
 import * as models from './models';
 
-export interface TizenfirmwareIdsSearchResult {
-    id?: number;
+export interface Documenttemplate extends models.Item {
+    template?: string;
 
-    total?: number;
-
-    size?: number;
-
-    results?: Array<string>;
+    destination?: string;
 
 }

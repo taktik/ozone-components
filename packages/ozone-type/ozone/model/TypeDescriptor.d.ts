@@ -17,7 +17,7 @@ export interface TypeDescriptor {
     superType?: string;
     traits?: Array<string>;
     fields?: Array<models.FieldDescriptor>;
-    searchable?: boolean;
+    unsearchable?: boolean;
     abstract?: boolean;
     embedOnly?: boolean;
 }

@@ -3,6 +3,7 @@ export interface Connector {
     identifier?: string;
     type: Connector.TypeEnum;
     defaultVirtualHostId: string;
+    defaultVirtualHostInstanceId?: string;
     configuration?: string;
 }
 export declare namespace Connector {
