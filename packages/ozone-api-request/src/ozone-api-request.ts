@@ -108,8 +108,9 @@ export class OzoneAPIRequest{
     createXMLHttpRequest(): XMLHttpRequest{
         const xmlhttp = new XMLHttpRequest();
         xmlhttp.withCredentials = true;
-        xmlhttp.responseType = this.responseType;
+        
         xmlhttp.open(this.method, this.url, true);
+        xmlhttp.responseType = this.responseType;
         xmlhttp.setRequestHeader("Content-Type", "application/json");
         xmlhttp.setRequestHeader('Accept', 'application/json');
         return xmlhttp;
