@@ -49,6 +49,7 @@ export interface ConfigType {
             audio: Array<string>,
         }
     }
+    uploadChannel: string,
 }
 
 const configUrl = './conf.ozone.json';
@@ -59,7 +60,7 @@ const configPromise = ozoneAPIRequest.sendRequest()
     .then((res:XMLHttpRequest) => {
         return res.response.ozoneApi as ConfigType
         })
-    .catch((failRequest)=>{
+    .catch((failRequest: XMLHttpRequest)=>{
         console.error('Unable to find config at ', configUrl);
         throw new Error('Unable to find config')
         });
