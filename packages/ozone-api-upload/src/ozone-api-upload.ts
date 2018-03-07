@@ -241,7 +241,7 @@ export class UploadFileRequest implements XMLHttpRequestLike {
         //TODO understand need of folderId??
         const numeric_id = parseInt('0x' + folderId.split('-')[4]);
         const body = {
-            mediaUploadChannelIdentifier: 'uploadChannel1',
+            mediaUploadChannelIdentifier: this.config.uploadChannel,
             autoCommit: false,
             mediaMetadatas: [{
                 "type": {
