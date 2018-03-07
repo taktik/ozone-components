@@ -1,10 +1,7 @@
 /**
  * Created by hubert on 23/06/17.
  */
-
-
-/// <amd-module name="ozone-upload"/>
-import "polymer/polymer-element.html"
+import "polymer/polymer.html"
 import "vaadin-upload/vaadin-upload.html"
 import {customElement} from 'taktik-polymer-typescript'
 import {UploadFileRequest, XMLHttpRequestLike} from 'ozone-api-upload'
