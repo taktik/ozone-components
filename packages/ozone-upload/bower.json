@@ -2,7 +2,7 @@
   "name": "ozone-upload",
   "main": "ozone-upload.html",
   "dependencies": {
-    "vaadin-upload": "^2.0.0"
+    "vaadin-upload": "^2.1.3"
   },
   "devDependencies": {
   }

@@ -8,9 +8,9 @@
     "test": "test"
   },
   "scripts": {
-    "build": "tsc",
+    "tsc": "tsc",
     "prepublish": "npm run start",
-    "start": "webpack --config webpack.config.js",
+    "build": "webpack --config webpack.config.js",
     "demo": "webpack-dev-server --config webpack.config.js"
   },
   "keywords": [],

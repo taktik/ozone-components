@@ -34,5 +34,8 @@ export class OzoneUpload extends Polymer.Element {
 
         }
     }
+    get vaadinUpload(): vaadinUploadType{
+        return this.$.vaadinUpload
+    }
 
 }{}

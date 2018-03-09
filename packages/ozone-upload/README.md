@@ -1,12 +1,40 @@
 # \<ozone-upload\>
 
+Configurable webComponent to upload files on ozone. Based on vaadin-upload.
+
+## install
+
+```
+$ npm install ozone-upload
+```
+
+## Import
+
+ES6 import
+```javaScript
+import "ozone-upload"
+```
+
+Bundle import
+```html
+<script src="node_modules/ozone-upload/build/index.js"></script>
+```
+
+## Usage
+
+```html
+<ozone-upload></ozone-upload>
+```
+
+## API
+
+__*vaadinUpload*__ expose vaadin-upload component.
 
 
-## Install the Polymer-CLI
 
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your element locally.
+## develop
 
-## install project dependency
+### install project dependency
 
 run nmp and bower install.
 ```
@@ -14,22 +42,20 @@ $ npm install
 $ bower install
 ```
 
-## compile your code
+### compile your code
 
 ```
-$ node_modules/typescript/bin/tsc
+$ npm run build
 ```
 
-## Viewing Your Element
+### Viewing Your Element
 
 ```
-$ polymer serve
+$ npm run demo
 ```
 
-## Running Tests
+### Running Tests
 
 ```
-$ polymer test
+$ npm run test
 ```
-
-Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.
