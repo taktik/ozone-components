@@ -1,0 +1,27 @@
+{
+  "name": "ozone-media-url",
+  "version": "1.0.1",
+  "description": "Ozone helper to build ozone media url",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/taktik/ozone-media-url"
+  },
+  "main": "dist/ozone-media-url.js",
+  "types": "dist/ozone-media-url.d.ts",
+  "scripts": {
+    "prepublish": "npm run build",
+    "build": "tsc",
+    "test": "tsc && git diff --exit-code"
+  },
+  "author": "hj@taktik",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^2.4.1"
+  },
+  "dependencies": {
+    "ozone-api-item": "^1.0.0",
+    "ozone-api-request": "^1.0.2",
+    "ozone-config": "^1.0.0",
+    "taktik-polymer-typescript": "^2.2.0"
+  }
+}

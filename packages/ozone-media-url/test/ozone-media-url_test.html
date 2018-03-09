@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>ozone-components-demo test</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+
+
+    <link rel="import" href="../ozone-media-url.html">
+</head>
+<body>
+    <script>
+        describe('tool OzoneMediaUrl', function () {
+            describe('constructor', function () {
+                it('should set config and id', (done)=>{
+                    const element = new OzoneMediaUrl('an_id', {host:'ozone', view:'view'});
+                    expect(element.id).to.equal('an_id');
+                    expect(element.config).to.deep.equal({host:'ozone', view:'view'});
+                    done()
+                });
+            });
+            describe('getNumericId', function () {
+                it('should convert id: "00000000-046c-7fc4-0000-000000006030" to 24624', (done)=>{
+                    const element = new OzoneMediaUrl('00000000-046c-7fc4-0000-000000006030', {host:'ozone', view:'/view'});
+                    expect(element.getNumericId()).to.equal(24624);
+                    done()
+                });
+            });
+            describe('getPreviewUrlJpg', function () {
+                it('should convert id: "00000000-046c-7fc4-0000-000000006030" to 24624', (done)=>{
+                    const element = new OzoneMediaUrl('00000000-046c-7fc4-0000-000000006030', {host:'ozone', view:'/view'});
+                    expect(element.getPreviewUrlJpg(1500)).to.equal('ozone/view/24624/org.taktik.filetype.image.preview.1500');
+                    done()
+                });
+
+                it('should work with enum', (done)=>{
+                    const element = new OzoneMediaUrl('00000000-046c-7fc4-0000-000000006030', {host:'ozone', view:'/view'});
+                    expect(element.getPreviewUrlJpg(OzonePreviewSize.Small)).to.equal('ozone/view/24624/org.taktik.filetype.image.preview.250');
+                    done()
+                });
+            });
+            describe('getPreviewUrlPng', function () {
+                it('should convert id: "00000000-046c-7fc4-0000-000000006030" to 24624', (done)=>{
+                    const element = new OzoneMediaUrl('00000000-046c-7fc4-0000-000000006030', {host:'ozone', view:'/view'});
+                    expect(element.getPreviewUrlPng(1500)).to.equal('ozone/view/24624/preview.png.1500');
+                    done()
+                });
+
+                it('should work with enum', (done)=>{
+                    const element = new OzoneMediaUrl('00000000-046c-7fc4-0000-000000006030', {host:'ozone', view:'/view'});
+                    expect(element.getPreviewUrlPng(OzonePreviewSize.Small)).to.equal('ozone/view/24624/preview.png.250');
+                    done()
+                });
+            });
+
+            describe('getVideoUrl', function () {
+                it('should return video url', function (done){
+
+                    const element = new OzoneMediaUrl('00000000-046c-7fc4-0000-000000006028', {host:'ozone', view:'/view'});
+                    expect(element.getVideoUrl()).to.equal('ozone/view/24616/org.taktik.filetype.flowr.video/index.m3u8');
+                    done();
+                });
+            });
+            describe('getVideoUrlMp4', function () {
+                it('should return video url', function (done){
+
+                    const element = new OzoneMediaUrl('00000000-046c-7fc4-0000-000000006028', {host:'ozone', view:'/view'});
+                    expect(element.getVideoUrlMp4()).to.equal('ozone/view/24616/org.taktik.filetype.video.mp4');
+                    done();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
