@@ -1,0 +1,13 @@
+{
+  "name": "testplayer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ozone-video-player": "^3.0.3"
+  }
+}
