@@ -41,7 +41,7 @@
     "html-webpack-plugin": "^2.30.1",
     "ozone-config": "^1.0.0",
     "polymer-webpack-loader": "^2.0.0",
-    "taktik-polymer-typescript": "^2.2.2",
+    "taktik-polymer-typescript": "^2.3.2",
     "ts-loader": "^2.3.7",
     "typedoc": "^0.9.0",
     "typescript": "^2.5.3",

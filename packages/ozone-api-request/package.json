@@ -19,6 +19,6 @@
     "typescript": "^2.4.1"
   },
   "dependencies": {
-    "taktik-polymer-typescript": "^2.2.0"
+    "taktik-polymer-typescript": "^2.3.2"
   }
 }
