@@ -10,6 +10,7 @@
   "scripts": {
     "tsc": "tsc",
     "prepublish": "npm run build",
+    "test": "npm run build",
     "build": "webpack --config webpack.config.js",
     "demo": "webpack-dev-server --config webpack.config.js"
   },
