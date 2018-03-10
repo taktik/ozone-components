@@ -1,6 +1,6 @@
 {
   "name": "ozone-media-url",
-  "version": "1.0.1",
+  "version": "0.0.1",
   "description": "Ozone helper to build ozone media url",
   "repository": {
     "type": "git",
@@ -19,9 +19,9 @@
     "typescript": "^2.4.1"
   },
   "dependencies": {
-    "ozone-api-item": "^1.0.0",
-    "ozone-api-request": "^1.0.2",
-    "ozone-config": "^1.0.0",
-    "taktik-polymer-typescript": "^2.2.0"
+    "ozone-api-item": "^0.0.1",
+    "ozone-api-request": "^0.0.1",
+    "ozone-config": "^0.0.1",
+    "taktik-polymer-typescript": "^0.0.1"
   }
 }

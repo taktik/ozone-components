@@ -1,6 +1,6 @@
 {
   "name": "ozone-api-request",
-  "version": "1.0.3",
+  "version": "0.0.1",
   "description": "light api for ozone ajax call",
   "repository": {
     "type": "git",
@@ -19,6 +19,6 @@
     "typescript": "^2.4.1"
   },
   "dependencies": {
-    "taktik-polymer-typescript": "^2.3.2"
+    "taktik-polymer-typescript": "^0.0.1"
   }
 }

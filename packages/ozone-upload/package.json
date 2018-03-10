@@ -1,6 +1,6 @@
 {
   "name": "ozone-upload",
-  "version": "1.0.1",
+  "version": "0.0.1",
   "description": "",
   "main": "dist/ozone-upload.js",
   "types": "dist/ozone-upload.ts",
@@ -40,15 +40,15 @@
     "webpack-dev-server": "^2.8.2"
   },
   "dependencies": {
-    "ozone-api-upload": "^1.0.1",
     "@polymer/polymer": "^2.1.0",
     "@types/reflect-metadata": "0.0.5",
     "@webcomponents/shadycss": "^1.0.6",
     "@webcomponents/webcomponentsjs": "^1.0.12",
-    "ozone-api-request": "^1.0.2",
-    "ozone-config": "^1.0.0",
+    "ozone-api-request": "^0.0.1",
+    "ozone-api-upload": "^0.0.1",
+    "ozone-config": "^0.0.1",
     "reflect-metadata": "^0.1.10",
-    "taktik-polymer-typescript": "^2.3.2",
+    "taktik-polymer-typescript": "^0.0.1",
     "webcomponents.js": "^0.7.24"
   }
 }

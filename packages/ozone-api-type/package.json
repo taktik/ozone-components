@@ -1,6 +1,6 @@
 {
   "name": "ozone-api-type",
-  "version": "1.0.2",
+  "version": "0.0.1",
   "description": "",
   "main": "dist/ozone-api-type/ozone-api-type.js",
   "types": "dist/ozone-api-type/ozone-api-type.d.ts",
@@ -24,7 +24,7 @@
   "license": "ISC",
   "devDependencies": {
     "global": "^4.3.2",
-    "ozone-api-request": "^1.0.2",
+    "ozone-api-request": "^0.0.1",
     "reflect-metadata": "^0.1.10"
   },
   "dependencies": {
@@ -39,9 +39,9 @@
     "clean-webpack-plugin": "^0.1.16",
     "copy-webpack-plugin": "^4.0.1",
     "html-webpack-plugin": "^2.30.1",
-    "ozone-config": "^1.0.0",
+    "ozone-config": "^0.0.1",
     "polymer-webpack-loader": "^2.0.0",
-    "taktik-polymer-typescript": "^2.3.2",
+    "taktik-polymer-typescript": "^0.0.1",
     "ts-loader": "^2.3.7",
     "typedoc": "^0.9.0",
     "typescript": "^2.5.3",

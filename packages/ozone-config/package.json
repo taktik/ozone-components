@@ -1,6 +1,6 @@
 {
   "name": "ozone-config",
-  "version": "1.0.3",
+  "version": "0.0.1",
   "description": "Ozone config loader",
   "repository": {
     "type": "git",
@@ -19,7 +19,7 @@
     "typescript": "^2.4.1"
   },
   "dependencies": {
-    "ozone-api-request": "^1.0.2",
-    "taktik-polymer-typescript": "^2.3.2"
+    "ozone-api-request": "^0.0.1",
+    "taktik-polymer-typescript": "^0.0.1"
   }
 }
