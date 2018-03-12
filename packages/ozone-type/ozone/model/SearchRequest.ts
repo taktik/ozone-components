@@ -11,6 +11,7 @@
  */
 
 import * as models from './models';
+import {TermsAggregation} from "ozone/model/TermsAggregation";
 
 export interface SearchRequest {
     searchMode?: SearchRequest.SearchModeEnum;
@@ -26,7 +27,7 @@ export interface SearchRequest {
 
     sorts?: Array<models.Sort>;
 
-    aggregations?: Array<models.Aggregation>;
+    aggregations?: Array<models.TermsAggregation>;
 
     projectionFields?: Array<string>;
 
