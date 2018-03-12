@@ -14,7 +14,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "typescript": "^2.4.1"
+    "ozone-type": "git+https://git@bitbucket.taktik.be/scm/sandbox/ozone-type.git",
+    "typescript": "^2.7.2"
   },
   "dependencies": {
     "ozone-api-request": "^0.0.1",

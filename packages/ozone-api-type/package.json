@@ -25,7 +25,9 @@
   "devDependencies": {
     "global": "^4.3.2",
     "ozone-api-request": "^0.0.1",
-    "reflect-metadata": "^0.1.10"
+    "ozone-type": "git+https://git@bitbucket.taktik.be/scm/sandbox/ozone-type.git",
+    "reflect-metadata": "^0.1.10",
+    "typescript": "^2.7.2"
   },
   "dependencies": {
     "@types/chai": "^4.0.4",
@@ -44,7 +46,6 @@
     "taktik-polymer-typescript": "^0.0.1",
     "ts-loader": "^2.3.7",
     "typedoc": "^0.9.0",
-    "typescript": "^2.5.3",
     "wct-headless": "^2.2.0",
     "wct-istanbul": "^0.12.4",
     "web-component-tester": "^6.3.0",

@@ -2,18 +2,21 @@
   "name": "ozone-search-helper",
   "version": "0.0.1",
   "description": "",
-  "main": "ozone-search-helper.js",
+  "main": "dist/ozone-search-helper.js",
+  "type":"dist/ozone-search-helper.d.ts",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "gulp test:browserstack"
+    "prepublish": "npm run build",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "typescript": "^2.4.1"
+    "ozone-type": "git+https://git@bitbucket.taktik.be/scm/sandbox/ozone-type.git",
+    "typescript": "^2.7.2"
   },
   "dependencies": {
     "gulp": "^3.9.1",
@@ -23,6 +26,7 @@
     "polymer-build": "^2.0.0",
     "run-sequence": "^2.1.0",
     "wct-junit-reporter": "git+https://github.com/marcelmeulemans/wct-junit-reporter.git",
-    "web-component-tester": "^6.0.1"
+    "web-component-tester": "^6.0.1",
+    "taktik-polymer-typescript": "^0.0.1"
   }
 }

@@ -13,12 +13,12 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
-        "typescript": "^2.4.2"
+        "ozone-type": "git+https://git@bitbucket.taktik.be/scm/sandbox/ozone-type.git",
+        "typescript": "^2.7.2"
     },
     "dependencies": {
         "@polymer/polymer": "^2.0.2",
         "@types/reflect-metadata": "0.0.5",
-        "ozone-type": "git+https://git@bitbucket.taktik.be/scm/sandbox/ozone-type.git",
         "reflect-metadata": "^0.1.10"
     }
 }

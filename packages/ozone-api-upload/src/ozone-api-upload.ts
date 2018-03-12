@@ -70,7 +70,7 @@ export class UploadFileRequest implements XMLHttpRequestLike {
     /**
      * XMLHttpRequest.onreadystatechange event handler
      */
-    onreadystatechange: { (): void };
+    onreadystatechange: { (): void } = ()=>{};
     private callOneadystatechange() {
         if (typeof (this.onreadystatechange) == 'function') {
             this.onreadystatechange();
@@ -93,7 +93,7 @@ export class UploadFileRequest implements XMLHttpRequestLike {
      * XMLHttpRequest.status
      * @type {number}
      */
-    status: number;
+    status: number= NaN;
 
     private _mediaId:string | null = null;
 
@@ -107,9 +107,9 @@ export class UploadFileRequest implements XMLHttpRequestLike {
         return this._mediaId;
     }
 
-    private config: Config.ConfigType;
+    private config: Config.ConfigType | null = null;
     private isAbort:boolean = false;
-    private currentRequest: XMLHttpRequest ;
+    private currentRequest: XMLHttpRequest | null = null ;
 
     constructor() {
         this.upload = {
@@ -174,6 +174,9 @@ export class UploadFileRequest implements XMLHttpRequestLike {
 
     private _buildUrl(service: string, ...param: Array<string>): string {
         const otherUrlParam = param || [];
+        if (this.config ===null){
+            throw new Error('config is undefined')
+        }
         return [this.config.host, this.config.endPoints[service], ...otherUrlParam]
             .join('/')
             .replace(/\/\//g, '/');
@@ -240,6 +243,9 @@ export class UploadFileRequest implements XMLHttpRequestLike {
 
         //TODO understand need of folderId??
         const numeric_id = parseInt('0x' + folderId.split('-')[4]);
+        if (this.config ===null){
+            throw new Error('config is undefined')
+        }
         const body = {
             mediaUploadChannelIdentifier: this.config.uploadChannel,
             autoCommit: false,

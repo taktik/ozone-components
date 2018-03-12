@@ -35,7 +35,8 @@
   "main": "dist/ozone-api-edit-video.js",
   "types": "dist/ozone-api-edit-video.d.ts",
   "devDependencies": {
+    "ozone-type": "git+https://git@bitbucket.taktik.be/scm/sandbox/ozone-type.git",
     "typedoc": "^0.8.0",
-    "typescript": "^2.5.3"
+    "typescript": "^2.7.2"
   }
 }

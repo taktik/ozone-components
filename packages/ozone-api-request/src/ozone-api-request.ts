@@ -74,9 +74,9 @@ import {jsElement} from 'taktik-polymer-typescript'
  */
 @jsElement()
 export class OzoneAPIRequest{
-    private _url: string;
+    private _url: string ='';
     private _method: string = 'GET';
-    private _body: string;
+    private _body: string = '';
     private _responseType: XMLHttpRequestResponseType = 'json';
 
 
@@ -139,20 +139,20 @@ export class OzoneAPIRequest{
             const handleResponse = ()=>{
                 switch (xmlhttp.status){
                     case 200:
-                        this.eventTarget.dispatchEvent(new CustomEvent('ozone-api-request-success', {
-                            bubbles: true, composed: true, detail: xmlhttp
+                        this.eventTarget.dispatchEvent(new CustomEvent<XMLHttpRequest>('ozone-api-request-success', {
+                            bubbles: true, detail: xmlhttp
                         }));
                         resolve(xmlhttp);
                         break;
                     case 403:
-                        this.eventTarget.dispatchEvent(new CustomEvent('ozone-api-request-unauthorized', {
-                            bubbles: true, composed: true, detail: xmlhttp
+                        this.eventTarget.dispatchEvent(new CustomEvent<XMLHttpRequest>('ozone-api-request-unauthorized', {
+                            bubbles: true, detail: xmlhttp
                         }));
                         reject(xmlhttp);
                         break;
                     default:
-                        this.eventTarget.dispatchEvent(new CustomEvent('ozone-api-request-error', {
-                            bubbles: true, composed: true, detail: xmlhttp
+                        this.eventTarget.dispatchEvent(new CustomEvent<XMLHttpRequest>('ozone-api-request-error', {
+                            bubbles: true, detail: xmlhttp
                         }));
                         reject(xmlhttp);
                 }
@@ -161,8 +161,8 @@ export class OzoneAPIRequest{
             xmlhttp.onload = handleResponse;
 
             xmlhttp.ontimeout = () =>{
-                this.eventTarget.dispatchEvent(new CustomEvent('ozone-api-request-timeout', {
-                    bubbles: true, composed: true, detail: xmlhttp
+                this.eventTarget.dispatchEvent(new CustomEvent<XMLHttpRequest>('ozone-api-request-timeout', {
+                    bubbles: true, detail: xmlhttp
                 }));
                 reject(xmlhttp);
             };
