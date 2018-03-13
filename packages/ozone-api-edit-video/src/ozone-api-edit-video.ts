@@ -125,6 +125,8 @@ export class OzoneApiEditVideo {
         if(originalVideo.derivedFiles) {
             const mediaUrl = await this.mediaUrlFactory(originalVideo);
             const fileTypeIdentifier = await mediaUrl.getPreferedVideoFormat();
+            if( typeof fileTypeIdentifier !== 'string')
+                throw new Error('No video files found')
             const fileType = await this.getFileType(fileTypeIdentifier);
 
             const query = new SearchQuery();
@@ -236,6 +238,8 @@ export class OzoneApiEditVideo {
 
         const mediaUrl = await this.mediaUrlFactory(originalVideo);
         const originaFileTypeIdentifier = await mediaUrl.getPreferedVideoFormat();
+        if( typeof originaFileTypeIdentifier !== 'string')
+            throw new Error('No video files found')
         const newFolder = await this._createFolder(playListFile, OriginalVideoFile, chunksListFlatten, originaFileTypeIdentifier);
         //console.log('newFolder', newFolder)
 

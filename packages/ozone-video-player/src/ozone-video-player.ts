@@ -1,7 +1,7 @@
 import "polymer/polymer.html"
 import './ozone-video-player.html';
 import * as Config from 'ozone-config';
-import {customElement} from 'taktik-polymer-typescript'
+import {customElement, property} from 'taktik-polymer-typescript'
 import * as Clappr from 'Clappr'
 import * as ClapprMarkersPlugin from 'clappr-markers-plugin'
 import * as ClapprSubtitle from './Clappr-Subtitle'
@@ -43,22 +43,44 @@ export class OzoneVideoPlayer extends Polymer.Element{
     /**
      * Clappr player element
      */
+    @property({type: Object})
     public player: Clappr.Player | undefined;
 
     /**
      * Url to play a video directly
      */
-    public videoUrl: string;
+    @property({type: String, observer: 'videoUrlChange'})
+    public videoUrl?: string;
 
     /**
      * Ozone video to play
      */
-    public video: Video;
+    @property({type: Object, observer: 'videoChange'})
+    public video?: Video;
 
     /**
      * hide element and pause the player.
      */
-    public hidden: boolean;
+    @property({type: Boolean, observer: 'visibilityChange'})
+    public hidden: boolean = false;
+
+    /**
+     * Array of video markers
+     */
+    @property({type:Array, notify: true})
+    public markers: Array<MarkerOnVideo> = [];
+
+    /**
+     * List of subtitles languages avaliable
+     */
+    @property({type:Array, notify: true,})
+    public subtitlesAvailable: Array<string> = [];
+
+    /**
+     * selected subtitle language
+     */
+    @property({type: String, observer: 'subtitleSelectedChange'})
+    public subtitleSelected?: string;
 
     /**
      * default parameters apply to Clapper Player
@@ -84,17 +106,12 @@ export class OzoneVideoPlayer extends Polymer.Element{
 
     private OzoneMediaUrl= OzoneMediaUrl; //Exposed for testing purpose
 
-    markers: Array<MarkerOnVideo>;
-
     private _markerFactory?: ClapprMarkerFactory;
     private get markerFactory(): ClapprMarkerFactory{
         if(! this._markerFactory)
             this._markerFactory = new ClapprMarkerFactory(this);
         return this._markerFactory;
-}
-
-    subtitlesAvailable: Array<string>;
-    subtitleSelected: string;
+    }
     private _subtitles: Map<string, object> = new Map();
 
 
@@ -103,43 +120,8 @@ export class OzoneVideoPlayer extends Polymer.Element{
 
     $:{
         player: HTMLElement
-    };
+    } | undefined;
 
-    static get properties() {
-        return {
-            hidden: {
-                type: Boolean,
-                value: false,
-                observer: 'visibilityChange'
-            },
-            player: {
-                type: Object,
-                value: false,
-            },
-            videoUrl: {
-                type: String,
-                observer: 'videoUrlChange'
-            },
-            video:{
-                type: Object,
-                observer: 'videoChange'
-            },
-            markers:{
-                type:Array,
-                notify: true,
-                value:()=> [],
-            },
-            subtitlesAvailable:{
-                type:Array,
-                notify: true,
-                value:()=> [],
-            },
-            subtitleSelected: {
-                type: String,
-                observer: 'subtitleSelectedChange'
-        },
-        }
-    }
     static get observers(){
         return ['markersChange(markers.*)'];
     }
@@ -147,10 +129,10 @@ export class OzoneVideoPlayer extends Polymer.Element{
     markersChange(){
     }
 
-    async subtitleSelectedChange(subtitle:string){
-        if(subtitle && this.player){
+    async subtitleSelectedChange(subtitle?:string){
+        if(subtitle && this.player && this.video){
             const config = await (Config.OzoneConfig.get());
-            const mediaUrl = new this.OzoneMediaUrl(this.video.subtitles[this.subtitleSelected] as string, config);
+            const mediaUrl = new this.OzoneMediaUrl(this.video.subtitles[subtitle] as string, config);
             if(this.player.options.subtitle) {
                 const plugin = this.player.getPlugin('subtitle-plugin');
                 plugin.options.src = mediaUrl.getOriginalFormat()
@@ -258,6 +240,7 @@ export class OzoneVideoPlayer extends Polymer.Element{
         this.destroy();
         this.player = new Clappr.Player(param);
         var playerElement = document.createElement('div');
+        if(this.$)
         this.$.player.appendChild(playerElement);
         this.player.attachTo(playerElement);
 
@@ -301,6 +284,7 @@ export class OzoneVideoPlayer extends Polymer.Element{
             const aMarker = this.buildMarker(videoMarker, this.markers.length -1);
             const markersPlugin = this.player.getPlugin('markers-plugin') as ClapprMarkersPlugin.MarkersPluginType;
             markersPlugin.addMarker(aMarker);
+            if(this.$)
             this.$.player.getElementsByClassName("media-control-layer")[0].classList.add("edit-mode");
         }
     };
@@ -319,6 +303,7 @@ export class OzoneVideoPlayer extends Polymer.Element{
             const markersPlugin = this.player.getPlugin('markers-plugin') as ClapprMarkersPlugin.MarkersPluginType;
             markersPlugin.clearMarkers();
             this.set('markers',[]);
+            if(this.$)
             this.$.player.getElementsByClassName("media-control-layer")[0].classList.remove("edit-mode");
 
         }

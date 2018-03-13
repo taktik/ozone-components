@@ -18,6 +18,7 @@
     "typescript": "^2.7.2"
   },
   "dependencies": {
+    "@types/lodash": "^4.14.104",
     "ozone-api-request": "^0.0.1",
     "ozone-config": "^0.0.1",
     "ozone-search-helper": "^0.0.1",

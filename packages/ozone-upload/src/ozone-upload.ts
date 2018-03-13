@@ -24,17 +24,18 @@ export class OzoneUpload extends Polymer.Element {
 
     $: {
         vaadinUpload: vaadinUploadType
-    };
+    }| undefined;
 
     ready(){
         super.ready();
-
+        if(this.$)
         this.$.vaadinUpload._createXhr = ()=> {
             return new UploadFileRequest();
 
         }
     }
-    get vaadinUpload(): vaadinUploadType{
+    get vaadinUpload(): vaadinUploadType | undefined{
+        if(this.$)
         return this.$.vaadinUpload
     }
 

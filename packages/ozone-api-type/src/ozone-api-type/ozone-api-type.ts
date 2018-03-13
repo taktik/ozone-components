@@ -45,7 +45,7 @@ export class OzoneApiType  {
      *
      * @private
      */
-    _typeDescriptor: Promise<TypeDescriptor>;
+    _typeDescriptor: Promise<TypeDescriptor> | null = null;
 
     /**
      * Load api type description form ozone and set typeDescriptor attribute.
@@ -90,6 +90,8 @@ export class OzoneApiType  {
      */
     getFields(collection?:string): Promise<Array<FieldDescriptor>>{
         collection = collection || this.collection;
+        if(this._typeDescriptor === null)
+            throw new Error('type not loaded')
         return this._typeDescriptor.then((type)=>{
             if (type.fields) {
                 return type.fields;

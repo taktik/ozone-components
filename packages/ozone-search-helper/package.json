@@ -1,6 +1,6 @@
 {
   "name": "ozone-search-helper",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "repository": {
     "type": "git",
@@ -16,10 +16,12 @@
   "author": "hj@taktik",
   "license": "ISC",
   "devDependencies": {
-    "typescript": "^2.4.1"
+    "typescript": "^2.7.2",
+    "ozone-type": "git+https://git@bitbucket.taktik.be/scm/sandbox/ozone-type.git"
   },
   "dependencies": {
-    "ozone-api-request": "^1",
-    "taktik-polymer-typescript": "^2"
+    "@types/lodash": "^4.14.104",
+    "ozone-api-request": "^1.0.4",
+    "taktik-polymer-typescript": "^2.3.2"
   }
 }

@@ -1,11 +1,9 @@
-/// <amd-module name="ozone-collection"/>
-
 import "polymer/polymer.html"
 import "polymer/polymer-element.html"
 
 import "./ozone-collection.html"
 
-import {customElement} from 'taktik-polymer-typescript';
+import {customElement, property} from 'taktik-polymer-typescript';
 import {Item} from 'ozone-type';
 import 'ozone-api-item';
 import {OzoneApiItem} from 'ozone-api-item';
@@ -34,65 +32,42 @@ export class OzoneCollection  extends Polymer.Element{
         scrollTheshold: {
             clearTriggers(): void
         }
-    };
+    } | undefined;
 
 
     /**
      * collection of the OzoneApiItem to be use as source
      * By default it use default item collection
      */
-    collection: string;
+    @property({type: String, observer: "updateSource"})
+    collection: string = 'item';
 
     /**
      * Array of items loaded from the source
      * @notify: true
      */
-    items: Array<Item>;
+    @property({type: Array, notify: true})
+    items: Array<Item> = [];
 
     /**
      * total number of results found in ozone
      * @notify: true
      */
-    total: Number;
+    @property({type: Number, notify: true})
+    total: Number = 0;
 
     /**
      * true if there is still data to be loaded in the collection.
      * @notify: true
      */
-    dataRemain: boolean;
+    @property({type: Boolean, notify:true})
+    dataRemain: boolean = false;
 
     private _source: OzoneApiItem;
 
     private get _getSource() {return this._source as OzoneApiItem};
 
-    private _searchIterator: SearchGenerator;
-
-    static get properties() {
-        return {
-            collection: {
-                type: String,
-                observer: "updateSource",
-                value: 'item',
-            },
-            items: {
-                type: Array,
-                notify: true,
-                value: () =>  []
-            },
-            _searchIterator:{
-                type:Object
-            },
-            total:{
-                type: Number,
-                notify: true
-            },
-            dataRemain:{
-                type: Boolean,
-                notify:true,
-                value: false
-            }
-        }
-    }
+    private _searchIterator?: SearchGenerator;
 
     constructor(){
         super();
@@ -134,7 +109,7 @@ export class OzoneCollection  extends Polymer.Element{
      */
     async search(searchQuery:SearchQuery): Promise<Array<Item>>{
         this._verifySource();
-        this._searchIterator = await this._getSource.search(searchQuery);
+        this._searchIterator = await this._getSource.search(searchQuery) as SearchGenerator;
         return this.loadNextItems()
     }
 
@@ -146,7 +121,8 @@ export class OzoneCollection  extends Polymer.Element{
     loadNextItems(): Promise<Array<Item>>{
         if(this._searchIterator) {
             return this._searchIterator.next().then((searchResult)=>{
-                this.set('dataRemain', this._searchIterator.done)
+                if(this._searchIterator)
+                    this.set('dataRemain', this._searchIterator.done)
                 this.set('total', searchResult.total);
                 searchResult.results.forEach((item)=>{
                     this.push('items', item);

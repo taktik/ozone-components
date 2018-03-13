@@ -15,6 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/lodash": "^4.14.104",
     "gulp": "^3.9.1",
     "gulp-build": "^0.5.3",
     "gulp-clean": "^0.3.2",

@@ -1,7 +1,8 @@
 import "polymer/polymer.html";
 import './demo-app.html';
-import {customElement} from 'taktik-polymer-typescript'
+import {customElement, property} from 'taktik-polymer-typescript'
 import {OzoneVideoPlayer} from "../ozone-video-player"
+import {MarkerOnVideo} from "../clappr-marker";
 
 @customElement('demo-app')
 class demoApp extends Polymer.Element {
@@ -12,35 +13,27 @@ class demoApp extends Polymer.Element {
         clear: Element,
         loadUrl: Element,
         loadOzoneSub: Element,
-    };
-    videoUrl: string;
-    static get properties() {
-        return {
-            aVideo: {
-                type: Object,
-            },
-            subtitles: {
-                type: Object,
-            },
-            markers: {
-                type: Array,
-            },
-            subtitleSelect: {
-                type: String,
-            },
-            videoUrl: {
-                type: String,
-                value: "test/data/3/org.taktik.filetype.video.hls/index.m3u8"
-            },
-            display: {
-                type: Boolean,
-                value: false,
-            }
-        };
-    }
+    } | undefined;
+
+    @property()
+    videoUrl: string = "test/data/3/org.taktik.filetype.video.hls/index.m3u8";
+
+    @property()
+    display: boolean = false;
+
+    @property()
+    subtitleSelect?: string;
+
+    @property()
+    markers?: Array<MarkerOnVideo>
+
+    @property()
+    subtitles?: Array<string>;
 
     ready() {
         super.ready();
+        if(!this.$)
+            throw new Error();
         this.$.addMarker.addEventListener('click', e => this._addMarker());
         this.$.clear.addEventListener('click', e => this._clearMarkers());
         this.$.loadUrl.addEventListener('click', e => this._loadUrl());
@@ -48,15 +41,23 @@ class demoApp extends Polymer.Element {
     }
 
     _addMarker(){
+        if(!this.$)
+            throw new Error();
         this.$.mediaPlayer.addMarker({duration:  10, time: 10});
     }
     _clearMarkers(){
+        if(!this.$)
+            throw new Error();
         this.$.mediaPlayer.clearMarkers();
     }
     _loadUrl(){
+        if(!this.$)
+            throw new Error();
         this.$.mediaPlayer.loadVideoUrl(this.videoUrl);
     }
     _loadOzoneVideo(){
+        if(!this.$)
+            throw new Error();
         this.$.mediaPlayer.loadOzoneVideo({
             id: '00000000-0000-0000-0000-000000000003',
             type:'video',

@@ -5,7 +5,7 @@
  */
 
 import {jsElement} from 'taktik-polymer-typescript'
-import {Item, SearchRequest, ItemSearchResult} from 'ozone-type'
+import {Item, SearchRequest, ItemSearchResult, TermsAggregation, Aggregation} from 'ozone-type'
 import {OzoneAPIRequest} from 'ozone-api-request'
 
 export interface SearchResponse {
@@ -69,7 +69,7 @@ export class SearchQuery {
                 order: "COUNT_DESC",
                 size: this.size,
                 includePattern: `${lastTerm}.*`
-            }];
+            } as TermsAggregation];
         }
         searchParam.query = {
             $type: "QueryStringQuery",
@@ -102,7 +102,7 @@ export class SearchQuery {
 export class SearchGenerator {
     searchParam:SearchQuery;
     url:string;
-    total: number;
+    total: number = NaN;
     offset:number = 0;
     done:boolean = false;
 
