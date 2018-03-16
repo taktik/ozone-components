@@ -56,6 +56,7 @@
     "ozone-api-item": "^0.0.1",
     "ozone-config": "^0.0.1",
     "ozone-media-url": "^0.0.1",
+    "ozone-type": "git+https://git@bitbucket.taktik.be/scm/sandbox/ozone-type.git",
     "reflect-metadata": "^0.1.12",
     "taktik-polymer-typescript": "^0.0.1",
     "uuid": "^3.2.1",

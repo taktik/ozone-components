@@ -1,0 +1,18 @@
+<head>
+</head>
+<body>
+<dom-module id="ozone-edit-number-entry">
+    <template>
+        <style>
+            .helper-text{
+                font-size: 12px;
+                margin: 0;
+                color:rgba(0,0,0,0.42);
+            }
+        </style>
+        <!--<ozone-localized-string data="[[name]]" language="[[language]]" default-language="en"></ozone-localized-string>-->
+        <paper-input always-float-label="true" id="input" label="[[label]]" type="number" value="{{textValue}}" disabled$="[[disabled]]"></paper-input>
+        <p class="helper-text">[[type]]</p>
+    </template>
+</dom-module>
+</body>

@@ -1,0 +1,71 @@
+<head>
+
+</head>
+<body>
+<dom-module id="ozone-item-edit">
+    <template>
+        <style>
+            :host {
+                --paper-input-container-focus-color: #2C2958;
+            }
+            *{
+                 font-family: 'Roboto', sans-serif;
+            }
+            .item-view{
+                visibility: hidden;
+                display:flex;
+                flex-direction:column;
+            }
+            input{
+                @apply --paper-input-container-shared-input-style;
+                @apply --paper-input-container-focus-color;
+            }
+            .name{
+                font-size:24px;
+                font-weight:500;
+                text-align: center;
+                flex-basis: 100%;
+                margin-bottom:1em;
+            }
+            .img-container{
+                flex-basis: 100%;
+                text-align: center;
+                margin-bottom:1em;
+                max-height:400px;
+                overflow:hidden;
+            }
+
+
+            .ozoneEditItemContent {
+                margin: 16px;
+                flex-grow:1;
+                min-width: calc(50% - 32px);
+            }
+            .fields-container{
+                width:calc(100% - 16px);
+                display:flex;
+                flex-wrap:wrap;
+            }
+            .flex-row{
+                display:flex;
+                flex-direction: row;
+                flex-wrap:wrap;
+                justify-content: space-around;
+                font-size:12px;
+                font-weight:500;
+                text-align: center;
+
+                margin-bottom:1em;
+            }
+        </style>
+        <div class="item-view" id="elementView">
+
+            <div class="name">[[itemData.name]]</div>
+            <div class="flex-row"><div class="type">Type: [[itemData.type]]</div><div class="ID">ID: [[itemData.id]]</div></div>
+            <div class="fields-container" id="editableList">
+
+            </div>
+        </div>
+    </template>
+</dom-module>
+</body>
