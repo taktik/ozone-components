@@ -1,7 +1,12 @@
 {
   "lerna": "2.9.0",
   "packages": [
-    "packages/*"
+    "packages/*",
+    "packages/demo/*",
+    "packages/helper/*",
+    "packages/ozone-api/*",
+    "packages/ozone-logic/*",
+    "packages/ozone-presentational/*"
   ],
   "version": "0.0.1"
 }
