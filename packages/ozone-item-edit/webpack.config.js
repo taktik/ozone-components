@@ -64,8 +64,13 @@ module.exports = {
             to: 'bower_components/webcomponentsjs/[name].[ext]'
         }]),
         new CopyWebpackPlugin([{
-            from: path.resolve(__dirname, 'src/'),
-            to: '../dist/'
+            from: path.resolve(__dirname, 'src/**/*.html'),
+            to: 'dist/[1]/[name].[ext]',
+            test: /src\/(.*)\/.*/
+        }]),
+        new CopyWebpackPlugin([{
+            from: path.resolve(__dirname, 'src/ozone-item-edit.html'),
+            to: 'dist/ozone-item-edit.html',
         }]),
 
         new Clean(['dist', 'build']),

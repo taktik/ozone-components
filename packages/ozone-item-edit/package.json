@@ -1,9 +1,9 @@
 {
-  "name": "ozone-collection",
+  "name": "ozone-item-edit",
   "version": "0.0.1",
   "description": "",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "build/index.js",
+  "types": "build/dist/index.d.ts",
   "directories": {
     "test": "test"
   },

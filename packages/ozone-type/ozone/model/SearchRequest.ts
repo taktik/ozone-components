@@ -11,7 +11,6 @@
  */
 
 import * as models from './models';
-import {TermsAggregation} from "ozone/model/TermsAggregation";
 
 export interface SearchRequest {
     searchMode?: SearchRequest.SearchModeEnum;
