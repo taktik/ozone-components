@@ -1,0 +1,76 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    // Use of ES6
+    "module": "es2015",
+    "moduleResolution": "node",
+    // Module strategy that is likely to be use with official Polymer/typeScript support. See PolymerLabs/IMD
+    "experimentalDecorators": true,
+    //
+    "emitDecoratorMetadata": true,
+    "strictNullChecks": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "lib": [
+      "es2017",
+      "es6",
+      "es5",
+      "dom"
+    ],
+    "declaration": true,
+    /* Generates corresponding '.d.ts' file. */
+    "rootDir": "./",
+    /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
+    "baseUrl": "./",
+    "paths": {
+      "ozone-type": [
+        "./node_modules/ozone-type/ozone/include"
+        ],
+      "ozone-api-upload": [
+        "./taktik_components/ozone-api-upload/ozone-api-upload"
+        ],
+      "ozone-api-type": [
+        "./taktik_components/ozone-api-type/ozone-api-type"
+        ],
+      "ozone-collection": [
+        "./taktik_components/ozone-collection/ozone-collection"
+        ],
+      "ozone-edit-entry": [
+        "./taktik_components/ozone-edit-entry/ozone-edit-entry"
+      ],
+      "ozone-edit-number-entry": [
+        "./taktik_components/ozone-edit-number-entry/ozone-edit-number-entry"
+      ],
+      "ozone-edit-set-entry": [
+        "./taktik_components/ozone-edit-set-entry/ozone-edit-set-entry"
+      ],
+      "ozone-edit-text-entry": [
+        "./taktik_components/ozone-edit-text-entry/ozone-edit-text-entry"
+      ],
+      "ozone-item-abstract-view": [
+        "./taktik_components/ozone-item-abstract-view/ozone-item-abstract-view"
+      ],
+      "ozone-item-preview": [
+        "./taktik_components/ozone-item-preview/ozone-item-preview"
+      ],
+      "ozone-localized-string": [
+        "./taktik_components/ozone-localized-string/ozone-localized-string"
+      ],
+      "ozone-media-edit": [
+        "./taktik_components/ozone-media-edit/ozone-media-edit"
+      ],
+      "ozone-mosaic": [
+        "./taktik_components/ozone-mosaic/ozone-mosaic"
+      ]
+      }
+    },
+  "include": [
+    "taktik_components/**/*",
+    "elements/**/*",
+    "types"
+  ],
+  "exclude": [
+    "dist",
+    "build"
+  ]
+}

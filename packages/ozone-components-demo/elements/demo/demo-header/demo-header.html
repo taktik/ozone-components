@@ -1,0 +1,91 @@
+demo header
+<script>
+    import "polymer/polymer.html"
+
+    import "paper-button/paper-button.html"
+    import "paper-icon-button/paper-icon-button.html"
+    import "font-roboto/roboto.html"
+
+    import "iron-icons/iron-icons.html"
+    import "ozone-logout/ozone-logout.html"
+    import "./demo-header.html"
+
+    class DemoHeader extends Polymer.Element {
+        static get is () { return 'demo-header';}
+    }
+    window.customElements.define(DemoHeader.is, DemoHeader);
+</script>
+<!--
+
+
+`demo-header` is a horizontal header bar for any app.
+
+Example:
+
+```html
+    <paper-material elevation="1">
+      <style is="custom-style">
+        .customStyle {
+
+        }
+      </style>
+      <demo-header>
+      </demo-header>
+
+
+    </paper-material>
+    <script>
+    ...
+    </script>
+```
+
+
+### Styling
+
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+
+
+
+
+@demo elements/ozone-material/demo-header/demo.html
+-->
+
+<dom-module id="demo-header">
+  <template>
+    <style>
+        :host .header{
+            background: #FFFFFF;
+            box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14),
+                        0 1px 10px 0 rgba(0, 0, 0, 0.12),
+                        0 2px 4px -1px rgba(0, 0, 0, 0.4);
+            min-height:80px;
+            position:absolute;
+            top:0;
+            left:0;
+            right:0;
+            display:flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding:0 24px;
+        }
+        :host .header-btn{
+            color:#2C2958;
+        }
+        :host paper-icon-button{
+            color:#2C2958;
+        }
+    </style>
+
+    <div class="header">
+        <paper-menu-button>
+        <paper-button class="header-btn" focused><a href="index.html">Home</a></paper-button>
+        <paper-button class="header-btn"><a href="doc/index.html">Documentation</a></paper-button>
+        </paper-menu-button>
+        <ozone-logout></ozone-logout>
+    </div>
+  </template>
+</dom-module>

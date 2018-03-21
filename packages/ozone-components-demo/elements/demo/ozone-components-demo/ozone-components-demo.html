@@ -1,0 +1,115 @@
+<head>
+</head>
+<body>
+  <dom-module id="ozone-components-demo">
+    <template>
+        <style>
+          .customStyle {}
+
+          ozone-login{
+            display:block;
+            position:absolute;
+            width:100%;
+            top:50%;
+            z-index:1;
+            transform: translate(0,-50%);
+            --ozone-api-login-signin-input: {
+              background: #2C2958;
+              color:#FFFFFF;
+            }
+            --ozone-api-login-input-color: {
+              --paper-input-container-focus-color: #2C2958;
+            }
+          }
+
+          .found {
+            text-align: left;
+            width: 100%;
+            font-family: 'Roboto', sans-serif;
+            font-size: 12px;
+            width: 800px;
+            margin: 0 auto;
+            color: rgba(0, 0, 0, 0.42);
+          }
+
+          demo-header {
+            margin-bottom: 112px;
+            display: block;
+          }
+
+          .waves{
+            position:fixed;
+            z-index:0;
+            bottom:0;
+            left:0;
+            right:0;
+            width:100%;
+            overflow:hidden;
+          }
+        </style>
+
+        <ozone-login is-connected="{{isConnected}}"></ozone-login>
+
+
+
+        <template is="dom-if" if="[[!isConnected]]">
+          <svg  class="waves" viewBox="0 0 1440 370" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+              <!-- Generator: Sketch 44.1 (41455) - http://www.bohemiancoding.com/sketch -->
+              <title>Group</title>
+              <desc>Created with Sketch.</desc>
+              <defs>
+                  <rect id="path-1" x="0" y="0" width="1440" height="370"></rect>
+              </defs>
+              <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <g id="Login" transform="translate(0.000000, -654.000000)">
+                      <g id="Group" transform="translate(0.000000, 654.000000)">
+                          <mask id="mask-2" fill="white">
+                              <use xlink:href="#path-1"></use>
+                          </mask>
+                          <use id="Mask" fill="#F5F5F5" xlink:href="#path-1"></use>
+                          <g class="waves-mask" mask="url(#mask-2)">
+                              <g transform="translate(-315.000000, 0.000000)">
+                                  <path d="M20.140625,291.3125 C92.8203125,288.15625 300.25,168.195312 510.34375,168.195312 C720.4375,168.195312 693.203125,269.546875 1035,269.546875 C1376.79687,269.546875 1565.375,0.1484375 1792.29688,0.1484375 C2019.21875,0.1484375 1806.65625,479.779915 1775.96094,473.469335 C1745.26563,467.158755 102.664062,452.487732 101.609375,443.492188 C100.554687,434.496643 -52.5390625,294.46875 20.140625,291.3125 Z" id="Path-3" stroke="none" fill="#26C6DA" fill-rule="evenodd" style="mix-blend-mode: multiply;"></path>
+                                  <path d="M274.725675,196.916639 C318.228177,196.916639 327.779518,272.537205 650.900352,272.537205 C974.021185,272.537205 1121.17897,103.967068 1394.7021,103.967068 C1577.05085,103.967068 1716.26778,146.34638 1812.35287,231.105006 L1814,403.301542 L261.036761,408 C241.161036,267.277759 245.724007,196.916639 274.725675,196.916639 Z" id="Path-2" stroke="none" fill="#6FF9FF" fill-rule="evenodd" style="mix-blend-mode: multiply;"></path>
+                                  <path d="M1829.74219,156 C1772.01563,156 1589.46094,248.476025 1407.35938,248.476025 C1225.25781,248.476025 1150.34375,156 1000.64063,156 C850.9375,156 712.921875,290.03818 462.851562,290.03818 C296.138021,290.03818 199.854167,276.184129 174,248.476025 L176,485.465245 C1251.16667,488.107591 1796.42708,476.466656 1811.78125,450.54244 C1834.8125,411.656117 1887.46875,156 1829.74219,156 Z" id="Path-4" stroke="none" fill="#0095A8" fill-rule="evenodd" style="mix-blend-mode: multiply;"></path>
+                                  <path d="M289.875,212.496094 C344.546875,212.496094 386.804687,324.460938 617.003906,324.460938 C847.203125,324.460938 1104.27352,153.644531 1313.37109,153.644531 C1522.46867,153.644531 1535.46484,260.074219 1782.5625,260.074219 C1787.42708,260.074219 1789.57815,317.449219 1789.01571,432.199219 C767.341227,423.009115 254.406331,413.963542 250.211018,405.0625 C243.918049,391.710938 289.875,212.496094 289.875,212.496094 Z" id="Path-5" stroke="#FFFFFF" stroke-width="2" fill="none" opacity="0.340919384"></path>
+                                  <path d="M256.199299,260.546875 C312.154876,248.193871 340.046875,349.246094 570.246094,349.246094 C800.445313,349.246094 1097.37117,141.679688 1306.46875,141.679688 C1515.56633,141.679688 1564.50391,284.632812 1755,284.632812 C1759.86458,284.632812 1768.53649,337.154948 1781.01571,442.199219 C759.341227,433.009115 246.406331,423.963542 242.211018,415.0625 C235.918049,401.710938 256.199299,260.546875 256.199299,260.546875 Z" id="Path-5" stroke="#FFFFFF" stroke-width="2" fill="none" opacity="0.340919384"></path>
+                                  <path d="M280.199299,251.867188 C336.154876,239.514184 364.046875,340.566406 594.246094,340.566406 C824.445313,340.566406 1121.37117,133 1330.46875,133 C1539.56633,133 1588.50391,275.953125 1779,275.953125 C1783.86458,275.953125 1792.53649,328.47526 1805.01571,433.519531 C783.341227,424.329427 270.406331,415.283854 266.211018,406.382812 C259.918049,393.03125 280.199299,251.867188 280.199299,251.867188 Z" id="Path-5" stroke="#FFFFFF" stroke-width="2" fill="none" opacity="0.340919384"></path>
+                                  <path d="M188.8125,259.722656 C324.257812,259.722656 362.507812,209.636719 504.210938,205.214844 C645.914062,200.792969 752.289062,327.003906 1029.21094,327.003906 C1306.13281,327.003906 1585.48828,100.480469 1755,100.480469" id="Path-6" stroke-opacity="0.5" stroke="#FFFFFF" stroke-width="2" fill="none"></path>
+                              </g>
+                          </g>
+                      </g>
+                  </g>
+              </g>
+          </svg>
+
+        </template>
+
+        <div hidden$="[[!isConnected]]">
+           <demo-header></demo-header>
+
+            <ozone-upload>Not found</ozone-upload>
+            Search in [[type]] collection.
+            <select id="selectType" value="{{type::input}}">
+                <option value="item">item</option>
+                <option value="video">video</option>
+            </select>
+           <taktik-free-text-search id="freeTextSearch" class="" search-value="{{search}}" show-item-count search-results></taktik-free-text-search>
+
+            <ozone-api-search id="autoCompleteAPI" suggest auto size="5" item-type="[[type]]"> NO ozone-api-search </ozone-api-search>
+            <p class="found">found <b>[[numberOfResults]]</b> results with <b>"{{search}}"</b>.</p>
+            <ozone-mosaic id="searchDisplay"
+                          total="{{numberOfResults}}"
+                          collection-type="[[type]]"
+            ></ozone-mosaic>
+
+            <ozone-edit-panel id="editPanel"
+            ></ozone-edit-panel>
+            <video-edit-panel id="videoEditPanel"
+            ></video-edit-panel>
+        </div>
+
+
+    </template>
+  </dom-module>
+</body>

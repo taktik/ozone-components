@@ -1,0 +1,23 @@
+{
+  "name": "ozone-components",
+  "main": "demo.html",
+  "homepage": "http://dev.flower.could/polymer/",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^2.5.0",
+    "paper-button": "^2.1.0",
+    "iron-list": "^2.0.13",
+    "iron-ajax": "^2.1.3",
+    "iron-image": "^2.2.0",
+    "vaadin-upload": "^3.0.2",
+    "paper-input": "^2.2.0",
+    "paper-item": "^2.1.0",
+    "paper-listbox": "^2.1.0",
+    "iron-icons": "^2.1.1",
+    "iron-collapse": "^2.2.0",
+    "paper-icon-button": "^2.2.0"
+  },
+  "devDependencies": {
+    "web-component-tester": "Polymer/web-component-tester#^6.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
+  }
+}

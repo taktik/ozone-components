@@ -1,0 +1,96 @@
+[submodule "taktik_components/ozone-edit-entry"]
+	path = taktik_components/ozone-edit-entry
+	url = git@github.com:/taktik/ozone-edit-entry
+[submodule "taktik_components/ozone-edit-panel"]
+	path = taktik_components/ozone-edit-panel
+	url = git@github.com:/taktik/ozone-edit-panel
+[submodule "taktik_components/ozone-edit-text-entry"]
+	path = taktik_components/ozone-edit-text-entry
+	url = git@github.com:/taktik/ozone-edit-text-entry
+[submodule "taktik_components/ozone-item-abstract-view"]
+	path = taktik_components/ozone-item-abstract-view
+	url = git@github.com:/taktik/ozone-item-abstract-view
+[submodule "taktik_components/ozone-localized-string"]
+	path = taktik_components/ozone-localized-string
+	url = git@github.com:/taktik/ozone-localized-string
+[submodule "taktik_components/ozone-logout"]
+	path = taktik_components/ozone-logout
+	url = git@github.com:/taktik/ozone-logout
+[submodule "taktik_components/ozone-edit-set-entry"]
+	path = taktik_components/ozone-edit-set-entry
+	url = git@github.com:/taktik/ozone-edit-set-entry
+[submodule "taktik_components/ozone-free-text-search"]
+	path = taktik_components/ozone-free-text-search
+	url = git@github.com:/taktik/ozone-free-text-search
+[submodule "taktik_components/ozone-item-preview"]
+	path = taktik_components/ozone-item-preview
+	url = git@github.com:/taktik/ozone-item-preview
+[submodule "taktik_components/ozone-login"]
+	path = taktik_components/ozone-login
+	url = git@github.com:/taktik/ozone-login
+[submodule "taktik_components/ozone-media-edit"]
+	path = taktik_components/ozone-media-edit
+	url = git@github.com:/taktik/ozone-media-edit
+[submodule "taktik_components/ozone-upload"]
+	path = taktik_components/ozone-upload
+	url = git@github.com:/taktik/ozone-upload
+[submodule "taktik_components/ozone-api-authentication"]
+	path = taktik_components/ozone-api-authentication
+	url = git@github.com:/taktik/ozone-api-authentication
+[submodule "taktik_components/ozone-api-behaviors"]
+	path = taktik_components/ozone-api-behaviors
+	url = git@github.com:/taktik/ozone-api-behaviors
+[submodule "taktik_components/ozone-api-item"]
+	path = taktik_components/ozone-api-item
+	url = git@github.com:/taktik/ozone-api-item
+[submodule "taktik_components/ozone-api-login"]
+	path = taktik_components/ozone-api-login
+	url = git@github.com:/taktik/ozone-api-login
+[submodule "taktik_components/ozone-api-logout"]
+	path = taktik_components/ozone-api-logout
+	url = git@github.com:/taktik/ozone-api-logout
+[submodule "taktik_components/ozone-api-search"]
+	path = taktik_components/ozone-api-search
+	url = git@github.com:/taktik/ozone-api-search
+[submodule "taktik_components/ozone-api-type"]
+	path = taktik_components/ozone-api-type
+	url = git@github.com:/taktik/ozone-api-type
+[submodule "taktik_components/ozone-api-upload"]
+	path = taktik_components/ozone-api-upload
+	url = git@github.com:/taktik/ozone-api-upload
+[submodule "taktik_components/ozone-config"]
+	path = taktik_components/ozone-config
+	url = git@github.com:/taktik/ozone-config
+[submodule "taktik_components/ozone-collection"]
+	path = taktik_components/ozone-collection
+	url = git@github.com:/taktik/ozone-collection
+[submodule "taktik_components/ozone-media-url"]
+	path = taktik_components/ozone-media-url
+	url = git@github.com:/taktik/ozone-media-url
+[submodule "taktik_components/ozone-search-helper"]
+	path = taktik_components/ozone-search-helper
+	url = git@github.com:/taktik/ozone-search-helper
+[submodule "taktik_components/taktik-search-api-mixin"]
+	path = taktik_components/taktik-search-api-mixin
+	url = git@github.com:/taktik/taktik-search-api-mixin
+[submodule "taktik_components/taktik-free-text-search"]
+	path = taktik_components/taktik-free-text-search
+	url = git@github.com:/taktik/taktik-free-text-search
+[submodule "taktik_components/taktik-language-selection"]
+	path = taktik_components/taktik-language-selection
+	url = git@github.com:/taktik/taktik-language-selection
+[submodule "taktik_components/--force"]
+	path = taktik_components/--force
+	url = git@github.com:/taktik/ozone-mosaic
+[submodule "taktik_components/ozone-mosaic"]
+	path = taktik_components/ozone-mosaic
+	url = git@github.com:/taktik/ozone-mosaic
+[submodule "taktik_components/taktik-polymer-typescript"]
+	path = taktik_components/taktik-polymer-typescript
+	url = git@github.com:/taktik/taktik-polymer-typescript
+[submodule "taktik_components/ozone-video-player"]
+	path = taktik_components/ozone-video-player
+	url = git@github.com:/taktik/ozone-video-player
+[submodule "taktik_components/ozone-edit-number-entry"]
+	path = taktik_components/ozone-edit-number-entry
+	url = git@github.com:/taktik/ozone-edit-number-entry

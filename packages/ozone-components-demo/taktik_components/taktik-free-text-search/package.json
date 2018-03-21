@@ -1,0 +1,27 @@
+{
+  "name": "taktik-free-text-search",
+  "version": "1.0.0",
+  "description": "",
+  "main": "taktik-free-text-search.html",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "gulp test:browserstack"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^2.4.1"
+  },
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-browserstack": "^1.0.3",
+    "gulp-typescript": "^3.2.1",
+    "merge2": "^1.1.0",
+    "run-sequence": "^2.1.0",
+    "wct-junit-reporter": "git+https://github.com/marcelmeulemans/wct-junit-reporter.git",
+    "web-component-tester": "^6.0.0"
+  }
+}

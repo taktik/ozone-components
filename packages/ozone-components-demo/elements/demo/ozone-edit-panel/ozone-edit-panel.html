@@ -1,0 +1,100 @@
+<head>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=no">
+</head>
+<body>
+<dom-module id="ozone-edit-panel">
+    <template>
+        <style>
+            :host {
+                display: block;
+                --loader-color: {
+                    background-color: #585185;
+                    color: white;
+                };
+                --details-panel-background-color: {
+                     background:#FAFAFA;
+                };
+                --save-button-colors: {
+                    background: #2C2958;
+                    color:white;
+                }
+                --actions-icon-color: {
+                    color:#2C2958;
+                }
+                --details-panel-shade: {
+                    background:rgba(0,0,0,0.42);
+                }
+                --actions-background-color: {
+                    background: #fafafa;
+                }
+            }
+            .details-panel{
+                @apply --details-panel-background-color;
+                position:fixed;
+                height:100%;
+                width:50%;
+                top:0;
+                left:0;
+                overflow-Y:auto;
+                padding: 90px 16px;
+                box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 
+                            0 1px 5px 0 rgba(0, 0, 0, 0.12), 
+                            0 3px 1px -2px rgba(0, 0, 0, 0.2);
+                z-index: 3;
+
+            }
+            .details-panel:after{
+                content:'';
+                position:fixed;
+                height:100%;
+                width:calc(50% - 16px);
+                top:0;
+                right:0;
+                @apply --details-panel-shade;
+                z-index:2;
+            }
+            .actions-item{
+                display:flex;
+                flex-direction: row;
+                justify-content: flex-start;
+            }
+            .actions-icon{
+                @apply --actions-icon-color;
+            }
+            .actions-icon:first-child{
+                margin-left:-10px;
+            }
+            .save-btn{
+                @apply --save-button-colors;
+            }
+            .actions-button-container{
+                margin-right:10px;
+            }
+
+        </style>
+        <div class="details-panel" id="detailsPanel" hidden$="[[!display]]">
+            
+            <div>
+                <div class="actions" id="actions">
+                    <div class="actions-item">
+                        <div class="actions-icon"><paper-icon-button icon="favorite"></paper-icon-button></div>
+                        <div class="actions-icon"><paper-icon-button icon="info"></paper-icon-button></div>
+                        <break></break>
+                        <div class="actions-icon"><paper-icon-button icon="communication:rss-feed"></paper-icon-button></div>
+                        <div class="actions-icon"><paper-icon-button icon="file-download"></paper-icon-button></div>
+                        <div class="actions-icon"><paper-icon-button icon="delete"></paper-icon-button></div>
+                    </div>
+                    <div class="actions-button-container">
+                        <paper-button class="close-btn" id="closeBtn" on-tap="_closePanel">Close</paper-button>
+                        <paper-button class="save-btn"  id="saveBtn" on-tap="_save">Save</paper-button>
+                    </div>
+                </div>
+                
+                <ozone-media-edit id="mediaEditor" item-data={{selectedItem}} hidden="[[!display]]">NO editor</ozone-media-edit>
+                
+            </div>
+
+        </div>
+    </template>
+</dom-module>
+</body>

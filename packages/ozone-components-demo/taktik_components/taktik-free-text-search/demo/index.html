@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>taktik-free-text-search demo</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../taktik-free-text-search.html">
+
+    <custom-style>
+      <style is="custom-style" include="demo-pages-shared-styles">
+      </style>
+    </custom-style>
+  </head>
+  <body>
+    <div class="vertical-section-container centered">
+      <h3>Basic taktik-free-text-search demo</h3>
+
+      `taktik-free-text-search` is a horizontal free text taktik-search bar to any content.
+      The search api has to be set using metods‘registerAutoCompleteAPI‘ and ‘registerSearchAPI‘
+      <demo-snippet>
+        <template>
+               <paper-material elevation="1">
+                 <style is="custom-style">
+                   .customStyle {
+                       --taktik-search-button: {
+                         background-color: sienna;
+                         color: white;
+                       };
+                       --taktik-auto-complete-items: {
+                         font-family: serif;
+                       };
+                       --taktik-count-result-found:{
+                         color: darkgrey;
+                       }
+                       --taktik-input-color: {
+                         --paper-input-container-focus-color: #2C2958;
+                       }
+                     }
+                 </style>
+                 <taktik-free-text-search
+                         id="taktikFreeTextSearch"
+                         class="customStyle "
+                         search-value="{{search}}"
+                         show-item-count
+                         search-results="{{result}}">
+                   </taktik-free-text-search>
+          
+                 found {{result.length}} results with "{{search}}".
+               </paper-material>
+               <script>
+                 ...
+                     taktikFreeTextSearch.registerAutoCompleteAPI(autoCompleteAPI);
+                     taktikFreeTextSearch.registerSearchAPI(searchAPI);
+                 </script>
+        </template>
+      </demo-snippet>
+    </div>
+  </body>
+</html>

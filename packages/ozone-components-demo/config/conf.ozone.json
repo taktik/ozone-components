@@ -1,0 +1,43 @@
+{
+  "ozoneApi": {
+    "host": "/ozone",
+    "hostProxy": "https://test.admin.zasobynauki.pwr.edu.pl/",
+    "endPoints": {
+      "login": "/rest/v3/authentication/login/user",
+      "logout": "/rest/v3/authentication/logout",
+      "items": "/rest/v3/items",
+      "item": "/rest/v3/items/item",
+      "video": "/rest/v3/items/video",
+      "session": "/rest/v3/authentication/current/session",
+      "downloadRequest": "/rest/v2/media/download/request",
+      "uploadStart": "/rest/v2/media/upload/start",
+      "uploadId": "/rest/v2/media/upload/newid",
+      "upload": "/upload",
+      "uploadComplete": "/rest/v2/media/upload/complete",
+      "wait": "/rest/v2/task/wait",
+      "file": "/rest/v3/items/file",
+      "blob": "/rest/v3/blob",
+      "fileType": "/rest/v3/filetype",
+      "mediaplay": "/rest/v3/items/mediaplay"
+    },
+    "type": "/rest/v3/type/{type}",
+    "view": "/view",
+    "permissions": "/rest/v3/items/bulkGetPermissions",
+    "format": {
+      "type": {
+        "hls": "org.taktik.filetype.video.hls",
+        "flowr": "org.taktik.filetype.flowr.video",
+        "mp4": "org.taktik.filetype.video.mp4",
+        "mp3": "org.taktik.filetype.audio.mp3",
+        "original": "org.taktik.filetype.original",
+        "jpg": "org.taktik.filetype.image.preview.{SIZE}",
+        "png": "org.taktik.filetype.image.preview.{SIZE}"
+      },
+      "priority":{
+        "video": ["hls", "flowr", "original", "mp4"],
+        "audio": ["hls", "flowr", "mp4", "mp3", "original"]
+      }
+    },
+    "uploadChannel": "test.uploadChannelEditor"
+  }
+}

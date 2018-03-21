@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body unresolved>
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="ozone-free-text-search.html">
+<h3>Demo</h3>
+
+<dom-module id="ozone-free-text-search-demo">
+  <template>
+    <paper-material elevation="1">
+
+      <style>
+        :host .custom-style {
+          --taktik-search-button: {
+            background-color: sienna;
+            color: white;
+          }
+          --taktik-auto-complete-items: {
+            font-family: serif;
+          }
+          --taktik-count-result-found:{
+            color: darkgrey;
+          }
+        }
+      </style>
+      <div class="custom-style">
+      <ozone-free-text-search
+        search-value="{{search}}"
+        show-item-count
+        search-results="{{result}}"></ozone-free-text-search>
+
+      found {{result.length}} results with "{{search}}".
+      </div>
+    </paper-material>
+  </template>
+  <script>
+    class OzoneFreeTextSearchDemo extends Polymer.Element {
+      static get is () { return 'ozone-free-text-search-demo';}
+
+      static get properties() {
+        return  {
+          search: {
+              type: String,
+              value: 'ani'
+          },
+          result: {
+            type: Array
+          }
+        }
+      }
+    }
+    window.customElements.define(OzoneFreeTextSearchDemo.is, OzoneFreeTextSearchDemo);
+  </script>
+</dom-module>
+<ozone-free-text-search-demo></ozone-free-text-search-demo>
+</body>
+
+</html>

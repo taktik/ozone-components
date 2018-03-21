@@ -1,0 +1,10 @@
+# Created by .ignore support plugin (hsz.mobi)
+/bower_components/
+.idea/workspace.xml
+/bower_components/dist/
+/node_modules/
+/doc/
+.dist/
+/.idea/
+/src/**/*.js
+/src/**/*.d.ts

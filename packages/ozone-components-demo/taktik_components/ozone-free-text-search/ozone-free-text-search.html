@@ -1,0 +1,110 @@
+<script>
+    import "paper-listbox/paper-listbox.html"
+        import "paper-input/paper-input.html"
+        import "paper-item/paper-item.html"
+        import "paper-button/paper-button.html"
+        import "paper-material/paper-material.html"
+
+        import "iron-icons/iron-icons.html"
+        import "iron-flex-layout/iron-flex-layout.html"
+        import "iron-flex-layout/iron-flex-layout-classes.html"
+        import "iron-collapse/iron-collapse.html"
+
+        import "ozone-api-search/ozone-api-search.html"
+        import "taktik-free-text-search/taktik-free-text-search.html"
+</script>
+<!--
+
+
+`ozone-free-text-search` is a horizontal free text ozone-api-search bar to ozone content.
+It use `taktik-free-text-search` for the material and `ozone-api-search` as API.
+
+Example:
+
+```html
+    <paper-material elevation="1">
+      <style is="custom-style">
+        .customStyle {
+          --taktik-search-button: {
+            background-color: sienna;
+            color: white;
+          };
+          --taktik-auto-complete-items: {
+            font-family: serif;
+          };
+          --taktik-count-result-found:{
+            color: darkgrey;
+          }
+        }
+      </style>
+      <ozone-free-text-search
+        class="customStyle "
+        search-value="{{search}}"
+        show-item-count
+        search-results="{{result}}"></ozone-free-text-search>
+
+      found {{result.length}} results with "{{search}}".
+    </paper-material>
+```
+
+
+### Styling
+
+see `taktik-free-text-search`
+
+
+
+@demo elements/ozone-material/ozone-free-text-search/demo.html
+-->
+
+<dom-module id="ozone-free-text-search">
+  <template>
+
+    <ozone-api-search id="ozoneAutoComplete" suggest auto size="5"></ozone-api-search>
+    <ozone-api-search id="ozoneSearchItem"></ozone-api-search>
+
+    <taktik-free-text-search
+      id="freeTextSearch"
+      search-value="{{searchValue}}"
+      show-item-count$="{{showItemCount}}"
+      search-results="{{searchResults}}"></taktik-free-text-search>
+
+  </template>
+  <script>
+    class OzoneFreeTextSearch extends Polymer.Element {
+      static get is () { return 'ozone-free-text-search'; }
+
+      static get properties() {
+        return {
+          /**
+           * Value of the search query
+           */
+          searchValue: {
+            type: String,
+            notify: true
+          },
+          /**
+           * Array of search result.
+           */
+          searchResults: {
+            type: Array,
+            notify: true
+          },
+          /**
+           * display number of suggestion find
+           */
+          showItemCount: {
+            type: Boolean,
+            value: false
+          }
+        };
+      }
+      ready() {
+        super.ready();
+        this.$.freeTextSearch.registerAutoCompleteAPI(this.$.ozoneAutoComplete);
+        this.$.freeTextSearch.registerSearchAPI(this.$.ozoneSearchItem)
+      }
+    }
+    window.customElements.define(OzoneFreeTextSearch.is, OzoneFreeTextSearch);
+  </script>
+</dom-module>

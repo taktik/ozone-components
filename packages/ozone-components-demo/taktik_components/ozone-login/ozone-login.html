@@ -1,0 +1,299 @@
+<script>
+    import "polymer/polymer.html"
+    import "paper-button/paper-button.html"
+    import "paper-input/paper-input.html"
+    import * as Login from "ozone-api-authentication"
+</script>
+
+
+<!--
+`ozone-login` is a login facility for Ozone.
+
+Example:
+
+```html
+<style is="custom-style">
+  .customStyle {
+    --ozone-api-login-signin-input: {
+      background-color: green;
+      color: white;
+    };
+    --ozone-api-login-input-color: {
+      --paper-input-container-focus-color: red;
+    }
+  }
+</style>
+<ozone-login class="customStyle"></ozone-login>
+
+```
+
+### Events
+
+If you need to capture ozone api events *ozone-api-request-success* and *ozone-api-request-success*.
+You can add events listeners on:
+- $.login: OzoneApiLogin
+
+
+### Styling
+
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--ozone-api-login-error-theme`   | css mixin for connection error message in paper-button| `{color: red;}`
+`--ozone-api-login-username-input`   | css mixin for username paper-input element | `{}`
+`--ozone-api-login-password-input`   | css mixin for password paper-input element | `{}`
+`--ozone-api-login-signin-input`   | css mixin for sing in paper-button | `{}`
+`--ozone-api-login-input-color` | css mixin for inputs colors | '{--paper-input-container-focus-color: #2C2958;}'`
+`--ozone-api-login-title` | css mixin for login title style | '{}'`
+`--ozone-api-forgot-password-button` | css mixin for forgot password button style | '{}'`
+`--ozone-api-create-account-button` | css mixin for create account button style | '{}'`
+
+
+
+
+
+@demo elements/ozone-material/ozone-login/demo.html
+-->
+<dom-module id="ozone-login">
+
+  <template>
+    <style>
+      :host {
+        display: inherit;
+        font-family: 'Roboto', sans-serif;
+      }
+
+      :host .loginMenu-container{
+        max-width:450px;
+        margin:auto;
+      }
+
+      @media screen and (max-width:600px) {
+        :host .loginMenu-container{
+          width: 90%;
+          margin: 0 5%;
+        }
+      }
+
+      :host .loginMenu{
+        background:white;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+                    0 1px 5px 0 rgba(0, 0, 0, 0.12),
+                    0 3px 1px -2px rgba(0, 0, 0, 0.2);
+        padding:40px;
+      }
+
+      :host .login-error {
+        color: red;
+        text-align: center;
+        padding:10px 0 0 0;
+        text-transform: capitalize;
+        @apply --ozone-api-login-error-theme;
+      }
+
+      :host #username {
+        @apply --ozone-api-login-username-input;
+      }
+
+      :host #password {
+        @apply --ozone-api-login-password-input;
+      }
+
+      :host #signInBtn {
+        width:100%;
+        margin:32px 0 0;
+        @apply --ozone-api-login-signin-input;
+      }
+
+      :host .loginTitle{
+        @apply --ozone-api-login-title;
+        font-size:32px;
+        color:rgba(0,0,0,0.7);
+        text-align:center;
+        margin-bottom: 42px;
+        @apply --ozone-api-login-title;
+      }
+
+      :host paper-input{
+        @apply --ozone-api-login-input-color;
+      }
+
+      :host .smallBtn{
+        margin:24px 0 0;
+        font-size: 15px;
+        color: rgba(0,0,0,0.42);
+        padding:2px 0;
+        text-transform: capitalize;
+        --paper-button-disabled: {
+          background-color:transparent;
+        }
+      }
+
+      :host #forgotPasswordBtn{
+        width:inherit;
+        float:right;
+        @apply --ozone-api-forgot-password-button;
+      }
+
+      :host #CreateAccountBtn{
+        margin-right:auto;
+        margin-left:auto;
+        width:100%;
+        @apply --ozone-api-create-account-button;
+      }
+
+    </style>
+
+    <div class="loginMenu-container" hidden$="[[ isConnected ]]">
+      <h1 class="loginTitle">Sign In</h1>
+      <div id="loginMenu"  class="loginMenu">
+        <div>
+          <paper-input id="username" label="Username" name="username" value="{{username}}"></paper-input>
+          <paper-input id="password" label="Password" name="password" type="password" value="{{password}}"></paper-input>
+        </div>
+         <paper-button id="forgotPasswordBtn" class="smallBtn" disabled>Forgot Password ?</paper-button>
+        <div>
+          <paper-button id="signInBtn" on-tap="ozoneConnect">Sign in</paper-button>
+        </div>
+        <div class="login-error" hidden$="[[! displayedMessage]]">
+          {{displayedMessage}}
+        </div>
+      </div>
+      <paper-button id="CreateAccountBtn" class="smallBtn" disabled>Create Account</paper-button>
+    </div>
+
+  </template>
+  <script>
+    class OzoneLogin extends Polymer.Element {
+      static get is() {
+        return 'ozone-login';
+      }
+
+      static get properties() {
+        return {
+          /**
+           * Indicate if the user is connected.
+           * This property can be watch.
+           */
+          isConnected: {
+            type: Boolean,
+            value: false,
+            notify: true
+          },
+          /**
+           * Username to use for login.
+           */
+          username: {
+            type: String,
+            value: undefined,
+            notify: true
+          },
+          /**
+           * Password to use for login.
+           */
+          password: {
+            type: String,
+            value: undefined,
+            notify: false
+          },
+          /**
+           * Error message display to explain why the connection fail.
+           *
+           */
+          displayedMessage: {
+            type: String,
+            value: undefined,
+            notify: true
+          },
+
+        };
+      }
+
+      ready() {
+        super.ready();
+        const login = Login.getOzoneApiAuthentication();
+
+        document
+          .addEventListener("ozone-api-request-unauthorized", () => {
+            this.set("displayedMessage", "Connection error")
+              this.set("isConnected", false );
+          });
+
+        document
+          .addEventListener("ozone-login", () => {
+            this.set("displayedMessage", null);
+            this.set("isConnected", true );
+          });
+
+
+        this.$.username.addEventListener("keydown", (keypress) => {
+          if (keypress.key === 'Enter' || keypress.keyCode === 13) {
+            this.$.password.focus();
+          }
+        });
+        this.$.password.addEventListener("keydown", (keypress) => {
+          if (keypress.key === 'Enter' || keypress.keyCode === 13) {
+            this.$.signInBtn.dispatchEvent(new CustomEvent('tap', {
+              bubbles: true, composed: true,
+            }));
+          }
+        });
+
+        document.addEventListener('ozone-status-change',(event)=>{
+          this._updateConnectionStatus(event.detail);
+        });
+
+        document.addEventListener('ozone-logout',(event)=>{
+          this._updateConnectionStatus("disconnected");
+        });
+
+          login.checkConnectionStatus()
+              .then((isConnect)=>{
+                  if (isConnect) {
+                      this.dispatchEvent(new CustomEvent('ozone-login', {
+                          bubbles: true, composed: true,
+                      }))
+                  } else{
+                      this.dispatchEvent(new CustomEvent('ozone-logout', {
+                          bubbles: true, composed: true,
+                      }))
+                  }
+              })
+      }
+
+
+      _updateConnectionStatus(status){
+        if(status === "connected"){
+            this.set("isConnected", true );
+          } else if(status === "disconnected"){
+            this.set("isConnected", false );
+        }
+      }
+
+      /**
+       * Connect to Ozone
+       */
+      ozoneConnect() {
+          const login = Login.getOzoneApiAuthentication();
+          login.ozoneConnect(this.username, this.password)
+              .then((res)=>{
+                  if(res.status === 200) {
+                      this.dispatchEvent(new CustomEvent('ozone-login', {
+                          bubbles: true, composed: true,
+                      }));
+                      this.set("displayedMessage", null);
+                      this.set("isConnected", true );
+                  } else if (res.status === 403){
+                      this.set("displayedMessage", "invalid login or password");
+                      this.set("isConnected", false );
+                  } else {
+                      this.set("displayedMessage", "Connection error");
+                      this.set("isConnected", false );
+                  }
+              });
+      }
+    }
+    window.customElements.define(OzoneLogin.is, OzoneLogin);
+  </script>
+</dom-module>

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <link rel="import" href="taktik-free-text-search.html">
+  <link rel="import" href="../ozone-api-search/ozone-api-search.html">
+</head>
+
+<body>
+<h3>Demo</h3>
+
+<dom-module id="taktik-free-text-search-demo">
+  <template>
+    <paper-material elevation="1">
+
+      <style>
+        .customStyle {
+          --taktik-search-button: {
+            background-color: sienna;
+            color: white;
+          };
+          --taktik-auto-complete-items: {
+            font-family: serif;
+          };
+          --taktik-count-result-found:{
+            color: darkgrey;
+          }
+        }
+      </style>
+      <taktik-free-text-search
+        id="freeTextSearch"
+        class="customStyle "
+        search-value="{{search}}"
+        show-item-count
+        search-results="{{result}}"></taktik-free-text-search>
+
+      <ozone-api-search id="autoCompleteAPI" auto-complete auto size="5"></ozone-api-search>
+      <ozone-api-search id="searchAPI"></ozone-api-search>
+
+      found {{result.length}} results with "{{search}}".
+    </paper-material>
+  </template>
+  <script>
+    class TaktikFreeTextSearchDemo extends Polymer.Element {
+      static get is () { return 'taktik-free-text-search-demo';}
+
+      static get properties() {
+        return {
+          search: {
+            type: String,
+            value: 'ani'
+          },
+          result: {
+            type: Array
+          }
+        };
+      }
+
+      ready (){
+        super.ready();
+        this.$.freeTextSearch.registerAutoCompleteAPI(this.$.autoCompleteAPI);
+        this.$.freeTextSearch.registerSearchAPI(this.$.searchAPI)
+      }
+    }
+    window.customElements.define(TaktikFreeTextSearchDemo.is, TaktikFreeTextSearchDemo);
+  </script>
+</dom-module>
+</body>
+
+</html>

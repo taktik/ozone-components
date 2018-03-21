@@ -1,0 +1,42 @@
+<head>
+
+</head>
+<body>
+<dom-module id="ozone-media-edit">
+    <template>
+        <style>
+            :host {
+                --paper-input-container-focus-color: #2C2958;
+            }
+            *{
+                 font-family: 'Roboto', sans-serif;
+            }
+            .item-view{
+                display:flex;
+                flex-direction:column;
+            }
+            input{
+                @apply --paper-input-container-shared-input-style;
+                @apply --paper-input-container-focus-color;
+            }
+            .img-container{
+                flex-basis: 100%;
+                text-align: center;
+                margin-bottom:1em;
+                max-height:400px;
+                overflow:hidden;
+            }
+        </style>
+        <div class="item-view" hidden$="[[hidden]]">
+
+            <div class="img-container">
+                <template is="dom-if" if="[[!isVideo]]">
+                    <img src="[[previewImage]]">
+                </template>
+                <div id="player"></div>
+            </div>
+            <ozone-item-edit id="itemEdit" item-data="{{itemData}}">NO ozone-item-edit</ozone-item-edit>
+        </div>
+    </template>
+</dom-module>
+</body>
