@@ -18,16 +18,17 @@ var ALL_BROWSERS =
 
 
 var ret = {
-  'suites': ['test'],
-  'webserver': {
-    'pathMappings': []
-  },
+    //npm: true,
+    //moduleResolution: 'node',
+    //wctPackageName: 'web-component-tester',
+    'suites': ['test'],
+    'webserver': {
+        'pathMappings': []
+    },
     "plugins": {
-        "junit-reporter": {
-            output: {
-                path: "junitReport/",
-                name: "test-report.xml"
-            }
+        "local": {
+        },
+        "headless": {
         }
     }
 };
@@ -61,6 +62,10 @@ if(process.env.BROWSERSTACK_USER) {
     ret.plugins.local = {
         "browsers": ALL_BROWSERS.map((browser) => browser.browserName)
     };
+    ret.plugins.headless = {
+        "browsers": ALL_BROWSERS.map((browser) => browser.browserName)
+    };
+
 }
 
 module.exports = ret;

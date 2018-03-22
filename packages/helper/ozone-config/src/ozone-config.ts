@@ -1,5 +1,3 @@
-/// <amd-module name="ozone-config"/>
-
 import {OzoneAPIRequest} from 'ozone-api-request'
 import {jsElement} from "taktik-polymer-typescript";
 /**
@@ -56,18 +54,21 @@ const configUrl = './conf.ozone.json';
 const ozoneAPIRequest = new OzoneAPIRequest();
 ozoneAPIRequest.url = configUrl;
 ozoneAPIRequest.method = 'GET';
-const configPromise = ozoneAPIRequest.sendRequest()
-    .then((res:XMLHttpRequest) => {
-        return res.response.ozoneApi as ConfigType
-        })
-    .catch((failRequest: XMLHttpRequest)=>{
-        console.error('Unable to find config at ', configUrl);
-        throw new Error('Unable to find config')
-        });
-
 @jsElement()
 export class OzoneConfig {
+    private static configPromise: Promise<ConfigType> | null = null;
     static get(): Promise<ConfigType> {
-        return configPromise;
+        if(!OzoneConfig.configPromise){
+            OzoneConfig.configPromise = ozoneAPIRequest.sendRequest()
+                .then((res:XMLHttpRequest) => {
+                    return res.response.ozoneApi as ConfigType
+                })
+                .catch((failRequest: XMLHttpRequest)=>{
+                    console.error('Unable to find config at ', configUrl);
+                    throw new Error('Unable to find config')
+                });
+        }
+        return OzoneConfig.configPromise;
+
     };
 }

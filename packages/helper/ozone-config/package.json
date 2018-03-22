@@ -11,17 +11,36 @@
   "scripts": {
     "prepublish": "npm run build",
     "build": "tsc",
-    "test": "tsc && git diff --exit-code"
+    "test:run": "wct  --skip-plugin=local",
+    "test:build": "webpack --config webpack.test.js",
+    "test:build:watch": "webpack --config webpack.test.js --watch",
+    "test": "npm run test:build && npm run test:run"
   },
   "author": "hj@taktik",
   "license": "ISC",
   "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-es2015": "^6.24.1",
+    "clean-webpack-plugin": "^0.1.19",
+    "copy-webpack-plugin": "^4.5.1",
+    "html-webpack-plugin": "^3.0.7",
     "ozone-type": "git+https://git@bitbucket.taktik.be/scm/sandbox/ozone-type.git",
-    "typescript": "^2.7.2"
+    "polymer-webpack-loader": "^2.0.2",
+    "reflect-metadata": "^0.1.12",
+    "ts-loader": "^4.1.0",
+    "typescript": "^2.7.2",
+    "wct-headless": "^2.2.2",
+    "webpack": "^4.2.0",
+    "webpack-cli": "^2.0.12",
+    "webpack-dev-server": "^3.1.1"
   },
   "dependencies": {
     "@types/lodash": "^4.14.104",
     "ozone-api-request": "^0.0.1",
-    "taktik-polymer-typescript": "^0.0.1"
+    "taktik-polymer-typescript": "^0.0.1",
+    "web-component-tester": "^6.5.0"
   }
 }

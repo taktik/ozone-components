@@ -1,21 +1,5 @@
-<!doctype html>
-<html>
-<head>
-  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-  <title>ozone-manage-connection</title>
+  import '../src/ozone-config.ts';
 
-  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-  <script src="../../web-component-tester/browser.js"></script>
-
-  <!-- Step 1: import the element to test -->
-  <script src="../dist.ozone-config.js"></script>
-
-
-</head>
-<body>
-
-
-<script>
   describe('ozone-config tests', function() {
     let afterFunctions = [],
       server,
@@ -31,7 +15,6 @@
       });
       afterFunctions = [];
     });
-
     it('should request ozone config file and expose config in configPromise', (done) => {
       // -- Configure mock server
       server.respondWith(
@@ -44,7 +27,6 @@
         ]
       );
       // -- start test
-
       OzoneConfig.get().then(function(config){
         expect(config).to.deep.equal({server: "https://alpha.flowr.cloud/",endpoint: "ozone/"});
       })
@@ -68,11 +50,11 @@
         ]
       );
       // -- start test
-      OzoneConfig.get().catch((event) => {
-        assert.isDefined(event.detail.error);
+      OzoneConfig.configPromise = null;
+          OzoneConfig.get().catch((event) => {
+        assert.isDefined(event);
         done()
       });
       server.respond(); //Flush server
     });
   });
-</script>

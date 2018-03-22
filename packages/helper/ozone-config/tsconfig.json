@@ -19,5 +19,5 @@
     /* Generates corresponding '.d.ts' file. */
     "outDir": "./dist",
     "strict": true
-    }
+  }
 }
