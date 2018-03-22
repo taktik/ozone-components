@@ -13,6 +13,7 @@ import {OzoneEditEntryBehavior} from './ozone-edit-entry/ozone-edit-entry'
 import './ozone-edit-set-entry/ozone-edit-set-entry';
 import './ozone-edit-text-entry/ozone-edit-text-entry';
 import './ozone-edit-number-entry/ozone-edit-number-entry';
+import './ozone-edit-json-entry/ozone-edit-json-entry';
 
 import 'ozone-api-type'
 import {FieldsPermission} from 'ozone-api-type'
@@ -151,6 +152,9 @@ export class OzoneItemEdit  extends Polymer.Element  {
             case 'float':
             case 'double':
                 editableItemName = 'ozone-edit-number-entry';
+                break;
+            case 'map<ref<document>>':
+                editableItemName = 'ozone-edit-json-entry';
                 break;
         }
         return editableItemName
