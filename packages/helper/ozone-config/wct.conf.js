@@ -18,9 +18,6 @@ var ALL_BROWSERS =
 
 
 var ret = {
-    //npm: true,
-    //moduleResolution: 'node',
-    //wctPackageName: 'web-component-tester',
     'suites': ['test'],
     'webserver': {
         'pathMappings': []

@@ -9,7 +9,8 @@
   },
   "scripts": {
     "build": "tsc",
-    "prepublish": "tsc"
+    "prepublish": "tsc",
+    "test": "tsc"
   },
   "keywords": [],
   "author": "",

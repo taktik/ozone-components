@@ -11,7 +11,8 @@
     "tsc": "tsc",
     "prepublish": "npm run build",
     "postinstall": "bower install",
-    "test": "npm run build",
+    "pretest": "npm run build",
+    "test": "wct  --skip-plugin=local",
     "build": "bower install && webpack --config webpack.config.js",
     "demo": "webpack-dev-server --config webpack.config.js"
   },

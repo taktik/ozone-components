@@ -109,7 +109,8 @@ export class OzoneCollection  extends Polymer.Element{
      */
     async search(searchQuery:SearchQuery): Promise<Array<Item>>{
         this._verifySource();
-        this._searchIterator = await this._getSource.search(searchQuery) as SearchGenerator;
+        //@ts-ignore TS2352
+        this._searchIterator = (await this._getSource.search(searchQuery)) as SearchGenerator;
         return this.loadNextItems()
     }
 

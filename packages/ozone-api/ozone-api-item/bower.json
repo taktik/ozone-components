@@ -1,7 +1,10 @@
 {
-  "name": "my-app",
-  "description": "",
-  "authors": [],
+  "name": "ozone-api-item",
+  "description": "Ozone config loader",
+  "main": "dist/ozone-config.js",
+  "authors": [
+    "hj@taktik"
+  ],
   "license": "ISC",
   "homepage": "",
   "ignore": [
@@ -11,7 +14,7 @@
     "test",
     "tests"
   ],
-  "devDependencies": {
+  "dependencies": {
     "web-component-tester": "^6.5.0"
   }
 }

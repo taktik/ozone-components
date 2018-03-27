@@ -1,19 +1,30 @@
 /* webpack.config.js */
 
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const Clean = require('clean-webpack-plugin');
-const path = require('path');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
+var Clean = require('clean-webpack-plugin');
+var path = require('path');
+console.log(path.resolve(__dirname))
+const plugins = [
+    new CopyWebpackPlugin([{
+        from: path.resolve(__dirname, 'bower_components/webcomponentsjs/*.js'),
+        to: 'bower_components/webcomponentsjs/[name].[ext]'
+    }]),
+    new CopyWebpackPlugin([{
+        from: path.resolve(__dirname, 'bower_components/web-component-tester/*.js'),
+        to: 'bower_components/web-component-tester/[name].[ext]'
+    }]),
+    new Clean(['test/build']),
+];
+
 
 module.exports = {
     // Tell Webpack which file kicks off our app.
-    entry: {
-        index: path.resolve(__dirname, 'src/index.ts'),
-    },
+    entry: path.resolve(__dirname, 'test/ozone-media-url_test.js'),
     // Tell Weback to output our bundle to ./dist/bundle.js
     output: {
-        filename: '[name].js',
-        path: path.resolve(__dirname, 'build')
+        filename: '[name]_test.js',
+        path: path.resolve(__dirname, 'test/build')
     },
     // Tell Webpack which directories to look in to resolve import statements.
     // Normally Webpack will look in node_modules by default but since we’re overriding
@@ -26,6 +37,9 @@ module.exports = {
 
         ],
         extensions: ['.ts', '.tsx', '.js', '.jsx', '.html']
+    },
+    externals: {
+        'sinon': 'sinon',
     },
     // These rules tell Webpack how to process different module types.cd ..
     // Remember, *everything* is a module in Webpack. That includes
@@ -56,22 +70,11 @@ module.exports = {
         ]
     },
     mode: 'development',
-    plugins: [
-        // This plugin will generate an index.html file for us that can be used
-        // by the Webpack dev server. We can give it a template file (written in EJS)
-        // and it will handle injecting our bundle for us.
-        new HtmlWebpackPlugin({
-            inject: false,
-            template: path.resolve(__dirname, 'src/index.ejs')
-        }),
-        // This plugin will copy files over to ‘./dist’ without transforming them.
-        // That's important because the custom-elements-es5-adapter.js MUST
-        // remain in ES2015. We’ll talk about this a bit later :)
-        new CopyWebpackPlugin([{
-            from: path.resolve(__dirname, 'bower_components/webcomponentsjs/*.js'),
-            to: 'bower_components/webcomponentsjs/[name].[ext]'
-        }]),
-
-        new Clean(['build']),
-    ],
+    plugins: plugins,
+    devServer: {
+    contentBase: path.join(__dirname),
+        compress: true,
+        overlay: true,
+        port: 9000,
+},
 };

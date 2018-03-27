@@ -10,11 +10,13 @@
   "types": "dist/ozone-config.d.ts",
   "scripts": {
     "prepublish": "npm run build",
+    "postinstall": "bower install",
     "build": "tsc",
     "test:run": "wct  --skip-plugin=local",
     "test:build": "webpack --config webpack.test.js",
     "test:build:watch": "webpack --config webpack.test.js --watch",
-    "test": "npm run test:build && npm run test:run"
+    "pretest": "npm run test:build",
+    "test": "npm run test:run"
   },
   "author": "hj@taktik",
   "license": "ISC",

@@ -8,8 +8,8 @@
 
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <script src="../../web-component-tester/browser.js"></script>
+    <script src="../build/index.js"></script>
 
-    <link rel="import" href="../ozone-upload.html">
   </head>
   <body>
 
@@ -31,6 +31,10 @@
           test('is a web component ', function() {
               var element = fixture('BasicTestFixture');
               expect(element).to.be.an.instanceOf(OzoneUpload)
+          });
+          test('expose vaadin-upload ', function() {
+              var element = fixture('BasicTestFixture');
+              expect(element.vaadinUpload.is).to.equal('vaadin-upload')
           });
 
       });

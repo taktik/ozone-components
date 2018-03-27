@@ -67,7 +67,6 @@ export class OzoneMediaUrl {
     async getVideoUrl():Promise<string>{
 
         const formatName = await this.getPreferedVideoFormat();
-
         if(formatName) {
             return this
                 ._buildBaseUrl([this.getNumericId(),
@@ -136,8 +135,6 @@ export class OzoneMediaUrl {
 
         for (let format of this.config.format.priority.video){
             const ressourceToUse = avaliableRessource.find((ressource)=>{
-
-
 
                 const fileType = videoFileTypes.find((videoFileType)=>{
                     if(videoFileType && videoFileType.id)

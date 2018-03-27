@@ -9,6 +9,7 @@
   },
   "scripts": {
     "prepublish": "npm run tsc",
+    "postinstall": "bower install",
     "build": "webpack --config webpack.config.js",
     "tsc": "tsc",
     "demo": "webpack-dev-server --config webpack.config.js",

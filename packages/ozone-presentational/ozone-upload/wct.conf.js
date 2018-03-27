@@ -9,7 +9,6 @@ var ALL_BROWSERS =
         },
         {
             maxInstances: 1,
-            version:54,
             browserName: 'firefox',
             os: 'OS X',
             os_version: 'Sierra',
@@ -24,11 +23,9 @@ var ret = {
     'pathMappings': []
   },
     "plugins": {
-        "junit-reporter": {
-            output: {
-                path: "junitReport/",
-                name: "test-report.xml"
-            }
+        "local": {
+        },
+        "headless": {
         }
     }
 };
@@ -62,6 +59,10 @@ if(process.env.BROWSERSTACK_USER) {
     ret.plugins.local = {
         "browsers": ALL_BROWSERS.map((browser) => browser.browserName)
     };
+    ret.plugins.headless = {
+        "browsers": ALL_BROWSERS.map((browser) => browser.browserName)
+    };
+
 }
 
 module.exports = ret;
