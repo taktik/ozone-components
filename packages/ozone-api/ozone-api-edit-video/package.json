@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Ozone API to save a edited video",
   "scripts": {
-    "test": "tsc && git diff --exit-code",
+    "test": "tsc",
     "build": "tsc",
     "prepublish": "npm run build",
     "doc": "typedoc  --out  doc/"

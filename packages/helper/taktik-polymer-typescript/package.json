@@ -6,7 +6,7 @@
     "types": "dist/src/index.d.ts",
     "scripts": {
         "prepublish": "npm run build",
-        "test": "tsc && git diff --exit-code",
+        "test": "echo 'NO test in taktik-polymer-typescript'",
         "build": "tsc"
     },
     "keywords": [],

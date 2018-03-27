@@ -22,7 +22,8 @@
     "@types/lodash": "^4.14.104",
     "global": "^4.3.2",
     "ozone-api-request": "^0.0.1",
-    "ozone-config": "^0.0.1"
+    "ozone-config": "^0.0.1",
+    "reflect-metadata": "^0.1.12"
   },
   "devDependencies": {
     "@types/chai": "^4.1.2",

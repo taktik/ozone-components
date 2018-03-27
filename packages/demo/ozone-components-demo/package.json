@@ -9,7 +9,7 @@
   "scripts": {
     "install": "npm install",
     "postinstall": "bower install",
-    "test": "gulp test:browserstack",
+    "test": "echo 'no test in ozone-components-demo'",
     "demo": "webpack-dev-server --config webpack.config.js",
     "start": "webpack --config webpack.config.js",
     "doc": "typedoc  --out  doc/"

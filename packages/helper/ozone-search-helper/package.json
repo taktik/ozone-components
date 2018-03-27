@@ -11,7 +11,7 @@
   "scripts": {
     "prepublish": "npm run build",
     "build": "tsc",
-    "test": "tsc && git diff --exit-code"
+    "test": "tsc"
   },
   "author": "hj@taktik",
   "license": "ISC",
