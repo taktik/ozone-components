@@ -3,10 +3,10 @@
   "packages": [
     "packages/*",
     "packages/demo/*",
-    "packages/helper/*",
+    "packages/ozone-helper/*",
     "packages/ozone-api/*",
     "packages/ozone-logic/*",
-    "packages/ozone-presentational/*"
+    "packages/ozone-material/*"
   ],
   "version": "0.0.1"
 }
