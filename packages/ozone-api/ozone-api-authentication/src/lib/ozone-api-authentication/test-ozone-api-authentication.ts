@@ -1,5 +1,6 @@
 import './ozone-api-authentication'
 import {OzoneApiAuthentication, getOzoneApiAuthentication} from './ozone-api-authentication'
+import {OzoneConfig} from 'ozone-config'
 import * as sinon from 'sinon'
 
 describe('ozone-api-authentication', function() {
@@ -10,9 +11,13 @@ describe('ozone-api-authentication', function() {
         callback()
     };
 
-    beforeEach(()=>{
+    beforeEach((done)=>{
         eventToListen = null;
-        server = sinon.fakeServer.create();
+        //server = sinon.fakeServer.create();
+        OzoneConfig.get().then(()=>{
+            server = sinon.fakeServer.create(); 
+            done();
+        });
     });
 
     afterEach((done)=>{

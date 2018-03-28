@@ -1,4 +1,5 @@
 import '../src/ozone-api-item.ts'
+import 'ozone-config'
 describe('ozone-api-login tests', function () {
     describe('CRUD operation', function () {
 
@@ -8,10 +9,11 @@ describe('ozone-api-login tests', function () {
 
         beforeEach((done) => {
 
-            element = new OzoneApiItem();
-
-            server = sinon.fakeServer.create();
-            flush(done);
+            OzoneConfig.get().then(()=>{
+                element = new OzoneApiItem();
+                server = sinon.fakeServer.create();
+                flush(done);
+            });
           });
 
         afterEach(() => {
@@ -37,7 +39,6 @@ describe('ozone-api-login tests', function () {
                     done();
                 })
                 .catch((err)=>{
-                    debugger
                     done(err);
                 });
             setTimeout(()=> server.respond()); //Flush server

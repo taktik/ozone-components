@@ -15,18 +15,20 @@ describe('ozone-api-type tests', function () {
 
         beforeEach((done) => {
 
-            server = sinon.fakeServer.create();
-            server.respondWith(
-                'GET',
-                'ozone/rest/v3/type/item',
-                [
-                    200,
-                    responseHeaders.json,
-                    JSON.stringify(type)
-                ]);
+            OzoneConfig.get().then(()=>{
+                server = sinon.fakeServer.create();
+                server.respondWith(
+                    'GET',
+                    'ozone/rest/v3/type/item',
+                    [
+                        200,
+                        responseHeaders.json,
+                        JSON.stringify(type)
+                    ]);
 
-            element = getOzoneApiType();
-            flush(done); //make sure every components are ready
+                element = getOzoneApiType();
+                flush(done); //make sure every components are ready
+            });
         });
 
         afterEach(() => {
