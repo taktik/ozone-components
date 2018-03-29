@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "wct --skip-plugin=local",
-    "prepublish": "npm run start",
+    "prepublish": "npm run build",
     "postinstall": "bower install",
     "build": "tsc",
     "verify": "git diff --exit-code",
@@ -52,14 +52,15 @@
     "@webcomponents/webcomponentsjs": "^1.1.0",
     "clappr": "^0.2.87",
     "clappr-markers-plugin": "git+https://github.com/hubjac1/clappr-markers-plugin.git",
-    "ozone-api-request": "^0.0.1",
-    "ozone-search-helper": "^0.0.1",
     "ozone-api-item": "^0.0.1",
+    "ozone-api-request": "^0.0.1",
     "ozone-config": "^0.0.1",
     "ozone-media-url": "^0.0.1",
+    "ozone-search-helper": "^0.0.1",
     "ozone-type": "git+https://git@bitbucket.taktik.be/scm/sandbox/ozone-type.git",
     "reflect-metadata": "^0.1.12",
     "taktik-polymer-typescript": "^0.0.1",
+    "typedoc": "^0.11.1",
     "uuid": "^3.2.1",
     "webcomponents.js": "^0.7.24"
   }

@@ -1,1 +1,1 @@
-export * from './ozone-upload.ts'
+export * from  './ozone-upload'

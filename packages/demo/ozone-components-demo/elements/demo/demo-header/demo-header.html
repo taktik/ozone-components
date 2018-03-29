@@ -12,6 +12,15 @@ demo header
 
     class DemoHeader extends Polymer.Element {
         static get is () { return 'demo-header';}
+        static get properties() {
+            return {
+                selected: {
+                    type: Number,
+                    value: 0,
+                    notify: true
+                }
+            };
+        }
     }
     window.customElements.define(DemoHeader.is, DemoHeader);
 </script>
@@ -81,10 +90,10 @@ Custom property | Description | Default
     </style>
 
     <div class="header">
-        <paper-menu-button>
-        <paper-button class="header-btn" focused><a href="index.html">Home</a></paper-button>
-        <paper-button class="header-btn"><a href="doc/index.html">Documentation</a></paper-button>
-        </paper-menu-button>
+        <paper-tabs selected="{{selected}}">
+        <paper-tab class="header-btn" focused>Home</paper-tab>
+        <paper-tab class="header-btn">Documentation</paper-tab>
+        </paper-tabs>
         <ozone-logout></ozone-logout>
     </div>
   </template>

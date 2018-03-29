@@ -19,6 +19,7 @@
     "gulp": "^3.9.1",
     "gulp-build": "^0.5.3",
     "gulp-clean": "^0.3.2",
-    "gulp-inject": "^4.2.0"
+    "gulp-inject": "^4.2.0",
+    "typedoc": "^0.11.1"
   }
 }

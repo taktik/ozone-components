@@ -42,6 +42,7 @@
     "ozone-config": "^0.0.1",
     "ozone-search-helper": "^0.0.1",
     "taktik-polymer-typescript": "^0.0.1",
+    "typedoc": "^0.11.1",
     "webpack": "^4.3.0"
   }
 }

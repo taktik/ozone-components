@@ -1,4 +1,9 @@
+import "polymer/polymer.html"
 import "polymer/polymer-element.html"
+import "marked-element/marked-element.html"
+import "iron-pages/iron-pages.html"
+import "paper-tabs/paper-tabs.html"
+import "paper-tabs/paper-tab.html"
 import "../demo-header/demo-header.html"
 import "taktik-free-text-search/taktik-free-text-search.html"
 import "ozone-api-search"
@@ -32,6 +37,9 @@ class OzoneComponentsDemo extends Polymer.Element {
                 type: Array
             },
             numberOfResults: {
+                type: Number
+            },
+            selectedPage: {
                 type: Number
             },
             isConnected: {

@@ -1,15 +1,20 @@
 {
-	"name": "ozone-frontend-modules",
+	"name": "ozone-components",
 	"version": "0.0.1",
 	"author": "hj@taktik.com",
 	"license": "ISC",
 	"description": "JavaScript modules for Ozone",
 	"scripts": {
+		"bootstrap": "lerna bootstrap",
 		"pretest": "lerna bootstrap",
 		"test": "lerna run test",
-		"demo": "lerna run --scope ozone-components-demo demo"
+		"demo": "lerna run --scope ozone-components-demo demo",
+		"build": "lerna run --scope ozone-components-demo build",
+		"doc": "lerna run doc"
 	},
 	"devDependencies": {
-		"lerna": "^2.9.0"
+		"lerna": "^2.9.0",
+		"typedoc": "^0.11.1",
+		"gulp": "^3.9.1"
 	}
 }

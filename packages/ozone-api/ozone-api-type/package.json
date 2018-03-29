@@ -47,7 +47,7 @@
     "polymer-webpack-loader": "^2.0.2",
     "taktik-polymer-typescript": "^0.0.1",
     "ts-loader": "^2.3.7",
-    "typedoc": "^0.9.0",
+    "typedoc": "^0.11.1",
     "wct-headless": "^2.2.2",
     "wct-istanbul": "^0.12.4",
     "web-component-tester": "^6.5.0",

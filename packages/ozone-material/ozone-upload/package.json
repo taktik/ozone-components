@@ -53,6 +53,7 @@
     "ozone-config": "^0.0.1",
     "reflect-metadata": "^0.1.10",
     "taktik-polymer-typescript": "^0.0.1",
+    "typedoc": "^0.11.1",
     "webcomponents.js": "^0.7.24"
   }
 }

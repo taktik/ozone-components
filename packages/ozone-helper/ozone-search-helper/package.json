@@ -16,12 +16,13 @@
   "author": "hj@taktik",
   "license": "ISC",
   "devDependencies": {
-    "typescript": "^2.7.2",
-    "ozone-type": "git+https://git@bitbucket.taktik.be/scm/sandbox/ozone-type.git"
+    "ozone-type": "git+https://git@bitbucket.taktik.be/scm/sandbox/ozone-type.git",
+    "typescript": "^2.7.2"
   },
   "dependencies": {
     "@types/lodash": "^4.14.104",
     "ozone-api-request": "^1.0.4",
-    "taktik-polymer-typescript": "^2.3.2"
+    "taktik-polymer-typescript": "^2.3.2",
+    "typedoc": "^0.11.1"
   }
 }

@@ -17,22 +17,22 @@ See demo application [demo](demo.html)
 ## Modules
 
 - ozone-helper:
- - [ozone-type]() Declaration of ozone type
- - [ozone-config]() Expose ozone API configuration. Configuration is loaded from ./conf.ozone.json
- - [ozone-search-helper]() Helper for ozone search queries
- - [taktik-polymer-typescript]() Module providing development facilities for ozone polymer and typescript modules.
+ - [ozone-type](packages/ozone-helper/ozone-type) Declaration of ozone type
+ - [ozone-config](packages/ozone-helper/ozone-config) Expose ozone API configuration. Configuration is loaded from ./conf.ozone.json
+ - [ozone-search-helper](packages/ozone-helper/ozone-search-helper) Helper for ozone search queries
+ - [taktik-polymer-typescript](packages/ozone-helper/taktik-polymer-typescript) Module providing development facilities for ozone polymer and typescript modules.
 - ozone-api
- - [ozone-api-type]() ozone-api-type is low level polymer module to ozone type. It provide read operation on collection type.
- - [ozone-api-authentication]() Low level wrapper around ozone login, logout and authentication api
- - [ozone-api-upload]() UploadFileRequest is a JavaScrip class that can be use as an XMLHttpRequest to upload media using ozone v2 upload chanel.
- - [ozone-api-edit-video]() ES6 module written in typeScript to save selected video chunks.
- - [ozone-api-item]() low level es6 module to ozone api. It provide CRUD operation and search in a given collection.
+ - [ozone-api-type](packages/ozone-api/ozone-api-type) ozone-api-type is low level polymer module to ozone type. It provide read operation on collection type.
+ - [ozone-api-authentication](packages/ozone-api/ozone-api-authentication) Low level wrapper around ozone login, logout and authentication api
+ - [ozone-api-upload](packages/ozone-api/ozone-api-upload) UploadFileRequest is a JavaScrip class that can be use as an XMLHttpRequest to upload media using ozone v2 upload chanel.
+ - [ozone-api-edit-video](packages/ozone-api/ozone-api-edit-video) ES6 module written in typeScript to save selected video chunks.
+ - [ozone-api-item](packages/ozone-api/ozone-api-item) low level es6 module to ozone api. It provide CRUD operation and search in a given collection.
 - ozone-logic
- - [ozone-collection]() generic polymer web-component to manage collection of ozone items.
- - [ozone-media-url]() Helper to convert ozone id to media preview.
+ - [ozone-collection](packages/ozone-logic/ozone-collection) generic polymer web-component to manage collection of ozone items.
+ - [ozone-media-url](packages/ozone-logic/ozone-media-url) Helper to convert ozone id to media preview.
 - ozone-material
- - [ozone-video-player]() WebComponent that play video from Ozone.
- - [ozone-upload]() configurable web component to upload files on ozone. Based on vaadin-upload.
+ - [ozone-video-player](packages/ozone-material/ozone-video-player) WebComponent that play video from Ozone.
+ - [ozone-upload](packages/ozone-material/ozone-upload) configurable web component to upload files on ozone. Based on vaadin-upload.
 
 ## Get start
 

@@ -12,7 +12,7 @@ import 'ozone-api-edit-video';
 import {OzoneApiEditVideo} from 'ozone-api-edit-video';
 
 import 'ozone-video-player'
-import {OzoneVideoPlayer, MarkerOnVideo} from 'ozone-video-player'
+import {OzoneVideoPlayer} from 'ozone-video-player'
 /**
  * <ozone-edit-panel> is an element that display an ozone media edit in a panel.
  *

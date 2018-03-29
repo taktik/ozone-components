@@ -1,10 +1,9 @@
 language: node_js
 node_js:
-  - '7'
+  - '9'
 
 before_script:
-  - npm install -g bower
-  - bower install
 
 script:
+  - npm run bootstrap
   - npm run test

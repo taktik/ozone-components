@@ -1,10 +1,12 @@
-<script>
+
     import "polymer/polymer.html"
     import "polymer/polymer-element.html"
     import "marked-element/marked-element.html"
-</script>
+    import './documentation.html'
 
-<marked-element>
-    <div slot="markdown-html"></div>
-    <script type="text/markdown" src="README.md"></script>
-</marked-element>
+    class OzoneDocumentation extends Polymer.Element {
+        static get is() {
+            return 'ozone-documentation';
+        }
+    }
+    window.customElements.define(OzoneDocumentation.is, OzoneDocumentation);

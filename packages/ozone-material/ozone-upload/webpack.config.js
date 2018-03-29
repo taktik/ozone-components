@@ -11,7 +11,7 @@ const path = require('path');
 console.log(path.resolve(__dirname))
 module.exports = {
     // Tell Webpack which file kicks off our app.
-    entry: path.resolve(__dirname, 'src/index.js'),
+    entry: path.resolve(__dirname, 'src/index.ts'),
     // Tell Weback to output our bundle to ./dist/bundle.js
     output: {
         filename: 'index.js',

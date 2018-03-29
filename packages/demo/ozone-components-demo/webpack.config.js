@@ -10,10 +10,13 @@ const setupServerMockup = require('./elements/serverMockup');
 const modulePath = 'elements'; //'taktik_components/ozone-video-player/';//
 module.exports = {
     // Tell Webpack which file kicks off our app.
-    entry: path.resolve(__dirname, modulePath, 'index.js'),
+    entry: {
+        "index": path.resolve(__dirname, modulePath, 'index.js'),
+        "doc": path.resolve(__dirname, modulePath, 'documentation/documentation.js'),
+},
     // Tell Weback to output our bundle to ./dist/bundle.js
     output: {
-        filename: 'index.js',
+        filename: '[name].js',
         path: path.resolve(__dirname, 'dist')
     },
     // Tell Webpack which directories to look in to resolve import statements.
@@ -24,6 +27,7 @@ module.exports = {
         alias: {
             Clappr: 'clappr/src/main.js',
             clappr: 'clappr/src/main.js',
+            "../../marked/lib/marked.js": 'marked/lib/marked.js',
             //"polymer/polymer.html": "polymer/polymer-element.html",
             'clappr-zepto':'clappr-zepto/zepto.js',
             "../../../shadycss/apply-shim.html": "@webcomponents/shadycss/apply-shim.html",
@@ -109,7 +113,14 @@ module.exports = {
         // and it will handle injecting our bundle for us.
         new HtmlWebpackPlugin({
             inject: false,
-            template: path.resolve(__dirname, modulePath, 'index.ejs')
+            template: path.resolve(__dirname, modulePath, 'index.ejs'),
+            chunks: ['index']
+        }),
+        new HtmlWebpackPlugin({
+            inject: false,
+            filename: 'documentation.html',
+            template: path.resolve(__dirname, modulePath, 'doc.ejs'),
+            chunks: ['doc']
         }),
         // This plugin will copy files over to ‘./dist’ without transforming them.
         // That's important because the custom-elements-es5-adapter.js MUST
@@ -121,6 +132,19 @@ module.exports = {
         new CopyWebpackPlugin([{
             from: path.resolve(__dirname, 'config/conf.ozone.json'),
             to: 'conf.ozone.json'
+        }]),
+        new CopyWebpackPlugin([{
+            from: path.resolve(__dirname, '../../../lerna.json'),
+            to: 'lerna.json',
+        }]),
+        new CopyWebpackPlugin([{
+            from: path.resolve(__dirname, '../../../README.md'),
+            to: 'README.md',
+        }]),
+        new CopyWebpackPlugin([{
+            from: '../../ozone-*/*/doc/**',
+            to: 'packages/[1]/[2]/[3]',
+            test: /(ozone-.*)\/(.*)\/doc\/(.*)$/,
         }]),
         new webpack.DefinePlugin({
             VERSION: JSON.stringify(require('./node_modules/clappr/package.json').version),

@@ -1,1 +1,1 @@
-import "./ozone-collection"
+export * from  "./ozone-collection"

@@ -10,7 +10,6 @@ import {OzoneMediaUrl, OzonePreviewSize, SizeEnum} from 'ozone-media-url'
 import {Video} from 'ozone-type'
 import{ozoneApiMediaplay, ReportInterval_ms} from './ozone-api-mediaplay'
 import {WCMediaControl} from './MediaControl'
-
 /**
  * `<ozone-video-player>`
  *

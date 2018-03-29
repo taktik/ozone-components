@@ -9639,8 +9639,9 @@ RegisterHtmlTemplate.toBody("<custom-style> <style is=custom-style>html{--google
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ozone_upload_ts__ = __webpack_require__(33);
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "OzoneUpload", function() { return __WEBPACK_IMPORTED_MODULE_0__ozone_upload_ts__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ozone_upload__ = __webpack_require__(33);
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "OzoneUpload", function() { return __WEBPACK_IMPORTED_MODULE_0__ozone_upload__["a"]; });
+
 
 
 /***/ }),
