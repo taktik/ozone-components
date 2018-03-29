@@ -9,6 +9,7 @@
   "main": "dist/ozone-media-url.js",
   "types": "dist/ozone-media-url.d.ts",
   "scripts": {
+    "postinstall": "bower install",
     "prepublish": "npm run build",
     "build": "tsc",
     "pretest": "webpack --config webpack.test.js",
