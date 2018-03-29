@@ -10,13 +10,14 @@
   "scripts": {
     "build": "tsc",
     "prepublish": "tsc",
-    "test": "tsc"
+    "test": "tsc",
+    "doc": "typedoc --entryPoint src/index.ts --out  doc/ src/"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "ozone-type": "git+https://git@bitbucket.taktik.be/scm/sandbox/ozone-type.git",
+    "ozone-type": "^0.0.1",
     "typescript": "^2.7.2"
   },
   "dependencies": {

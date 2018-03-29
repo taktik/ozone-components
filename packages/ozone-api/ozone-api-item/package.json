@@ -10,7 +10,8 @@
     "prepublish": "npm run build",
     "pretest": "webpack --config webpack.test.js",
     "test": "wct  --skip-plugin=local",
-    "build": "tsc"
+    "build": "tsc",
+    "doc": "typedoc --entryPoint src/index.ts --out  doc/ src/"
   },
   "keywords": [],
   "author": "",
@@ -36,7 +37,7 @@
     "clean-webpack-plugin": "^0.1.19",
     "copy-webpack-plugin": "^4.5.1",
     "html-webpack-plugin": "^3.0.7",
-    "ozone-type": "git+https://git@bitbucket.taktik.be/scm/sandbox/ozone-type.git",
+    "ozone-type": "^0.0.1",
     "polymer-webpack-loader": "^2.0.2",
     "reflect-metadata": "^0.1.12",
     "ts-loader": "^4.1.0",

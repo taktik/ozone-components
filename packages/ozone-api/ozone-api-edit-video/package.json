@@ -6,7 +6,7 @@
     "test": "tsc",
     "build": "tsc",
     "prepublish": "npm run build",
-    "doc": "typedoc  --out  doc/"
+    "doc": "typedoc --entryPoint src/index.ts --out  doc/ src/"
   },
   "repository": {
     "type": "git",
@@ -37,7 +37,7 @@
   "main": "dist/ozone-api-edit-video.js",
   "types": "dist/ozone-api-edit-video.d.ts",
   "devDependencies": {
-    "ozone-type": "git+https://git@bitbucket.taktik.be/scm/sandbox/ozone-type.git",
+    "ozone-type": "^0.0.1",
     "typedoc": "^0.8.0",
     "typescript": "^2.7.2"
   }

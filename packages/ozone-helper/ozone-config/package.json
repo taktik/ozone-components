@@ -16,7 +16,8 @@
     "test:build": "webpack --config webpack.test.js",
     "test:build:watch": "webpack --config webpack.test.js --watch",
     "pretest": "npm run test:build",
-    "test": "npm run test:run"
+    "test": "npm run test:run",
+    "doc": "typedoc --entryPoint src/index.ts --out  doc/ src/"
   },
   "author": "hj@taktik",
   "license": "ISC",
@@ -29,7 +30,7 @@
     "clean-webpack-plugin": "^0.1.19",
     "copy-webpack-plugin": "^4.5.1",
     "html-webpack-plugin": "^3.0.7",
-    "ozone-type": "git+https://git@bitbucket.taktik.be/scm/sandbox/ozone-type.git",
+    "ozone-type": "^0.0.1",
     "polymer-webpack-loader": "^2.0.2",
     "reflect-metadata": "^0.1.12",
     "ts-loader": "^4.1.0",

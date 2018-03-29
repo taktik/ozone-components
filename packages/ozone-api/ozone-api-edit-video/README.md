@@ -3,6 +3,11 @@
 
 ES6 module written in typeScript to save selected video chunks.
 
+# install
+
+```
+npm install ozone-api-edit-video
+```
 
 # Usage
 

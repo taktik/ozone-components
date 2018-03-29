@@ -14,7 +14,8 @@
     "pretest": "npm run build",
     "test": "wct  --skip-plugin=local",
     "build": "bower install && webpack --config webpack.config.js",
-    "demo": "webpack-dev-server --config webpack.config.js"
+    "demo": "webpack-dev-server --config webpack.config.js",
+    "doc": "typedoc --entryPoint src/index.ts --out  doc/ src/"
   },
   "keywords": [],
   "author": "",
@@ -30,7 +31,7 @@
     "html-includer-webpack-plugin": "^1.0.0-beta2",
     "html-webpack-plugin": "^2.30.1",
     "include-loader": "^1.1.0-beta",
-    "ozone-type": "git+https://git@bitbucket.taktik.be/scm/sandbox/ozone-type.git",
+    "ozone-type": "^0.0.1",
     "path": "^0.12.7",
     "polymer-webpack-loader": "^2.0.2",
     "ts-loader": "^3.5.0",
