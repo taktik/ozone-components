@@ -1,2 +1,6 @@
 lerna-debug.log
 lerna.sh
+/node_modules/
+/bower_components/
+/build/
+/dist/
