@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/taktik/ozone-components.svg?branch=master)](https://travis-ci.org/taktik/ozone-components)
+
 # ozone-components
 
 Ozone-components is a library of polymer and javaScript modules that should facilitate development of web front-end for ozone.

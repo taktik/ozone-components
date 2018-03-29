@@ -1,6 +1,10 @@
 language: node_js
 node_js:
   - '9'
+dist: trusty # needs Ubuntu Trusty
+sudo: required
+addons:
+  chrome: stable # have Travis install chrome stable.
 
 before_script:
   - npm install -g bower
