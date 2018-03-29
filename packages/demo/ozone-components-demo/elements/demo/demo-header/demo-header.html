@@ -18,8 +18,22 @@ demo header
                     type: Number,
                     value: 0,
                     notify: true
+                },
+                version: {
+                    type: String,
+                    notify: true
                 }
             };
+        }
+        ready(){
+            super.ready();
+            fetch('lerna.json')
+                .then((lerna) =>  {
+                    return lerna.json()
+                })
+                .then((lernaJson)=>{
+                    this.set('version', lernaJson.version)
+                });
         }
     }
     window.customElements.define(DemoHeader.is, DemoHeader);
@@ -94,6 +108,7 @@ Custom property | Description | Default
         <paper-tab class="header-btn" focused>Home</paper-tab>
         <paper-tab class="header-btn">Documentation</paper-tab>
         </paper-tabs>
+        <div>Ozone-components Version: {{version}}</div>
         <ozone-logout></ozone-logout>
     </div>
   </template>
