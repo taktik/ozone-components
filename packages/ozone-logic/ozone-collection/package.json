@@ -1,11 +1,15 @@
 {
   "name": "ozone-collection",
-  "version": "0.0.1",
+  "version": "0.0.1","publishConfig": {     "access": "public"   },
   "description": "",
   "main": "dist/ozone-collection.js",
   "types": "dist/ozone-collection.d.ts",
   "directories": {
     "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/taktik/ozone-components/packages/ozone-logic/ozone-collection"
   },
   "scripts": {
     "tsc": "tsc",

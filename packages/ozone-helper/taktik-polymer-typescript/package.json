@@ -1,6 +1,6 @@
 {
     "name": "taktik-polymer-typescript",
-    "version": "0.0.1",
+    "version": "0.0.1","publishConfig": {     "access": "public"   },
     "description": "Module providing development facilities for ozone polymer type script modules.",
     "main": "dist/src/index.js",
     "types": "dist/src/index.d.ts",
@@ -9,6 +9,10 @@
         "test": "echo 'NO test in taktik-polymer-typescript'",
         "build": "tsc",
         "doc": "typedoc --excludeExternals --out  doc/ src/"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/taktik/ozone-components/packages/ozone-helper/taktik-polymer-typescript"
     },
     "keywords": [],
     "author": "",

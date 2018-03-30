@@ -1,10 +1,13 @@
 {
   "name": "ozone-api-item",
-  "version": "0.0.1",
+  "version": "0.0.1","publishConfig": {     "access": "public"   },
   "description": "",
   "main": "dist/ozone-api-item.js",
   "types": "dist/ozone-api-item.d.ts",
-  "repository": "taktik/ozone-api-item",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/taktik/ozone-components/packages/ozone-api/ozone-api-item"
+  },
   "scripts": {
     "postinstall": "bower install",
     "prepublish": "npm run build",

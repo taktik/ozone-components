@@ -1,10 +1,10 @@
 {
   "name": "ozone-media-url",
-  "version": "0.0.1",
+  "version": "0.0.1","publishConfig": {     "access": "public"   },
   "description": "Ozone helper to build ozone media url",
   "repository": {
     "type": "git",
-    "url": "https://github.com/taktik/ozone-media-url"
+    "url": "https://github.com/taktik/ozone-components/packages/ozone-logic/ozone-media-url"
   },
   "main": "dist/ozone-media-url.js",
   "types": "dist/ozone-media-url.d.ts",

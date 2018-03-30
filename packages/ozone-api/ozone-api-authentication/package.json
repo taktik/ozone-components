@@ -1,6 +1,6 @@
 {
   "name": "ozone-api-authentication",
-  "version": "0.0.1",
+  "version": "0.0.1","publishConfig": {     "access": "public"   },
   "description": "low level wrapper around ozone login, logout and authentication api",
   "scripts": {
     "start": "webpack --config webpack.config.js",
@@ -13,6 +13,10 @@
     "build:test:watch": "webpack --config webpack.test.js --watch",
     "pretest": "webpack --config webpack.test.js",
     "doc": "typedoc --excludeExternals --out  doc/ src/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/taktik/ozone-components/packages/ozone-api/ozone-api-authentication"
   },
   "main": "dist/lib/ozone-api-authentication/ozone-api-authentication.js",
   "types": "dist/lib/ozone-api-authentication/ozone-api-authentication.d.ts",

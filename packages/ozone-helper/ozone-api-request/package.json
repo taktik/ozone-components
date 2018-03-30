@@ -1,10 +1,10 @@
 {
   "name": "ozone-api-request",
-  "version": "0.0.1",
+  "version": "0.0.1","publishConfig": {     "access": "public"   },
   "description": "light api for ozone ajax call",
   "repository": {
     "type": "git",
-    "url": "https://github.com/taktik/ozone-api-request"
+    "url": "https://github.com/taktik/ozone-components/packages/ozone-helper/ozone-api-request"
   },
   "main": "dist/ozone-api-request.js",
   "types": "dist/ozone-api-request.d.ts",

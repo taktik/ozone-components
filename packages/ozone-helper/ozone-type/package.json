@@ -1,6 +1,6 @@
 {
   "name": "ozone-type",
-  "version": "0.0.1",
+  "version": "0.0.1","publishConfig": {     "access": "public"   },
   "description": "ozone type declaration package",
   "main": "",
   "types": "./ozone/include.d.ts",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https+ssh://git@git.taktik.be/sandbox/ozone-type.git"
+    "url": "https://github.com/taktik/ozone-components/packages/ozone-helper/ozone-type"
   },
   "author": "",
   "license": "ISC",

@@ -1,11 +1,15 @@
 {
   "name": "ozone-api-type",
-  "version": "0.0.1",
+  "version": "0.0.1","publishConfig": {     "access": "public"   },
   "description": "",
   "main": "dist/ozone-api-type/ozone-api-type.js",
   "types": "dist/ozone-api-type/ozone-api-type.d.ts",
   "directories": {
     "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/taktik/ozone-components/packages/ozone-api/ozone-api-type"
   },
   "scripts": {
     "prepublish": "npm run tsc",

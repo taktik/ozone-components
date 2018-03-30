@@ -1,10 +1,10 @@
 {
   "name": "ozone-search-helper",
-  "version": "0.0.1",
+  "version": "0.0.1","publishConfig": {     "access": "public"   },
   "description": "",
   "repository": {
     "type": "git",
-    "url": "https://github.com/taktik/ozone-search-helper"
+    "url": "https://github.com/taktik/ozone-components/packages/ozone-helper/ozone-search-helper"
   },
   "main": "dist/ozone-search-helper.js",
   "types": "dist/ozone-search-helper.d.ts",

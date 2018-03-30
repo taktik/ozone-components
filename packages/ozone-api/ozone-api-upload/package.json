@@ -1,6 +1,6 @@
 {
   "name": "ozone-api-upload",
-  "version": "0.0.1",
+  "version": "0.0.1","publishConfig": {     "access": "public"   },
   "description": "UploadFileRequest is a JavaScrip class that can be use as an XMLHttpRequest to upload media using ozone v2 upload chanel.",
   "main": "dist/ozone-api-upload.js",
   "types": "dist/ozone-api-upload.d.ts",
@@ -25,5 +25,5 @@
     "ozone-config": "^0.0.1",
     "typedoc": "^0.11.1"
   },
-  "repository": "https://github.com/taktik/ozone-api-upload"
+  "repository": "https://github.com/taktik/ozone-components/packages/ozone-api/ozone-api-upload"
 }

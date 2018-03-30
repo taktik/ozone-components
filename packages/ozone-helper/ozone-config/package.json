@@ -1,10 +1,10 @@
 {
   "name": "ozone-config",
-  "version": "0.0.1",
+  "version": "0.0.1","publishConfig": {     "access": "public"   },
   "description": "Ozone config loader",
   "repository": {
     "type": "git",
-    "url": "https://github.com/taktik/ozone-config"
+    "url": "https://github.com/taktik/ozone-components/packages/ozone-helper/ozone-config"
   },
   "main": "dist/src/ozone-config.js",
   "types": "dist/src/ozone-config.d.ts",

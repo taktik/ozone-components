@@ -1,11 +1,16 @@
 {
   "name": "ozone-item-edit",
-  "version": "0.0.1",
+  "version": "0.0.1","publishConfig": {     "access": "public"   },
   "description": "",
   "main": "build/index.js",
   "types": "build/dist/index.d.ts",
   "directories": {
     "test": "test"
+  },
+
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/taktik/ozone-components/packages/ozone-material/ozone-item-edit"
   },
   "scripts": {
     "tsc": "tsc",

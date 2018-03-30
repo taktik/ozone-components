@@ -1,11 +1,15 @@
 {
   "name": "ozone-upload",
-  "version": "0.0.1",
+  "version": "0.0.1","publishConfig": {     "access": "public"   },
   "description": "",
   "main": "dist/ozone-upload.js",
   "types": "dist/ozone-upload.ts",
   "directories": {
     "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/taktik/ozone-components/packages/ozone-material/ozone-upload"
   },
   "scripts": {
     "tsc": "tsc",
