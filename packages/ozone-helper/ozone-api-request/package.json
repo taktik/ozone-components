@@ -12,7 +12,7 @@
     "prepublish": "npm run build",
     "build": "tsc",
     "test": "tsc",
-    "doc": "typedoc --entryPoint src/index.ts --out  doc/ src/"
+    "doc": "typedoc --excludeExternals --out  doc/ src/"
   },
   "author": "hj@taktik",
   "license": "ISC",

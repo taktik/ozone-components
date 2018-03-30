@@ -6,7 +6,7 @@
     "test": "tsc",
     "build": "tsc",
     "prepublish": "npm run build",
-    "doc": "typedoc --entryPoint src/index.ts --out  doc/ src/"
+    "doc": "typedoc --excludeExternals --out  doc/ "
   },
   "repository": {
     "type": "git",

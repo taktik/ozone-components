@@ -2,13 +2,9 @@
  * Created by hubert on 23/06/17.
  */
 
-
-/// <amd-module name="ozone-edit-set-entry"/>
-
 import './ozone-edit-set-entry.html'
 
 import {customElement, property} from 'taktik-polymer-typescript'
-import '../ozone-edit-entry/ozone-edit-entry'
 import {OzoneEditEntry, OzoneEditEntryMixin, OzoneEditEntryConstructor} from '../ozone-edit-entry/ozone-edit-entry'
 /**
  * <ozone-edit-number-entry> is an element to edit ozone items fields as set<string>.

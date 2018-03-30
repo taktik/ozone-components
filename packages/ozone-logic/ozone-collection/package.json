@@ -15,7 +15,7 @@
     "test": "wct --skip-plugin=local --configFile wct.conf.js",
     "pretest": "webpack --config webpack.config.js",
     "prepublish": "tsc && cp src/*.html dist/",
-    "doc": "typedoc --entryPoint src/index.ts --out  doc/ src/"
+    "doc": "typedoc --excludeExternals --out  doc/ src/"
   },
   "keywords": [],
   "author": "",

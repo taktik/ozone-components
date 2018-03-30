@@ -8,7 +8,7 @@
         "prepublish": "npm run build",
         "test": "echo 'NO test in taktik-polymer-typescript'",
         "build": "tsc",
-        "doc": "typedoc --entryPoint src/index.ts --out  doc/ src/"
+        "doc": "typedoc --excludeExternals --out  doc/ src/"
     },
     "keywords": [],
     "author": "",

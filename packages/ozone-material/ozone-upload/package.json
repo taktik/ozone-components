@@ -15,7 +15,7 @@
     "test": "wct  --skip-plugin=local",
     "build": "bower install && webpack --config webpack.config.js",
     "demo": "webpack-dev-server --config webpack.config.js",
-    "doc": "typedoc --entryPoint src/index.ts --out  doc/ src/"
+    "doc": "typedoc --excludeExternals --out  doc/ src/"
   },
   "keywords": [],
   "author": "",

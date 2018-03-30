@@ -5,7 +5,6 @@
 import "paper-input/paper-textarea.html"
 import "./ozone-edit-json-entry.html"
 import {customElement, property} from 'taktik-polymer-typescript'
-import '../ozone-edit-entry/ozone-edit-entry'
 import {OzoneEditEntry, OzoneEditEntryMixin, OzoneEditEntryConstructor} from '../ozone-edit-entry/ozone-edit-entry'
 
 /**

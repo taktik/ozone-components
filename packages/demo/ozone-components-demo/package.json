@@ -11,8 +11,7 @@
 		"postinstall": "bower install",
 		"test": "echo 'no test in ozone-components-demo'",
 		"demo": "webpack-dev-server --config webpack.config.js",
-		"start": "webpack --config webpack.config.js",
-		"doc": "typedoc  --out  --readme=README.md doc/"
+		"build": "webpack --config webpack.config.js"
 	},
 	"author": "",
 	"license": "ISC",

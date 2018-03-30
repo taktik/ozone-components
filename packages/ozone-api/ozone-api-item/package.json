@@ -11,7 +11,7 @@
     "pretest": "webpack --config webpack.test.js",
     "test": "wct  --skip-plugin=local",
     "build": "tsc",
-    "doc": "typedoc --entryPoint src/index.ts --out  doc/ src/"
+    "doc": "typedoc --excludeExternals --out  doc/ src/"
   },
   "keywords": [],
   "author": "",

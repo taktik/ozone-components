@@ -18,7 +18,7 @@
     "build:test:watch": "webpack --config webpack.test.js --watch",
     "build:test": "webpack --config webpack.test.js",
     "pretest": "npm run build:test",
-    "doc": "typedoc --entryPoint src/index.ts --out  doc/ src/"
+    "doc": "typedoc --excludeExternals --out  doc/ src/"
   },
   "keywords": [],
   "author": "",

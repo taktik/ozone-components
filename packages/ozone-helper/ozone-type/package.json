@@ -6,7 +6,8 @@
   "types": "./ozone/include.d.ts",
   "scripts": {
     "tsc": "tsc",
-    "prepublish": ""
+    "prepublish": "",
+    "doc": "typedoc --excludeExternals --out  doc/ ozone/model/"
   },
   "repository": {
     "type": "git",
