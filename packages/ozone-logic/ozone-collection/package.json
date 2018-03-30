@@ -1,6 +1,9 @@
 {
   "name": "ozone-collection",
-  "version": "0.0.1","publishConfig": {     "access": "public"   },
+  "version": "3.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "description": "",
   "main": "dist/ozone-collection.js",
   "types": "dist/ozone-collection.d.ts",
@@ -37,9 +40,9 @@
     "clean-webpack-plugin": "^0.1.19",
     "copy-webpack-plugin": "^4.5.1",
     "html-webpack-plugin": "^3.0.7",
-    "ozone-type": "^0.0.1",
+    "ozone-type": "^3.0.0",
     "polymer-webpack-loader": "^2.0.2",
-    "taktik-polymer-typescript": "^0.0.1",
+    "taktik-polymer-typescript": "^3.0.0",
     "ts-loader": "^4.1.0",
     "typedoc": "^0.9.0",
     "typescript": "^2.7.2",
@@ -53,10 +56,10 @@
   "dependencies": {
     "@types/lodash": "^4.14.104",
     "global": "^4.3.2",
-    "ozone-api-item": "^0.0.1",
-    "ozone-api-request": "^0.0.1",
-    "ozone-config": "^0.0.1",
-    "ozone-search-helper": "^0.0.1",
+    "ozone-api-item": "^3.0.0",
+    "ozone-api-request": "^3.0.0",
+    "ozone-config": "^3.0.0",
+    "ozone-search-helper": "^3.0.0",
     "reflect-metadata": "^0.1.12",
     "typedoc": "^0.11.1",
     "webpack-cli": "^2.0.13"

@@ -1,6 +1,9 @@
 {
   "name": "ozone-search-helper",
-  "version": "0.0.1","publishConfig": {     "access": "public"   },
+  "version": "3.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "description": "",
   "repository": {
     "type": "git",
@@ -17,7 +20,7 @@
   "author": "hj@taktik",
   "license": "ISC",
   "devDependencies": {
-    "ozone-type": "^0.0.1",
+    "ozone-type": "^3.0.0",
     "typescript": "^2.7.2"
   },
   "dependencies": {
