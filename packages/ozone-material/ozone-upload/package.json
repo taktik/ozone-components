@@ -6,7 +6,7 @@
   },
   "description": "",
   "main": "dist/ozone-upload.js",
-  "types": "dist/ozone-upload.ts",
+  "types": "dist/ozone-upload.d.ts",
   "directories": {
     "test": "test"
   },
@@ -20,7 +20,9 @@
     "postinstall": "bower install",
     "pretest": "npm run build",
     "test": "wct  --skip-plugin=local",
-    "build": "bower install && webpack --config webpack.config.js",
+    "build": "gulp build",
+    "clean": "gulp clean",
+    "start": "webpack --config webpack.config.js",
     "demo": "webpack-dev-server --config webpack.config.js",
     "doc": "typedoc --excludeExternals --out  doc/ src/"
   },

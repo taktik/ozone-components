@@ -5,8 +5,8 @@
     "access": "public"
   },
   "description": "",
-  "main": "build/index.js",
-  "types": "build/dist/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "directories": {
     "test": "test"
   },
@@ -16,7 +16,9 @@
   },
   "scripts": {
     "tsc": "tsc",
-    "build": "webpack --config webpack.config.js",
+    "build": "gulp build",
+    "clean": "gulp clean",
+    "start": "webpack --config webpack.config.js",
     "postinstall": "bower install",
     "test:persist": "wct --skip-plugin=headless -p --configFile wct.conf.js",
     "test": "tsc",
