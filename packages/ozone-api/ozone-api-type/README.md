@@ -33,7 +33,6 @@ const ozoneTypeAPI = getOzoneApiType(); // return instance of OzoneApiType locat
 run nmp and bower install.
 ```
 $ npm install
-$ bower install
 ```
 
 

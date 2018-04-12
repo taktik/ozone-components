@@ -12,11 +12,14 @@
     "url": "https://github.com/taktik/ozone-components/packages/ozone-api/ozone-api-item"
   },
   "scripts": {
+    "prepublish": "npm run tsc",
     "postinstall": "bower install",
-    "prepublish": "npm run build",
-    "pretest": "webpack --config webpack.test.js",
-    "test": "wct  --skip-plugin=local",
-    "build": "tsc",
+    "tsc": "tsc",
+    "test": "wct --skip-plugin=local --configFile wct.conf.js",
+    "test:persist": "wct --skip-plugin=headless -p --configFile wct.conf.js",
+    "build:watch": "webpack --config webpack.test.js --watch",
+    "build": "webpack --config webpack.test.js",
+    "pretest": "npm run build",
     "doc": "typedoc --excludeExternals --out  doc/ src/"
   },
   "keywords": [],
