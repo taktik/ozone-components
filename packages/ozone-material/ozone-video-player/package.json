@@ -55,7 +55,6 @@
 	"dependencies": {
 		"@polymer/polymer": "^2.5.0",
 		"@types/lodash": "^4.14.104",
-		"@types/reflect-metadata": "0.0.5",
 		"@webcomponents/shadycss": "^1.1.1",
 		"@webcomponents/webcomponentsjs": "^1.1.0",
 		"clappr": "^0.2.87",

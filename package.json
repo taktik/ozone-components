@@ -13,9 +13,11 @@
 		"doc": "lerna run doc"
 	},
 	"devDependencies": {
+		"generator-polymer-typescript": "^0.2.3",
 		"gulp": "^3.9.1",
 		"lerna": "^2.9.0",
-		"typedoc": "^0.11.1"
+		"typedoc": "^0.11.1",
+		"yo": "^2.0.1"
 	},
 	"dependencies": {
 		"gulp-clean": "^0.4.0",

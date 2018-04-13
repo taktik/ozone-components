@@ -38,11 +38,6 @@ export interface TaktikSearchApiBehavior{
     searchResults: Array<any>;
 
     /**
-     * If true, automatically performs an Ajax request when either *searchString*, *itemType* or *size* changes.
-     */
-    auto:boolean;
-
-    /**
      * Fired when results are found by the API.
      *
      * @event results-found
@@ -73,36 +68,31 @@ export class OzoneMosaic  extends Polymer.Element implements  TaktikSearchApiBeh
         }
         mosaicCollection: OzoneCollection;
         ironList: PolymerElement;
-    };
+    } | any;
     /**
      * id of the source
      */
-    searchResults: Array<Item>;
+    searchResults: Array<Item> = [];
 
     /**
      * string to search in the collection
      */
-    searchString:string;
+    searchString:string = '';
 
     /**
      * total number of items found with the search
      */
-    total: number;
+    total?: number;
 
     /**
      * true indicate that all the data data still available with this search.
      */
-    dataRemain: boolean;
-
-    /**
-     * unused in this implementation
-     */
-    auto: boolean;
+    dataRemain: boolean = false;
 
     /**
      * type of the collection
      */
-    collectionType: string;
+    collectionType: string = 'item';
 
     private _collectionTypeChange(collectionType: string){
         this.$.mosaicCollection.set('collection', collectionType);
@@ -153,9 +143,11 @@ export class OzoneMosaic  extends Polymer.Element implements  TaktikSearchApiBeh
      * trigger quickSearch in the collection
      * @param searchString
      */
-    searchInItems(searchString:string){
+    searchInItems(searchString?:string){
+        if(searchString){
         this.set('searchResults', []);
         this.$.mosaicCollection.quickSearch(searchString, 50);
+        }
     }
 
     /**
