@@ -50,17 +50,11 @@
       "ozone-item-abstract-view": [
         "./taktik_components/ozone-item-abstract-view/ozone-item-abstract-view"
       ],
-      "ozone-item-preview": [
-        "./taktik_components/ozone-item-preview/ozone-item-preview"
-      ],
       "ozone-localized-string": [
         "./taktik_components/ozone-localized-string/ozone-localized-string"
       ],
       "ozone-media-edit": [
         "./taktik_components/ozone-media-edit/ozone-media-edit"
-      ],
-      "ozone-mosaic": [
-        "./taktik_components/ozone-mosaic/ozone-mosaic"
       ]
       }
     },
