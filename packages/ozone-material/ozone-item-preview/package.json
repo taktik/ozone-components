@@ -6,7 +6,7 @@
   "description": "",
   "scripts": {
     "postinstall": "bower install",
-    "build": "gulp build",
+    "build": "gulp clean && gulp build",
     "clean": "gulp clean",
     "prepublish": "npm run build",
     "start": "webpack --config webpack.config.js",

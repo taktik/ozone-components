@@ -27,6 +27,10 @@ import {OzoneApiType, getOzoneApiType} from 'ozone-api-type'
  *
  * * *edit-item* fire on click on close button.
  *
+ *  ### Mixin
+ *  Custom property | Description | Default
+ *  ----------------|-------------|----------
+ *  --ozone-item-preview | css mixin for preview container | `{}`
  */
 @customElement('ozone-item-preview')
 export class OzoneItemPreview extends Polymer.Element{
@@ -57,7 +61,9 @@ export class OzoneItemPreview extends Polymer.Element{
         return ['_selectionChange(selected)', 'dataChange(itemData)'];
     }
 
-    placeholder(itemData:Item):string {
+    placeholder(itemData?:Item):string {
+        itemData = itemData || {type: 'default'} as Item
+
         let placeholder: string = "";
         switch(itemData.type) {
             case 'organization.info':
@@ -108,9 +114,9 @@ export class OzoneItemPreview extends Polymer.Element{
         e.stopPropagation();
     }
 
-    async dataChange(data:Item){
+    async dataChange(data?:Item){
         const config = await Config.OzoneConfig.get();
-        if(this.ozoneTypeApi) {
+        if(data) {
             this.ozoneTypeApi.ifIsTypeInstanceOf(data.type, 'media').then((isTypeInstanceOf) => {
                 if(isTypeInstanceOf) {
                     const ozoneMediaUrl = new OzoneMediaUrl(data.id as string, config);
@@ -120,8 +126,6 @@ export class OzoneItemPreview extends Polymer.Element{
                 }
             }).catch(() => {
             });
-        } else {
-            throw new Error('ozoneTypeApi is not define')
         }
     }
     private _setFocus(){

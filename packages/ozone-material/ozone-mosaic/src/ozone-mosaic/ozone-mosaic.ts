@@ -6,7 +6,6 @@
 
 import "polymer/polymer-element.html"
 import "iron-list/iron-list.html"
-//import "iron-scroll-threshold/iron-scroll-threshold.html"
 import "paper-item/paper-item.html"
 import "paper-button/paper-button.html"
 import "iron-flex-layout/iron-flex-layout.html"
@@ -57,15 +56,20 @@ export interface TaktikSearchApiBehavior{
  * ### Implements
  *
  *  *TaktikSearchApiBehavior*
+ *
+ *  ### Mixin
+ *  Custom property | Description | Default
+ *  ----------------|-------------|----------
+ *  `--ozone-mosaic-loader`  | css mixin for loader element | `{ background-color: #585185; color: white; position:relative; bottom:0; left:0; right:0; text-align: center; height: 44px; font-family:'Roboto', sans-serif; font-size: 13px; line-height: 44px; margin:0 -10px -10px;}`
+ *  `--ozone-mosaic-list`  | css mixin for the list of item | `{ width:100%; height: 80vh;}`
+ *
  */
 @customElement('ozone-mosaic')
 export class OzoneMosaic  extends Polymer.Element implements  TaktikSearchApiBehavior{
 
     @domElement()
     $: {
-        scrollTheshold:{
-            clearTriggers():void
-        }
+        resultList: HTMLElement
         mosaicCollection: OzoneCollection;
         ironList: PolymerElement;
     } | any;
@@ -93,6 +97,9 @@ export class OzoneMosaic  extends Polymer.Element implements  TaktikSearchApiBeh
      * type of the collection
      */
     collectionType: string = 'item';
+
+    private _scrollTrigger = false;
+    private scrollthreshold = 600;
 
     private _collectionTypeChange(collectionType: string){
         this.$.mosaicCollection.set('collection', collectionType);
@@ -130,12 +137,22 @@ export class OzoneMosaic  extends Polymer.Element implements  TaktikSearchApiBeh
         }
     }
 
+    private clearTriggers(){
+        this._scrollTrigger = false
+    }
+
     ready(){
         super.ready();
-
         this.$.ironList.addEventListener('delete-item', (event: CustomEvent) => {
             console.log('delete-item')
             this.$.mosaicCollection.deleteOne(event.detail.id)
+        });
+        this.$.resultList.addEventListener("scroll", (event: Event) => {
+            if(this.$.resultList.scrollTop  > this.scrollthreshold && ! this._scrollTrigger){
+                console.log('scroll')
+                this._scrollTrigger = true;
+                this.toggleThreshold()
+            }
         })
     }
 
@@ -157,7 +174,7 @@ export class OzoneMosaic  extends Polymer.Element implements  TaktikSearchApiBeh
         this.$.mosaicCollection.loadNextItems()
             .catch(()=>{})
             .then(()=>{
-                this.$.scrollTheshold.clearTriggers();
+                this.clearTriggers();
             });
     }
 
