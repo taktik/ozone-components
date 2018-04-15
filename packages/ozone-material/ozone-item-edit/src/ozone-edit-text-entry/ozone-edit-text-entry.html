@@ -11,7 +11,15 @@
             }
         </style>
         <!--<ozone-localized-string data="[[name]]" language="[[language]]" default-language="en"></ozone-localized-string>-->
-        <paper-textarea always-float-label="true" id="input" label="[[label]]" type="text" value="{{value}}" disabled$="[[disabled]]" rows="3"></paper-textarea>
+        <paper-textarea
+                always-float-label="true"
+                id="input"
+                label="[[label]]"
+                type="text"
+                value="{{value}}"
+                disabled$="[[disabled]]"
+                rows="3"
+                invalid="{{invalid}}"></paper-textarea>
         <p class="helper-text">[[type]]</p>
     </template>
     <script src="ozone-edit-text-entry.ts"></script>

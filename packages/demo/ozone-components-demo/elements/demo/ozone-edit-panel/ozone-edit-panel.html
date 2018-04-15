@@ -86,11 +86,10 @@
                     </div>
                     <div class="actions-button-container">
                         <paper-button class="close-btn" id="closeBtn" on-tap="_closePanel">Close</paper-button>
-                        <paper-button class="save-btn"  id="saveBtn" on-tap="_save">Save</paper-button>
+                        <paper-button class="save-btn"  id="saveBtn" on-tap="_save" disabled="{{invalid}}">Save</paper-button>
                     </div>
                 </div>
-                
-                <ozone-media-edit id="mediaEditor" item-data={{selectedItem}} hidden="[[!display]]">NO editor</ozone-media-edit>
+                <ozone-media-edit id="mediaEditor" item-data={{selectedItem}} hidden="[[!display]]" invalid="{{invalid}}">NO editor</ozone-media-edit>
                 
             </div>
 

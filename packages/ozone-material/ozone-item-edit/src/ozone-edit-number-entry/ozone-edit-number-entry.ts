@@ -1,7 +1,7 @@
 /// <amd-module name="ozone-edit-number-entry"/>
 
 import {customElement, property} from 'taktik-polymer-typescript'
-import {OzoneEditEntry, OzoneEditEntryMixin, OzoneEditEntryConstructor} from '../ozone-edit-entry/ozone-edit-entry'
+import {OzoneEditEntry} from '../ozone-edit-entry/ozone-edit-entry'
 import '../ozone-edit-entry/ozone-edit-entry'
 import "paper-input/paper-input.html"
 import "./ozone-edit-number-entry.html"
@@ -12,7 +12,7 @@ import "./ozone-edit-number-entry.html"
  */
 
 @customElement('ozone-edit-number-entry')
-export class OzoneEditNumberEntry extends OzoneEditEntryMixin(Polymer.Element) {
+export class OzoneEditNumberEntry extends OzoneEditEntry {
     @property({type: String})
     textValue?:string;
 

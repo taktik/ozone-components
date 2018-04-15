@@ -5,14 +5,14 @@
 import "paper-input/paper-textarea.html"
 import "./ozone-edit-json-entry.html"
 import {customElement, property} from 'taktik-polymer-typescript'
-import {OzoneEditEntry, OzoneEditEntryMixin, OzoneEditEntryConstructor} from '../ozone-edit-entry/ozone-edit-entry'
+import {OzoneEditEntry} from '../ozone-edit-entry/ozone-edit-entry'
 
 /**
  * <ozone-edit-json-entry> is an element to edit ozone items fields as a json.
  *
  */
 @customElement('ozone-edit-json-entry')
-export class OzoneEditJsonEntry extends OzoneEditEntryMixin(Polymer.Element) {
+export class OzoneEditJsonEntry extends OzoneEditEntry {
     @property({type: String})
     textValue?:string;
 
@@ -47,9 +47,10 @@ export class OzoneEditJsonEntry extends OzoneEditEntryMixin(Polymer.Element) {
             if(! this.isValueAndTextEqual()){
                 this.set('value', value);
                 this.set('isModify', true);
+                this.set('invalid', false)
             }
         } catch (e) {
-
+            this.set('invalid', true)
         }
     }
 }

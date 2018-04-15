@@ -4,161 +4,12 @@ import "polymer/polymer-element.html";
 import "paper-input/paper-input.html";
 import "./ozone-edit-entry.html";
 
-import {customElement, property} from 'taktik-polymer-typescript'
+import {customElement, property, observe} from 'taktik-polymer-typescript'
 import {LocalizedString} from 'ozone-type'
 
 export interface PaperInputBehavior extends PolymerElement{
 
 }
-
-/**
- * OzoneEditEntryBehavior is a generic interface to different items fields editor.
- */
-export interface OzoneEditEntryBehavior extends PolymerElement{
-    $: {
-        input: PolymerElement
-    };
-
-    /**
-     * ozone type of the entry
-     */
-    type: string;
-
-    /**
-     * value of the field
-     * @notify
-     */
-    value: any;
-
-    /**
-     * name of the field
-     */
-    name: LocalizedString;
-
-    /**
-     * computed label of the field
-     * @readonly
-     */
-    label: string;
-
-    /**
-     * language to use in LocalizedName
-     */
-    language: string;
-
-
-    /**
-     * Set to true to disable this input.
-     * @value false
-     */
-    disabled: boolean;
-
-    /**
-     * if the value is modify, is value will change to true.
-     * @value false
-     * @notify
-     */
-    isModify:boolean;
-
-    /**
-     * accessor to PaperInputBehavior element
-     */
-    inputElement: PaperInputBehavior;
-}
-
-
-export interface OzoneEditEntryConstructor {
-    new (): OzoneEditEntryBehavior;
-}
-export interface OzoneEditEntryMixinType {
-    (parentClass: PolymerElementConstructor):OzoneEditEntryConstructor
-}
-
-/**
- * Polymer Mixin for OzoneEditEntry.
- * demo: ```javaScript
- * export class MyOwnOzoneEdit extends OzoneEditEntryMixin(Polymer.Element) {}
- * ```
- * @type {OzoneEditEntryMixinType}
- */
-export const OzoneEditEntryMixin:OzoneEditEntryMixinType = Polymer.dedupingMixin<any>(function(parentClass: PolymerElementConstructor){
-    return class extends parentClass  {
-
-
-        $: {
-            input: PolymerElement
-        }| undefined;
-
-        type?: string;
-
-        value: any;
-        name?: LocalizedString;
-        language: any;
-        disabled: boolean = false;
-        isModify:boolean = false;
-        label?: string;
-
-        static get properties(){
-            return {
-                name:{
-                    type: String,
-                },
-                language:{
-                    type: String,
-                },
-                 label:{
-                    type: String,
-                    computed: "toLabel(name, language)"
-                },
-                type:{
-                    type: String,
-                },
-                value:{
-                    type: Object,
-                    notify: true
-                },
-                disabled:{
-                    type: Boolean,
-                    value: false,
-                },
-                isModify:{
-                    type: Boolean,
-                    value: false,
-                    notify: true
-                }
-            }
-        }
-
-        toLabel(name: LocalizedString, language: string){
-            if(name && name.strings && language) return name.strings[language];
-        }
-
-        /**
-         * Returns a reference to the input element.
-         */
-        get inputElement() {
-            if(! this.$)
-                throw new Error()
-            return this.$.input;
-        }
-
-        connectedCallback (){
-            super.connectedCallback ();
-            setTimeout(()=>{this.registerChangeListener()}, 0)
-        }
-
-        registerChangeListener (){
-            this.inputElement.addEventListener('value-changed', (event) => {
-                this.changeListenerCallback(event)
-            })
-        }
-
-        changeListenerCallback(event: Event){
-            this.set('isModify', true);
-        }
-    }
-
-});
 /**
  * <ozone-edit-entry> is an element to edit ozone items fields as string.
  *
@@ -172,7 +23,114 @@ export const OzoneEditEntryMixin:OzoneEditEntryMixinType = Polymer.dedupingMixin
  * ```
  */
 @customElement('ozone-edit-entry')
-export class OzoneEditEntry extends OzoneEditEntryMixin(Polymer.Element) {
+export class OzoneEditEntry extends Polymer.Element {
+
+    /**
+     * ozone type of the entry
+     */
+    @property({
+        type: String,
+    })
+    type?: string;
+
+    /**
+     * value of the field
+     * @notify
+     */
+    @property({
+        type: Object,
+        notify: true
+    })
+    value: any;
+
+    /**
+     * name of the field
+     */
+    @property()
+    name?: LocalizedString;
+
+    /**
+     * computed label of the field
+     * @readonly
+     */
+    @property({
+        type: String,
+        computed: "toLabel(name, language)"
+    })
+    label?: string;
+
+    /**
+     * language to use in LocalizedName
+     */
+    @property({
+        type: String,
+    })
+    language?: string;
+
+
+    /**
+     * Set to true to disable this input.
+     * @value false
+     */
+    @property({
+        type: Boolean
+    })
+    disabled: boolean = false;
+
+    /**
+     * if the value is modify, is value will change to true.
+     * @value false
+     * @notify
+     */
+    @property({
+        type: Boolean,
+        notify: true
+    })
+    isModify:boolean = false;
+
+    /**
+     * Returns true if the value is invalid.
+     */
+    @property({
+        type: Boolean,
+        notify: true
+    })
+    invalid:boolean = false;
+
+    $: {
+        input: PolymerElement
+    }| any;
+
+    toLabel(name: LocalizedString, language: string){
+        if(name && name.strings && language) return name.strings[language];
+    }
+
+    /**
+     * Returns a reference to the input element.
+     */
+    get inputElement() {
+        return this.$.input;
+    }
+
+    connectedCallback (){
+        super.connectedCallback ();
+        setTimeout(()=>{this.registerChangeListener()}, 0)
+    }
+
+    registerChangeListener (){
+        this.inputElement.addEventListener('value-changed', (event: Event) => {
+            this.changeListenerCallback(event)
+        })
+    }
+
+    changeListenerCallback(event: Event){
+        this.set('isModify', true);
+    }
+
+    @observe('invalid')
+    invalidChange(event: CustomEvent){
+        this.dispatchEvent(new CustomEvent('invalid-changed', {detail: this.invalid}))
+    }
 
 }
 

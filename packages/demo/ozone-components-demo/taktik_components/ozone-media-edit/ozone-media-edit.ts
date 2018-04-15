@@ -32,7 +32,14 @@ export class OzoneMediaEdit  extends Polymer.Element  {
      */
     @property({type: Object, notify: true})
     itemData: Item | null = null;
-
+    /**
+     * Returns true if the value is invalid.
+     */
+    @property({
+        type: Boolean,
+        notify: true
+    })
+    invalid:boolean = false;
     /**
      * hide element and pause the player.
      */

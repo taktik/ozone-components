@@ -11,7 +11,7 @@ const merge = require('merge2');
  * gulp ts
  * compile project's typeScript code
  */
-gulp.task('ts', ['clean'], function(){
+gulp.task('ts',  function(){
     const tsProject = ts.createProject('tsconfig.json');
 
     var tsResult = tsProject.src()
@@ -30,7 +30,7 @@ gulp.task('ts', ['clean'], function(){
  * gulp copy
  * Copy html files in dist directory
  **/
-gulp.task('copy', ['clean'], function() {
+gulp.task('copy', function() {
     return gulp.src(['./src/**/*.html'] )
         .pipe(gulp.dest('./dist'));
 });
