@@ -15,7 +15,14 @@
             }
         </style>
         <!--<ozone-localized-string data="[[name]]" language="[[language]]" default-language="en"></ozone-localized-string>-->
-        <paper-input always-float-label="true" id="input" label="[[label]]" type="text" value="{{value}}" disabled$="[[disabled]]"></paper-input>
+        <paper-input
+                always-float-label="true"
+                id="input"
+                label="[[label]]"
+                type="text"
+                value="{{value}}"
+                invalid="{{invalid}}"
+                disabled$="[[disabled]]"></paper-input>
         <p class="helper-text">[[type]]</p>
     </template>
 </dom-module>

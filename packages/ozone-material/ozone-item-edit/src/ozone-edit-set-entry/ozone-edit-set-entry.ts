@@ -5,14 +5,14 @@
 import './ozone-edit-set-entry.html'
 
 import {customElement, property} from 'taktik-polymer-typescript'
-import {OzoneEditEntry, OzoneEditEntryMixin, OzoneEditEntryConstructor} from '../ozone-edit-entry/ozone-edit-entry'
+import {OzoneEditEntry} from '../ozone-edit-entry/ozone-edit-entry'
 /**
  * <ozone-edit-number-entry> is an element to edit ozone items fields as set<string>.
  *
  */
 
 @customElement('ozone-edit-set-entry')
-export class OzoneEditSetEntry extends OzoneEditEntryMixin(Polymer.Element) {
+export class OzoneEditSetEntry extends OzoneEditEntry {
     @property({type: String})
     textValue?:string;
 

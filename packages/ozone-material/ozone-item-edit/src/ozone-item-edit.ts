@@ -9,7 +9,7 @@ import {Item, FieldDescriptor, Grants} from 'ozone-type'
 
 
 import './ozone-edit-entry/ozone-edit-entry'
-import {OzoneEditEntryBehavior} from './ozone-edit-entry/ozone-edit-entry'
+import {OzoneEditEntry} from './ozone-edit-entry/ozone-edit-entry'
 import './ozone-edit-set-entry/ozone-edit-set-entry';
 import './ozone-edit-text-entry/ozone-edit-text-entry';
 import './ozone-edit-number-entry/ozone-edit-number-entry';
@@ -49,17 +49,24 @@ export class OzoneItemEdit  extends Polymer.Element  {
 
     ozoneTypeApi: OzoneApiType = getOzoneApiType();
 
+    /**
+     * Returns true if the value is invalid.
+     */
+    @property({
+        type: Boolean,
+        notify: true
+    })
+    invalid:boolean = false;
+
     $: {
         editableList: Element,
         elementView: HTMLElement,
-    } | undefined;
+    } | any;
 
     static editEntryClass = 'editEntry';
 
     @observe('itemData')
     async dataChange(data?:Item){
-        if(!this.$)
-            throw new Error()
 
         this.$.elementView.style.visibility = 'hidden'
         if(!data){
@@ -103,7 +110,7 @@ export class OzoneItemEdit  extends Polymer.Element  {
 
         if(typeof(editableItemName) == 'string') {
 
-            const editableItem = document.createElement(editableItemName) as (OzoneEditEntryBehavior);
+            const editableItem = document.createElement(editableItemName) as (OzoneEditEntry);
             editableItem.className = OzoneItemEdit.editEntryClass;
             editableItem.id = identifier;
             editableItem.type = fieldType;
@@ -115,6 +122,9 @@ export class OzoneItemEdit  extends Polymer.Element  {
                 if(this.itemData)
                  this.itemData[identifier] = (e as CustomEvent).detail.value;
             });
+            editableItem.addEventListener("invalid-changed", (e) => {
+                this.updateInvalidValue()
+            });
 
             const isEditAllow: boolean = permission.isFieldEditable(identifier);
 
@@ -122,8 +132,6 @@ export class OzoneItemEdit  extends Polymer.Element  {
 
 
             listEntry.appendChild(editableItem);
-            if(!this.$)
-                throw new Error()
             this.$.editableList.appendChild(listEntry);
 
             editableItem.inputElement.addEventListener('value-changed', (d:Event) => {
@@ -173,7 +181,7 @@ export class OzoneItemEdit  extends Polymer.Element  {
             id: this.itemData.id,
         };
         for (let index = 0; index < entryList.length; index ++){
-            let entry = entryList.item(index) as OzoneEditEntryBehavior;
+            let entry = entryList.item(index) as OzoneEditEntry;
             if(entry.isModify) {
                 updatedItem[entry.id] = entry.value;
             }
@@ -181,14 +189,19 @@ export class OzoneItemEdit  extends Polymer.Element  {
         return updatedItem
     }
 
+    updateInvalidValue(){
+        let invalid: boolean = false;
+        const entryList = this.getEntryList()
+        for (let index = 0; index < entryList.length; index ++){
+            invalid =  entryList.item(index).invalid || invalid;
+        }
+        this.set('invalid', invalid)
+    }
+
     private getEntryList() {
-        if(!this.$)
-            throw new Error()
         return this.$.editableList.getElementsByClassName(OzoneItemEdit.editEntryClass);
     }
     private removeEntryIfExist(){
-        if(!this.$)
-            throw new Error()
         const entryList = this.$.editableList.getElementsByClassName('ozoneEditItemContent');
         while (entryList.length > 0){
             entryList[0].remove();

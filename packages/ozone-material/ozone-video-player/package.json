@@ -18,7 +18,8 @@
 		"test": "wct --skip-plugin=local",
 		"prepublish": "npm run build",
 		"postinstall": "bower install",
-		"build": "tsc",
+		"build": "gulp build",
+		"clean": "gulp clean",
 		"verify": "git diff --exit-code",
 		"start": "webpack --config webpack.config.js",
 		"pretest": "webpack --config webpack.config.js",
@@ -54,7 +55,6 @@
 	"dependencies": {
 		"@polymer/polymer": "^2.5.0",
 		"@types/lodash": "^4.14.104",
-		"@types/reflect-metadata": "0.0.5",
 		"@webcomponents/shadycss": "^1.1.1",
 		"@webcomponents/webcomponentsjs": "^1.1.0",
 		"clappr": "^0.2.87",

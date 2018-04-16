@@ -1,4 +1,4 @@
-import "polymer/polymer.html";
+import "polymer/polymer-element.html";
 import './demo-app.html';
 import {customElement, property} from 'taktik-polymer-typescript'
 import {OzoneVideoPlayer} from "../ozone-video-player"

@@ -6,15 +6,14 @@
   },
   "description": "low level wrapper around ozone login, logout and authentication api",
   "scripts": {
-    "start": "webpack --config webpack.config.js",
-    "build": "tsc",
+    "prepublish": "npm run tsc",
     "postinstall": "bower install",
-    "prepublish": "tsc",
-    "demo": "webpack-dev-server --config webpack.config.js",
+    "tsc": "tsc",
     "test": "wct --skip-plugin=local --configFile wct.conf.js",
     "test:persist": "wct --skip-plugin=headless -p --configFile wct.conf.js",
-    "build:test:watch": "webpack --config webpack.test.js --watch",
-    "pretest": "webpack --config webpack.test.js",
+    "build:watch": "webpack --config webpack.test.js --watch",
+    "build": "webpack --config webpack.test.js",
+    "pretest": "npm run build",
     "doc": "typedoc --excludeExternals --out  doc/ src/"
   },
   "repository": {

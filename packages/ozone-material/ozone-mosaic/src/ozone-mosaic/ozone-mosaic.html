@@ -1,0 +1,92 @@
+<head>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=no">
+
+
+</head>
+<body>
+<dom-module id="ozone-mosaic">
+    <template>
+        <style>
+            :host {
+                display: block;
+                --details-panel-background-color: {
+                    background:#FAFAFA;
+                };
+                --save-button-colors: {
+                    background: #2C2958;
+                    color:white;
+                }
+                --actions-icon-color: {
+                    color:#2C2958;
+                }
+                --details-panel-shade: {
+                    background:rgba(0,0,0,0.42);
+                }
+                --actions-background-color: {
+                    background: #fafafa;
+                }
+            }
+            .loader {
+                background-color: #585185;
+                color: white;
+                position:relative;
+                bottom:0;
+                left:0;
+                right:0;
+                text-align: center;
+                height: 44px;
+                font-family:'Roboto', sans-serif;
+                font-size: 13px;
+                line-height: 44px;
+                margin:0 -10px -10px;
+                @apply --ozone-mosaic-loader;
+            }
+            iron-list {
+                margin-top: 90px;
+                padding-bottom: 16px;
+            }
+            .resultList{
+                width:100%;
+                height: 80vh;
+                overflow-y: scroll;
+                overflow-x: hidden;
+                @apply --ozone-mosaic-list;
+            }
+            @media (max-width: 400px) {
+                iron-list {
+                    margin-top: 72px;
+                }
+            }
+
+        </style>
+        <ozone-collection
+                id="mosaicCollection"
+                items="{{searchResults}}"
+                total="{{total}}"
+                data-remain="{{dataRemain}}"></ozone-collection>
+
+        <div hidden$="[[!searchResults.length]]">
+
+                <div class="resultList" id="resultList">
+                    <iron-list
+                            id="ironList"
+                            grid
+                            items="[[searchResults]]"
+                            selection-enabled
+                            scroll-target="scrollTheshold">
+                        <template>
+                            <ozone-item-preview
+                                    ozone-api-type-id="ozoneApiType"
+                                    item-id="[[item.id]]"
+                                    item-data="[[item]]"
+                                    class="resultListItem"
+                                    selected="[[selected]]"
+                            >No preview link</ozone-item-preview>
+                        </template>
+                    </iron-list>
+                    <paper-item class="loader" hidden$="[[!dataRemain]]">Fetching new items...</paper-item>
+                </div>
+        </div>
+    </template>
+</dom-module>
+</body>
