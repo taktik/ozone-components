@@ -35,6 +35,9 @@ See demo application [demo](demo.html)
 - ozone-material
  - [ozone-video-player](packages/ozone-material/ozone-video-player) WebComponent that play video from Ozone.
  - [ozone-upload](packages/ozone-material/ozone-upload) configurable web component to upload files on ozone. Based on vaadin-upload.
+ - [ozone-item-preview](packages/ozone-material/ozone-item-preview)  Webcomponent based on polymer to preview an ozone item
+ - [ozone-item-edit](packages/ozone-material/ozone-item-edit) This package contains several Webcomponents based on polymer to edit an ozone item.
+ - [ozone-mosaic](packages/ozone-material/ozone-mosaic) Webcomponent to display mosaic of ozone preview
 
 ## Get start
 
