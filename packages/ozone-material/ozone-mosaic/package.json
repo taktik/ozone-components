@@ -52,7 +52,7 @@
     "include-loader": "^1.1.0-beta",
     "junit-reporter": "0.0.2",
     "polymer-webpack-loader": "^2.0.2",
-    "ts-loader": "^4.1.0",
+    "ts-loader": "^4.2.0",
     "typedoc": "^0.11.1",
     "typescript": "^2.8.1",
     "url-loader": "^1.0.1",

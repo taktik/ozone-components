@@ -2,8 +2,6 @@
  * Created by hubert on 8/06/17.
  */
 
-/// <amd-module name="ozone-mosaic"/>
-
 import "polymer/polymer-element.html"
 import "iron-list/iron-list.html"
 import "paper-item/paper-item.html"
@@ -15,9 +13,10 @@ import "ozone-collection"
 
 import "./ozone-mosaic.html"
 
-import {customElement, domElement} from 'taktik-polymer-typescript';
-import {Item} from 'ozone-type';
+import {customElement, domElement, property} from 'taktik-polymer-typescript';
+import {Item, SearchRequest} from 'ozone-type';
 import {OzoneCollection} from 'ozone-collection';
+import {SearchQuery} from "ozone-search-helper";
 
 
 /**
@@ -76,26 +75,50 @@ export class OzoneMosaic  extends Polymer.Element implements  TaktikSearchApiBeh
     /**
      * id of the source
      */
+    @property({
+        type: Array,
+        notify: true,
+    })
     searchResults: Array<Item> = [];
 
     /**
      * string to search in the collection
      */
+    @property({type: String})
     searchString:string = '';
 
     /**
      * total number of items found with the search
      */
+    @property({
+        type: Number,
+        notify:true,
+    })
     total?: number;
 
     /**
      * true indicate that all the data data still available with this search.
      */
+    @property({
+        type: Boolean,
+        notify:true,
+    })
     dataRemain: boolean = false;
+
+    /**
+     * Define size of query result
+     * @type {number}
+     */
+    @property({type:Number})
+    searchSize = 50;
 
     /**
      * type of the collection
      */
+    @property({
+        type: String,
+        observer: '_collectionTypeChange',
+    })
     collectionType: string = 'item';
 
     private _scrollTrigger = false;
@@ -103,38 +126,6 @@ export class OzoneMosaic  extends Polymer.Element implements  TaktikSearchApiBeh
 
     private _collectionTypeChange(collectionType: string){
         this.$.mosaicCollection.set('collection', collectionType);
-    }
-
-
-    static get properties() {
-        return {
-            searchResults: {
-                type: Array,
-                notify: true,
-                value: () =>  []
-            },
-            searchString: {
-                type: String
-            },
-            selectedAction: {
-                type: Number,
-                value: 0,
-            },
-            total: {
-                type: Number,
-                notify:true
-            },
-            dataRemain:{
-                type: Boolean,
-                notify:true,
-                value: false
-            },
-            collectionType:{
-                type: String,
-                value: 'item',
-                observer: '_collectionTypeChange',
-            },
-        }
     }
 
     private clearTriggers(){
@@ -161,17 +152,21 @@ export class OzoneMosaic  extends Polymer.Element implements  TaktikSearchApiBeh
      * @param searchString
      */
     searchInItems(searchString?:string){
-        if(searchString){
-        this.set('searchResults', []);
-        this.$.mosaicCollection.quickSearch(searchString, 50);
+        if(typeof(searchString) !== 'undefined'){
+            this.set('searchResults', []);
+            this.$.mosaicCollection.quickSearch(searchString, this.searchSize);
         }
     }
 
     /**
-     *
+     * Load more items to display
      */
-    toggleThreshold(){
-        this.$.mosaicCollection.loadNextItems()
+    loadMoreItems(){
+        return this.$.mosaicCollection.loadNextItems()
+    }
+
+    private toggleThreshold(){
+        return this.$.mosaicCollection.loadNextItems()
             .catch(()=>{})
             .then(()=>{
                 this.clearTriggers();
@@ -198,5 +193,11 @@ export class OzoneMosaic  extends Polymer.Element implements  TaktikSearchApiBeh
         } else{
             return Promise.reject('updatedData is null')
         }
+    }
+
+    customSearchQuery(requestQuery: SearchRequest){
+        const searchQuery: SearchQuery = new SearchQuery();
+        searchQuery.custom(requestQuery)
+        return this.$.mosaicCollection.search(searchQuery)
     }
 }
