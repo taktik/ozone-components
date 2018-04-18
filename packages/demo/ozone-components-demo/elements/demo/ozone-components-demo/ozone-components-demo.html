@@ -56,11 +56,16 @@
             #searchDisplay{
                 --ozone-mosaic-list: {
                     height: 70vh;
+                    border: red solid medium;
                 }
-                --ozone-item-preview:{
-                    width:300px;
-                    height:200px;
-                    margin:5px;
+            }
+            @media screen and (max-width: 900px) {
+                #searchDisplay{
+                    --ozone-item-preview:{
+                        width:150px;
+                        height:100px;
+                        margin:2px;
+                    }
                 }
             }
         </style>
@@ -120,6 +125,7 @@
                     <ozone-mosaic id="searchDisplay"
                                   total="{{numberOfResults}}"
                                   collection-type="[[type]]"
+                                  search-size="2"
                     ></ozone-mosaic>
 
                     <ozone-edit-panel id="editPanel"

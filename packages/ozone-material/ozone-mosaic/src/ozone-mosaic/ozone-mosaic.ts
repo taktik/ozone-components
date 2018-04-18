@@ -127,7 +127,7 @@ export class OzoneMosaic  extends Polymer.Element implements  TaktikSearchApiBeh
      * @type {number}
      */
     @property({type:Number})
-    private scrollthresholdPc = 80;
+    scrollthresholdPc = 80;
 
     private _collectionTypeChange(collectionType: string){
         this.$.mosaicCollection.set('collection', collectionType);
@@ -144,14 +144,22 @@ export class OzoneMosaic  extends Polymer.Element implements  TaktikSearchApiBeh
             this.$.mosaicCollection.deleteOne(event.detail.id)
         });
         this.$.resultList.addEventListener("scroll", (event: Event) => {
-
-            const percentage = this.getScrollPercentage()
-            if(percentage > this.scrollthresholdPc){
-                this._scrollTrigger = true;
-                this.toggleThreshold()
-            }
+            this._checkScroll();
         })
+        //Periodic verification because no scroll event is trigger when nb of items display does not overflow display size
+        setInterval(() => {
+            this._checkScroll();
+        }, 100)
     }
+
+    private _checkScroll() {
+        const percentage = this.getScrollPercentage()
+        if (percentage > this.scrollthresholdPc && !this._scrollTrigger) {
+            this._scrollTrigger = true;
+            this.toggleThreshold()
+        }
+    }
+
     private getScrollPercentage(){
         return ((this.$.resultList.clientHeight + this.$.resultList.scrollTop) / this.$.resultList.scrollHeight) * 100
     }
