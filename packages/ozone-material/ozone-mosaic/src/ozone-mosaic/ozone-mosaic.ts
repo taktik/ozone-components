@@ -122,7 +122,12 @@ export class OzoneMosaic  extends Polymer.Element implements  TaktikSearchApiBeh
     collectionType: string = 'item';
 
     private _scrollTrigger = false;
-    private scrollthreshold = 600;
+    /**
+     * scrollthreshold in percent to trigger loading of more items
+     * @type {number}
+     */
+    @property({type:Number})
+    private scrollthresholdPc = 80;
 
     private _collectionTypeChange(collectionType: string){
         this.$.mosaicCollection.set('collection', collectionType);
@@ -139,12 +144,16 @@ export class OzoneMosaic  extends Polymer.Element implements  TaktikSearchApiBeh
             this.$.mosaicCollection.deleteOne(event.detail.id)
         });
         this.$.resultList.addEventListener("scroll", (event: Event) => {
-            if(this.$.resultList.scrollTop  > this.scrollthreshold && ! this._scrollTrigger){
-                console.log('scroll')
+
+            const percentage = this.getScrollPercentage()
+            if(percentage > this.scrollthresholdPc){
                 this._scrollTrigger = true;
                 this.toggleThreshold()
             }
         })
+    }
+    private getScrollPercentage(){
+        return ((this.$.resultList.clientHeight + this.$.resultList.scrollTop) / this.$.resultList.scrollHeight) * 100
     }
 
     /**
@@ -154,8 +163,9 @@ export class OzoneMosaic  extends Polymer.Element implements  TaktikSearchApiBeh
     searchInItems(searchString?:string){
         if(typeof(searchString) !== 'undefined'){
             this.set('searchResults', []);
-            this.$.mosaicCollection.quickSearch(searchString, this.searchSize);
+            return this.$.mosaicCollection.quickSearch(searchString, this.searchSize);
         }
+        return Promise.reject('Undefined search String')
     }
 
     /**
@@ -166,7 +176,7 @@ export class OzoneMosaic  extends Polymer.Element implements  TaktikSearchApiBeh
     }
 
     private toggleThreshold(){
-        return this.$.mosaicCollection.loadNextItems()
+        return this.loadMoreItems()
             .catch(()=>{})
             .then(()=>{
                 this.clearTriggers();
@@ -195,6 +205,11 @@ export class OzoneMosaic  extends Polymer.Element implements  TaktikSearchApiBeh
         }
     }
 
+    /**
+     * perform a custom search
+     * @param {SearchRequest} requestQuery
+     * @return {Promise<Array<Item>>}
+     */
     customSearchQuery(requestQuery: SearchRequest){
         const searchQuery: SearchQuery = new SearchQuery();
         searchQuery.custom(requestQuery)

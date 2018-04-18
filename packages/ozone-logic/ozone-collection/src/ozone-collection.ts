@@ -125,9 +125,7 @@ export class OzoneCollection  extends Polymer.Element{
                 if(this._searchIterator)
                     this.set('dataRemain', this._searchIterator.done)
                 this.set('total', searchResult.total);
-                searchResult.results.forEach((item)=>{
-                    this.push('items', item);
-                })
+                this.push('items', ...searchResult.results)
                 return this.items;
             });
         }

@@ -16,12 +16,13 @@
   },
   "scripts": {
     "tsc": "tsc",
-    "build": "webpack --config webpack.config.js",
+    "build": "gulp clean && gulp build",
+    "clean": "gulp clean",
     "postinstall": "bower install",
     "test:persist": "wct --skip-plugin=headless -p --configFile wct.conf.js",
     "test": "wct --skip-plugin=local --configFile wct.conf.js",
     "pretest": "webpack --config webpack.config.js",
-    "prepublish": "tsc && cp src/*.html dist/",
+    "prepublish": "npm run build",
     "doc": "typedoc --excludeExternals --out  doc/ src/"
   },
   "keywords": [],
