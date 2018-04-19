@@ -5,6 +5,7 @@
 
 import {jsElement} from 'taktik-polymer-typescript'
 import {OzoneApiItem} from 'ozone-api-item'
+import {OzoneAPIRequest} from 'ozone-api-request'
 import * as OzoneType from 'ozone-type'
 import * as Config from 'ozone-config';
 export type SizeEnum = Number;
@@ -84,19 +85,11 @@ export class OzoneMediaUrl {
 
     private _fileTypeRequest(filetypeIdentifier: string){
         const url = `${this.config.host}${this.config.endPoints.fileType}/identifier/${filetypeIdentifier}`;
-        return new Promise((resolve, reject)=>{
-            const xmlhttp = new XMLHttpRequest();
-            xmlhttp.responseType = 'json';
 
-            xmlhttp.open("GET", url, true);
-            xmlhttp.onload = function() {
-                resolve(xmlhttp.response);
-            };
-            xmlhttp.onerror = function() {
-                reject(xmlhttp.statusText)
-            };
-            xmlhttp.send();
-        })
+        const ozoneAPIRequest = new OzoneAPIRequest();
+        ozoneAPIRequest.url = url;
+        ozoneAPIRequest.method = 'GET';
+        return ozoneAPIRequest.sendRequest();
     }
 
     private _getVideoFileType():Promise<object>{
