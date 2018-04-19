@@ -209,4 +209,88 @@ describe('ozone-search-helper', function() {
             })
         });
     })
+    describe('should order', ()=>{
+        it('search and order ascending', ()=>{
+            const searchQuery = new SearchQuery();
+            searchQuery.termQuery('myField', 'aText').order('aField').ASC;
+            expect(JSON.parse(searchQuery.searchQuery)).to.be.deep.equal({
+                size: 10,
+                query: {
+                    $type: "TermQuery",
+                    field: "myField",
+                    value: 'aText'
+                },
+                sorts:[
+                    {
+                        field: 'aField',
+                        order: 'ASC'
+                    }
+                ]
+            })
+        })
+        it('order ascending and search', ()=>{
+            const searchQuery = new SearchQuery();
+            searchQuery.order('aField').ASC.termQuery('myField', 'aText');
+            expect(JSON.parse(searchQuery.searchQuery)).to.be.deep.equal({
+                size: 10,
+                query: {
+                    $type: "TermQuery",
+                    field: "myField",
+                    value: 'aText'
+                },
+                sorts:[
+                    {
+                        field: 'aField',
+                        order: 'ASC'
+                    }
+                ]
+            })
+        })
+        it('order descending', ()=>{
+            const searchQuery = new SearchQuery();
+            searchQuery.order('aField').DESC.termQuery('myField', 'aText');
+            expect(JSON.parse(searchQuery.searchQuery)).to.be.deep.equal({
+                size: 10,
+                query: {
+                    $type: "TermQuery",
+                    field: "myField",
+                    value: 'aText'
+                },
+                sorts:[
+                    {
+                        field: 'aField',
+                        order: 'DESC'
+                    }
+                ]
+            })
+        })
+        it('compose order', ()=>{
+            const searchQuery = new SearchQuery();
+            searchQuery.order('aField').ASC.termQuery('myField', 'aText')
+                .order('bField').DESC
+                .order('cField').NONE;
+            expect(JSON.parse(searchQuery.searchQuery)).to.be.deep.equal({
+                size: 10,
+                query: {
+                    $type: "TermQuery",
+                    field: "myField",
+                    value: 'aText'
+                },
+                sorts:[
+                    {
+                        field: 'aField',
+                        order: 'ASC'
+                    },
+                    {
+                        field: 'bField',
+                        order: 'DESC'
+                    },
+                    {
+                        field: 'cField',
+                        order: 'NONE'
+                    }
+                ]
+            })
+        })
+    })
 })

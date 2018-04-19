@@ -5,9 +5,8 @@
  */
 
 import {jsElement} from 'taktik-polymer-typescript'
-import {Item, SearchRequest, ItemSearchResult, TermsAggregation, Aggregation, QueryStringQuery, TermQuery, TypeQuery, Query, BoolQuery} from 'ozone-type'
+import {Item, SearchRequest, ItemSearchResult, TermsAggregation, Aggregation, QueryStringQuery, TermQuery, TypeQuery, Query, BoolQuery, Sort} from 'ozone-type'
 import {OzoneAPIRequest} from 'ozone-api-request'
-import {isNull} from "util";
 
 export interface SearchResponse {
     response: ItemSearchResult;
@@ -31,11 +30,13 @@ export interface SearchResult {
  *  * Example:
  * ```javaScript
  *   let searchQuery = new SearchQuery();
- *   // (type == 'aTypeor' or contains 'hello') and 'myField' == 'aText'
+ *   // ((type == 'aTypeor' or contains 'hello') and 'myField' == 'aText)
+ *   // Order by 'creationDate'
  *   searchQuery
  *      .typeQuery('aType')
  *      .or.quicksearch('hello')
- *      .and.termQuery('myField','aText');
+ *      .and.termQuery('myField','aText')
+ *      .order('creationDate').DESC;
  *
  *   searchQuery.quicksearch('').and;
  *
@@ -237,6 +238,43 @@ export class SearchQuery {
 
         return this
     }
+
+    /**
+     * function to an order on a field
+     * @param {string} field
+     * @param {Sort.OrderEnum} order
+     * @return {this}
+     */
+    addOrderOn(field: string, order: Sort.OrderEnum){
+        this._searchRequest.sorts = this._searchRequest.sorts || [];
+        this._searchRequest.sorts.push({
+            field,
+            order
+        })
+        return this;
+    }
+
+    /**
+     * Short hand to field oder in chain configuration.
+     * Has to be follow by ASC, DESC or NONE
+     * @param {string} field field to search on.
+     * @return {OrderRequest}
+     */
+    order(field: string):OrderRequest{
+        return new OrderRequest(this, field)
+    }
+
+}
+export class OrderRequest{
+    request: SearchQuery;
+    field: string;
+    constructor(request: SearchQuery, field: string){
+        this.request = request;
+        this.field = field;
+    }
+    get ASC ():SearchQuery { return this.request.addOrderOn(this.field, 'ASC' as any)}
+    get DESC ():SearchQuery { return this.request.addOrderOn(this.field, 'DESC'as any)}
+    get NONE ():SearchQuery { return this.request.addOrderOn(this.field, 'NONE'as any)}
 
 }
 /**
