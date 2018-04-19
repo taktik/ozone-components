@@ -5,8 +5,9 @@
  */
 
 import {jsElement} from 'taktik-polymer-typescript'
-import {Item, SearchRequest, ItemSearchResult, TermsAggregation, Aggregation} from 'ozone-type'
+import {Item, SearchRequest, ItemSearchResult, TermsAggregation, Aggregation, QueryStringQuery, TermQuery, TypeQuery, Query, BoolQuery} from 'ozone-type'
 import {OzoneAPIRequest} from 'ozone-api-request'
+import {isNull} from "util";
 
 export interface SearchResponse {
     response: ItemSearchResult;
@@ -24,7 +25,35 @@ export interface SearchResult {
  *   let searchQuery = new SearchQuery();
  *   searchQuery.quicksearch('');
  *   const searchGenerator = ozoneItemApi.search(searchQuery);
+ * ```
  *
+ * Search query can be chain.
+ *  * Example:
+ * ```javaScript
+ *   let searchQuery = new SearchQuery();
+ *   // (type == 'aTypeor' or contains 'hello') and 'myField' == 'aText'
+ *   searchQuery
+ *      .typeQuery('aType')
+ *      .or.quicksearch('hello')
+ *      .and.termQuery('myField','aText');
+ *
+ *   searchQuery.quicksearch('').and;
+ *
+ *   const searchGenerator = ozoneItemApi.search(searchQuery);
+ *
+ *  * Example:
+ * ```javaScript
+ *   let searchQuery = new SearchQuery();
+ *   // type == 'aTypeor' or contains 'hello' or 'myField' == 'aText'
+ *   searchQuery
+ *      .typeQuery('aType')
+ *      .or
+ *         .quicksearch('hello')
+ *         .termQuery('myField','aText');
+ *
+ *   searchQuery.quicksearch('').and;
+ *
+ *   const searchGenerator = ozoneItemApi.search(searchQuery);
  * ```
  */
 @jsElement()
@@ -35,52 +64,178 @@ export class SearchQuery {
 
     get searchQuery () {return JSON.stringify(this._searchRequest)}
 
+
     get size(): number{return this._searchRequest.size || 0;}
     set size(size: number) {this._searchRequest.size = size;}
     get offset(): number{return this._searchRequest.offset || 0;}
     set offset(size: number) {this._searchRequest.offset = size;}
 
-
     /**
-     *
-     * @param searchString
+     * create boolQuery mustClauses.
+     * @return {SearchQuery}
      */
-    quicksearch(searchString: string): void {
-
-        let searchParam:SearchRequest = {};
-
-        searchParam.size = this.size;
-        searchParam.query = {
-            "$type": "QueryStringQuery",
-            "field": "_quicksearch",
-            "queryString": `${searchString}*`
-        };
-
-        this._searchRequest = searchParam;
+    get and(): SearchQuery {
+        return this.boolQuery('mustClauses')
     }
 
-    suggestion(searchString: string, lastTerm?:string){
-        let searchParam:SearchRequest = {};
+    /**
+     * create boolQuery shouldClauses.
+     * @return {SearchQuery}
+     */
+    get or(): SearchQuery {
+        return this.boolQuery('shouldClauses')
+    }
+
+    /**
+     * create boolQuery mustNotClauses (nand).
+     * @return {SearchQuery}
+     */
+    get not(): SearchQuery {
+        return this.boolQuery('mustNotClauses')
+    }
+
+    /**
+     * set search request size
+     * Can be chain.
+     * @param {number} size
+     * @return {SearchQuery} this
+     */
+    setSize(size: number): SearchQuery{
+        this.size = size;
+        return this;
+    }
+
+    /**
+     * generic boolQuery
+     * Can be chain.
+     * @param {string} kind kind of bool query
+     * @return {SearchQuery}
+     */
+    boolQuery(kind: string):SearchQuery{
+        const currentQuery = Object.assign({}, this._searchRequest.query)
+        this._searchRequest.query = {
+            "$type": "BoolQuery",
+        } as BoolQuery;
+
+        this._searchRequest.query[kind] = [currentQuery]
+        return this;
+    }
+
+    /**
+     * ozone QueryStringQuery
+     * @param {string} searchString string to search
+     */
+    quicksearch(searchString: string): SearchQuery {
+        return this.addQuery({
+            "$type": "QueryStringQuery",
+            field: "_quicksearch",
+            queryString: `${searchString}*`
+        } as QueryStringQuery);
+    }
+
+    /**
+     * search for a term in a field
+     * @param {string} field
+     * @param {string} value
+     * @return {SearchQuery}
+     */
+    termQuery(field: string, value: string): SearchQuery {
+        return this.addQuery({
+            "$type": "TermQuery",
+            field: field,
+            value: value
+        } as TermQuery);
+    }
+
+    /**
+     * search inside a type.
+     * Not un subtype
+     * @param {string} typeIdentifiers
+     * @return {SearchQuery}
+     */
+    typeQuery(...typeIdentifiers: Array<string>): SearchQuery {
+        return this.genericTypeQuery(false, ...typeIdentifiers);
+    }
+
+    /**
+     * search inside a type and it's subtype
+     * @param {string} typeIdentifiers
+     * @return {SearchQuery}
+     */
+    typeQueryWithSubType(...typeIdentifiers: Array<string>): SearchQuery {
+        return this.genericTypeQuery(true, ...typeIdentifiers);
+    }
+
+    /**
+     * Search inside a type
+     * @param {boolean} includeSubTypes
+     * @param {string} typeIdentifiers
+     * @return {SearchQuery}
+     */
+    private genericTypeQuery(includeSubTypes: boolean, ...typeIdentifiers: Array<string>): SearchQuery {
+        return this.addQuery({
+            "$type": "TypeQuery",
+            typeIdentifiers: typeIdentifiers,
+            includeSubTypes: includeSubTypes
+        } as TypeQuery);
+    }
+
+    /**
+     * Search for auto complete
+     * @param {string} searchString
+     * @param {string?} lastTerm
+     * @param {number?} size
+     * @return {SearchQuery}
+     */
+    suggestion(searchString: string, lastTerm?:string, size?: number){
+        const suggestSize = size || this.size;
         if(lastTerm) {
-            searchParam.aggregations = [{
+            this._searchRequest.aggregations = [{
                 "$type": "TermsAggregation",
                 name: "suggest",
                 field: "_quicksearch",
                 order: "COUNT_DESC",
-                size: this.size,
+                size: suggestSize,
                 includePattern: `${lastTerm}.*`
             } as TermsAggregation];
         }
-        searchParam.query = {
-            $type: "QueryStringQuery",
-            field: "_quicksearch",
-            queryString: `${searchString}*`
-        };
+
+        return this.quicksearch(searchString);
+    }
+
+    /**
+     * create a custom searchRequest.
+     * Can not be chained
+     * @param {SearchRequest} searchParam
+     * @return {SearchQuery}
+     */
+    custom(searchParam:SearchRequest): void{
         this._searchRequest = searchParam;
     }
 
-    custom(searchParam:SearchRequest){
-        this._searchRequest = searchParam;
+    /**
+     *
+     * @param {Query} query
+     * @return {SearchQuery}
+     */
+    addQuery(query: Query): SearchQuery{
+
+        if(this._searchRequest.query && this._searchRequest.query.$type === 'BoolQuery'){
+            const currentQuery = (this._searchRequest.query as BoolQuery);
+            if(currentQuery.mustClauses){
+                currentQuery.mustClauses.push(query)
+            } else if(currentQuery.shouldClauses){
+                currentQuery.shouldClauses.push(query)
+            } else if(currentQuery.mustNotClauses){
+                currentQuery.mustNotClauses.push(query)
+            } else {
+                throw new Error('unsupported BoolQuery')
+            }
+        } else {
+            this._searchRequest.query = query;
+        }
+
+        return this
     }
 
 }

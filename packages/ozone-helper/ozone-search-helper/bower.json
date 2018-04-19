@@ -1,0 +1,22 @@
+{
+  "name": "ozone-search-helper",
+  "description": "",
+  "main": "dist/ozone-search-helper.js",
+  "authors": [
+    "hj@taktik"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/taktik/ozone-components",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "web-component-tester": "^6.5.0",
+    "webcomponentsjs": "^1.2.0"
+  }
+}
