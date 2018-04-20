@@ -1,0 +1,27 @@
+<!--
+
+
+`ozone-api-search` is a module for Ozone content suggestion.
+
+Example:
+
+```html
+<ozone-api-search></ozone-api-search>
+```
+
+@demo
+-->
+<dom-module id="ozone-api-search">
+  <template>
+    <iron-ajax
+      id="ozoneAccess"
+      url="[[_searchEndPoint]]"
+      method="POST"
+      body="[[_searchParam]]"
+      content-type="application/json; charset=utf-8"
+      withCredentials
+      auto$="[[auto]]">
+
+    </iron-ajax>
+  </template>
+</dom-module>

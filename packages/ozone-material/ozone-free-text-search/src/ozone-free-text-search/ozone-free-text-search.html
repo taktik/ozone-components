@@ -1,0 +1,58 @@
+<!--
+
+
+`ozone-free-text-search` is a horizontal free text ozone-api-search bar to ozone content.
+It use `taktik-free-text-search` for the material and `ozone-api-search` as API.
+
+Example:
+
+```html
+    <paper-material elevation="1">
+      <style is="custom-style">
+        .customStyle {
+          --taktik-search-button: {
+            background-color: sienna;
+            color: white;
+          };
+          --taktik-auto-complete-items: {
+            font-family: serif;
+          };
+          --taktik-count-result-found:{
+            color: darkgrey;
+          }
+        }
+      </style>
+      <ozone-free-text-search
+        class="customStyle "
+        search-value="{{search}}"
+        show-item-count
+        search-results="{{result}}"></ozone-free-text-search>
+
+      found {{result.length}} results with "{{search}}".
+    </paper-material>
+```
+
+
+### Styling
+
+see `taktik-free-text-search`
+
+
+
+@demo elements/ozone-material/ozone-free-text-search/demo.html
+-->
+
+<dom-module id="ozone-free-text-search">
+  <template>
+
+    <ozone-api-search id="ozoneAutoComplete" suggest auto size="5"></ozone-api-search>
+    <ozone-api-search id="ozoneSearchItem"></ozone-api-search>
+
+    <taktik-free-text-search
+      id="freeTextSearch"
+      search-value="{{searchValue}}"
+      show-item-count$="{{showItemCount}}"
+      search-results="{{searchResults}}"></taktik-free-text-search>
+
+  </template>
+</dom-module>

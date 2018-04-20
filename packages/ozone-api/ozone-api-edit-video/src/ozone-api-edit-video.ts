@@ -125,35 +125,25 @@ export class OzoneApiEditVideo {
         if(originalVideo.derivedFiles) {
             const mediaUrl = await this.mediaUrlFactory(originalVideo);
             const fileTypeIdentifier = await mediaUrl.getPreferedVideoFormat();
+            debugger
             if( typeof fileTypeIdentifier !== 'string')
                 throw new Error('No video files found')
             const fileType = await this.getFileType(fileTypeIdentifier);
 
             const query = new SearchQuery();
-            query.custom(
-                {
-                    query:
-                        {
-                            "$type": "BoolQuery",
-                            mustClauses: [
-                                {
-                                    "$type": "IdsQuery",
-                                    ids: originalVideo.derivedFiles,
-                                },
-                                {
-                                    "$type": "TermQuery",
-                                    field: "fileType",
-                                    value: fileType.id
-                                }
-                            ]
-                        }
-                });
+            query.termQuery('fileType', fileType.id as string)
+                .and.idsQuery(...originalVideo.derivedFiles);
+
             const serachGen = await this.ozoneApi.on('file').search(query);
             const serachResult = await serachGen.next();
-            const originalHLSFile = serachResult.results[0];
+            if(serachResult){
+                const originalHLSFile =  serachResult.results[0];
+                const file = await this.ozoneApi.on('file').getOne(originalHLSFile.id as uuid);
+                return file as OzoneType.File;
+            } else {
+                throw new Error('Unable to find original File')
+            }
 
-            const file = await this.ozoneApi.on('file').getOne(originalHLSFile.id as uuid);
-            return file as OzoneType.File;
         } else {
             throw new Error('originalVideo has no file')
         }

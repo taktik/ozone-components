@@ -1,0 +1,14 @@
+[
+  {
+    "module": "ozone-api-search",
+    "dir": "src/ozone-api-search"
+  },
+  {
+    "module": "taktik-free-text-search",
+    "dir": "src/taktik-free-text-search"
+  },
+  {
+    "module": "ozone-free-text-search",
+    "dir": "src/ozone-free-text-search"
+  }
+]

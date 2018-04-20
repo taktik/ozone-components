@@ -5,7 +5,7 @@
  */
 
 import {jsElement} from 'taktik-polymer-typescript'
-import {Item, SearchRequest, ItemSearchResult, TermsAggregation, Aggregation, QueryStringQuery, TermQuery, TypeQuery, Query, BoolQuery, Sort} from 'ozone-type'
+import {Item, SearchRequest, ItemSearchResult, TermsAggregation, Aggregation, QueryStringQuery, TermQuery, TypeQuery, Query, BoolQuery, Sort, IdsQuery} from 'ozone-type'
 import {OzoneAPIRequest} from 'ozone-api-request'
 
 export interface SearchResponse {
@@ -156,6 +156,18 @@ export class SearchQuery {
      */
     typeQuery(...typeIdentifiers: Array<string>): SearchQuery {
         return this.genericTypeQuery(false, ...typeIdentifiers);
+    }
+
+    /**
+     * search array of ids
+     * @param {string} ids
+     * @return {SearchQuery}
+     */
+    idsQuery(...ids: Array<string>): SearchQuery {
+        return this.addQuery({
+            "$type": "IdsQuery",
+            ids,
+        } as IdsQuery);
     }
 
     /**

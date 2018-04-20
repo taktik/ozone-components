@@ -1,0 +1,154 @@
+<!--
+
+
+`taktik-free-text-search` is a horizontal free text taktik-search bar to any content.
+The search api has to be set using metods‘registerAutoCompleteAPI‘ and ‘registerSearchAPI‘
+
+
+Example:
+
+```html
+    <paper-material elevation="1">
+      <style is="custom-style">
+        .customStyle {
+          --taktik-search-button: {
+            background-color: sienna;
+            color: white;
+          };
+          --taktik-auto-complete-items: {
+            font-family: serif;
+          };
+          --taktik-count-result-found:{
+            color: darkgrey;
+          }
+          --taktik-input-color: {
+            --paper-input-container-focus-color: #2C2958;
+          }
+        }
+      </style>
+      <taktik-free-text-search
+        id="taktikFreeTextSearch"
+        class="customStyle "
+        search-value="{{search}}"
+        show-item-count
+        search-results="{{result}}">
+        </taktik-free-text-search>
+
+      found {{result.length}} results with "{{search}}".
+    </paper-material>
+    <script>
+    ...
+        taktikFreeTextSearch.registerAutoCompleteAPI(autoCompleteAPI);
+        taktikFreeTextSearch.registerSearchAPI(searchAPI);
+    </script>
+```
+
+
+### Styling
+
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--taktik-search-button` | css mixin for the search button | `{}`
+`--taktik-auto-complete-items` | css mixin auto complete paper-items | `{}`
+`--taktik-count-result-found` | css mixin for the number of result found | `{}`
+`--taktik-input-color` | css mixin for the color of the input | `{--paper-input-container-focus-color: #2C2958;}`
+`--taktik-listBox` | css mixin for the list box style | `{}`
+
+
+
+@demo elements/taktik-material/taktik-free-text-search/demo.html
+-->
+
+<dom-module id="taktik-free-text-search">
+  <template>
+    <style include="iron-flex iron-flex-alignment"></style>
+    <style>
+      :host *{
+        font-family: 'Roboto', sans-serif;
+      }
+      :host .flex-horizontal {
+        @apply --layout-horizontal;
+         }
+      :host .flexchild {
+        @apply --layout-flex;
+      }
+      :host #searchButton {
+        @apply --taktik-search-button;
+      }
+      :host .resultListItem {
+        @apply --taktik-auto-complete-items;
+      }
+      :host .itemCount {
+        @apply --taktik-count-result-found;
+      }
+      :host input{
+        position: relative; /* to make a stacking context */
+        outline: none;
+        box-shadow: none;
+        padding: 0;
+        width: 100%;
+        max-width: 100%;
+        background: transparent;
+        border: none;
+        color: var(--paper-input-container-input-color, var(--primary-text-color));
+        -webkit-appearance: none;
+        text-align: inherit;
+        vertical-align: bottom;
+        @apply --paper-input-container-shared-input-style;
+      }
+      .paperInputContainer{
+        --paper-input-container-focus-color: #2C2958;
+        @apply --taktik-input-color;
+      }
+      :host .container{
+        margin:auto;
+        max-width:800px;
+        width:80%;
+      }
+      :host #listBox{
+        background:transparent;
+        @apply --taktik-listBox;
+      }
+
+      @media (max-width:600px){
+        .container{
+          width:98%;
+          margin:0 1%;
+        }
+      }
+    </style>
+
+    <div id="container" class="container flex-horizontal">
+      <paper-input-container class="flexchild paperInputContainer" always-float-label="true">
+        <div slot="prefix"><iron-icon icon="icons:search"></iron-icon></div>
+        <label slot="label">Search</label>
+        <iron-input  slot="input" >
+          <input  id="searchInput" value="{{searchValue::input}}">
+        </iron-input>
+        <paper-icon-button slot="suffix" icon="clear" on-tap="_clear"></paper-icon-button>
+      </paper-input-container>
+
+      <!--<paper-input id="searchInput" class="flexchild" label="Search" value="{{searchValue}}"></paper-input>-->
+
+      <!--<paper-button id="searchButton" raised>
+        <iron-icon icon="search" ></iron-icon>
+      </paper-button>-->
+
+    </div>
+    <iron-collapse class="container" id="collapseAutoComplete">
+        <div>
+          <paper-listbox id="listBox">
+            <dom-repeat id="resultList" items="{{suggestions}}">
+              <template>
+                <paper-item id="autoCompleteResult-{{index}}" on-tap="_selectItem" class="resultListItem">
+                  {{item.key}} <div class="itemCount" hidden$="[[ ! showItemCount]]">({{item.docCount}})</div>
+                </paper-item>
+              </template>
+              </dom-repeat>
+          </paper-listbox>
+        </div>
+    </iron-collapse>
+  </template>
+</dom-module>
