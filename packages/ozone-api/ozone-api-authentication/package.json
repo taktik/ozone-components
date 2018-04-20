@@ -7,7 +7,7 @@
   "description": "low level wrapper around ozone login, logout and authentication api",
   "scripts": {
     "prepublish": "npm run tsc",
-    "postinstall": "bower install",
+    "bower": "bower install",
     "tsc": "tsc",
     "test": "wct --skip-plugin=local --configFile wct.conf.js",
     "test:persist": "wct --skip-plugin=headless -p --configFile wct.conf.js",

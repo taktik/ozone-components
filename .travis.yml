@@ -10,5 +10,6 @@ before_script:
   - npm install -g bower
 
 script:
+  - npm run bower
   - npm run test
   - npm run doc

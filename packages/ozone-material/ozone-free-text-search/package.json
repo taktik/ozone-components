@@ -11,7 +11,7 @@
     "test": "test"
   },
   "scripts": {
-    "postinstall": "bower install",
+    "bower": "bower install",
     "build": "gulp clean && gulp build",
     "clean": "gulp clean",
     "prepublish": "npm run build",

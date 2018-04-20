@@ -8,7 +8,7 @@
 	},
 	"scripts": {
 		"install": "npm install",
-		"postinstall": "bower install",
+		"bower": "bower install",
 		"test": "echo 'no test in ozone-components-demo'",
 		"demo": "webpack-dev-server --config webpack.config.js",
 		"build": "webpack --config webpack.config.js"

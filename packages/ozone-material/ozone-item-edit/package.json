@@ -19,7 +19,7 @@
     "build": "gulp clean && gulp build",
     "clean": "gulp clean",
     "start": "webpack --config webpack.config.js",
-    "postinstall": "bower install",
+    "bower": "bower install",
     "test:persist": "wct --skip-plugin=headless -p --configFile wct.conf.js",
     "test": "tsc",
     "prepublish": "npm run build",

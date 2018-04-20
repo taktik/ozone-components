@@ -7,6 +7,7 @@
 	"scripts": {
 		"bootstrap": "lerna bootstrap",
 		"pretest": "lerna bootstrap",
+		"bower": "lerna run bower",
 		"test": "lerna run test",
 		"demo": "lerna run --scope ozone-components-demo demo",
 		"build": "lerna run --scope ozone-components-demo build",

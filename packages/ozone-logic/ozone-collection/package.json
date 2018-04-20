@@ -18,7 +18,7 @@
     "tsc": "tsc",
     "build": "gulp clean && gulp build",
     "clean": "gulp clean",
-    "postinstall": "bower install",
+    "bower": "bower install",
     "test:persist": "wct --skip-plugin=headless -p --configFile wct.conf.js",
     "test": "wct --skip-plugin=local --configFile wct.conf.js",
     "pretest": "webpack --config webpack.config.js",

@@ -17,7 +17,7 @@
 	"scripts": {
 		"test": "wct --skip-plugin=local",
 		"prepublish": "npm run build",
-		"postinstall": "bower install",
+		"bower": "bower install",
 		"build": "gulp build",
 		"clean": "gulp clean",
 		"verify": "git diff --exit-code",

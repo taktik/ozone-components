@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/indec.d.ts",
   "scripts": {
-    "postinstall": "bower install",
+    "bower": "bower install",
     "build": "gulp clean && gulp build",
     "clean": "gulp clean",
     "prepublish": "npm run build",

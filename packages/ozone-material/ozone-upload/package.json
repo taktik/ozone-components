@@ -17,7 +17,7 @@
   "scripts": {
     "tsc": "tsc",
     "prepublish": "npm run build",
-    "postinstall": "bower install",
+    "bower": "bower install",
     "pretest": "npm run build",
     "test": "wct  --skip-plugin=local",
     "build": "gulp build",
