@@ -118,14 +118,23 @@
                         <option value="item">item</option>
                         <option value="video">video</option>
                     </select>
-                    <taktik-free-text-search id="freeTextSearch" class="" search-value="{{search}}" show-item-count search-results></taktik-free-text-search>
+                    <taktik-free-text-search id="freeTextSearch"
+                                             class=""
+                                             search-value="{{search}}"
+                                             show-item-count
+                                             suggestions="{{autoCompleteResult}}"
+                                             search-results></taktik-free-text-search>
 
-                    <ozone-api-search id="autoCompleteAPI" suggest auto size="5" item-type="[[type]]"> NO ozone-api-search </ozone-api-search>
+                    <ozone-api-search
+                            id="autoCompleteAPI"
+                            search-results="{{autoCompleteResult}}"
+                            suggest auto size="5" item-type="[[type]]"> NO ozone-api-search </ozone-api-search>
                     <p class="found">found <b>[[numberOfResults]]</b> results with <b>"{{search}}"</b>.</p>
-                    <ozone-mosaic id="searchDisplay"
+                    <ozone-mosaic id="ozoneMosaic"
                                   total="{{numberOfResults}}"
                                   collection-type="[[type]]"
                                   search-size="2"
+                                  search-string="{{search}}"
                     ></ozone-mosaic>
 
                     <ozone-edit-panel id="editPanel"

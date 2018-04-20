@@ -35,6 +35,9 @@ class OzoneComponentsDemo extends Polymer.Element {
             result: {
                 type: Array
             },
+            autoCompleteResult: {
+                type: Array
+            },
             numberOfResults: {
                 type: Number
             },
@@ -51,7 +54,7 @@ class OzoneComponentsDemo extends Polymer.Element {
     ready() {
         super.ready();
         this.$.editPanel.addEventListener('save-tap', (event) => {
-            this.$.searchDisplay.saveSelectedItem(event.detail)
+            this.$.ozoneMosaic.saveSelectedItem(event.detail)
                 .then((item) => {
                     this.$.editPanel.set('selectedItem', item)
                 });
@@ -62,23 +65,31 @@ class OzoneComponentsDemo extends Polymer.Element {
         this.$.videoEditPanel.addEventListener('close-tap', (event) => {
             this.$.videoEditPanel.set('display', false);
         });
-        this.$.searchDisplay.addEventListener('edit-item', (event) => {
+        this.$.ozoneMosaic.addEventListener('edit-item', (event) => {
             this.$.editPanel.set('display', true);
             this.$.editPanel.set('selectedItem', event.detail);
         });
 
-        this.$.searchDisplay.addEventListener('info-item', (event) => {
+        this.$.ozoneMosaic.addEventListener('info-item', (event) => {
             this.$.videoEditPanel.set('display', true);
             this.$.videoEditPanel.set('selectedItem', event.detail);
-        })
+        });
+
+        this.$.freeTextSearch.addEventListener("taktik-search", () => this._searchSubmit());
     }
 
     _isConnectedChange(value) {
         if(this.isConnected){
-            this.$.freeTextSearch.registerAutoCompleteAPI(this.$.autoCompleteAPI);
-            this.$.freeTextSearch.registerSearchAPI(this.$.searchDisplay)
         }
 
+    }
+
+    _searchSubmit (){
+        this.$.ozoneMosaic.searchQuery
+            .quicksearch(this.search)
+            .setSize(5)
+            .order('creationDate').ASC;
+        this.$.ozoneMosaic.search()
     }
 
 }

@@ -223,4 +223,16 @@ export class OzoneMosaic  extends Polymer.Element implements  TaktikSearchApiBeh
         searchQuery.custom(requestQuery)
         return this.$.mosaicCollection.search(searchQuery)
     }
+
+    _currentSearch?: SearchQuery;
+    get searchQuery():SearchQuery{
+        this._currentSearch = new SearchQuery();
+        return this._currentSearch;
+    }
+    set searchQuery(searchQuery: SearchQuery){
+        this._currentSearch = searchQuery;
+    }
+    search(){
+        return this.$.mosaicCollection.search(this._currentSearch)
+    }
 }

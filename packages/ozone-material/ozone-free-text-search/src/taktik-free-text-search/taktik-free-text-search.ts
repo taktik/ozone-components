@@ -51,9 +51,6 @@ export class TaktikFreeTextSearch extends Polymer.Element {
     @property({type: Boolean})
     showItemCount: boolean = false
 
-    _autoCompleteAPI: any
-    _searchAPI: any;
-
     @property({
         type: Boolean,
         notify: true
@@ -62,7 +59,6 @@ export class TaktikFreeTextSearch extends Polymer.Element {
 
     ready (){
         super.ready();
-        this.addEventListener("taktik-search", (e: Event) => this._searchSubmit());
 
         this.$.searchInput.addEventListener("keydown", (e: Event) => this._keyType(e as KeyboardEvent));
         this.$.searchInput.addEventListener("blur", () => this._formBlur());
@@ -72,8 +68,7 @@ export class TaktikFreeTextSearch extends Polymer.Element {
 
     static get observers() {
         return [
-            '_displayAutoComplete(suggestions, _isInputFocus)',
-            '_searchValueChange(searchValue)'
+            '_displayAutoComplete(suggestions, _isInputFocus)'
         ];
     }
     /**
@@ -83,46 +78,6 @@ export class TaktikFreeTextSearch extends Polymer.Element {
      * @event taktik-search
      */
 
-    /**
-     * register api to be used for auto completion.
-     * autoCompleteAPI should be an implementation of *Taktik-search-api-behavior*
-     * @param   {TaktikSearchApiBehavior}   autoCompleteAPI
-     */
-    registerAutoCompleteAPI (autoCompleteAPI: any){
-        this.set('_autoCompleteAPI', autoCompleteAPI);
-        this._autoCompleteAPI.addEventListener('results-found', () => this._suggestionChange());
-    }
-
-    /**
-     * register api to be used for search.
-     * searchAPI should be an implementation of *Taktik-search-api-behavior*
-     * @param  {TaktikSearchApiBehavior}  searchAPI
-     */
-    registerSearchAPI (searchAPI: any){
-        this.set('_searchAPI', searchAPI);
-        this._searchAPI.addEventListener('results-found', () => this._searchResultChange());
-    }
-
-    _searchValueChange (searchValue?: string){
-        if(this._autoCompleteAPI) {
-            this._autoCompleteAPI.set('searchString', searchValue);
-        }
-        if(this._searchAPI) {
-            this._searchAPI.set('searchString', searchValue);
-        }
-    }
-
-    _suggestionChange (){
-        this.set('suggestions', this._autoCompleteAPI.searchResults);
-    }
-
-    _searchResultChange (){
-        this.set('searchResults', this._searchAPI.searchResults);
-    }
-
-    _searchSubmit (){
-        this._searchAPI.requestSearch();
-    }
 
     _keyType (keypress: KeyboardEvent) {
         if( keypress.key === 'Enter' || keypress.keyCode === 13){
