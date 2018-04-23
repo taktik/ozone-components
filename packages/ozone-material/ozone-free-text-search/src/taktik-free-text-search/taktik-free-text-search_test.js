@@ -59,7 +59,8 @@ class MinimalSearchApi extends Polymer.Element {
 window.customElements.define(MinimalSearchApi.is, MinimalSearchApi);
 
 describe('search-content basic behavior', () => {
-    let element,
+    let demo,
+        element,
         autoCompleteAPI;
 
 
@@ -70,7 +71,10 @@ describe('search-content basic behavior', () => {
     let afterFunctions = [];
 
     beforeEach((done) => {
-        const elements = fixture('basic')
+        const elements = fixture('basic');
+        demo = elements[2];
+        element = demo.$.moduleUnderTest ;
+        autoCompleteAPI = demo.$.autoComplete;
         flush(done)
     });
     afterEach(() => {
@@ -80,18 +84,24 @@ describe('search-content basic behavior', () => {
         afterFunctions = [];
     });
 
-    it('should contains search input label', () => {
+    it('should contains search input label', (done) => {
+        flush(() => {
         let label = Polymer
             .dom(element.shadowRoot)
             .querySelector('label');
         expect(label.textContent).to.be.equal('Search');
+            done();
+        });
     });
 
-    it('should contains search icon', () => {
+    it('should contains search icon', (done) => {
+        flush(() => {
         let item = Polymer
             .dom(element.shadowRoot)
             .querySelector('iron-icon');
         expect(item.getAttribute('icon')).to.be.equal('icons:search');
+            done();
+        });
     });
 
     it('should not display suggestions result at startup', (done) => {
@@ -119,7 +129,6 @@ describe('search-content basic behavior', () => {
                 // Data bindings will stamp out new DOM asynchronously
                 // so wait to check for updates
                 flush(() => {
-                    debugger
                     expect(element.searchValue).to.be.equal('r');
                     expect(element.suggestions.length).to.be.equal(2);
                     expect(element.$.collapseAutoComplete.opened).to.be.equal(true);
@@ -193,22 +202,6 @@ describe('search-content basic behavior', () => {
                 done();
             }, 110)
 
-        });
-    });
-
-    it('should expose searchResults', (done) => {
-
-        const expectedSuggestions = [{"search":"result", "object":["with", "data"]}];
-        element.set('searchValue', 'ani');
-        element.dispatchEvent(new CustomEvent('taktik-search', {
-            bubbles: true, composed: true,
-            detail: 'ani'
-        }));
-        // Data bindings will stamp out new DOM asynchronously
-        // so wait to check for updates
-        flush(function () {
-            expect(element.searchResults).to.be.deep.equal(expectedSuggestions);
-            done();
         });
     });
 
