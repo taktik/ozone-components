@@ -6,7 +6,7 @@
   },
   "description": "",
   "main": "dist/index.js",
-  "types": "dist/indec.d.ts",
+  "types": "dist/index.d.ts",
   "directories": {
     "test": "test"
   },

@@ -3,7 +3,7 @@
   "version": "3.2.0-beta4",
   "description": "",
   "main": "dist/index.js",
-  "types": "dist/indec.d.ts",
+  "types": "dist/index.d.ts",
   "scripts": {
     "bower": "bower install",
     "build": "gulp clean && gulp build",

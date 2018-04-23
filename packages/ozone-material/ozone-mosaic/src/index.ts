@@ -1,1 +1,1 @@
-import "./ozone-mosaic/ozone-mosaic"
+export * from "./ozone-mosaic/ozone-mosaic"

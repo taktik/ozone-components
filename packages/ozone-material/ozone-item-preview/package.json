@@ -2,7 +2,7 @@
   "name": "ozone-item-preview",
   "version": "3.2.0-beta4",
   "main": "dist/index.js",
-  "types": "dist/indec.d.ts",
+  "types": "dist/index.d.ts",
   "description": "",
   "scripts": {
     "bower": "bower install",
