@@ -15,6 +15,9 @@ import "../video-edit-panel"
 import 'ozone-media-edit'
 //import 'ozone-item-edit/src/ozone-item-edit.ts'
 import './ozone-components-demo.html'
+import {OzoneApiItem} from 'ozone-api-item';
+
+import {SearchQuery} from "ozone-search-helper";
 
 /**
  * @customElement
@@ -26,7 +29,8 @@ class OzoneComponentsDemo extends Polymer.Element {
         return {
             search: {
                 type: String,
-                value: ''
+                value: '',
+                observer: '_searchChange'
             },
             type: {
                 type: String,
@@ -49,6 +53,11 @@ class OzoneComponentsDemo extends Polymer.Element {
                 observer: "_isConnectedChange"
             }
         };
+    }
+
+    constructor(){
+        super();
+        this._source = new OzoneApiItem();
     }
 
     ready() {
@@ -85,11 +94,34 @@ class OzoneComponentsDemo extends Polymer.Element {
     }
 
     _searchSubmit (){
-        this.$.ozoneMosaic.searchQuery
+        const searchQuery = new SearchQuery()
+        searchQuery
             .quicksearch(this.search)
             .setSize(5)
-            .order('creationDate').ASC;
-        this.$.ozoneMosaic.search()
+           // .order('creationDate').ASC;
+
+        this.$.ozoneMosaic.search(searchQuery);
+
+    }
+    async _searchChange(searchString){
+
+        searchString = searchString ? searchString : ''; // replace undefined by empty string
+        let allTerms = searchString.split(' ');
+        let lastTerm = allTerms[allTerms.length-1];
+
+        const searchQuery = new SearchQuery()
+        searchQuery
+            .quicksearch(this.search)
+            .setSize(5)
+            .suggestion(searchString, lastTerm, 5);
+
+        const _searchIterator = await this._source.on(this.type).search(searchQuery);
+        const response =  await _searchIterator.next()
+        if(response.aggregations && response.aggregations.length > 0 && response.aggregations[0].buckets) {
+            const results = response.aggregations[0].buckets
+            this.set('autoCompleteResult', results)
+        }
+
     }
 
 }

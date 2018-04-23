@@ -316,6 +316,10 @@ export class OzoneCollection  extends Polymer.Element{
         }
     }
 
+    clear(){
+        this.set('items', [])
+    }
+
     private _removeOne (id:uuid) {
         const index = this.getIndexById(id);
         if (index > -1 ){

@@ -5,6 +5,13 @@ import './taktik-free-text-search_test.html'
 import {TaktikFreeTextSearch} from './taktik-free-text-search'
 
 
+class MinimalSearchDemo extends Polymer.Element {
+
+    static get is () { return "minimal-search-demo";}
+}
+window.customElements.define(MinimalSearchDemo.is, MinimalSearchDemo);
+
+
 class MinimalSearchApi extends Polymer.Element {
 
     static get is () { return "minimal-search-api";}
@@ -53,8 +60,7 @@ window.customElements.define(MinimalSearchApi.is, MinimalSearchApi);
 
 describe('search-content basic behavior', () => {
     let element,
-        autoCompleteAPI,
-        searchAPI;
+        autoCompleteAPI;
 
 
     /**
@@ -64,12 +70,7 @@ describe('search-content basic behavior', () => {
     let afterFunctions = [];
 
     beforeEach((done) => {
-        let elements = fixture('basic');
-        element = elements[2];
-        autoCompleteAPI = elements[0];
-        searchAPI = elements[1];
-        element.registerAutoCompleteAPI(autoCompleteAPI);
-        element.registerSearchAPI(searchAPI);
+        const elements = fixture('basic')
         flush(done)
     });
     afterEach(() => {
@@ -118,6 +119,7 @@ describe('search-content basic behavior', () => {
                 // Data bindings will stamp out new DOM asynchronously
                 // so wait to check for updates
                 flush(() => {
+                    debugger
                     expect(element.searchValue).to.be.equal('r');
                     expect(element.suggestions.length).to.be.equal(2);
                     expect(element.$.collapseAutoComplete.opened).to.be.equal(true);
@@ -197,7 +199,6 @@ describe('search-content basic behavior', () => {
     it('should expose searchResults', (done) => {
 
         const expectedSuggestions = [{"search":"result", "object":["with", "data"]}];
-        searchAPI.expectedSuggestions = expectedSuggestions;
         element.set('searchValue', 'ani');
         element.dispatchEvent(new CustomEvent('taktik-search', {
             bubbles: true, composed: true,

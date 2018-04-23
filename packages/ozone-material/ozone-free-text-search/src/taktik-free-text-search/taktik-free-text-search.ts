@@ -161,9 +161,9 @@ export class TaktikFreeTextSearch extends Polymer.Element {
         this.set('_isInputFocus', true);
     }
 
-    _displayAutoComplete (suggestions: string, isFocus: boolean){
+    _displayAutoComplete (suggestions?: string, isFocus?: boolean){
         let element = this.$.collapseAutoComplete;
-        if(isFocus && suggestions.length > 0){
+        if(isFocus && suggestions && suggestions.length > 0){
             element.show();
         } else if(! isFocus){
             if (element) {

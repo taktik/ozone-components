@@ -12,6 +12,12 @@
 
 import * as models from './models';
 
+export interface AggregationItem {
+    '$type': string;
+    buckets?:Array<{key:string; docCount: number}>;
+    name:string
+}
+
 export interface ItemSearchResult {
     id?: number;
 
@@ -20,5 +26,7 @@ export interface ItemSearchResult {
     size?: number;
 
     results?: Array<models.Item>;
+    aggregations?:  Array<AggregationItem>
+
 
 }

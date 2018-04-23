@@ -5,7 +5,7 @@
  */
 
 import {jsElement} from 'taktik-polymer-typescript'
-import {Item, SearchRequest, ItemSearchResult, TermsAggregation, Aggregation, QueryStringQuery, TermQuery, TypeQuery, Query, BoolQuery, Sort, IdsQuery} from 'ozone-type'
+import {Item, SearchRequest, ItemSearchResult, TermsAggregation, Aggregation, QueryStringQuery, TermQuery, TermsQuery, TypeQuery, Query, BoolQuery, Sort, IdsQuery, AggregationItem} from 'ozone-type'
 import {OzoneAPIRequest} from 'ozone-api-request'
 
 export interface SearchResponse {
@@ -15,6 +15,7 @@ export interface SearchResponse {
 export interface SearchResult {
     results: Array<Item>;
     total: number;
+    aggregations?: Array<AggregationItem>
 }
 
 /**
@@ -146,6 +147,14 @@ export class SearchQuery {
             field: field,
             value: value
         } as TermQuery);
+    }
+
+    termsQuery(field: string, ...values: Array<string>): SearchQuery {
+        return this.addQuery({
+            "$type": "TermsQuery",
+            field,
+            values
+        } as TermsQuery);
     }
 
     /**
@@ -339,13 +348,17 @@ export class SearchGenerator {
     }
 
     private _readSearchResponse (res:SearchResponse):SearchResult {
-        this.total = Number(res.response.total);
-        this.offset += Number(res.response.size);
+        const response = res.response;
+        let aggregations = response.aggregations;
+
+        this.total = Number(response.total);
+        this.offset += Number(response.size);
         this.dataRemain = this.offset < this.total;
-        let results = res.response.results || [];
+        let results = response.results || [];
         return {
             results,
-            total: this.total
+            total: this.total,
+            aggregations
         };
     }
 

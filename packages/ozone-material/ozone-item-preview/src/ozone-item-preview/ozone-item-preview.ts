@@ -119,7 +119,8 @@ export class OzoneItemPreview extends Polymer.Element{
         if(data) {
             this.ozoneTypeApi.ifIsTypeInstanceOf(data.type, 'media').then((isTypeInstanceOf) => {
                 if(isTypeInstanceOf) {
-                    const ozoneMediaUrl = new OzoneMediaUrl(data.id as string, config);
+                    const id = data.logo || data.id
+                    const ozoneMediaUrl = new OzoneMediaUrl(id as string, config);
                     this.set('previewImage', ozoneMediaUrl.getPreviewUrlPng(OzonePreviewSize.Small));
                 } else {
                     this.set('previewImage', null);

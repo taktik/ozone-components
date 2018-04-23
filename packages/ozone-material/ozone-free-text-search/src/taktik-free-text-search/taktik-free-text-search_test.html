@@ -3,12 +3,24 @@
 <dom-module id="minimal-search-api">
 </dom-module>
 
+<dom-module id="minimal-search-demo">
+  <template>
+    <minimal-search-api id="autoComplete"
+                        search-string="{{search}}"
+                        search-results="{{autoCompleteResult}}"
+                        auto></minimal-search-api>
+
+    <taktik-free-text-search id="moduleUnderTest"
+                             search-value="{{search}}"
+                             show-item-count
+                             suggestions="{{autoCompleteResult}}">
+    </taktik-free-text-search>
+  </template>
+</dom-module>
+
 <test-fixture id="basic">
   <template>
-    <minimal-search-api id="autoComplete" searchResults auto></minimal-search-api>
-    <minimal-search-api id="searchItem"  searchResults ></minimal-search-api>
-
-    <taktik-free-text-search id="module-under-test">
-    </taktik-free-text-search>
+    <minimal-search-demo id="demo">Undefined</minimal-search-demo>
+    <minimal-search-api id="a">Undefined</minimal-search-api>
   </template>
 </test-fixture>
