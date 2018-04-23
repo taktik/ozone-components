@@ -266,10 +266,10 @@ describe('ozone-api-login tests', function () {
             setTimeout(()=> server.respond()); //Flush server
         });
 
-        it('search should return searchResults', (done) => {
+        it('search should return searchResults with pagination', (done) => {
             // -- Configure mock server
             let queryResult = {
-                "total": 1,
+                "total": 2,
                 "size": 1,
                 "results": [
                     {
@@ -333,10 +333,11 @@ describe('ozone-api-login tests', function () {
                 .then((searchGenerator) => {
                     return searchGenerator.next()
                         .then((res)=>{
-                        expect(res.total).to.be.equal(1);
+                        expect(res.total).to.be.equal(2);
                         expect(res.results[0]).to.be.deep.equal(queryResult.results[0]);
+                            const resurlt =  searchGenerator.next()
                         setTimeout(()=> server.respond()); //Flush server
-                        return searchGenerator.next()
+                            return resurlt
                     })
                 } )
                 .then((res)=>{
