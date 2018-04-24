@@ -12,7 +12,7 @@ import "./ozone-iron-list.html"
 import {customElement,} from 'taktik-polymer-typescript';
 import {Item} from 'ozone-type';
 import {OzoneCollection} from 'ozone-collection';
-import {SearchQuery} from "../../ozone-helper/ozone-search-helper";
+import {SearchQuery} from "ozone-search-helper";
 
 
 
