@@ -12,6 +12,7 @@ import "./ozone-iron-list.html"
 import {customElement,} from 'taktik-polymer-typescript';
 import {Item} from 'ozone-type';
 import {OzoneCollection} from 'ozone-collection';
+import {SearchQuery} from "../../ozone-helper/ozone-search-helper";
 
 
 
@@ -21,6 +22,7 @@ import {OzoneCollection} from 'ozone-collection';
  * ```html
  * <ozone-mosaic item-data={{item}}>  </ozone-mosaic>
  * ```
+ * expose $.mosaicCollection for operation on the collection
  *
  * ### Implements
  *
@@ -103,5 +105,23 @@ export class OzoneIronList  extends Polymer.ElementMixin<PolymerElement>(IronLis
             .then(()=>{
                 this.clearTriggers();
             });
+    }
+
+
+    /**
+     * start search query
+     * short hand for this.$.mosaicCollection.search
+     * @param {SearchQuery} searchRequest
+     * @return {Promise<Array<Item>>}
+     */
+    search(searchRequest: SearchQuery){
+        return this.$.mosaicCollection.search(searchRequest)
+    }
+
+    /**
+     * empty collection
+     */
+    clear(){
+        return this.$.mosaicCollection.clear()
     }
 }
