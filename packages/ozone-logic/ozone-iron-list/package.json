@@ -30,6 +30,7 @@
     "ozone-media-url": "^3.2.0-beta5",
     "ozone-search-helper": "^3.2.0-beta5",
     "ozone-type": "^3.2.0-beta5",
+    "ozone-search-helper": "^3.2.0-beta5",
     "reflect-metadata": "^0.1.12",
     "taktik-polymer-typescript": "^3.2.0-beta5"
   },
