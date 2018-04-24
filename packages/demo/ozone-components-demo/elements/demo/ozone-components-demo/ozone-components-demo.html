@@ -53,17 +53,23 @@
                 position: absolute;
                 top: 80px;
             }
-            #searchDisplay{
+            #ozoneMosaic{
                 --ozone-mosaic-list: {
                     height: 70vh;
-                    border: red solid medium;
+                    /*border: red solid medium;*/
+                };
+                --ozone-item-preview:{
+                    width: 150px;
+                    height:100px;
+                    /*margin:50px;*/
+                    /*border: yellow solid medium;*/
                 }
             }
             @media screen and (max-width: 900px) {
-                #searchDisplay{
+                #ozoneMosaic{
                     --ozone-item-preview:{
-                        width:150px;
-                        height:100px;
+                        width:70px;
+                        height:50px;
                         margin:2px;
                     }
                 }

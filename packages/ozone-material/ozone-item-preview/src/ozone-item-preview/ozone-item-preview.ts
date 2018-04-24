@@ -14,6 +14,8 @@ import {customElement, property} from 'taktik-polymer-typescript'
 import {Item, Media} from 'ozone-type';
 import {OzoneMediaUrl, OzonePreviewSize, SizeEnum} from 'ozone-media-url'
 import {OzoneApiType, getOzoneApiType} from 'ozone-api-type'
+import {OzoneItemAction} from '../ozone-item-action/ozone-item-action'
+import  '../ozone-item-action/ozone-item-action'
 
 /**
  * `ozone-item-preview` is hight level polymer module to display preview information an ozone item.
@@ -58,9 +60,22 @@ export class OzoneItemPreview extends Polymer.Element{
 
 
     static get observers(){
-        return ['_selectionChange(selected)', 'dataChange(itemData)'];
+        return [ 'dataChange(itemData)'];
     }
 
+    ready(){
+        super.ready()
+
+        this.addEventListener('focus', function(e) {
+            if(this.shadowRoot) {
+                console.log('Active element (inside shadow dom):',
+                    this.shadowRoot.activeElement);
+                console.log(this.tagName)
+                debugger
+            }
+        });
+
+    }
     placeholder(itemData?:Item):string {
         itemData = itemData || {type: 'default'} as Item
 
@@ -91,28 +106,6 @@ export class OzoneItemPreview extends Polymer.Element{
         }
         return placeholder;
     }
-    private _editItem(e: Event){
-        this.dispatchEvent(new CustomEvent('edit-item',
-            {bubbles: true, detail:this.itemData, composed: true} as CustomEventInit));
-
-        e.preventDefault();
-        e.stopPropagation();
-    }
-    private _infoItem(e: Event){
-        this.dispatchEvent(new CustomEvent('info-item',
-            {bubbles: true, detail:this.itemData, composed: true} as CustomEventInit));
-
-        e.preventDefault();
-        e.stopPropagation();
-    }
-
-    private _delete(e: Event){
-        this.dispatchEvent(new CustomEvent('delete-item',
-            {bubbles: true, detail:this.itemData, composed: true} as CustomEventInit));
-
-        e.preventDefault();
-        e.stopPropagation();
-    }
 
     async dataChange(data?:Item){
         const config = await Config.OzoneConfig.get();
@@ -129,20 +122,6 @@ export class OzoneItemPreview extends Polymer.Element{
             });
         }
     }
-    private _setFocus(){
-        this.$.actionsPanel.classList.add("open");
-    }
 
-    private _removeFocus(){
-        this.$.actionsPanel.classList.remove('open');
-    }
-
-    private _selectionChange(selected: boolean){
-        if(selected){
-            this._setFocus();
-        } else {
-            this._removeFocus();
-        }
-    }
 
 }
