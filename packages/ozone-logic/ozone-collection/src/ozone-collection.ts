@@ -3,7 +3,7 @@ import "polymer/polymer-element.html"
 
 import "./ozone-collection.html"
 
-import {customElement, property} from 'taktik-polymer-typescript';
+import {customElement, property, observe} from 'taktik-polymer-typescript';
 import {Item} from 'ozone-type';
 import 'ozone-api-item';
 import {OzoneApiItem} from 'ozone-api-item';
@@ -23,6 +23,9 @@ import {SearchGenerator, SearchQuery} from 'ozone-search-helper';
  *        collection="video"
  *        data-remain="{{dataRemain}}"></ozone-collection>
  * ```
+ * ### Events
+ *
+ * *collection-property-changed* fire on attribute change. details contain {name:string, value:any}
  *
  */
 @customElement('ozone-collection')
@@ -331,5 +334,22 @@ export class OzoneCollection  extends Polymer.Element{
         if(!this._source){
             throw new Error('Invalid source')
         }
+    }
+
+    @observe('dataRemain')
+    private dataRemainChange(value:number){
+        this.propertyUpdate('dataRemain', value)
+    }
+    @observe('total')
+    private totalChange(value:number){
+        this.propertyUpdate('total', value)
+    }
+
+    private propertyUpdate(name:string, value:any){
+        this.dispatchEvent(new CustomEvent<any>(`collection-property-changed` ,{
+            bubbles: true,
+            composed: true,
+            detail: {name, value}
+        } as CustomEventInit))
     }
 }

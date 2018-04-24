@@ -74,7 +74,6 @@ export class OzoneItemAction extends Polymer.Element{
 
     @observe('selected')
     private _Focuschanged(focus: boolean){
-        console.log('focuse', focus)
         if(focus){
             this.$.actionsPanel.classList.add("open");
         } else {

@@ -1,9 +1,3 @@
-<head>
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=no">
-
-
-</head>
-<body>
 <dom-module id="ozone-mosaic">
     <template>
         <style>
@@ -26,34 +20,10 @@
                     background: #fafafa;
                 }
             }
-            .loader {
-                background-color: #585185;
-                color: white;
-                position:relative;
-                bottom:0;
-                left:0;
-                right:0;
-                text-align: center;
-                height: 44px;
-                font-family:'Roboto', sans-serif;
-                font-size: 13px;
-                line-height: 44px;
-                margin:0 -10px -10px;
-                @apply --ozone-mosaic-loader;
-            }
-            iron-list {
+            ozone-iron-list {
                 margin-top: 90px;
                 padding-bottom: 16px;
             }
-            .resultList{
-                width:100%;
-                height: 80vh;
-                overflow-y: scroll;
-                overflow-x: hidden;
-                @apply --ozone-mosaic-list;
-            }
-
-
             .item{
                 box-sizing: border-box;
                 width:300px;
@@ -61,7 +31,7 @@
                 margin:10px;
                 display:flex;
                 overflow: hidden;
-                @apply --ozone-item-preview
+                @apply --ozone-mosaic-item
             }
             .actionPanel{
                 position:absolute;
@@ -79,26 +49,16 @@
             }
 
         </style>
-        <ozone-collection
-                id="mosaicCollection"
-                items="{{searchResults}}"
-                total="{{total}}"
-                collection="{{collectionType}}"
-                data-remain="{{dataRemain}}"></ozone-collection>
-
-        <div hidden$="[[!searchResults.length]]">
-
                 <div class="resultList" id="resultList">
-                    <iron-list
+                    <ozone-iron-list
                             id="ironList"
+                            items="{{searchResults}}"
                             grid
-                            items="[[searchResults]]"
                             selection-enabled
                             scroll-target="scrollTheshold">
                         <template>
                             <div class="item">
                                 <ozone-item-preview class="photoContent"
-                                        ozone-api-type-id="ozoneApiType"
                                         item-id="[[item.id]]"
                                         item-data="[[item]]"
                                         class="resultListItem"
@@ -109,10 +69,7 @@
                                         selected="[[selected]]" item-data="[[item]]">npo</ozone-item-action>
                             </div>
                         </template>
-                    </iron-list>
-                    <paper-item class="loader" hidden$="[[!dataRemain]]">Fetching new items...</paper-item>
-                </div>
+                    </ozone-iron-list>
         </div>
     </template>
 </dom-module>
-</body>

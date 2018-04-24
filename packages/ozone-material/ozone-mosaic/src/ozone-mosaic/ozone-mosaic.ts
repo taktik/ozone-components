@@ -3,19 +3,17 @@
  */
 
 import "polymer/polymer-element.html"
-import "iron-list/iron-list.html"
-import "paper-item/paper-item.html"
-import "paper-button/paper-button.html"
 import "iron-flex-layout/iron-flex-layout.html"
 import "ozone-item-preview"
 import "ozone-api-item"
 import "ozone-collection"
 
 import "./ozone-mosaic.html"
+import '../ozone-iron-list/ozone-iron-list'
+import {OzoneIronList} from '../ozone-iron-list/ozone-iron-list'
 
 import {customElement, domElement, property} from 'taktik-polymer-typescript';
 import {Item, SearchRequest} from 'ozone-type';
-import {OzoneCollection} from 'ozone-collection';
 import {SearchQuery} from "ozone-search-helper";
 
 
@@ -59,8 +57,7 @@ export interface TaktikSearchApiBehavior{
  *  ### Mixin
  *  Custom property | Description | Default
  *  ----------------|-------------|----------
- *  `--ozone-mosaic-loader`  | css mixin for loader element | `{ background-color: #585185; color: white; position:relative; bottom:0; left:0; right:0; text-align: center; height: 44px; font-family:'Roboto', sans-serif; font-size: 13px; line-height: 44px; margin:0 -10px -10px;}`
- *  `--ozone-mosaic-list`  | css mixin for the list of item | `{ width:100%; height: 80vh;}`
+ *  `--ozone-mosaic-item`  | css mixin for the list of item | `{ box-sizing: border-box;width:300px;height:200px;margin:10px;display:flex;overflow: hidden;}`
  *
  */
 @customElement('ozone-mosaic')
@@ -69,8 +66,7 @@ export class OzoneMosaic  extends Polymer.Element implements  TaktikSearchApiBeh
     @domElement()
     $: {
         resultList: HTMLElement
-        mosaicCollection: OzoneCollection;
-        ironList: PolymerElement;
+        ironList: OzoneIronList;
     } | any;
     /**
      * id of the source
@@ -130,40 +126,22 @@ export class OzoneMosaic  extends Polymer.Element implements  TaktikSearchApiBeh
     scrollthresholdPc = 80;
 
     private _collectionTypeChange(collectionType: string){
-        this.$.mosaicCollection.set('collection', collectionType);
+        this.$.ironList.$.mosaicCollection.set('collection', collectionType);
     }
 
     private clearTriggers(){
         this._scrollTrigger = false
+
     }
 
     ready(){
         super.ready();
-        this.$.ironList.addEventListener('delete-item', (event: CustomEvent) => {
-            console.log('delete-item')
-            this.$.mosaicCollection.deleteOne(event.detail.id)
-        });
-        this.$.resultList.addEventListener("scroll", (event: Event) => {
-            this._checkScroll();
-        })
-        //Periodic verification because no scroll event is trigger when nb of items display does not overflow display size
-        setInterval(() => {
-            this._checkScroll();
-        }, 100)
-    }
 
-    private _checkScroll() {
-        const percentage = this.getScrollPercentage()
-        if (percentage > this.scrollthresholdPc && !this._scrollTrigger) {
-            this._scrollTrigger = true;
-            this.toggleThreshold()
-        }
+        this.$.ironList
+            .addEventListener('collection-property-changed', (event:Event) => {
+                this.set((event as CustomEvent).detail.name, (event as CustomEvent).detail.value)
+            })
     }
-
-    private getScrollPercentage(){
-        return ((this.$.resultList.clientHeight + this.$.resultList.scrollTop) / this.$.resultList.scrollHeight) * 100
-    }
-
     /**
      * trigger quickSearch in the collection
      * @param searchString
@@ -171,24 +149,9 @@ export class OzoneMosaic  extends Polymer.Element implements  TaktikSearchApiBeh
     searchInItems(searchString?:string){
         if(typeof(searchString) !== 'undefined'){
             this.set('searchResults', []);
-            return this.$.mosaicCollection.quickSearch(searchString, this.searchSize);
+            return this.$.ironList.$.mosaicCollection.quickSearch(searchString, this.searchSize);
         }
         return Promise.reject('Undefined search String')
-    }
-
-    /**
-     * Load more items to display
-     */
-    loadMoreItems(){
-        return this.$.mosaicCollection.loadNextItems()
-    }
-
-    private toggleThreshold(){
-        return this.loadMoreItems()
-            .catch(()=>{})
-            .then(()=>{
-                this.clearTriggers();
-            });
     }
 
     /**
@@ -205,7 +168,7 @@ export class OzoneMosaic  extends Polymer.Element implements  TaktikSearchApiBeh
      */
     saveSelectedItem(updatedData?:Item):Promise<Item>{
         if(updatedData){
-            return this.$.mosaicCollection.saveOne(updatedData).then((index:number)=>{
+            return this.$.ironList.$.mosaicCollection.saveOne(updatedData).then((index:number)=>{
                 return this.searchResults[index];
             });
         } else{
@@ -224,11 +187,19 @@ export class OzoneMosaic  extends Polymer.Element implements  TaktikSearchApiBeh
         return this.search(searchQuery)
     }
 
+    /**
+     * start search query
+     * @param {SearchQuery} searchRequest
+     * @return {Promise<Array<Item>>}
+     */
     search(searchRequest: SearchQuery){
-        return this.$.mosaicCollection.search(searchRequest)
+        return this.$.ironList.$.mosaicCollection.search(searchRequest)
     }
 
+    /**
+     * empty collection
+     */
     clear(){
-        return this.$.mosaicCollection.clear()
+        return this.$.ironList.$.mosaicCollection.clear()
     }
 }
