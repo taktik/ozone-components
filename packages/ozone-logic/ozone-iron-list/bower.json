@@ -1,0 +1,25 @@
+{
+  "name": "ozone-iron-list",
+  "description": "",
+  "authors": [],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "2.6.0",
+    "paper-item": "^2.1.1",
+    "paper-icon-button": "^2.2.0",
+    "iron-image": "^2.2.1",
+    "paper-button": "^2.1.0",
+    "iron-list": "^2.0.14"
+  },
+  "devDependencies": {
+    "web-component-tester": "^6.3.0"
+  }
+}

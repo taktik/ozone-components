@@ -1,5 +1,5 @@
 {
-  "name": "ozone-mosaic",
+  "name": "ozone-iron-list",
   "version": "3.2.0-beta4",
   "description": "",
   "main": "dist/index.js",
@@ -26,7 +26,6 @@
     "ozone-api-type": "^3.2.0-beta4",
     "ozone-collection": "^3.2.0-beta4",
     "ozone-config": "^3.2.0-beta4",
-    "ozone-iron-list": "^3.2.0-beta4",
     "ozone-item-preview": "^3.2.0-beta4",
     "ozone-media-url": "^3.2.0-beta4",
     "ozone-search-helper": "^3.2.0-beta4",

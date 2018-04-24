@@ -10,7 +10,7 @@ import "ozone-collection"
 
 import "./ozone-mosaic.html"
 import '../ozone-iron-list/ozone-iron-list'
-import {OzoneIronList} from '../ozone-iron-list/ozone-iron-list'
+import {OzoneIronList} from 'ozone-iron-list'
 
 import {customElement, domElement, property} from 'taktik-polymer-typescript';
 import {Item, SearchRequest} from 'ozone-type';
