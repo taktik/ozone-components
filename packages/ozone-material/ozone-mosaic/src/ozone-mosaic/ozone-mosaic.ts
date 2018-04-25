@@ -200,6 +200,6 @@ export class OzoneMosaic  extends Polymer.Element implements  TaktikSearchApiBeh
      * empty collection
      */
     clear(){
-        return this.$.ironList.$.mosaicCollection.clear()
+        return this.$.ironList.clear()
     }
 }

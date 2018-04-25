@@ -13,6 +13,7 @@ import {customElement,} from 'taktik-polymer-typescript';
 import {Item} from 'ozone-type';
 import {OzoneCollection} from 'ozone-collection';
 import {SearchQuery} from "ozone-search-helper";
+import {property} from "taktik-polymer-typescript";
 
 
 
@@ -71,6 +72,23 @@ export class OzoneIronList  extends Polymer.ElementMixin<PolymerElement>(IronLis
         items: PolymerElement;
     } | any;
 
+    /**
+     * total number of items found with the search
+     */
+    @property({
+        type: Number,
+        notify:true,
+    })
+    total?: number;
+
+    /**
+     * true indicate that all the data data still available with this search.
+     */
+    @property({
+        type: Boolean,
+        notify:true,
+    })
+    dataRemain: boolean = false;
 
 
     items: Array<Item> = [];
@@ -99,7 +117,10 @@ export class OzoneIronList  extends Polymer.ElementMixin<PolymerElement>(IronLis
         super.ready();
         this.addEventListener("scroll", (event: Event) => {
             this._checkScroll();
-        })
+        });
+        this.$.mosaicCollection.addEventListener('collection-property-changed', (e: Event) => {
+            this.set((e as CustomEvent).detail.name, (e as CustomEvent).detail.value)
+        });
         //Periodic verification because no scroll event is trigger when nb of items display does not overflow display size
         setInterval(() => {
             this._checkScroll();
@@ -126,11 +147,16 @@ export class OzoneIronList  extends Polymer.ElementMixin<PolymerElement>(IronLis
     }
 
     private toggleThreshold(){
-        return this.loadMoreItems()
-            .catch(()=>{})
-            .then(()=>{
-                this.clearTriggers();
-            });
+        if(this.dataRemain) {
+            return this.loadMoreItems()
+                .catch(() => {
+                })
+                .then(() => {
+                    this.clearTriggers();
+                });
+        }
+        this.clearTriggers();
+        return Promise.resolve();
     }
 
 

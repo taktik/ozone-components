@@ -109,8 +109,12 @@ export class OzoneCollection  extends Polymer.Element{
      * Start a complex search on the collection
      * found items are added to the items array.
      * @param searchQuery {SearchQuery} search query
+     * @param keepData {Boolean} keep items in collection. Default is false, it will delete items before search.
      */
-    async search(searchQuery:SearchQuery): Promise<Array<Item>>{
+    async search(searchQuery:SearchQuery, keepData: Boolean = false): Promise<Array<Item>>{
+        if(!keepData){
+            this.clear()
+        }
         this._verifySource();
         //@ts-ignore TS2352
         this._searchIterator = (await this._getSource.search(searchQuery)) as SearchGenerator;
