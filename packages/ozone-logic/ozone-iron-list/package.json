@@ -1,6 +1,6 @@
 {
   "name": "ozone-iron-list",
-  "version": "3.2.0-beta7",
+  "version": "3.2.0-beta8",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,17 +21,17 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ozone-api-item": "^3.2.0-beta7",
-    "ozone-api-request": "^3.2.0-beta7",
-    "ozone-api-type": "^3.2.0-beta7",
-    "ozone-collection": "^3.2.0-beta7",
-    "ozone-config": "^3.2.0-beta7",
-    "ozone-item-preview": "^3.2.0-beta7",
-    "ozone-media-url": "^3.2.0-beta7",
-    "ozone-search-helper": "^3.2.0-beta7",
-    "ozone-type": "^3.2.0-beta7",
+    "ozone-api-item": "^3.2.0-beta8",
+    "ozone-api-request": "^3.2.0-beta8",
+    "ozone-api-type": "^3.2.0-beta8",
+    "ozone-collection": "^3.2.0-beta8",
+    "ozone-config": "^3.2.0-beta8",
+    "ozone-item-preview": "^3.2.0-beta8",
+    "ozone-media-url": "^3.2.0-beta8",
+    "ozone-search-helper": "^3.2.0-beta8",
+    "ozone-type": "^3.2.0-beta8",
     "reflect-metadata": "^0.1.12",
-    "taktik-polymer-typescript": "^3.2.0-beta7"
+    "taktik-polymer-typescript": "^3.2.0-beta8"
   },
   "devDependencies": {
     "@polymer/gen-closure-declarations": "^0.4.0",
