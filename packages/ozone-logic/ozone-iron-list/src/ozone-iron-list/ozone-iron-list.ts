@@ -20,7 +20,33 @@ import {SearchQuery} from "ozone-search-helper";
  * <ozone-iron-list> is an iron-list composed of an ozone-connection.
  *
  * ```html
- * <ozone-mosaic item-data={{item}}>  </ozone-mosaic>
+ *         <div >
+ *           <ozone-iron-list
+ *             id="ironList"
+ *             items="{{searchResults}}"
+ *             grid
+ *             selection-enabled
+ *             scroll-target="scrollTheshold">
+ *             <template>
+ *                 <div class="item">
+ *                     <ozone-item-preview class="photoContent"
+ *                      item-id="[[item.id]]"
+ *                      item-data="[[item]]"
+ *                      class="resultListItem"
+ *                      selected="[[selected]]"
+ *                     ></ozone-item-preview>
+ *                     <ozone-item-action
+ *                      class="actionPanel"
+ *                      selected="[[selected]]" item-data="[[item]]">npo</ozone-item-action>
+ *                     </div>
+ *             </template>
+ *           </ozone-iron-list>
+ *         </div>
+ * ```
+ * ``` javascript
+ * const myQuery = new SearchQuery()
+ * // configure search query
+ * this.$.ironList.search(myQuery)
  * ```
  * expose $.mosaicCollection for operation on the collection
  *

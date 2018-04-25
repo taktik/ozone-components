@@ -49,27 +49,27 @@
             }
 
         </style>
-                <div class="resultList" id="resultList">
-                    <ozone-iron-list
-                            id="ironList"
-                            items="{{searchResults}}"
-                            grid
-                            selection-enabled
-                            scroll-target="scrollTheshold">
-                        <template>
-                            <div class="item">
-                                <ozone-item-preview class="photoContent"
-                                        item-id="[[item.id]]"
-                                        item-data="[[item]]"
-                                        class="resultListItem"
-                                        selected="[[selected]]"
-                                ></ozone-item-preview>
-                                <ozone-item-action
-                                        class="actionPanel"
-                                        selected="[[selected]]" item-data="[[item]]">npo</ozone-item-action>
-                            </div>
-                        </template>
-                    </ozone-iron-list>
+        <div class="resultList" id="resultList">
+            <ozone-iron-list
+                    id="ironList"
+                    items="{{searchResults}}"
+                    grid
+                    selection-enabled
+                    scroll-target="scrollTheshold">
+                <template>
+                    <div class="item">
+                        <ozone-item-preview class="photoContent"
+                                            item-id="[[item.id]]"
+                                            item-data="[[item]]"
+                                            class="resultListItem"
+                                            selected="[[selected]]"
+                        ></ozone-item-preview>
+                        <ozone-item-action
+                                class="actionPanel"
+                                selected="[[selected]]" item-data="[[item]]">npo</ozone-item-action>
+                    </div>
+                </template>
+            </ozone-iron-list>
         </div>
     </template>
 </dom-module>

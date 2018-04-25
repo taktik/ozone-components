@@ -111,7 +111,7 @@
   };
   /* eslint-enable */
 
-  window.Polymer.version = '2.5.0';
+  window.Polymer.version = '2.6.0';
 
   /* eslint-disable no-unused-vars */
   /*
@@ -299,7 +299,7 @@ __webpack_require__(0);
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return OzoneConfig; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_ozone_api_request__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_ozone_api_request__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_taktik_polymer_typescript__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_taktik_polymer_typescript___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_taktik_polymer_typescript__);
 var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
@@ -335,6 +335,258 @@ var OzoneConfig_1;
 
 /***/ }),
 /* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return OzoneAPIRequest; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_taktik_polymer_typescript__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_taktik_polymer_typescript___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_taktik_polymer_typescript__);
+/// <amd-module name="ozone-api-request"/>
+var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+/**
+ * OzoneAPIRequest is a light wrapper over XMLHttpRequest to manager AJAX request to Ozone.
+ *
+ * ### Events
+ *
+ * * *ozone-api-request-success* Fired when connection to ozone succeeds.
+ * Event detail contains the XMLHttpRequest.
+ *
+ * * *ozone-api-request-error* Fired when connection to ozone fails.
+ * Event detail contains the XMLHttpRequest.
+ *
+
+ * * *ozone-api-request-timeout* Fired when connection timeout.
+ * Event detail contains the XMLHttpRequest.
+ *
+ * * *ozone-api-request-unauthorized* Fired when server return 403 unauthorized.
+ * Event detail contains the XMLHttpRequest.
+ *
+ *
+ * ### Usage
+ *
+ * * Basic usage with promise
+ * ```typeScript
+ * const OzoneAPIRequest = new OzoneAPIRequest();
+ * OzoneAPIRequest.url = url;
+ * OzoneAPIRequest.method = 'GET';
+ * OzoneAPIRequest.sendRequest()
+ *    .then((res:XMLHttpRequest) => {
+ *        // Do something with XMLHttpRequest
+ *        console.log(res.response)
+ *    })
+ *    .catch((failRequest)=>{
+ *        // Do something with XMLHttpRequest to handel the error.
+ *        console.error(failRequest.statusText)
+ *    })
+ * ```
+ *
+ *
+ * * Usage with Event handler
+ * ```typeScript
+ * this.addEventListener('ozone-api-request-success', (event: Event) => {
+ *        // Do something with XMLHttpRequest
+ *        console.log(event.detail.response)
+ *    })
+ * this.addEventListener('ozone-api-request-error', (event: Event) => {
+ *        // Do something with XMLHttpRequest to handel the error.
+ *        console.error(event.detail.statusText)
+ *    })
+ * const OzoneAPIRequest = new OzoneAPIRequest();
+ * OzoneAPIRequest.setEventTarget(this)
+ * OzoneAPIRequest.url = url;
+ * OzoneAPIRequest.method = 'GET';
+ * OzoneAPIRequest.sendRequest();
+ * ```
+ *
+ * * Modify request before send
+ * ```typeScript
+ * const OzoneAPIRequest = new OzoneAPIRequest();
+ * OzoneAPIRequest.url = url;
+ * OzoneAPIRequest.method = 'GET';
+ * const request = OzoneAPIRequest.createXMLHttpRequest();
+ * // Modify default request
+ * request.setRequestHeader('Cache-Control', 'only-if-cached');
+ *
+ * OzoneAPIRequest.sendRequest(request);
+ * // Handel response
+ * ```
+ *
+ */
+let OzoneAPIRequest = class OzoneAPIRequest {
+    /**
+     * OzoneAPIRequest is a light wrapper over XMLHttpRequest to manager AJAX request to Ozone.
+     *
+     * ### Events
+     *
+     * * *ozone-api-request-success* Fired when connection to ozone succeeds.
+     * Event detail contains the XMLHttpRequest.
+     *
+     * * *ozone-api-request-error* Fired when connection to ozone fails.
+     * Event detail contains the XMLHttpRequest.
+     *
+    
+     * * *ozone-api-request-timeout* Fired when connection timeout.
+     * Event detail contains the XMLHttpRequest.
+     *
+     * * *ozone-api-request-unauthorized* Fired when server return 403 unauthorized.
+     * Event detail contains the XMLHttpRequest.
+     *
+     *
+     * ### Usage
+     *
+     * * Basic usage with promise
+     * ```typeScript
+     * const OzoneAPIRequest = new OzoneAPIRequest();
+     * OzoneAPIRequest.url = url;
+     * OzoneAPIRequest.method = 'GET';
+     * OzoneAPIRequest.sendRequest()
+     *    .then((res:XMLHttpRequest) => {
+     *        // Do something with XMLHttpRequest
+     *        console.log(res.response)
+     *    })
+     *    .catch((failRequest)=>{
+     *        // Do something with XMLHttpRequest to handel the error.
+     *        console.error(failRequest.statusText)
+     *    })
+     * ```
+     *
+     *
+     * * Usage with Event handler
+     * ```typeScript
+     * this.addEventListener('ozone-api-request-success', (event: Event) => {
+     *        // Do something with XMLHttpRequest
+     *        console.log(event.detail.response)
+     *    })
+     * this.addEventListener('ozone-api-request-error', (event: Event) => {
+     *        // Do something with XMLHttpRequest to handel the error.
+     *        console.error(event.detail.statusText)
+     *    })
+     * const OzoneAPIRequest = new OzoneAPIRequest();
+     * OzoneAPIRequest.setEventTarget(this)
+     * OzoneAPIRequest.url = url;
+     * OzoneAPIRequest.method = 'GET';
+     * OzoneAPIRequest.sendRequest();
+     * ```
+     *
+     * * Modify request before send
+     * ```typeScript
+     * const OzoneAPIRequest = new OzoneAPIRequest();
+     * OzoneAPIRequest.url = url;
+     * OzoneAPIRequest.method = 'GET';
+     * const request = OzoneAPIRequest.createXMLHttpRequest();
+     * // Modify default request
+     * request.setRequestHeader('Cache-Control', 'only-if-cached');
+     *
+     * OzoneAPIRequest.sendRequest(request);
+     * // Handel response
+     * ```
+     *
+     */
+    constructor() {
+        this._url = '';
+        this._method = 'GET';
+        this._body = '';
+        this._responseType = 'json';
+        /**
+         * eventTarget to dispatch *ozone-api-request-success* and *ozone-api-request-error* events
+         * Default value is document.
+         * @type {EventTarget}
+         */
+        this.eventTarget = document;
+    }
+    set url(url) {
+        this._url = url;
+    }
+    get url() {
+        return this._url;
+    }
+    set body(body) {
+        this._body = body;
+    }
+    get body() {
+        return this._body;
+    }
+    set method(method) {
+        this._method = method;
+    }
+    get method() {
+        return this._method;
+    }
+    set responseType(responseType) {
+        this._responseType = responseType;
+    }
+    get responseType() {
+        return this._responseType;
+    }
+    /**
+     * Create and open an XMLHttpRequest
+     * @return {XMLHttpRequest}
+     */
+    createXMLHttpRequest() {
+        const xmlhttp = new XMLHttpRequest();
+        xmlhttp.withCredentials = true;
+        xmlhttp.open(this.method, this.url, true);
+        xmlhttp.responseType = this.responseType;
+        xmlhttp.setRequestHeader("Content-Type", "application/json");
+        xmlhttp.setRequestHeader('Accept', 'application/json');
+        return xmlhttp;
+    }
+    setEventTarget(element) {
+        this.eventTarget = element;
+    }
+    /**
+     *
+     * @param {XMLHttpRequest} request (optional) This parameters overwrite the default XmlHttpRequest.
+     * @return {Promise<XMLHttpRequest>}
+     */
+    sendRequest(request) {
+        const xmlhttp = request || this.createXMLHttpRequest();
+        return new Promise((resolve, reject) => {
+            const handleResponse = () => {
+                switch (xmlhttp.status) {
+                    case 200:
+                        this.eventTarget.dispatchEvent(new CustomEvent('ozone-api-request-success', {
+                            bubbles: true, detail: xmlhttp
+                        }));
+                        resolve(xmlhttp);
+                        break;
+                    case 403:
+                        this.eventTarget.dispatchEvent(new CustomEvent('ozone-api-request-unauthorized', {
+                            bubbles: true, detail: xmlhttp
+                        }));
+                        reject(xmlhttp);
+                        break;
+                    default:
+                        this.eventTarget.dispatchEvent(new CustomEvent('ozone-api-request-error', {
+                            bubbles: true, detail: xmlhttp
+                        }));
+                        reject(xmlhttp);
+                }
+            };
+            xmlhttp.onload = handleResponse;
+            xmlhttp.ontimeout = () => {
+                this.eventTarget.dispatchEvent(new CustomEvent('ozone-api-request-timeout', {
+                    bubbles: true, detail: xmlhttp
+                }));
+                reject(xmlhttp);
+            };
+            xmlhttp.onerror = handleResponse;
+            xmlhttp.send(this.body);
+        });
+    }
+};
+OzoneAPIRequest = __decorate([Object(__WEBPACK_IMPORTED_MODULE_0_taktik_polymer_typescript__["jsElement"])()], OzoneAPIRequest);
+
+
+/***/ }),
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root,factory){if(true)module.exports=factory();else if(typeof define==='function'&&define.amd)define([],factory);else if(typeof exports==='object')exports["Clappr"]=factory();else root["Clappr"]=factory();})(this,function(){return(/******/function(modules){// webpackBootstrap
@@ -4465,7 +4717,7 @@ exports.push([module.i,".seek-time[data-seek-time] {\n  position: absolute;\n  w
    */Strings.prototype.t=function t(key){var lang=this._language();var i18n=lang&&this._messages[lang]||this._messages['en'];return i18n[key]||key;};Strings.prototype._language=function _language(){return this.core.options.language||(0,_utils.getBrowserLanguage)();};Strings.prototype._initializeMessages=function _initializeMessages(){var defaultMessages={'en':{'live':'live','back_to_live':'back to live','disabled':'Disabled','playback_not_supported':'Your browser does not support the playback of this video. Please try using a different browser.'},'pt':{'live':'ao vivo','back_to_live':'voltar para o ao vivo','disabled':'Desativado','playback_not_supported':'Seu navegador não supporta a reprodução deste video. Por favor, tente usar um navegador diferente.'},'es':{'live':'vivo','back_to_live':'volver en vivo','disabled':'Discapacitado','playback_not_supported':'Su navegador no soporta la reproducción de un video. Por favor, trate de usar un navegador diferente.'},'ru':{'live':'прямой эфир','back_to_live':'к прямому эфиру','disabled':'Отключено','playback_not_supported':'Ваш браузер не поддерживает воспроизведение этого видео. Пожалуйста, попробуйте другой браузер.'},'fr':{'live':'en direct','disabled':'Désactivé','back_to_live':'retour au direct','playback_not_supported':'Votre navigateur ne supporte pas la lecture de cette vidéo. Merci de tenter sur un autre navigateur.'},'tr':{'live':'canlı','back_to_live':'canlı yayına dön','disabled':'Engelli','playback_not_supported':'Tarayıcınız bu videoyu oynatma desteğine sahip değil. Lütfen farklı bir tarayıcı ile deneyin.'}};var strings=this.core.options.strings||{};this._messages=(0,_keys2.default)(defaultMessages).reduce(function(messages,lang){messages[lang]=_clapprZepto2.default.extend({},defaultMessages[lang],strings[lang]);return messages;},{});this._messages['pt-BR']=this._messages['pt'];this._messages['en-US']=this._messages['en'];this._messages['es-419']=this._messages['es'];this._messages['fr-FR']=this._messages['fr'];this._messages['tr-TR']=this._messages['tr'];};return Strings;}(_core_plugin2.default);exports.default=Strings;module.exports=exports['default'];/***/}]/******/));});
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -4564,258 +4816,6 @@ __webpack_require__(0);
     pathFromUrl: pathFromUrl
   };
 })();
-
-/***/ }),
-/* 6 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return OzoneAPIRequest; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_taktik_polymer_typescript__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_taktik_polymer_typescript___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_taktik_polymer_typescript__);
-/// <amd-module name="ozone-api-request"/>
-var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-/**
- * OzoneAPIRequest is a light wrapper over XMLHttpRequest to manager AJAX request to Ozone.
- *
- * ### Events
- *
- * * *ozone-api-request-success* Fired when connection to ozone succeeds.
- * Event detail contains the XMLHttpRequest.
- *
- * * *ozone-api-request-error* Fired when connection to ozone fails.
- * Event detail contains the XMLHttpRequest.
- *
-
- * * *ozone-api-request-timeout* Fired when connection timeout.
- * Event detail contains the XMLHttpRequest.
- *
- * * *ozone-api-request-unauthorized* Fired when server return 403 unauthorized.
- * Event detail contains the XMLHttpRequest.
- *
- *
- * ### Usage
- *
- * * Basic usage with promise
- * ```typeScript
- * const OzoneAPIRequest = new OzoneAPIRequest();
- * OzoneAPIRequest.url = url;
- * OzoneAPIRequest.method = 'GET';
- * OzoneAPIRequest.sendRequest()
- *    .then((res:XMLHttpRequest) => {
- *        // Do something with XMLHttpRequest
- *        console.log(res.response)
- *    })
- *    .catch((failRequest)=>{
- *        // Do something with XMLHttpRequest to handel the error.
- *        console.error(failRequest.statusText)
- *    })
- * ```
- *
- *
- * * Usage with Event handler
- * ```typeScript
- * this.addEventListener('ozone-api-request-success', (event: Event) => {
- *        // Do something with XMLHttpRequest
- *        console.log(event.detail.response)
- *    })
- * this.addEventListener('ozone-api-request-error', (event: Event) => {
- *        // Do something with XMLHttpRequest to handel the error.
- *        console.error(event.detail.statusText)
- *    })
- * const OzoneAPIRequest = new OzoneAPIRequest();
- * OzoneAPIRequest.setEventTarget(this)
- * OzoneAPIRequest.url = url;
- * OzoneAPIRequest.method = 'GET';
- * OzoneAPIRequest.sendRequest();
- * ```
- *
- * * Modify request before send
- * ```typeScript
- * const OzoneAPIRequest = new OzoneAPIRequest();
- * OzoneAPIRequest.url = url;
- * OzoneAPIRequest.method = 'GET';
- * const request = OzoneAPIRequest.createXMLHttpRequest();
- * // Modify default request
- * request.setRequestHeader('Cache-Control', 'only-if-cached');
- *
- * OzoneAPIRequest.sendRequest(request);
- * // Handel response
- * ```
- *
- */
-let OzoneAPIRequest = class OzoneAPIRequest {
-    /**
-     * OzoneAPIRequest is a light wrapper over XMLHttpRequest to manager AJAX request to Ozone.
-     *
-     * ### Events
-     *
-     * * *ozone-api-request-success* Fired when connection to ozone succeeds.
-     * Event detail contains the XMLHttpRequest.
-     *
-     * * *ozone-api-request-error* Fired when connection to ozone fails.
-     * Event detail contains the XMLHttpRequest.
-     *
-    
-     * * *ozone-api-request-timeout* Fired when connection timeout.
-     * Event detail contains the XMLHttpRequest.
-     *
-     * * *ozone-api-request-unauthorized* Fired when server return 403 unauthorized.
-     * Event detail contains the XMLHttpRequest.
-     *
-     *
-     * ### Usage
-     *
-     * * Basic usage with promise
-     * ```typeScript
-     * const OzoneAPIRequest = new OzoneAPIRequest();
-     * OzoneAPIRequest.url = url;
-     * OzoneAPIRequest.method = 'GET';
-     * OzoneAPIRequest.sendRequest()
-     *    .then((res:XMLHttpRequest) => {
-     *        // Do something with XMLHttpRequest
-     *        console.log(res.response)
-     *    })
-     *    .catch((failRequest)=>{
-     *        // Do something with XMLHttpRequest to handel the error.
-     *        console.error(failRequest.statusText)
-     *    })
-     * ```
-     *
-     *
-     * * Usage with Event handler
-     * ```typeScript
-     * this.addEventListener('ozone-api-request-success', (event: Event) => {
-     *        // Do something with XMLHttpRequest
-     *        console.log(event.detail.response)
-     *    })
-     * this.addEventListener('ozone-api-request-error', (event: Event) => {
-     *        // Do something with XMLHttpRequest to handel the error.
-     *        console.error(event.detail.statusText)
-     *    })
-     * const OzoneAPIRequest = new OzoneAPIRequest();
-     * OzoneAPIRequest.setEventTarget(this)
-     * OzoneAPIRequest.url = url;
-     * OzoneAPIRequest.method = 'GET';
-     * OzoneAPIRequest.sendRequest();
-     * ```
-     *
-     * * Modify request before send
-     * ```typeScript
-     * const OzoneAPIRequest = new OzoneAPIRequest();
-     * OzoneAPIRequest.url = url;
-     * OzoneAPIRequest.method = 'GET';
-     * const request = OzoneAPIRequest.createXMLHttpRequest();
-     * // Modify default request
-     * request.setRequestHeader('Cache-Control', 'only-if-cached');
-     *
-     * OzoneAPIRequest.sendRequest(request);
-     * // Handel response
-     * ```
-     *
-     */
-    constructor() {
-        this._url = '';
-        this._method = 'GET';
-        this._body = '';
-        this._responseType = 'json';
-        /**
-         * eventTarget to dispatch *ozone-api-request-success* and *ozone-api-request-error* events
-         * Default value is document.
-         * @type {EventTarget}
-         */
-        this.eventTarget = document;
-    }
-    set url(url) {
-        this._url = url;
-    }
-    get url() {
-        return this._url;
-    }
-    set body(body) {
-        this._body = body;
-    }
-    get body() {
-        return this._body;
-    }
-    set method(method) {
-        this._method = method;
-    }
-    get method() {
-        return this._method;
-    }
-    set responseType(responseType) {
-        this._responseType = responseType;
-    }
-    get responseType() {
-        return this._responseType;
-    }
-    /**
-     * Create and open an XMLHttpRequest
-     * @return {XMLHttpRequest}
-     */
-    createXMLHttpRequest() {
-        const xmlhttp = new XMLHttpRequest();
-        xmlhttp.withCredentials = true;
-        xmlhttp.open(this.method, this.url, true);
-        xmlhttp.responseType = this.responseType;
-        xmlhttp.setRequestHeader("Content-Type", "application/json");
-        xmlhttp.setRequestHeader('Accept', 'application/json');
-        return xmlhttp;
-    }
-    setEventTarget(element) {
-        this.eventTarget = element;
-    }
-    /**
-     *
-     * @param {XMLHttpRequest} request (optional) This parameters overwrite the default XmlHttpRequest.
-     * @return {Promise<XMLHttpRequest>}
-     */
-    sendRequest(request) {
-        const xmlhttp = request || this.createXMLHttpRequest();
-        return new Promise((resolve, reject) => {
-            const handleResponse = () => {
-                switch (xmlhttp.status) {
-                    case 200:
-                        this.eventTarget.dispatchEvent(new CustomEvent('ozone-api-request-success', {
-                            bubbles: true, detail: xmlhttp
-                        }));
-                        resolve(xmlhttp);
-                        break;
-                    case 403:
-                        this.eventTarget.dispatchEvent(new CustomEvent('ozone-api-request-unauthorized', {
-                            bubbles: true, detail: xmlhttp
-                        }));
-                        reject(xmlhttp);
-                        break;
-                    default:
-                        this.eventTarget.dispatchEvent(new CustomEvent('ozone-api-request-error', {
-                            bubbles: true, detail: xmlhttp
-                        }));
-                        reject(xmlhttp);
-                }
-            };
-            xmlhttp.onload = handleResponse;
-            xmlhttp.ontimeout = () => {
-                this.eventTarget.dispatchEvent(new CustomEvent('ozone-api-request-timeout', {
-                    bubbles: true, detail: xmlhttp
-                }));
-                reject(xmlhttp);
-            };
-            xmlhttp.onerror = handleResponse;
-            xmlhttp.send(this.body);
-        });
-    }
-};
-OzoneAPIRequest = __decorate([Object(__WEBPACK_IMPORTED_MODULE_0_taktik_polymer_typescript__["jsElement"])()], OzoneAPIRequest);
-
 
 /***/ }),
 /* 7 */
@@ -5054,7 +5054,7 @@ __webpack_require__(22);
           /* eslint-disable valid-jsdoc */
           /** @this {PropertiesChanged} */
           get() {
-            return this.__data[property];
+            return this._getProperty(property);
           },
           /** @this {PropertiesChanged} */
           set: readOnly ? function () {} : function (value) {
@@ -5243,11 +5243,31 @@ __webpack_require__(22);
        * @protected
        */
       _flushProperties() {
-        if (this.__dataPending && this.__dataOld) {
-          let changedProps = this.__dataPending;
+        const props = this.__data;
+        const changedProps = this.__dataPending;
+        const old = this.__dataOld;
+        if (this._shouldPropertiesChange(props, changedProps, old)) {
           this.__dataPending = null;
-          this._propertiesChanged(this.__data, changedProps, this.__dataOld);
+          this.__dataOld = null;
+          this._propertiesChanged(props, changedProps, old);
         }
+      }
+
+      /**
+       * Called in `_flushProperties` to determine if `_propertiesChanged`
+       * should be called. The default implementation returns true if
+       * properties are pending. Override to customize when
+       * `_propertiesChanged` is called.
+       * @param {!Object} currentProps Bag of all current accessor values
+       * @param {!Object} changedProps Bag of properties changed since the last
+       *   call to `_propertiesChanged`
+       * @param {!Object} oldProps Bag of previous values for each property
+       *   in `changedProps`
+       * @return {boolean} true if changedProps is truthy
+       */
+      _shouldPropertiesChange(currentProps, changedProps, oldProps) {
+        // eslint-disable-line no-unused-vars
+        return Boolean(changedProps);
       }
 
       /**
@@ -5487,7 +5507,7 @@ module.exports = RegisterHtmlTemplate;
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 (function webpackUniversalModuleDefinition(root, factory) {
-	if (( false ? 'undefined' : _typeof2(exports)) === 'object' && ( false ? 'undefined' : _typeof2(module)) === 'object') module.exports = factory(__webpack_require__(4));else if (true) !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(4)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+	if (( false ? 'undefined' : _typeof2(exports)) === 'object' && ( false ? 'undefined' : _typeof2(module)) === 'object') module.exports = factory(__webpack_require__(5));else if (true) !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(5)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));else if ((typeof exports === 'undefined' ? 'undefined' : _typeof2(exports)) === 'object') exports["ClapprMarkersPlugin"] = factory(require("Clappr"));else root["ClapprMarkersPlugin"] = factory(root["Clappr"]);
@@ -6676,7 +6696,8 @@ var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbo
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_taktik_polymer_typescript__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_taktik_polymer_typescript___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_taktik_polymer_typescript__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ozone_api_item__ = __webpack_require__(37);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ozone_config__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ozone_api_request__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ozone_config__ = __webpack_require__(3);
 /// <amd-module name="ozone-media-url"/>
 /**
  * Created by hubert on 21/06/17.
@@ -6715,6 +6736,7 @@ var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, gene
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+
 
 
 
@@ -6776,18 +6798,10 @@ let OzoneMediaUrl = class OzoneMediaUrl {
     }
     _fileTypeRequest(filetypeIdentifier) {
         const url = `${this.config.host}${this.config.endPoints.fileType}/identifier/${filetypeIdentifier}`;
-        return new Promise((resolve, reject) => {
-            const xmlhttp = new XMLHttpRequest();
-            xmlhttp.responseType = 'json';
-            xmlhttp.open("GET", url, true);
-            xmlhttp.onload = function () {
-                resolve(xmlhttp.response);
-            };
-            xmlhttp.onerror = function () {
-                reject(xmlhttp.statusText);
-            };
-            xmlhttp.send();
-        });
+        const ozoneAPIRequest = new __WEBPACK_IMPORTED_MODULE_2_ozone_api_request__["a" /* OzoneAPIRequest */]();
+        ozoneAPIRequest.url = url;
+        ozoneAPIRequest.method = 'GET';
+        return ozoneAPIRequest.sendRequest();
     }
     _getVideoFileType() {
         const videoFormat = this.config.format.priority.video;
@@ -6865,7 +6879,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ozone_config__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_taktik_polymer_typescript__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_taktik_polymer_typescript___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_taktik_polymer_typescript__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_Clappr__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_Clappr__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_Clappr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_Clappr__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_clappr_markers_plugin__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_clappr_markers_plugin___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_clappr_markers_plugin__);
@@ -7227,7 +7241,7 @@ __webpack_require__(2);
 
 __webpack_require__(17);
 
-__webpack_require__(5);
+__webpack_require__(6);
 
 __webpack_require__(18);
 
@@ -7525,8 +7539,9 @@ __webpack_require__(24);
           } else {
             template = template.cloneNode(true);
           }
-          this.prototype._template = template;
         }
+
+        this.prototype._template = template;
       }
 
       /**
@@ -7818,6 +7833,9 @@ __webpack_require__(24);
        *
        * These properties are retained unless a value of `null` is set.
        *
+       * Note: This function does not support updating CSS mixins.
+       * You can not dynamically change the value of an `@apply`.
+       *
        * @param {Object=} properties Bag of custom property key/values to
        *   apply to this element.
        * @return {void}
@@ -7948,7 +7966,7 @@ __webpack_require__(24);
 
 __webpack_require__(0);
 
-__webpack_require__(5);
+__webpack_require__(6);
 
 /** @suppress {deprecated} */
 (function () {
@@ -8056,7 +8074,7 @@ __webpack_require__(5);
 /***/ (function(module, exports, __webpack_require__) {
 
 
-__webpack_require__(5);
+__webpack_require__(6);
 
 (function () {
   'use strict';
@@ -8128,7 +8146,13 @@ __webpack_require__(5);
      */
     stylesFromModule(moduleId) {
       const m = importModule(moduleId);
-      if (m && m._styles === undefined) {
+
+      if (!m) {
+        console.warn('Could not find style data in module named', moduleId);
+        return [];
+      }
+
+      if (m._styles === undefined) {
         const styles = [];
         // module imports: <link rel="import" type="css">
         styles.push(...this._stylesFromModuleImports(m));
@@ -8138,12 +8162,11 @@ __webpack_require__(5);
           styles.push(...this.stylesFromTemplate(template,
           /** @type {templateWithAssetPath} */m.assetpath));
         }
+
         m._styles = styles;
       }
-      if (!m) {
-        console.warn('Could not find style data in module named', moduleId);
-      }
-      return m ? m._styles : [];
+
+      return m._styles;
     },
 
     /**
@@ -8166,7 +8189,9 @@ __webpack_require__(5);
           // other dom-modules that contain styling
           let include = e.getAttribute(INCLUDE_ATTR);
           if (include) {
-            styles.push(...this.stylesFromModules(include));
+            styles.push(...this.stylesFromModules(include).filter(function (item, index, self) {
+              return self.indexOf(item) === index;
+            }));
           }
           if (baseURI) {
             e.textContent = Polymer.ResolveUrl.resolveCss(e.textContent, baseURI);
@@ -8345,7 +8370,7 @@ __webpack_require__(5);
 
 __webpack_require__(0);
 
-__webpack_require__(5);
+__webpack_require__(6);
 
 (function () {
   'use strict';
@@ -8518,6 +8543,9 @@ __webpack_require__(23);
     OBSERVE: '__observeEffects',
     READ_ONLY: '__readOnly'
   };
+
+  /** @const {string} */
+  const capitalAttributeRegex = /[A-Z]/;
 
   /**
    * @typedef {{
@@ -9036,7 +9064,7 @@ __webpack_require__(23);
     let part = info.part;
     // Subpath notification: transform path and set to client
     // e.g.: foo="{{obj.sub}}", path: 'obj.sub.prop', set 'foo.prop'=obj.sub.prop
-    if (hasPaths && part.source && path.length > part.source.length && binding.kind == 'property' && !binding.isCompound && node.__dataHasAccessor && node.__dataHasAccessor[binding.target]) {
+    if (hasPaths && part.source && path.length > part.source.length && binding.kind == 'property' && !binding.isCompound && node.__isPropertyEffectsClient && node.__dataHasAccessor && node.__dataHasAccessor[binding.target]) {
       let value = props[path];
       path = Polymer.Path.translate(part.source, binding.target, path);
       if (node._setPendingPropertyOrPath(path, value, false, true)) {
@@ -9072,7 +9100,7 @@ __webpack_require__(23);
     } else {
       // Property binding
       let prop = binding.target;
-      if (node.__dataHasAccessor && node.__dataHasAccessor[prop]) {
+      if (node.__isPropertyEffectsClient && node.__dataHasAccessor && node.__dataHasAccessor[prop]) {
         if (!node[TYPES.READ_ONLY] || !node[TYPES.READ_ONLY][prop]) {
           if (node._setPendingProperty(prop, value)) {
             inst._enqueueClient(node);
@@ -9589,6 +9617,9 @@ __webpack_require__(23);
 
       constructor() {
         super();
+        /** @type {boolean} */
+        // Used to identify users of this mixin, ala instanceof
+        this.__isPropertyEffectsClient = true;
         /** @type {number} */
         // NOTE: used to track re-entrant calls to `_flushProperties`
         // path changes dirty check against `__dataTemp` only during one "turn"
@@ -10982,7 +11013,12 @@ __webpack_require__(23);
           // Attribute or property
           let origName = name;
           let kind = 'property';
-          if (name[name.length - 1] == '$') {
+          // The only way we see a capital letter here is if the attr has
+          // a capital letter in it per spec. In this case, to make sure
+          // this binding works, we go ahead and make the binding to the attribute.
+          if (capitalAttributeRegex.test(name)) {
+            kind = 'attribute';
+          } else if (name[name.length - 1] == '$') {
             name = name.slice(0, -1);
             kind = 'attribute';
           }
@@ -12830,14 +12866,14 @@ __webpack_require__(0);
    *
    * Example:
    *
-   *   static get template() {
-   *     return Polymer.html`
-   *       <style>:host{ content:"..." }</style>
-   *       <div class="shadowed">${this.partialTemplate}</div>
-   *       ${super.template}
-   *     `;
-   *   }
-   *   static get partialTemplate() { return Polymer.html`<span>Partial!</span>`; }
+   *     static get template() {
+   *       return Polymer.html`
+   *         <style>:host{ content:"..." }</style>
+   *         <div class="shadowed">${this.partialTemplate}</div>
+   *         ${super.template}
+   *       `;
+   *     }
+   *     static get partialTemplate() { return Polymer.html`<span>Partial!</span>`; }
    *
    * @memberof Polymer
    * @param {!ITemplateArray} strings Constant parts of tagged template literal
@@ -12856,17 +12892,17 @@ __webpack_require__(0);
    *
    * Example:
    *
-   *   static get template() {
-   *     return Polymer.html`
-   *       <style>
-   *         :host { display: block; }
-   *         ${styleTemplate}
-   *       </style>
-   *       <div class="shadowed">${staticValue}</div>
-   *       ${super.template}
-   *     `;
-   *   }
-   *   static get styleTemplate() { return Polymer.htmlLiteral`.shadowed { background: gray; }`; }
+   *     static get template() {
+   *       return Polymer.html`
+   *         <style>
+   *           :host { display: block; }
+   *           ${styleTemplate}
+   *         </style>
+   *         <div class="shadowed">${staticValue}</div>
+   *         ${super.template}
+   *       `;
+   *     }
+   *     static get styleTemplate() { return Polymer.htmlLiteral`.shadowed { background: gray; }`; }
    *
    * @memberof Polymer
    * @param {!ITemplateArray} strings Constant parts of tagged template literal
@@ -14303,7 +14339,7 @@ module.exports = function (module) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_Clappr__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_Clappr__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_Clappr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_Clappr__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ozone_media_url__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ozone_config__ = __webpack_require__(3);
@@ -14727,7 +14763,7 @@ class ClapprSubtitle extends __WEBPACK_IMPORTED_MODULE_0_Clappr__["UICorePlugin"
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return OzoneApiItem; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_ozone_config__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ozone_api_request__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ozone_api_request__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_taktik_polymer_typescript__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_taktik_polymer_typescript___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_taktik_polymer_typescript__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ozone_search_helper__ = __webpack_require__(38);
@@ -14948,7 +14984,7 @@ OzoneApiItem = __decorate([Object(__WEBPACK_IMPORTED_MODULE_2_taktik_polymer_typ
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SearchGenerator; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_taktik_polymer_typescript__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_taktik_polymer_typescript___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_taktik_polymer_typescript__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ozone_api_request__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ozone_api_request__ = __webpack_require__(4);
 /// <amd-module name="ozone-search-helper"/>
 var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
     var c = arguments.length,
@@ -14972,7 +15008,37 @@ var __metadata = this && this.__metadata || function (k, v) {
  *   let searchQuery = new SearchQuery();
  *   searchQuery.quicksearch('');
  *   const searchGenerator = ozoneItemApi.search(searchQuery);
+ * ```
  *
+ * Search query can be chain.
+ *  * Example:
+ * ```javaScript
+ *   let searchQuery = new SearchQuery();
+ *   // ((type == 'aTypeor' or contains 'hello') and 'myField' == 'aText)
+ *   // Order by 'creationDate'
+ *   searchQuery
+ *      .typeQuery('aType')
+ *      .or.quicksearch('hello')
+ *      .and.termQuery('myField','aText')
+ *      .order('creationDate').DESC;
+ *
+ *   searchQuery.quicksearch('').and;
+ *
+ *   const searchGenerator = ozoneItemApi.search(searchQuery);
+ *
+ *  * Example:
+ * ```javaScript
+ *   let searchQuery = new SearchQuery();
+ *   // type == 'aTypeor' or contains 'hello' or 'myField' == 'aText'
+ *   searchQuery
+ *      .typeQuery('aType')
+ *      .or
+ *         .quicksearch('hello')
+ *         .termQuery('myField','aText');
+ *
+ *   searchQuery.quicksearch('').and;
+ *
+ *   const searchGenerator = ozoneItemApi.search(searchQuery);
  * ```
  */
 let SearchQuery = class SearchQuery {
@@ -14983,7 +15049,37 @@ let SearchQuery = class SearchQuery {
      *   let searchQuery = new SearchQuery();
      *   searchQuery.quicksearch('');
      *   const searchGenerator = ozoneItemApi.search(searchQuery);
+     * ```
      *
+     * Search query can be chain.
+     *  * Example:
+     * ```javaScript
+     *   let searchQuery = new SearchQuery();
+     *   // ((type == 'aTypeor' or contains 'hello') and 'myField' == 'aText)
+     *   // Order by 'creationDate'
+     *   searchQuery
+     *      .typeQuery('aType')
+     *      .or.quicksearch('hello')
+     *      .and.termQuery('myField','aText')
+     *      .order('creationDate').DESC;
+     *
+     *   searchQuery.quicksearch('').and;
+     *
+     *   const searchGenerator = ozoneItemApi.search(searchQuery);
+     *
+     *  * Example:
+     * ```javaScript
+     *   let searchQuery = new SearchQuery();
+     *   // type == 'aTypeor' or contains 'hello' or 'myField' == 'aText'
+     *   searchQuery
+     *      .typeQuery('aType')
+     *      .or
+     *         .quicksearch('hello')
+     *         .termQuery('myField','aText');
+     *
+     *   searchQuery.quicksearch('').and;
+     *
+     *   const searchGenerator = ozoneItemApi.search(searchQuery);
      * ```
      */
     constructor() {
@@ -15007,43 +15103,216 @@ let SearchQuery = class SearchQuery {
         this._searchRequest.offset = size;
     }
     /**
-     *
-     * @param searchString
+     * create boolQuery mustClauses.
+     * @return {SearchQuery}
+     */
+    get and() {
+        return this.boolQuery('mustClauses');
+    }
+    /**
+     * create boolQuery shouldClauses.
+     * @return {SearchQuery}
+     */
+    get or() {
+        return this.boolQuery('shouldClauses');
+    }
+    /**
+     * create boolQuery mustNotClauses (nand).
+     * @return {SearchQuery}
+     */
+    get not() {
+        return this.boolQuery('mustNotClauses');
+    }
+    /**
+     * set search request size
+     * Can be chain.
+     * @param {number} size
+     * @return {SearchQuery} this
+     */
+    setSize(size) {
+        this.size = size;
+        return this;
+    }
+    /**
+     * generic boolQuery
+     * Can be chain.
+     * @param {string} kind kind of bool query
+     * @return {SearchQuery}
+     */
+    boolQuery(kind) {
+        const currentQuery = Object.assign({}, this._searchRequest.query);
+        this._searchRequest.query = {
+            "$type": "BoolQuery"
+        };
+        this._searchRequest.query[kind] = [currentQuery];
+        return this;
+    }
+    /**
+     * ozone QueryStringQuery
+     * @param {string} searchString string to search
      */
     quicksearch(searchString) {
-        let searchParam = {};
-        searchParam.size = this.size;
-        searchParam.query = {
+        return this.addQuery({
             "$type": "QueryStringQuery",
-            "field": "_quicksearch",
-            "queryString": `${searchString}*`
-        };
-        this._searchRequest = searchParam;
+            field: "_quicksearch",
+            queryString: `${searchString}*`
+        });
     }
-    suggestion(searchString, lastTerm) {
-        let searchParam = {};
+    /**
+     * search for a term in a field
+     * @param {string} field
+     * @param {string} value
+     * @return {SearchQuery}
+     */
+    termQuery(field, value) {
+        return this.addQuery({
+            "$type": "TermQuery",
+            field: field,
+            value: value
+        });
+    }
+    termsQuery(field, ...values) {
+        return this.addQuery({
+            "$type": "TermsQuery",
+            field,
+            values
+        });
+    }
+    /**
+     * search inside a type.
+     * Not un subtype
+     * @param {string} typeIdentifiers
+     * @return {SearchQuery}
+     */
+    typeQuery(...typeIdentifiers) {
+        return this.genericTypeQuery(false, ...typeIdentifiers);
+    }
+    /**
+     * search array of ids
+     * @param {string} ids
+     * @return {SearchQuery}
+     */
+    idsQuery(...ids) {
+        return this.addQuery({
+            "$type": "IdsQuery",
+            ids
+        });
+    }
+    /**
+     * search inside a type and it's subtype
+     * @param {string} typeIdentifiers
+     * @return {SearchQuery}
+     */
+    typeQueryWithSubType(...typeIdentifiers) {
+        return this.genericTypeQuery(true, ...typeIdentifiers);
+    }
+    /**
+     * Search inside a type
+     * @param {boolean} includeSubTypes
+     * @param {string} typeIdentifiers
+     * @return {SearchQuery}
+     */
+    genericTypeQuery(includeSubTypes, ...typeIdentifiers) {
+        return this.addQuery({
+            "$type": "TypeQuery",
+            typeIdentifiers: typeIdentifiers,
+            includeSubTypes: includeSubTypes
+        });
+    }
+    /**
+     * Search for auto complete
+     * @param {string} searchString
+     * @param {string?} lastTerm
+     * @param {number?} size
+     * @return {SearchQuery}
+     */
+    suggestion(searchString, lastTerm, size) {
+        const suggestSize = size || this.size;
         if (lastTerm) {
-            searchParam.aggregations = [{
+            this._searchRequest.aggregations = [{
                 "$type": "TermsAggregation",
                 name: "suggest",
                 field: "_quicksearch",
                 order: "COUNT_DESC",
-                size: this.size,
+                size: suggestSize,
                 includePattern: `${lastTerm}.*`
             }];
         }
-        searchParam.query = {
-            $type: "QueryStringQuery",
-            field: "_quicksearch",
-            queryString: `${searchString}*`
-        };
-        this._searchRequest = searchParam;
+        return this.quicksearch(searchString);
     }
+    /**
+     * create a custom searchRequest.
+     * Can not be chained
+     * @param {SearchRequest} searchParam
+     * @return {SearchQuery}
+     */
     custom(searchParam) {
         this._searchRequest = searchParam;
     }
+    /**
+     *
+     * @param {Query} query
+     * @return {SearchQuery}
+     */
+    addQuery(query) {
+        if (this._searchRequest.query && this._searchRequest.query.$type === 'BoolQuery') {
+            const currentQuery = this._searchRequest.query;
+            if (currentQuery.mustClauses) {
+                currentQuery.mustClauses.push(query);
+            } else if (currentQuery.shouldClauses) {
+                currentQuery.shouldClauses.push(query);
+            } else if (currentQuery.mustNotClauses) {
+                currentQuery.mustNotClauses.push(query);
+            } else {
+                throw new Error('unsupported BoolQuery');
+            }
+        } else {
+            this._searchRequest.query = query;
+        }
+        return this;
+    }
+    /**
+     * function to an order on a field
+     * @param {string} field
+     * @param {Sort.OrderEnum} order
+     * @return {this}
+     */
+    addOrderOn(field, order) {
+        this._searchRequest.sorts = this._searchRequest.sorts || [];
+        this._searchRequest.sorts.push({
+            field,
+            order
+        });
+        return this;
+    }
+    /**
+     * Short hand to field oder in chain configuration.
+     * Has to be follow by ASC, DESC or NONE
+     * @param {string} field field to search on.
+     * @return {OrderRequest}
+     */
+    order(field) {
+        return new OrderRequest(this, field);
+    }
 };
 SearchQuery = __decorate([Object(__WEBPACK_IMPORTED_MODULE_0_taktik_polymer_typescript__["jsElement"])()], SearchQuery);
+
+class OrderRequest {
+    constructor(request, field) {
+        this.request = request;
+        this.field = field;
+    }
+    get ASC() {
+        return this.request.addOrderOn(this.field, 'ASC');
+    }
+    get DESC() {
+        return this.request.addOrderOn(this.field, 'DESC');
+    }
+    get NONE() {
+        return this.request.addOrderOn(this.field, 'NONE');
+    }
+}
+/* unused harmony export OrderRequest */
 
 /**
  * Class helper to iterate on search result.
@@ -15063,7 +15332,7 @@ let SearchGenerator = class SearchGenerator {
     constructor(url, searchParam) {
         this.total = NaN;
         this.offset = 0;
-        this.done = false;
+        this.dataRemain = true;
         this.searchParam = searchParam;
         this.url = url;
     }
@@ -15072,8 +15341,12 @@ let SearchGenerator = class SearchGenerator {
      * @return {Promise<SearchResult>}
      */
     next() {
-        this.searchParam.offset = this.offset;
-        return this._postRequest(this.url, this.searchParam.searchQuery, this._readSearchResponse);
+        if (this.dataRemain) {
+            this.searchParam.offset = this.offset;
+            return this._postRequest(this.url, this.searchParam.searchQuery, this._readSearchResponse);
+        } else {
+            return Promise.resolve(null);
+        }
     }
     _postRequest(url, body, responseFilter) {
         const ozoneAccess = new __WEBPACK_IMPORTED_MODULE_1_ozone_api_request__["a" /* OzoneAPIRequest */]();
@@ -15083,13 +15356,16 @@ let SearchGenerator = class SearchGenerator {
         return ozoneAccess.sendRequest().then(responseFilter.bind(this));
     }
     _readSearchResponse(res) {
-        this.total = Number(res.response.total);
-        this.offset += Number(res.response.size);
-        this.done = this.offset < this.total;
-        let results = res.response.results || [];
+        const response = res.response;
+        let aggregations = response.aggregations;
+        this.total = Number(response.total);
+        this.offset += Number(response.size);
+        this.dataRemain = this.offset < this.total;
+        let results = response.results || [];
         return {
             results,
-            total: this.total
+            total: this.total,
+            aggregations
         };
     }
 };
@@ -15238,7 +15514,7 @@ class ClapprMarkerFactory {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_ozone_api_request__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_ozone_api_request__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ozone_config__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_uuid_v4__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_uuid_v4___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_uuid_v4__);
@@ -15386,7 +15662,7 @@ module.exports = bytesToUuid;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_Clappr__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_Clappr__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_Clappr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_Clappr__);
 
 class WCMediaControl extends __WEBPACK_IMPORTED_MODULE_0_Clappr__["MediaControl"] {

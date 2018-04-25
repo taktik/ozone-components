@@ -9,7 +9,7 @@ import "ozone-api-item"
 import "ozone-collection"
 
 import "./ozone-mosaic.html"
-import '../ozone-iron-list/ozone-iron-list'
+import 'ozone-iron-list'
 import {OzoneIronList} from 'ozone-iron-list'
 
 import {customElement, domElement, property} from 'taktik-polymer-typescript';
