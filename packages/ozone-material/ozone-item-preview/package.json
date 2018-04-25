@@ -1,6 +1,6 @@
 {
   "name": "ozone-item-preview",
-  "version": "3.2.0-beta6",
+  "version": "3.2.0-beta7",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "description": "",
@@ -21,15 +21,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ozone-api-item": "^3.2.0-beta6",
-    "ozone-api-request": "^3.2.0-beta6",
-    "ozone-api-type": "^3.2.0-beta6",
-    "ozone-config": "^3.2.0-beta6",
-    "ozone-media-url": "^3.2.0-beta6",
-    "ozone-search-helper": "^3.2.0-beta6",
-    "ozone-type": "^3.2.0-beta6",
+    "ozone-api-item": "^3.2.0-beta7",
+    "ozone-api-request": "^3.2.0-beta7",
+    "ozone-api-type": "^3.2.0-beta7",
+    "ozone-config": "^3.2.0-beta7",
+    "ozone-media-url": "^3.2.0-beta7",
+    "ozone-search-helper": "^3.2.0-beta7",
+    "ozone-type": "^3.2.0-beta7",
     "reflect-metadata": "^0.1.12",
-    "taktik-polymer-typescript": "^3.2.0-beta6"
+    "taktik-polymer-typescript": "^3.2.0-beta7"
   },
   "devDependencies": {
     "@polymer/gen-closure-declarations": "^0.4.0",
