@@ -1,6 +1,6 @@
 {
   "name": "ozone-api-authentication",
-  "version": "3.2.0-beta5",
+  "version": "3.2.0-beta6",
   "publishConfig": {
     "access": "public"
   },
@@ -27,8 +27,8 @@
   "dependencies": {
     "@types/lodash": "^4.14.104",
     "global": "^4.3.2",
-    "ozone-api-request": "^3.2.0-beta5",
-    "ozone-config": "^3.2.0-beta5",
+    "ozone-api-request": "^3.2.0-beta6",
+    "ozone-config": "^3.2.0-beta6",
     "reflect-metadata": "^0.1.12",
     "typedoc": "^0.11.1"
   },
@@ -44,9 +44,9 @@
     "clean-webpack-plugin": "^0.1.19",
     "copy-webpack-plugin": "^4.5.1",
     "html-webpack-plugin": "^2.30.1",
-    "ozone-type": "^3.2.0-beta5",
+    "ozone-type": "^3.2.0-beta6",
     "polymer-webpack-loader": "^2.0.2",
-    "taktik-polymer-typescript": "^3.2.0-beta5",
+    "taktik-polymer-typescript": "^3.2.0-beta6",
     "ts-loader": "^2.3.7",
     "typedoc": "^0.9.0",
     "typescript": "^2.7.2",
