@@ -23,6 +23,8 @@
 		"verify": "git diff --exit-code",
 		"start": "webpack --config webpack.config.js",
 		"pretest": "webpack --config webpack.config.js",
+		"test:persist": "wct -p  --skip-plugin=headless --configFile wct.conf.js",
+		"build:test:watch": "webpack --config webpack.config.js --watch",
 		"demo": "webpack-dev-server --config webpack.config.js",
 		"doc": "typedoc --excludeExternals  --out  doc/ "
 	},
