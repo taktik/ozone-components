@@ -3,7 +3,7 @@
  */
 
 import "polymer/polymer-element.html"
-import "iron-list/iron-list.html"
+import "../iron-list/iron-list.html"
 import "iron-flex-layout/iron-flex-layout.html"
 import "ozone-collection"
 
