@@ -136,6 +136,9 @@ export class OzoneApiItem {
      * Submit ozone search query
      */
     async search (search: SearchQuery): Promise<SearchGenerator> {
+        if(search.collection){
+            this.on(search.collection)
+        }
         const url = await this._buildUrl('search');
         return new SearchGenerator(url, search);
     }

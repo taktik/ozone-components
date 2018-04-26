@@ -64,6 +64,20 @@ export class SearchQuery {
         size: 10
     };
 
+    _collection ?: string;
+
+    /**
+     * Set collection to search on.
+     * @param {string} collection
+     * @return {SearchQuery} this to be chained
+     */
+    on(collection: string){
+        this._collection = collection;
+        return this;
+    }
+    get collection(): string | undefined{
+        return this._collection
+    }
     get searchQuery () {return JSON.stringify(this._searchRequest)}
 
 
