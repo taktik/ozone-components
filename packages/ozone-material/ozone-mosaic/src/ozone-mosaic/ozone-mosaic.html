@@ -19,12 +19,13 @@
                 --actions-background-color: {
                     background: #fafafa;
                 }
+                @apply --ozone-mosaic-list;
             }
             ozone-iron-list {
                 margin-top: 90px;
                 padding-bottom: 16px;
             }
-            .item{
+            .previewContainer{
                 box-sizing: border-box;
                 width:300px;
                 height:200px;
@@ -33,9 +34,7 @@
                 overflow: hidden;
                 @apply --ozone-mosaic-item
             }
-            .item[hidden] {
-                display: none;
-            }
+
             .actionPanel{
                 position:absolute;
                 top:0;
@@ -60,7 +59,7 @@
                     selection-enabled
                     scroll-target="scrollTheshold">
                 <template>
-                    <div class="item">
+                    <div class="previewContainer">
                         <ozone-item-preview class="photoContent"
                                             item-id="[[item.id]]"
                                             item-data="[[item]]"
