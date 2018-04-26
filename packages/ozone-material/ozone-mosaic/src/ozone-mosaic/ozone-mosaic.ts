@@ -58,7 +58,7 @@ export interface TaktikSearchApiBehavior{
  *  Custom property | Description | Default
  *  ----------------|-------------|----------
  *  `--ozone-mosaic-item`  | css mixin for the list of item | `{ box-sizing: border-box;width:300px;height:200px;margin:10px;display:flex;overflow: hidden;}`
- *
+ *  `--ozone-mosaic-item-margins` | css mixin for the margin of previewContainer | `default 8px`
  */
 @customElement('ozone-mosaic')
 export class OzoneMosaic  extends Polymer.Element implements  TaktikSearchApiBehavior{
