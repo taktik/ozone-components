@@ -62,20 +62,7 @@ export class OzoneItemPreview extends Polymer.Element{
     static get observers(){
         return [ 'dataChange(itemData)'];
     }
-
-    ready(){
-        super.ready()
-
-        this.addEventListener('focus', function(e) {
-            if(this.shadowRoot) {
-                console.log('Active element (inside shadow dom):',
-                    this.shadowRoot.activeElement);
-                console.log(this.tagName)
-                debugger
-            }
-        });
-
-    }
+    
     placeholder(itemData?:Item):string {
         itemData = itemData || {type: 'default'} as Item
 
