@@ -38,6 +38,6 @@
         "audio": ["hls", "flowr", "mp4", "mp3", "original"]
       }
     },
-    "uploadChannel": "test.uploadChannelEditor"
+    "uploadChannel": "uploadChannel1"
   }
 }

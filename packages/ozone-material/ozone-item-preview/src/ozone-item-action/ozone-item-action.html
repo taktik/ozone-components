@@ -74,13 +74,13 @@
           }
         </style>
         <div class="actions-panel" id="actionsPanel">
-            <div class="actions-panel-icon"><paper-icon-button icon="create" on-tap="_editItem"></paper-icon-button></div>
-            <div class="actions-panel-icon"><paper-icon-button icon="favorite" disabled></paper-icon-button></div>
-            <div class="actions-panel-icon"><paper-icon-button icon="info" on-tap="_infoItem"></paper-icon-button></div>
+            <div class="actions-panel-icon action"><paper-icon-button icon="create" event="edit-item"></paper-icon-button></div>
+            <div class="actions-panel-icon action"><paper-icon-button icon="favorite" disabled></paper-icon-button></div>
+            <div class="actions-panel-icon action"><paper-icon-button icon="info" event="info-item"></paper-icon-button></div>
             <break></break>
-            <div class="actions-panel-icon"><paper-icon-button icon="communication:rss-feed" disabled></paper-icon-button></div>
-            <div class="actions-panel-icon"><paper-icon-button icon="file-download" disabled></paper-icon-button></div>
-            <div class="actions-panel-icon"><paper-icon-button icon="delete" on-tap="_delete"></paper-icon-button></div>
+            <div class="actions-panel-icon action"><paper-icon-button icon="communication:rss-feed" disabled></paper-icon-button></div>
+            <div class="actions-panel-icon action"><paper-icon-button icon="file-download" disabled></paper-icon-button></div>
+            <div class="actions-panel-icon action"><paper-icon-button icon="delete" event="delete-item"></paper-icon-button></div>
         </div>
     </template>
 </dom-module>
