@@ -169,10 +169,12 @@ export class OzoneApiType  {
 
     async getAllFields(collection: string):Promise<Array<FieldDescriptor>>{
         const type = await(this.getType(collection));
+        let parentFields:Array<FieldDescriptor> = [];
         if(type && type.superType){
-            const fields = type.fields || [];
-            let parentFields:Array<FieldDescriptor> = [];
             parentFields = await(this.getAllFields(type.superType));
+        }
+        if(type){
+            const fields = type.fields || [];
             return fields.concat(parentFields);
         }
         return [];

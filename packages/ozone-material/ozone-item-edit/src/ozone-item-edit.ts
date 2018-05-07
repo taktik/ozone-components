@@ -145,6 +145,7 @@ export class OzoneItemEdit  extends Polymer.Element  {
         let editableItemName;
         switch(type){
             case 'string':
+            case 'uuid':
             case 'blob':
             case 'date':
                 editableItemName = 'ozone-edit-entry';

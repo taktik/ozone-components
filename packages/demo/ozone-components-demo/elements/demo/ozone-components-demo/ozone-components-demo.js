@@ -68,6 +68,9 @@ class OzoneComponentsDemo extends Polymer.Element {
                     this.$.editPanel.set('selectedItem', item)
                 });
         });
+        this.$.ozoneMosaic.addEventListener("delete-item", (event) =>{
+            this.$.ozoneMosaic.$.ironList.$.mosaicCollection.deleteOne(event.detail.id, true)
+        });
         this.$.editPanel.addEventListener('close-tap', (event) => {
             this.$.editPanel.set('display', false);
         });
