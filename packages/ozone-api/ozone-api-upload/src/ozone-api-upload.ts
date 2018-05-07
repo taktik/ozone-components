@@ -351,7 +351,8 @@ export class UploadFileRequest implements XMLHttpRequestLike {
             let interval = setInterval(() => {
                 this._awaitTask(uploadEndResult.uploadFileId)
                     .then((data) => {
-                        if (data.taskExecutions[uploadEndResult.uploadFileId].isComplete) {
+                        if (data.taskExecutions[uploadEndResult.uploadFileId].isComplete ||
+                            data.taskExecutions[uploadEndResult.uploadFileId].completed) {
                             clearInterval(interval);
                             const mediaId: string =  data
                                 .taskExecutions[uploadEndResult.uploadFileId].taskResult.mediaId;
