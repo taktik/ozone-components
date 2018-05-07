@@ -158,7 +158,7 @@ export class OzoneCollection  extends Polymer.Element{
                 result = this._getSource.getOne(id)
                     .then(item => {
                         if (item) {
-                            this.push('items', item);
+                            this.splice('items', 0, 0, item);
                         }
                         return item as Item | null;
                     });
