@@ -87,6 +87,10 @@ class OzoneComponentsDemo extends Polymer.Element {
             this.$.videoEditPanel.set('selectedItem', event.detail);
         });
 
+        document.addEventListener('ozone-upload-completed', (event)=>{
+            this.$.ozoneMosaic.$.ironList.$.mosaicCollection.findOne(event.detail.mediaId)
+        })
+
         this.$.freeTextSearch.addEventListener("taktik-search", () => this._searchSubmit());
     }
 

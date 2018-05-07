@@ -13,6 +13,26 @@ export interface UploadIdResult extends UploadSessionResult {
 export interface UploadEndResult  extends UploadIdResult {
     uploadFileId: string;
 }
+export interface TaskResult  {
+    mediaId: string;
+    asyncTasksGroupId?: string
+}
+export interface TaskExecutions  {
+    completed? : boolean //API v3
+    isComplete? : boolean //API v2
+    stepsCout: number,
+    stepsDone: number,
+    taskResult?: TaskResult;
+}
+export interface WaitResponse {
+    groupId: string,
+    hasErrors: boolean,
+    stepsCount: number,
+    stepsDone: number,
+    taskExecutions: {
+        [key:string]: TaskExecutions
+    }
+}
 
 export interface XMLHttpRequestLike {
 
@@ -345,18 +365,40 @@ export class UploadFileRequest implements XMLHttpRequestLike {
         xhr.send(JSON.stringify(info));
         return result;
     }
-
+    _waitForSubTasks(asyncTasksGroupId: string): Promise<void> {
+        let mediaId: string;
+        return (new Promise((resolve, reject) => {
+            let interval = setInterval(() => {
+                this._awaitTask(asyncTasksGroupId)
+                    .then((data: WaitResponse) => {
+                        if(data.stepsCount === data.stepsDone) {
+                            clearInterval(interval);
+                            resolve();
+                        }
+                        else if(data.hasErrors)
+                            reject('possessing tasks as an error')
+                    })
+                    .catch((error) => {
+                        clearInterval(interval);
+                        reject(error);
+                    })
+            }, this.pollInterval);
+        }))
+    }
     _waitForTask(uploadEndResult: UploadEndResult): Promise<string> {
-        return new Promise((resolve, reject) => {
+        let mediaId: string;
+        return (new Promise((resolve, reject) => {
             let interval = setInterval(() => {
                 this._awaitTask(uploadEndResult.uploadFileId)
-                    .then((data) => {
-                        if (data.taskExecutions[uploadEndResult.uploadFileId].isComplete ||
-                            data.taskExecutions[uploadEndResult.uploadFileId].completed) {
+                    .then((data: WaitResponse) => {
+                        const taskExecution = data.taskExecutions[uploadEndResult.uploadFileId];
+
+                        if (taskExecution.isComplete ||
+                            taskExecution.completed) {
                             clearInterval(interval);
-                            const mediaId: string =  data
-                                .taskExecutions[uploadEndResult.uploadFileId].taskResult.mediaId;
-                            resolve(mediaId);
+                            if(taskExecution.taskResult)
+                                mediaId = taskExecution.taskResult.mediaId;
+                            resolve(taskExecution.taskResult);
                         }
                     })
                     .catch((error) => {
@@ -364,10 +406,17 @@ export class UploadFileRequest implements XMLHttpRequestLike {
                         reject(error);
                     })
             }, this.pollInterval);
-        });
+        }))
+            .then((data: any): any => {
+                const taskResult = data || {} as TaskResult
+                if(taskResult.asyncTasksGroupId){
+                    return this._waitForSubTasks(taskResult.asyncTasksGroupId)
+                }
+            })
+            .then(()=> mediaId as string );
     }
 
-    _awaitTask(uploadFileId: string): Promise<any> {
+    _awaitTask(uploadFileId: string): Promise<WaitResponse> {
         const xhr = this. _createRequest();
         const url = this._buildUrl('wait', uploadFileId, '120');
         xhr.open('GET', url, true);
