@@ -99,7 +99,7 @@ export class OzoneMosaic  extends Polymer.Element implements  TaktikSearchApiBeh
         type: Boolean,
         notify:true,
     })
-    dataRemain: boolean = false;
+    hasMoreData: boolean = false;
 
     /**
      * Define size of query result

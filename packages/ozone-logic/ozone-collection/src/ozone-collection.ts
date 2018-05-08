@@ -21,7 +21,7 @@ import {SearchGenerator, SearchQuery} from 'ozone-search-helper';
  *        items="{{searchResults}}"
  *        total="{{total}}"
  *        collection="video"
- *        data-remain="{{dataRemain}}"></ozone-collection>
+ *        has-more-data="{{hasMoreData}}"></ozone-collection>
  * ```
  * ### Events
  *
@@ -64,7 +64,7 @@ export class OzoneCollection  extends Polymer.Element{
      * @notify: true
      */
     @property({type: Boolean, notify:true})
-    dataRemain: boolean = false;
+    hasMoreData: boolean = false;
 
     private _source: OzoneApiItem;
 
@@ -130,7 +130,7 @@ export class OzoneCollection  extends Polymer.Element{
         if(this._searchIterator) {
             return this._searchIterator.next().then((searchResult)=>{
                 if(this._searchIterator)
-                    this.set('dataRemain', this._searchIterator.dataRemain)
+                    this.set('hasMoreData', this._searchIterator.hasMoreData)
                 if(searchResult) {
                     this.set('total', searchResult.total);
                     this.push('items', ...searchResult.results)
@@ -340,9 +340,9 @@ export class OzoneCollection  extends Polymer.Element{
         }
     }
 
-    @observe('dataRemain')
-    private dataRemainChange(value:number){
-        this.propertyUpdate('dataRemain', value)
+    @observe('hasMoreData')
+    private hasMoreDataChange(value:number){
+        this.propertyUpdate('hasMoreData', value)
     }
     @observe('total')
     private totalChange(value:number){

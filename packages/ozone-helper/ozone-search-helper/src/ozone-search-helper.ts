@@ -332,7 +332,7 @@ export class SearchGenerator {
     url:string;
     total: number = NaN;
     offset:number = 0;
-    dataRemain:boolean = true;
+    hasMoreData:boolean = true;
 
     constructor(url:string, searchParam: SearchQuery){
         this.searchParam = searchParam;
@@ -344,7 +344,7 @@ export class SearchGenerator {
      * @return {Promise<SearchResult>}
      */
     next(): Promise<SearchResult|null>{
-        if(this.dataRemain) {
+        if(this.hasMoreData) {
             this.searchParam.offset = this.offset;
             return this._postRequest(this.url, this.searchParam.searchQuery, this._readSearchResponse);
         } else {
@@ -367,7 +367,7 @@ export class SearchGenerator {
 
         this.total = Number(response.total);
         this.offset += Number(response.size);
-        this.dataRemain = this.offset < this.total;
+        this.hasMoreData = this.offset < this.total;
         let results = response.results || [];
         return {
             results,

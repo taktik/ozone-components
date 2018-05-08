@@ -83,7 +83,7 @@ export class OzoneMediaUrl {
                 this.config.format.type.mp4])
     }
 
-    private _fileTypeRequest(filetypeIdentifier: string){
+    private _fileTypeRequest(filetypeIdentifier: string): Promise<XMLHttpRequest>{
         const url = `${this.config.host}${this.config.endPoints.fileType}/identifier/${filetypeIdentifier}`;
 
         const ozoneAPIRequest = new OzoneAPIRequest();
@@ -97,6 +97,9 @@ export class OzoneMediaUrl {
         const promises = videoFormat.map((format: string)=> {
             const filetypeIdentifier = this.config.format.type[format];
             return this._fileTypeRequest(filetypeIdentifier)
+                .then((request: XMLHttpRequest) => {
+                    return request.response
+                })
                 .catch(()=>{
                     console.log(format, 'not found')
                 })

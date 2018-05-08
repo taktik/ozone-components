@@ -52,7 +52,7 @@
                 items="{{items}}"
                 total="{{total}}"
                 collection="{{collectionType}}"
-                data-remain="{{dataRemain}}"></ozone-collection>
+                has-more-data="{{hasMoreData}}"></ozone-collection>
 
         <array-selector
                 id="selector"
@@ -63,6 +63,6 @@
         <div id="items">
             <slot></slot>
         </div>
-        <paper-item class="loader" hidden$="[[!dataRemain]]">Fetching new items...</paper-item>
+        <paper-item class="loader" hidden$="[[!hasMoreData]]">Fetching new items...</paper-item>
     </template>
 </dom-module>

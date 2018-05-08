@@ -88,7 +88,7 @@ export class OzoneIronList  extends Polymer.ElementMixin<PolymerElement>(IronLis
         type: Boolean,
         notify:true,
     })
-    dataRemain: boolean = false;
+    hasMoreData: boolean = false;
 
 
     items: Array<Item> = [];
@@ -147,7 +147,7 @@ export class OzoneIronList  extends Polymer.ElementMixin<PolymerElement>(IronLis
     }
 
     private toggleThreshold(){
-        if(this.dataRemain) {
+        if(this.hasMoreData) {
             return this.loadMoreItems()
                 .catch(() => {
                 })

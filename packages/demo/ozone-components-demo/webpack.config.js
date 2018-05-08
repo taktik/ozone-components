@@ -25,14 +25,13 @@ module.exports = {
     // bower_components folder.
     resolve: {
         alias: {
-            Clappr: 'clappr/src/main.js',
-            clappr: 'clappr/src/main.js',
+            Clappr: 'ozone-video-player/vendor/clappr',
+            clappr: 'ozone-video-player/vendor/clappr',
             "../../marked/lib/marked.js": 'marked/lib/marked.js',
             //"polymer/polymer.html": "polymer/polymer-element.html",
-            'clappr-zepto':'clappr-zepto/zepto.js',
             "../../../shadycss/apply-shim.html": "@webcomponents/shadycss/apply-shim.html",
             "../../../shadycss/custom-style-interface.html": "@webcomponents/shadycss/custom-style-interface.html",
-            "hls.js": "hls.js/src/hls.js"
+//            "hls.js": "hls.js/src/hls.js"
         },
         modules: [
             path.resolve(__dirname, 'node_modules/@polymer'),
@@ -56,8 +55,7 @@ module.exports = {
                         options: {
                             ignoreLinks: /\.\.\/polymer\/polymer\.html$/,
                         } }
-                ],
-                exclude: [path.resolve(__dirname, './node_modules/clappr')]
+                ]
             },
             {
                 test: /\.js$/,
@@ -66,25 +64,6 @@ module.exports = {
             {
                 test: /\.ts$/,
                 use: 'ts-loader',
-            },
-            /* ***** require by ozone-video-player ***** */
-            {
-                test: /clappr.*\.html/, loader: 'html-loader?minimize=false',
-                include: [path.resolve(__dirname, './node_modules/clappr')]
-            },
-            {
-                test: /fonts\.css$/,
-                loaders: ['css-loader', 'postcss-loader'],
-                include: path.resolve(__dirname, 'node_modules/clappr/src/components/core/public')
-            },
-            {
-                test: /\.scss$/,
-                loaders: ['css-loader', 'sass-loader?includePaths[]='
-                + require('node-bourbon').includePaths
-                + '&includePaths[]='
-                + path.resolve(__dirname, './node_modules/clappr/src/base/scss')
-                ],
-                include: path.resolve(__dirname, 'node_modules/clappr/src')
             },
             {
                 test: /\.(png|woff|eot|swf|cur|ttf)/,

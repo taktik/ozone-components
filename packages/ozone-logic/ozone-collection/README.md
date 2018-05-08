@@ -22,7 +22,7 @@
          items="{{searchResults}}"
          total="{{total}}"
          collection="video"
-         data-remain="{{dataRemain}}"></ozone-collection>
+         has-more-data="{{hasMoreData}}"></ozone-collection>
  ```
  
  [npm-image]: https://badge.fury.io/js/ozone-collection.svg
