@@ -1,6 +1,6 @@
 # \<ozone-free-text-search\>
 
-
+Material design for free text search box.
 
 ## Install the Polymer-CLI
 
