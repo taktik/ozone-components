@@ -65,6 +65,7 @@ export class OzoneMediaEdit  extends Polymer.Element  {
         if(!data.hasOwnProperty('type')){
             return ;
         }
+        this.removeEntryIfExist();
         await(this.loadImage(data, OzonePreviewSize.Medium));
         await(this.loadVideo(data));
     }
@@ -101,6 +102,12 @@ export class OzoneMediaEdit  extends Polymer.Element  {
             if(this.playerElement){
                 this.playerElement.set('hidden', true)
             }
+        }
+    }
+    private removeEntryIfExist(){
+        const entryList = this.$.player.getElementsByTagName('ozone-video-player');
+        while (entryList.length > 0){
+            entryList[0].remove();
         }
     }
 
