@@ -1,6 +1,6 @@
 {
   "name": "ozone-api-item",
-  "version": "3.2.0",
+  "version": "3.3.0-beta",
   "publishConfig": {
     "access": "public"
   },
@@ -27,10 +27,10 @@
   "license": "ISC",
   "dependencies": {
     "@types/lodash": "^4.14.104",
-    "ozone-api-request": "^3.2.0",
-    "ozone-config": "^3.2.0",
-    "ozone-search-helper": "^3.2.0",
-    "taktik-polymer-typescript": "^3.2.0",
+    "ozone-api-request": "^3.3.0-beta",
+    "ozone-config": "^3.3.0-beta",
+    "ozone-search-helper": "^3.3.0-beta",
+    "taktik-polymer-typescript": "^3.3.0-beta",
     "ts-loader": "^4.1.0",
     "typedoc": "^0.11.1",
     "wct-headless": "^2.2.2",

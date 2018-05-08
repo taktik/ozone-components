@@ -1,6 +1,6 @@
 {
   "name": "ozone-api-request",
-  "version": "3.2.0",
+  "version": "3.3.0-beta",
   "publishConfig": {
     "access": "public"
   },
@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@types/lodash": "^4.14.104",
-    "taktik-polymer-typescript": "^3.2.0",
+    "taktik-polymer-typescript": "^3.3.0-beta",
     "typedoc": "^0.11.1"
   }
 }

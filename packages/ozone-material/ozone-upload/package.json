@@ -1,6 +1,6 @@
 {
   "name": "ozone-upload",
-  "version": "3.2.0",
+  "version": "3.3.0-beta",
   "publishConfig": {
     "access": "public"
   },
@@ -57,11 +57,11 @@
     "@types/lodash": "^4.14.104",
     "@webcomponents/shadycss": "^1.0.6",
     "@webcomponents/webcomponentsjs": "^1.0.12",
-    "ozone-api-request": "^3.2.0",
-    "ozone-api-upload": "^3.2.0",
-    "ozone-config": "^3.2.0",
+    "ozone-api-request": "^3.3.0-beta",
+    "ozone-api-upload": "^3.3.0-beta",
+    "ozone-config": "^3.3.0-beta",
     "reflect-metadata": "^0.1.10",
-    "taktik-polymer-typescript": "^3.2.0",
+    "taktik-polymer-typescript": "^3.3.0-beta",
     "typedoc": "^0.11.1",
     "webcomponents.js": "^0.7.24"
   }
