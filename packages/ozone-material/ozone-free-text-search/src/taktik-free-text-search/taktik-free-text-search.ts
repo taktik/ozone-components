@@ -112,7 +112,14 @@ export class TaktikFreeTextSearch extends Polymer.Element {
         this.$.collapseAutoComplete.hide()
     }
 
+    private _lastFire=0;
+    private _throttleDelayOnfire = 1000;
     fireTaktikSearch() {
+        const now = (new Date).getTime();
+        if (now - this._lastFire < this._throttleDelayOnfire) {
+            return;
+        }
+        this._lastFire = now;
         this.dispatchEvent(new CustomEvent('taktik-search', {
             bubbles: true, composed: true,
             detail: this.searchValue
