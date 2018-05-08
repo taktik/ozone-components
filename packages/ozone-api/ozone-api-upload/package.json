@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@types/lodash": "^4.14.104",
+    "ozone-api-request": "^3.2.0",
     "ozone-config": "^3.2.0",
     "typedoc": "^0.11.1"
   },

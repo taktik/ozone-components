@@ -76,7 +76,7 @@ import {jsElement} from 'taktik-polymer-typescript'
 export class OzoneAPIRequest{
     private _url: string ='';
     private _method: string = 'GET';
-    private _body: string = '';
+    private _body: string | FormData = '';
     private _responseType: XMLHttpRequestResponseType = 'json';
 
 
@@ -85,10 +85,10 @@ export class OzoneAPIRequest{
     }
     get url():  string{ return this._url}
 
-    set body (body: string){
+    set body (body: string | FormData){
         this._body = body;
     }
-    get body (): string { return this._body}
+    get body (): string | FormData { return this._body}
 
     set method(method:string){
         this._method = method;
@@ -100,19 +100,32 @@ export class OzoneAPIRequest{
     }
     get responseType (): XMLHttpRequestResponseType {return this._responseType;}
 
+    private currentRequest: XMLHttpRequest | null = null ;
+
+    private _onreadystatechange: ((this: XMLHttpRequest, ev: Event) => any) | null = null
+    set onreadystatechange(callback: ((this: XMLHttpRequest, ev: Event) => any)){
+    this._onreadystatechange = callback;
+    }
+
+    abort(){
+        if(this.currentRequest)
+            this.currentRequest.abort();
+    }
 
     /**
      * Create and open an XMLHttpRequest
      * @return {XMLHttpRequest}
      */
-    createXMLHttpRequest(): XMLHttpRequest{
+    createXMLHttpRequest(withHeader: boolean = true): XMLHttpRequest{
         const xmlhttp = new XMLHttpRequest();
         xmlhttp.withCredentials = true;
         
         xmlhttp.open(this.method, this.url, true);
         xmlhttp.responseType = this.responseType;
-        xmlhttp.setRequestHeader("Content-Type", "application/json");
-        xmlhttp.setRequestHeader('Accept', 'application/json');
+        if(withHeader) {
+            xmlhttp.setRequestHeader("Content-Type", "application/json");
+            xmlhttp.setRequestHeader('Accept', 'application/json');
+        }
         return xmlhttp;
     }
 
@@ -132,7 +145,8 @@ export class OzoneAPIRequest{
      * @return {Promise<XMLHttpRequest>}
      */
     sendRequest(request?: XMLHttpRequest):Promise<XMLHttpRequest>{
-        const xmlhttp = request || this.createXMLHttpRequest();
+        const xmlhttp = this.currentRequest =request || this.createXMLHttpRequest();
+        xmlhttp.onreadystatechange = this._onreadystatechange;
 
         return new Promise((resolve, reject)=>{
 

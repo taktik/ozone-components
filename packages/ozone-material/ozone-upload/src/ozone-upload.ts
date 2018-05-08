@@ -30,8 +30,9 @@ export class OzoneUpload extends Polymer.Element {
         super.ready();
         if(this.$)
         this.$.vaadinUpload._createXhr = ()=> {
-            return new UploadFileRequest();
-
+            const ozoneRequest = new UploadFileRequest();
+            ozoneRequest.eventTarget = this;
+            return ozoneRequest
         }
     }
     get vaadinUpload(): vaadinUploadType | undefined{
