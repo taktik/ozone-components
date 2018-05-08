@@ -102,9 +102,10 @@ export class OzoneAPIRequest{
 
     private currentRequest: XMLHttpRequest | null = null ;
 
-    private _onreadystatechange: ((this: XMLHttpRequest, ev: Event) => any) | null = null
+    private _onreadystatechange: ((this: XMLHttpRequest, ev: Event) => any) | null = null;
+
     set onreadystatechange(callback: ((this: XMLHttpRequest, ev: Event) => any)){
-    this._onreadystatechange = callback;
+        this._onreadystatechange = callback;
     }
 
     abort(){
@@ -145,8 +146,10 @@ export class OzoneAPIRequest{
      * @return {Promise<XMLHttpRequest>}
      */
     sendRequest(request?: XMLHttpRequest):Promise<XMLHttpRequest>{
-        const xmlhttp = this.currentRequest =request || this.createXMLHttpRequest();
-        xmlhttp.onreadystatechange = this._onreadystatechange;
+        const xmlhttp = this.currentRequest = request || this.createXMLHttpRequest();
+
+        if(this._onreadystatechange)
+            xmlhttp.onreadystatechange = this._onreadystatechange;
 
         return new Promise((resolve, reject)=>{
 
