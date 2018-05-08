@@ -112,13 +112,10 @@ export class OzoneCollection  extends Polymer.Element{
      * @param keepData {Boolean} keep items in collection. Default is false, it will delete items before search.
      */
     async search(searchQuery:SearchQuery, keepData: Boolean = false): Promise<Array<Item>>{
-        if(!keepData){
-            this.clear()
-        }
         this._verifySource();
         //@ts-ignore TS2352
         this._searchIterator = (await this._getSource.search(searchQuery)) as SearchGenerator;
-        return this.loadNextItems()
+        return this.loadNextItems(keepData)
     }
 
     /**
@@ -126,12 +123,15 @@ export class OzoneCollection  extends Polymer.Element{
      * found items are added to the items array.
      * @return {Promise}
      */
-    loadNextItems(): Promise<Array<Item>>{
+    loadNextItems(keepData: Boolean = true): Promise<Array<Item>>{
         if(this._searchIterator) {
             return this._searchIterator.next().then((searchResult)=>{
                 if(this._searchIterator)
                     this.set('hasMoreData', this._searchIterator.hasMoreData)
                 if(searchResult) {
+                    if(!keepData){
+                        this.clear()
+                    }
                     this.set('total', searchResult.total);
                     this.push('items', ...searchResult.results)
                 }
