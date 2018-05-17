@@ -6,7 +6,7 @@ Helper to build ozone-search query
 
 ## usage
 ```javaScript
-  import {SearchQuery, SearchGenerator} from 'ozone-search-helper'
+  import {SearchQuery} from 'ozone-search-helper'
 
   let searchQuery = new SearchQuery();
   searchQuery.quicksearch('');

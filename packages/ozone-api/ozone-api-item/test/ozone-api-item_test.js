@@ -1,5 +1,6 @@
 import '../src/ozone-api-item.ts'
 import 'ozone-config'
+import {SearchQuery} from "ozone-search-helper";
 describe('ozone-api-login tests', function () {
     describe('CRUD operation', function () {
 
@@ -348,5 +349,15 @@ describe('ozone-api-login tests', function () {
             setTimeout(()=> server.respond()); //Flush server
         });
     });
+
+    describe('SearchGenerator', ()=>{
+
+        it('SearchGenerator is exposed as a global class', function() {
+            const mySearchQuery = new SearchQuery();
+            const mySearchGenerator = new SearchGenerator('url', mySearchQuery);
+            expect(mySearchGenerator).to.be.an.instanceof(SearchGenerator);
+        });
+
+    })
 
 });

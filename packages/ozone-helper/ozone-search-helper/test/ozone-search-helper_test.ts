@@ -1,4 +1,4 @@
-import {SearchGenerator, SearchQuery} from '../src/ozone-search-helper'
+import {SearchQuery} from '../src/ozone-search-helper'
 import {expect} from 'chai'
 import {TermsAggregation, SearchRequest} from "ozone-type";
 describe('ozone-search-helper', function() {
@@ -8,11 +8,6 @@ describe('ozone-search-helper', function() {
         expect(mySearchQuery).to.be.an.instanceof(SearchQuery);
     });
 
-    it('SearchGenerator is exposed as a global class', function() {
-        const mySearchQuery = new SearchQuery();
-        const mySearchGenerator = new SearchGenerator('url', mySearchQuery);
-        expect(mySearchGenerator).to.be.an.instanceof(SearchGenerator);
-    });
 
     it('SearchGenerator quicksearch', function() {
         const searchQuery = new SearchQuery();

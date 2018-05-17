@@ -74,10 +74,12 @@ import {jsElement} from 'taktik-polymer-typescript'
  */
 @jsElement()
 export class OzoneAPIRequest{
-    private _url: string ='';
+    _url: string ='';
     private _method: string = 'GET';
     private _body: string | FormData = '';
     private _responseType: XMLHttpRequestResponseType = 'json';
+
+    donePromise: Promise<XMLHttpRequest | null> = Promise.resolve(null)
 
 
     set url (url: string){
@@ -108,9 +110,12 @@ export class OzoneAPIRequest{
         this._onreadystatechange = callback;
     }
 
+    private resolveCurrentRequest?: {(...param: Array<any>):void}
     abort(){
         if(this.currentRequest)
             this.currentRequest.abort();
+        if(this.resolveCurrentRequest)
+            this.resolveCurrentRequest(this.currentRequest)
     }
 
     /**
@@ -151,7 +156,8 @@ export class OzoneAPIRequest{
         if(this._onreadystatechange)
             xmlhttp.onreadystatechange = this._onreadystatechange;
 
-        return new Promise((resolve, reject)=>{
+        return (this.donePromise as Promise<XMLHttpRequest>) = new Promise((resolve, reject)=>{
+            this.resolveCurrentRequest = resolve;
 
             const handleResponse = ()=>{
                 switch (xmlhttp.status){

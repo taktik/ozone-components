@@ -113,7 +113,7 @@ export class TaktikFreeTextSearch extends Polymer.Element {
     }
 
     private _lastFire=0;
-    private _throttleDelayOnfire = 1000;
+    private _throttleDelayOnfire = 500;
     fireTaktikSearch() {
         const now = (new Date).getTime();
         if (now - this._lastFire < this._throttleDelayOnfire) {

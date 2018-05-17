@@ -6,9 +6,9 @@ import "./ozone-collection.html"
 import {customElement, property, observe} from 'taktik-polymer-typescript';
 import {Item} from 'ozone-type';
 import 'ozone-api-item';
-import {OzoneApiItem} from 'ozone-api-item';
+import {SearchGenerator, OzoneApiItem} from 'ozone-api-item';
 import 'ozone-search-helper';
-import {SearchGenerator, SearchQuery} from 'ozone-search-helper';
+import {SearchQuery} from 'ozone-search-helper';
 
 /**
  * <ozone-collection> is a generic component to manage collection of item.
@@ -125,12 +125,12 @@ export class OzoneCollection  extends Polymer.Element{
      */
     loadNextItems(keepData: Boolean = true): Promise<Array<Item>>{
         if(this._searchIterator) {
-            return this._searchIterator.next().then((searchResult)=>{
+            return this._searchIterator.next().then(async (searchResult)=>{
                 if(this._searchIterator)
                     this.set('hasMoreData', this._searchIterator.hasMoreData)
                 if(searchResult) {
                     if(!keepData){
-                        this.clear()
+                        await this.clear()
                     }
                     this.set('total', searchResult.total);
                     this.push('items', ...searchResult.results)
@@ -180,14 +180,11 @@ export class OzoneCollection  extends Polymer.Element{
      * items are updated with the result of the save.
      * @return {Promise<Array<Items>>} promise resolve with the list io items saved.
      */
-    saveAll(): Promise<Array<Item>>{
+    async saveAll(): Promise<Array<Item>>{
         try {
             this._verifySource();
-            return this._getSource.bulkSave(this.items as Array<Item>)
-                .then(items => {
-                    this.set('items', items);
-                    return this.items;
-                })
+            const items = await this._getSource.bulkSave(this.items as Array<Item>)
+            return this.setAll(items);
         } catch (err){
             return Promise.reject(err);
         }
@@ -267,9 +264,9 @@ export class OzoneCollection  extends Polymer.Element{
             this._verifySource();
             const ids = this.items.map(item => item.id);
             return this._getSource.bulkDelete(ids)
-                .then((result) => {
+                .then((result):any => {
                     if(reflect) {
-                        this.set('items', []);
+                        return this.setAll([]);
                     }
                 });
         } catch (err){
@@ -323,8 +320,14 @@ export class OzoneCollection  extends Polymer.Element{
         }
     }
 
-    clear(){
-        this.set('items', [])
+    async clear(){
+        return this.setAll([])
+    }
+
+    private async setAll(newContent: Array<Item>){
+        await this._getSource.waitRequestFinish()
+        this.set('items', newContent)
+        return this.items
     }
 
     private _removeOne (id:uuid) {

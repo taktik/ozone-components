@@ -1,12 +1,10 @@
-/// <amd-module name="ozone-search-helper"/>
-
 /**
  * Created by hubert on 8/06/17.
  */
 
 import {jsElement} from 'taktik-polymer-typescript'
 import {Item, SearchRequest, ItemSearchResult, TermsAggregation, Aggregation, QueryStringQuery, TermQuery, TermsQuery, TypeQuery, Query, BoolQuery, Sort, IdsQuery, AggregationItem} from 'ozone-type'
-import {OzoneAPIRequest} from 'ozone-api-request'
+
 
 export interface SearchResponse {
     response: ItemSearchResult;
@@ -310,70 +308,5 @@ export class OrderRequest{
     get ASC ():SearchQuery { return this.request.addOrderOn(this.field, 'ASC' as any)}
     get DESC ():SearchQuery { return this.request.addOrderOn(this.field, 'DESC'as any)}
     get NONE ():SearchQuery { return this.request.addOrderOn(this.field, 'NONE'as any)}
-
-}
-/**
- * Class helper to iterate on search result.
- * * Example:
- * ```javaScript
- *   let searchQuery = new SearchQuery();
- *   searchQuery.quicksearch('');
- *   const searchGenerator = ozoneItemApi.search(searchQuery);
- *   searchGenerator.next().then((searchResult)=>{
- *               searchResult.results.forEach((item)=>{
- *                   this.push('items', item);
- *               })
- *           });
- * ```
- */
-@jsElement()
-export class SearchGenerator {
-    searchParam:SearchQuery;
-    url:string;
-    total: number = NaN;
-    offset:number = 0;
-    hasMoreData:boolean = true;
-
-    constructor(url:string, searchParam: SearchQuery){
-        this.searchParam = searchParam;
-        this.url = url;
-    }
-
-    /**
-     * load next array of results
-     * @return {Promise<SearchResult>}
-     */
-    next(): Promise<SearchResult|null>{
-        if(this.hasMoreData) {
-            this.searchParam.offset = this.offset;
-            return this._postRequest(this.url, this.searchParam.searchQuery, this._readSearchResponse);
-        } else {
-            return Promise.resolve(null)
-        }
-    }
-
-    private _postRequest(url:string, body:string, responseFilter:any): Promise<any> {
-        const ozoneAccess =  new OzoneAPIRequest();
-        ozoneAccess.url = url;
-        ozoneAccess.method = 'POST';
-        ozoneAccess.body = body;
-        return ozoneAccess
-            .sendRequest().then(responseFilter.bind(this))
-    }
-
-    private _readSearchResponse (res:SearchResponse):SearchResult {
-        const response = res.response;
-        let aggregations = response.aggregations;
-
-        this.total = Number(response.total);
-        this.offset += Number(response.size);
-        this.hasMoreData = this.offset < this.total;
-        let results = response.results || [];
-        return {
-            results,
-            total: this.total,
-            aggregations
-        };
-    }
 
 }
