@@ -1,6 +1,6 @@
 {
   "name": "ozone-search-helper",
-  "version": "3.3.0-beta",
+  "version": "3.3.0",
   "publishConfig": {
     "access": "public"
   },
@@ -42,7 +42,7 @@
     "html-includer-webpack-plugin": "^1.0.0-beta2",
     "html-webpack-plugin": "^3.2.0",
     "include-loader": "^1.1.0-beta",
-    "ozone-api-request": "^3.3.0-beta",
+    "ozone-api-request": "^3.3.0",
     "ozone-type": "^3.2.0",
     "taktik-polymer-typescript": "^2.3.2",
     "ts-loader": "^4.2.0",

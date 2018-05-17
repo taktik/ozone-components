@@ -1,6 +1,6 @@
 {
     "name": "taktik-polymer-typescript",
-    "version": "3.3.0-beta",
+    "version": "3.3.0",
     "publishConfig": {
         "access": "public"
     },
