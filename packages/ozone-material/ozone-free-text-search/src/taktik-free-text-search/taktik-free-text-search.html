@@ -118,16 +118,24 @@ Custom property | Description | Default
           margin:0 1%;
         }
       }
+      .clear{
+        padding: 12px;
+        color: rgba(0, 0, 0, .54);
+
+      }
     </style>
 
     <div id="container" class="container flex-horizontal">
       <paper-input-container class="flexchild paperInputContainer" always-float-label="true">
-        <div slot="prefix"><iron-icon icon="icons:search"></iron-icon></div>
+
         <label slot="label">Search</label>
-        <iron-input  slot="input" >
-          <input  id="searchInput" value="{{searchValue::input}}">
+        <iron-input slot="input" >
+          <input  autofocus id="searchInput" value="{{searchValue::input}}">
         </iron-input>
-        <paper-icon-button slot="suffix" icon="clear" on-tap="_clear"></paper-icon-button>
+        <div slot="suffix">
+          <paper-icon-button class="clear" icon="clear" on-tap="_clear"></paper-icon-button>
+          <paper-icon-button icon="icons:search" on-tap="fireTaktikSearch"></paper-icon-button>
+        </div>
       </paper-input-container>
 
       <!--<paper-input id="searchInput" class="flexchild" label="Search" value="{{searchValue}}"></paper-input>-->
