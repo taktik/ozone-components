@@ -8,7 +8,7 @@ import {Item} from 'ozone-type';
 import 'ozone-api-item';
 import {SearchGenerator, OzoneApiItem} from 'ozone-api-item';
 import 'ozone-search-helper';
-import {SearchQuery} from 'ozone-search-helper';
+import {SearchQuery, SearchResult} from 'ozone-search-helper';
 
 /**
  * <ozone-collection> is a generic component to manage collection of item.
@@ -111,7 +111,7 @@ export class OzoneCollection  extends Polymer.Element{
      * @param searchQuery {SearchQuery} search query
      * @param keepData {Boolean} keep items in collection. Default is false, it will delete items before search.
      */
-    async search(searchQuery:SearchQuery, keepData: Boolean = false): Promise<Array<Item>>{
+    async search(searchQuery:SearchQuery, keepData: boolean = false): Promise<Array<Item>>{
         this._verifySource();
         //@ts-ignore TS2352
         this._searchIterator = (await this._getSource.search(searchQuery)) as SearchGenerator;
@@ -123,24 +123,37 @@ export class OzoneCollection  extends Polymer.Element{
      * found items are added to the items array.
      * @return {Promise}
      */
-    loadNextItems(keepData: Boolean = true): Promise<Array<Item>>{
+    async loadNextItems(keepData: boolean = true): Promise<Array<Item>>{
         if(this._searchIterator) {
-            return this._searchIterator.next().then(async (searchResult)=>{
-                if(this._searchIterator)
-                    this.set('hasMoreData', this._searchIterator.hasMoreData)
-                if(searchResult) {
-                    if(!keepData){
-                        await this.clear()
-                    }
-                    this.set('total', searchResult.total);
-                    this.push('items', ...searchResult.results)
-                }
-                return this.items;
-            });
+            return this._addSearchResult(await this._searchIterator.next(), keepData);
         }
         return Promise.reject('_searchIterator not define you probably did not search for items')
     }
 
+    /**
+     * query all search result from ozone.
+     * found items are added to the items array.
+     * @return {Promise}
+     */
+    async loadAll(keepData: boolean = true): Promise<Array<Item>>{
+        if(this._searchIterator) {
+            return this._addSearchResult(await this._searchIterator.getAll(), keepData);
+        }
+        return Promise.reject('_searchIterator not define you probably did not search for items')
+    }
+
+    private async _addSearchResult  (searchResult: SearchResult| null , keepData: boolean): Promise<Array<Item>> {
+        if(this._searchIterator)
+            this.set('hasMoreData', this._searchIterator.hasMoreData)
+            if(searchResult) {
+                if(!keepData){
+                    await this.clear()
+                }
+                this.set('total', searchResult.total);
+                this.push('items', ...searchResult.results)
+            }
+            return this.items;
+        }
     /**
      * find one item in ozone collection.
      * The item found is added in the items array.

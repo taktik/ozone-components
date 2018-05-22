@@ -246,9 +246,27 @@ export class SearchGenerator {
         }
     }
 
+    /**
+     * Request all remaining result
+     */
+    async getAll(): Promise<SearchResult|null>{
+        let result: SearchResult = {results: [], total:0};
+        if(this.total === 0){
+            result = (await this.next()) || result;
+        }
+        if(this.hasMoreData && this.offset < this.total){
+            this.searchParam.size = this.total
+            const result2 = await this.next();
+            if(result2){
+                result.results.concat(result2.results)
+            }
+        }
+        return result;
+    }
+
     private _readSearchResponse (res:SearchResponse):SearchResult {
         const response = res.response;
-        if(response && response.total && this.offset < response.total) {
+        if(response) {
             let aggregations = response.aggregations;
 
 
