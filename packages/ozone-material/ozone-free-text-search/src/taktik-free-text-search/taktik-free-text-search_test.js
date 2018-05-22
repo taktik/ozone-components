@@ -98,7 +98,7 @@ describe('search-content basic behavior', () => {
         flush(() => {
         let item = Polymer
             .dom(element.shadowRoot)
-            .querySelector('iron-icon');
+            .querySelector('[icon="icons:search"]');
         expect(item.getAttribute('icon')).to.be.equal('icons:search');
             done();
         });
