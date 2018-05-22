@@ -1,6 +1,6 @@
 {
   "name": "ozone-media-url",
-  "version": "3.3.3",
+  "version": "3.4.0",
   "publishConfig": {
     "access": "public"
   },
@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "@types/lodash": "^4.14.104",
-    "ozone-api-item": "^3.3.3",
+    "ozone-api-item": "^3.4.0",
     "ozone-api-request": "^3.3.3",
     "ozone-config": "^3.3.3",
     "ozone-search-helper": "^3.3.3",
