@@ -258,7 +258,7 @@ export class SearchGenerator {
             this.searchParam.size = this.total
             const result2 = await this.next();
             if(result2){
-                result.results.concat(result2.results)
+                result.results = [ ...result.results, ...result2.results]
             }
         }
         return result;

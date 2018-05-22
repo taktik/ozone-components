@@ -39,26 +39,52 @@ export class OzoneMediaUrl {
     getNumericId():number{
         return parseInt('0x' + this.id.split('-')[4])
     }
-    private _buildBaseUrl(action:Array<string | number>):string{
+    private _buildBaseUrl(...action:Array<string | number>):string{
+        return `${this.config.host}${action.join('/')}`;
+    }
+    private _buildViewUrl(action:Array<string | number>):string{
         return `${this.config.host}${this.config.view}/${action.join('/')}`;
     }
 
     getPreviewUrlJpg(size: SizeEnum):string{
         const preview = this.config.format.type.jpg.replace('{SIZE}', size.toString());
         return this
-            ._buildBaseUrl([this.getNumericId(), preview])
+            ._buildViewUrl([this.getNumericId(), preview])
 
     }
     getOriginalFormat():string{
         return this
-            ._buildBaseUrl([this.getNumericId(),
+            ._buildViewUrl([this.getNumericId(),
                 this.config.format.type.original])
 
     }
+    async getMediaUploadUrl(): Promise<string>{
+
+        const numericId = this.getNumericId();
+        const url = this._buildBaseUrl(this.config.endPoints.downloadRequest)
+        const body = {
+            fileAssignedToBatch: false,
+            fileTypeIdentifiers: ["org.taktik.filetype.original"],
+            mediaSet: {
+                includedMediaIds: [numericId],
+                includedMediaQueries: [],
+                simpleSelection: true,
+                singletonSelection: true
+            },
+            metadata: false
+        };
+        const request = new OzoneAPIRequest();
+        request.url = url;
+        request.method = 'POST';
+        request.body = JSON.stringify(body);
+        const xhr = await request.sendRequest();
+        return this._buildBaseUrl( '', xhr.response.downloadUrl as string)
+    }
+
     getPreviewUrlPng(size: SizeEnum):string{
         const preview = this.config.format.type.png.replace('{SIZE}', size.toString());
         return this
-            ._buildBaseUrl([this.getNumericId(), preview])
+            ._buildViewUrl([this.getNumericId(), preview])
 
     }
     async getPreviewUrl(size: SizeEnum): Promise<string>{
@@ -70,7 +96,7 @@ export class OzoneMediaUrl {
         const formatName = await this.getPreferedVideoFormat();
         if(formatName) {
             return this
-                ._buildBaseUrl([this.getNumericId(),
+                ._buildViewUrl([this.getNumericId(),
                     formatName,
                     'index.m3u8']);
         } else {
@@ -79,7 +105,7 @@ export class OzoneMediaUrl {
     }
     getVideoUrlMp4():string{
         return this
-            ._buildBaseUrl([this.getNumericId(),
+            ._buildViewUrl([this.getNumericId(),
                 this.config.format.type.mp4])
     }
 
