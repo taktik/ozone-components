@@ -1,6 +1,6 @@
 {
 	"name": "ozone-components-demo",
-	"version": "3.3.1",
+	"version": "3.3.2",
 	"description": "",
 	"main": "gulpfile.js",
 	"directories": {
@@ -45,7 +45,7 @@
 		"ozone-api-upload": "^3.3.0",
 		"ozone-collection": "^3.3.1",
 		"ozone-config": "^3.3.0",
-		"ozone-free-text-search": "^3.3.0",
+		"ozone-free-text-search": "^3.3.2",
 		"ozone-iron-list": "^3.3.1",
 		"ozone-item-edit": "^3.3.1",
 		"ozone-item-preview": "^3.3.1",
