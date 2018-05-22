@@ -49,7 +49,13 @@ export class TaktikFreeTextSearch extends Polymer.Element {
      * display number of suggestion find
      */
     @property({type: Boolean})
-    showItemCount: boolean = false
+    showItemCount: boolean = false;
+
+    /**
+     * Disable search input
+     */
+    @property({type: Boolean, observer:'_disabledChange'})
+    disabled: boolean = false
 
     @property({
         type: Boolean,
@@ -195,5 +201,13 @@ export class TaktikFreeTextSearch extends Polymer.Element {
 
     _clear(){
         this.set("searchValue", "");
+    }
+
+    _disabledChange(disabled?: boolean){
+        if(disabled){
+            this.$.searchInput.classList.add('disabled')
+        } else{
+            this.$.searchInput.classList.remove('disabled')
+        }
     }
 }

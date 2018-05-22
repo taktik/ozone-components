@@ -55,6 +55,7 @@ Custom property | Description | Default
 `--taktik-count-result-found` | css mixin for the number of result found | `{}`
 `--taktik-input-color` | css mixin for the color of the input | `{--paper-input-container-focus-color: #2C2958;}`
 `--taktik-listBox` | css mixin for the list box style | `{}`
+`--taktik-search-disable` | css mixin when search is disable | `{}`
 
 
 
@@ -82,6 +83,10 @@ Custom property | Description | Default
       }
       :host .itemCount {
         @apply --taktik-count-result-found;
+      }
+      :host .disabled {
+        color: rgba(0, 0, 0, 0.42);
+        @apply --taktik-search-disable;
       }
       :host input{
         position: relative; /* to make a stacking context */
@@ -130,19 +135,13 @@ Custom property | Description | Default
 
         <label slot="label">Search</label>
         <iron-input slot="input" >
-          <input  autofocus id="searchInput" value="{{searchValue::input}}">
+          <input  autofocus id="searchInput" value="{{searchValue::input}}" disabled$="{{disabled}}">
         </iron-input>
         <div slot="suffix">
-          <paper-icon-button class="clear" icon="clear" on-tap="_clear"></paper-icon-button>
-          <paper-icon-button icon="icons:search" on-tap="fireTaktikSearch"></paper-icon-button>
+          <paper-icon-button class="clear" icon="clear" on-tap="_clear"  disabled$="{{disabled}}"></paper-icon-button>
+          <paper-icon-button icon="icons:search" on-tap="fireTaktikSearch"  disabled$="{{disabled}}"></paper-icon-button>
         </div>
       </paper-input-container>
-
-      <!--<paper-input id="searchInput" class="flexchild" label="Search" value="{{searchValue}}"></paper-input>-->
-
-      <!--<paper-button id="searchButton" raised>
-        <iron-icon icon="search" ></iron-icon>
-      </paper-button>-->
 
     </div>
     <iron-collapse class="container" id="collapseAutoComplete">
