@@ -1,6 +1,6 @@
 {
   "name": "ozone-api-edit-video",
-  "version": "3.3.1",
+  "version": "3.3.3",
   "publishConfig": {
     "access": "public"
   },
@@ -29,18 +29,18 @@
   "dependencies": {
     "@types/lodash": "^4.14.104",
     "hls-parser": "^0.1.6",
-    "ozone-api-item": "^3.3.1",
-    "ozone-api-request": "^3.3.0",
-    "ozone-config": "^3.3.0",
-    "ozone-media-url": "^3.3.1",
-    "ozone-search-helper": "^3.3.0",
-    "taktik-polymer-typescript": "^3.3.0",
+    "ozone-api-item": "^3.3.3",
+    "ozone-api-request": "^3.3.3",
+    "ozone-config": "^3.3.3",
+    "ozone-media-url": "^3.3.3",
+    "ozone-search-helper": "^3.3.3",
+    "taktik-polymer-typescript": "^3.3.3",
     "typedoc": "^0.11.1"
   },
   "main": "dist/ozone-api-edit-video.js",
   "types": "dist/ozone-api-edit-video.d.ts",
   "devDependencies": {
-    "ozone-type": "^3.2.0",
+    "ozone-type": "^3.3.3",
     "typedoc": "^0.8.0",
     "typescript": "^2.7.2"
   }
