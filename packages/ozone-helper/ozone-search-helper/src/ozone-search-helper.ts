@@ -3,7 +3,9 @@
  */
 
 import {jsElement} from 'taktik-polymer-typescript'
-import {Item, SearchRequest, ItemSearchResult, TermsAggregation, Aggregation, QueryStringQuery, TermQuery, TermsQuery, TypeQuery, Query, BoolQuery, Sort, IdsQuery, AggregationItem} from 'ozone-type'
+import {Item, SearchRequest, ItemSearchResult, TermsAggregation, Aggregation, QueryStringQuery, TermQuery, ModeType, TermsQuery, TenantQuery, TypeQuery, Query, BoolQuery, Sort, IdsQuery, AggregationItem} from 'ozone-type';
+
+
 
 
 export interface SearchResponse {
@@ -212,6 +214,19 @@ export class SearchQuery {
             typeIdentifiers: typeIdentifiers,
             includeSubTypes: includeSubTypes
         } as TypeQuery);
+    }
+    /**
+     * Search inside a tenant
+     * @param {Mode} mode
+     * @param {string} tenantId
+     * @return {SearchQuery}
+     */
+    tenantQuery(mode: ModeType, tenantId: string): SearchQuery {
+        return this.addQuery({
+            "$type": "TenantQuery",
+            mode: mode,
+            tenantId: tenantId
+        } as TenantQuery);
     }
 
     /**

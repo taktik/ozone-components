@@ -43,6 +43,21 @@ describe('ozone-search-helper', function() {
         })
     });
 
+
+    it('SearchGenerator tenant', function() {
+        const searchQuery = new SearchQuery();
+        searchQuery.tenantQuery('OWN_AND_PARENTS', 'my_tenantId');
+        console.log(searchQuery.searchQuery)
+        expect(JSON.parse(searchQuery.searchQuery)).to.be.deep.equal({
+            size: 10,
+            query: {
+                $type: "TenantQuery",
+                mode:"OWN_AND_PARENTS",
+                tenantId:"my_tenantId"
+            }
+        })
+    });
+
     it('SearchGenerator custom', ()=>{
         const searchQuery = new SearchQuery();
         searchQuery.custom({size : 8} as SearchRequest)
