@@ -1,6 +1,6 @@
 {
     "name": "taktik-polymer-typescript",
-    "version": "3.3.3",
+    "version": "3.4.1",
     "publishConfig": {
         "access": "public"
     },
@@ -21,7 +21,7 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
-        "ozone-type": "^3.3.3"
+        "ozone-type": "^3.4.1"
     },
     "dependencies": {
         "@polymer/polymer": "^2.5.0",
