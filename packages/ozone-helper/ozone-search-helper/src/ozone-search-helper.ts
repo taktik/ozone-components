@@ -53,8 +53,6 @@ export interface SearchResult {
  *         .quicksearch('hello')
  *         .termQuery('myField','aText');
  *
- *   searchQuery.quicksearch('').and;
- *
  *   const searchGenerator = ozoneItemApi.search(searchQuery);
  * ```
  */

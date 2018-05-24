@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/taktik/ozone-config.svg?branch=master)](https://travis-ci.org/taktik/ozone-config)
+[![NPM version][npm-image]][npm-url]
 
 # \<ozone-config\>
 
@@ -28,5 +28,10 @@ const configPromise = Config.OzoneConfig.get();
 ## Install
 
 ```
-$ npm install ozone-config
+$ npm install --save ozone-config
 ```
+
+
+[npm-image]: https://badge.fury.io/js/ozone-config.svg
+[npm-url]: https://npmjs.org/package/ozone-config
+

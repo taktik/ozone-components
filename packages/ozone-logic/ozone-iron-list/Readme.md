@@ -1,3 +1,5 @@
+[![NPM version][npm-image]][npm-url]
+
 # ozone-iron-list
 
 Implementation of an iron-list to display an ozone search result with lazy loading.
@@ -47,9 +49,14 @@ Inherit from from  *iron-list*
   `--ozone-list-loader`  | css mixin for loader element | `{ background-color: #585185; color: white; position:relative; bottom:0; left:0; right:0; text-align: center; height: 44px; font-family:'Roboto', sans-serif; font-size: 13px; line-height: 44px; margin:0 -10px -10px;}`
 
 
+ ## install
+
+ ```
+ $ npm install --save ozone-iron-list
+ ```
 
 
-## command
+## development command
 
 `npm install`: install project dependency.
 
@@ -64,3 +71,7 @@ Inherit from from  *iron-list*
 `npm run test:persist` bundle test files with webpack and watch on changes.
 
 `npm run doc` generate project documentation with typedoc.
+
+
+[npm-image]: https://badge.fury.io/js/ozone-iron-list.svg
+[npm-url]: https://npmjs.org/package/ozone-iron-list

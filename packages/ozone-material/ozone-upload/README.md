@@ -1,3 +1,4 @@
+[![NPM version][npm-image]][npm-url]
 # \<ozone-upload\>
 
 Configurable webComponent to upload files on ozone. Based on vaadin-upload.
@@ -5,7 +6,7 @@ Configurable webComponent to upload files on ozone. Based on vaadin-upload.
 ## install
 
 ```
-$ npm install ozone-upload
+$ npm install --save ozone-upload
 ```
 
 ## Import
@@ -31,31 +32,5 @@ Bundle import
 __*vaadinUpload*__ expose vaadin-upload component.
 
 
-
-## develop
-
-### install project dependency
-
-run nmp and bower install.
-```
-$ npm install
-$ bower install
-```
-
-### compile your code
-
-```
-$ npm run build
-```
-
-### Viewing Your Element
-
-```
-$ npm run demo
-```
-
-### Running Tests
-
-```
-$ npm run test
-```
+[npm-image]: https://badge.fury.io/js/ozone-upload.svg
+[npm-url]: https://npmjs.org/package/ozone-upload

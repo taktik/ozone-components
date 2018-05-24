@@ -1,17 +1,23 @@
+[![NPM version][npm-image]][npm-url]
+# ozone-type
+
+ozone type, Extracted from swagger
+
+## Install
+
+```
+$ npm install ozone-search-helper
+```
 
 ## update ozone typings
 
 swagger-codegen generate -i swagger.json -l typescript-angular2   -o ozone
 
-
-
-
-genertate declaration file (webstorm)
 tsc
 git add ozone/model/*
 
 
-gulp build
 
-git add ozone/include.html
-git commit -m'add new types'
+[npm-image]: https://badge.fury.io/js/ozone-type.svg
+[npm-url]: https://npmjs.org/package/ozone-type
+

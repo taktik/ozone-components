@@ -1,5 +1,4 @@
-[![Build Status](https://travis-ci.org/taktik/ozone-search-helper.svg?branch=master)](https://travis-ci.org/taktik/ozone-search-helper)
-
+[![NPM version][npm-image]][npm-url]
 # \<ozone-search-helper\>
 
 Helper to build ozone-search query
@@ -24,4 +23,8 @@ Helper to build ozone-search query
 $ npm install ozone-search-helper
 ```
 
+
+
+[npm-image]: https://badge.fury.io/js/ozone-search-helper.svg
+[npm-url]: https://npmjs.org/package/ozone-search-helper
 

@@ -1,35 +1,15 @@
+[![NPM version][npm-image]][npm-url]
+
 # \<ozone-free-text-search\>
 
 Material design for free text search box.
 
-## Install the Polymer-CLI
+## install
 
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your element locally.
+ ```
+ $ npm install --save ozone-free-text-search
+ ```
 
-## install project dependency
 
-run nmp and bower install.
-```
-$ npm install
-$ bower install
-```
-
-## compile your code
-
-```
-$ node_modules/typescript/bin/tsc
-```
-
-## Viewing Your Element
-
-```
-$ polymer serve
-```
-
-## Running Tests
-
-```
-$ polymer test
-```
-
-Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.
+[npm-image]: https://badge.fury.io/js/ozone-free-text-search.svg
+[npm-url]: https://npmjs.org/package/ozone-free-text-search

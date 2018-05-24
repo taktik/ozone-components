@@ -36,6 +36,10 @@ export class OzoneMediaUrl {
         return this.ozoneApi;
     }
 
+    /**
+     * Convert uuid to ozone v2 numeric id
+     * @return {number}
+     */
     getNumericId():number{
         return parseInt('0x' + this.id.split('-')[4])
     }
@@ -46,18 +50,33 @@ export class OzoneMediaUrl {
         return `${this.config.host}${this.config.view}/${action.join('/')}`;
     }
 
+    /**
+     * get url to jpg preview
+     * @param {SizeEnum} size
+     * @return {string}
+     */
     getPreviewUrlJpg(size: SizeEnum):string{
         const preview = this.config.format.type.jpg.replace('{SIZE}', size.toString());
         return this
             ._buildViewUrl([this.getNumericId(), preview])
 
     }
+
+    /**
+     * return url to original content
+     * @return {string}
+     */
     getOriginalFormat():string{
         return this
             ._buildViewUrl([this.getNumericId(),
                 this.config.format.type.original])
 
     }
+
+    /**
+     * return url where to upload the media.
+     * @return {Promise<string>}
+     */
     async getMediaUploadUrl(): Promise<string>{
 
         const numericId = this.getNumericId();
@@ -81,16 +100,32 @@ export class OzoneMediaUrl {
         return this._buildBaseUrl( '', xhr.response.downloadUrl as string)
     }
 
+    /**
+     * return url to png preview
+     * @param {SizeEnum} size
+     * @return {string}
+     */
     getPreviewUrlPng(size: SizeEnum):string{
         const preview = this.config.format.type.png.replace('{SIZE}', size.toString());
         return this
             ._buildViewUrl([this.getNumericId(), preview])
 
     }
+
+    /**
+     * return url to image preview
+     * @param {SizeEnum} size
+     * @return {string}
+     */
     async getPreviewUrl(size: SizeEnum): Promise<string>{
         //TODO default is png
         return this.getPreviewUrlJpg(size);
     }
+
+    /**
+     * get url where to load the HLS video.
+     * @return {Promise<string>}
+     */
     async getVideoUrl():Promise<string>{
 
         const formatName = await this.getPreferedVideoFormat();
@@ -103,6 +138,11 @@ export class OzoneMediaUrl {
             throw new Error('Video Format is undefined')
         }
     }
+
+    /**
+     * retun unt to the mp4 file
+     * @return {string}
+     */
     getVideoUrlMp4():string{
         return this
             ._buildViewUrl([this.getNumericId(),

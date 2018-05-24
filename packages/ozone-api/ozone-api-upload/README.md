@@ -1,7 +1,4 @@
-[![Build Status](https://travis-ci.org/taktik/ozone-api-upload.svg?branch=master)](https://travis-ci.org/taktik/ozone-api-upload)
 [![NPM version][npm-image]][npm-url]
-[![Dependency Status][daviddm-image]][daviddm-url]
-
 
 # \<ozone-api-upload\>
 
@@ -30,5 +27,3 @@ $ npm install --save ozone-api-upload
 
 [npm-image]: https://badge.fury.io/js/ozone-api-upload.svg
 [npm-url]: https://npmjs.org/package/ozone-api-upload
-[daviddm-image]: https://david-dm.org/taktik/ozone-api-upload.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/taktik/ozone-api-upload

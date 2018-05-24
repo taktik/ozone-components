@@ -1,3 +1,4 @@
+[![NPM version][npm-image]][npm-url]
 #  ozone-item-edit
 
 This package contains several Webcomponents based on polymer to edit an ozone item.
@@ -16,6 +17,16 @@ ozone-edit-number-entry: edit ozone number field
 
 ozone-localized-string: display ozone localized string
 
+
+## install
+
+ ```
+ $ npm install --save ozone-item-edit
+ ```
+
+
+[npm-image]: https://badge.fury.io/js/ozone-item-edit.svg
+[npm-url]: https://npmjs.org/package/ozone-item-edit
 
 ## command
 
