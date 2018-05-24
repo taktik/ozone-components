@@ -3,12 +3,12 @@ import "polymer/polymer-element.html"
 
 import "./ozone-collection.html"
 
-import {customElement, property} from 'taktik-polymer-typescript';
+import {customElement, property, observe} from 'taktik-polymer-typescript';
 import {Item} from 'ozone-type';
 import 'ozone-api-item';
-import {OzoneApiItem} from 'ozone-api-item';
+import {SearchGenerator, OzoneApiItem} from 'ozone-api-item';
 import 'ozone-search-helper';
-import {SearchGenerator, SearchQuery} from 'ozone-search-helper';
+import {SearchQuery, SearchResult} from 'ozone-search-helper';
 
 /**
  * <ozone-collection> is a generic component to manage collection of item.
@@ -21,8 +21,11 @@ import {SearchGenerator, SearchQuery} from 'ozone-search-helper';
  *        items="{{searchResults}}"
  *        total="{{total}}"
  *        collection="video"
- *        data-remain="{{dataRemain}}"></ozone-collection>
+ *        has-more-data="{{hasMoreData}}"></ozone-collection>
  * ```
+ * ### Events
+ *
+ * *collection-property-changed* fire on attribute change. details contain {name:string, value:any}
  *
  */
 @customElement('ozone-collection')
@@ -61,7 +64,7 @@ export class OzoneCollection  extends Polymer.Element{
      * @notify: true
      */
     @property({type: Boolean, notify:true})
-    dataRemain: boolean = false;
+    hasMoreData: boolean = false;
 
     private _source: OzoneApiItem;
 
@@ -106,12 +109,13 @@ export class OzoneCollection  extends Polymer.Element{
      * Start a complex search on the collection
      * found items are added to the items array.
      * @param searchQuery {SearchQuery} search query
+     * @param keepData {Boolean} keep items in collection. Default is false, it will delete items before search.
      */
-    async search(searchQuery:SearchQuery): Promise<Array<Item>>{
+    async search(searchQuery:SearchQuery, keepData: boolean = false): Promise<Array<Item>>{
         this._verifySource();
         //@ts-ignore TS2352
         this._searchIterator = (await this._getSource.search(searchQuery)) as SearchGenerator;
-        return this.loadNextItems()
+        return this.loadNextItems(keepData)
     }
 
     /**
@@ -119,21 +123,37 @@ export class OzoneCollection  extends Polymer.Element{
      * found items are added to the items array.
      * @return {Promise}
      */
-    loadNextItems(): Promise<Array<Item>>{
+    async loadNextItems(keepData: boolean = true): Promise<Array<Item>>{
         if(this._searchIterator) {
-            return this._searchIterator.next().then((searchResult)=>{
-                if(this._searchIterator)
-                    this.set('dataRemain', this._searchIterator.done)
-                this.set('total', searchResult.total);
-                searchResult.results.forEach((item)=>{
-                    this.push('items', item);
-                })
-                return this.items;
-            });
+            return this._addSearchResult(await this._searchIterator.next(), keepData);
         }
         return Promise.reject('_searchIterator not define you probably did not search for items')
     }
 
+    /**
+     * query all search result from ozone.
+     * found items are added to the items array.
+     * @return {Promise}
+     */
+    async loadAll(keepData: boolean = true): Promise<Array<Item>>{
+        if(this._searchIterator) {
+            return this._addSearchResult(await this._searchIterator.getAll(), keepData);
+        }
+        return Promise.reject('_searchIterator not define you probably did not search for items')
+    }
+
+    private async _addSearchResult  (searchResult: SearchResult| null , keepData: boolean): Promise<Array<Item>> {
+        if(this._searchIterator)
+            this.set('hasMoreData', this._searchIterator.hasMoreData)
+            if(searchResult) {
+                if(!keepData){
+                    await this.clear()
+                }
+                this.set('total', searchResult.total);
+                this.push('items', ...searchResult.results)
+            }
+            return this.items;
+        }
     /**
      * find one item in ozone collection.
      * The item found is added in the items array.
@@ -151,7 +171,7 @@ export class OzoneCollection  extends Polymer.Element{
                 result = this._getSource.getOne(id)
                     .then(item => {
                         if (item) {
-                            this.push('items', item);
+                            this.splice('items', 0, 0, item);
                         }
                         return item as Item | null;
                     });
@@ -173,14 +193,11 @@ export class OzoneCollection  extends Polymer.Element{
      * items are updated with the result of the save.
      * @return {Promise<Array<Items>>} promise resolve with the list io items saved.
      */
-    saveAll(): Promise<Array<Item>>{
+    async saveAll(): Promise<Array<Item>>{
         try {
             this._verifySource();
-            return this._getSource.bulkSave(this.items as Array<Item>)
-                .then(items => {
-                    this.set('items', items);
-                    return this.items;
-                })
+            const items = await this._getSource.bulkSave(this.items as Array<Item>)
+            return this.setAll(items);
         } catch (err){
             return Promise.reject(err);
         }
@@ -260,9 +277,9 @@ export class OzoneCollection  extends Polymer.Element{
             this._verifySource();
             const ids = this.items.map(item => item.id);
             return this._getSource.bulkDelete(ids)
-                .then((result) => {
+                .then((result):any => {
                     if(reflect) {
-                        this.set('items', []);
+                        return this.setAll([]);
                     }
                 });
         } catch (err){
@@ -316,6 +333,16 @@ export class OzoneCollection  extends Polymer.Element{
         }
     }
 
+    async clear(){
+        return this.setAll([])
+    }
+
+    private async setAll(newContent: Array<Item>){
+        await this._getSource.waitRequestFinish()
+        this.set('items', newContent)
+        return this.items
+    }
+
     private _removeOne (id:uuid) {
         const index = this.getIndexById(id);
         if (index > -1 ){
@@ -327,5 +354,22 @@ export class OzoneCollection  extends Polymer.Element{
         if(!this._source){
             throw new Error('Invalid source')
         }
+    }
+
+    @observe('hasMoreData')
+    private hasMoreDataChange(value:number){
+        this.propertyUpdate('hasMoreData', value)
+    }
+    @observe('total')
+    private totalChange(value:number){
+        this.propertyUpdate('total', value)
+    }
+
+    private propertyUpdate(name:string, value:any){
+        this.dispatchEvent(new CustomEvent<any>(`collection-property-changed` ,{
+            bubbles: true,
+            composed: true,
+            detail: {name, value}
+        } as CustomEventInit))
     }
 }

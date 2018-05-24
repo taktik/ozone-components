@@ -1,4 +1,5 @@
 import * as Config from 'ozone-config'
+import {OzoneAPIRequest} from "ozone-api-request";
 
 export interface UploadSessionResult {
     file: FormData;
@@ -12,6 +13,26 @@ export interface UploadIdResult extends UploadSessionResult {
 
 export interface UploadEndResult  extends UploadIdResult {
     uploadFileId: string;
+}
+export interface TaskResult  {
+    mediaId: string;
+    asyncTasksGroupId?: string
+}
+export interface TaskExecutions  {
+    completed? : boolean //API v3
+    isComplete? : boolean //API v2
+    stepsCout: number,
+    stepsDone: number,
+    taskResult?: TaskResult;
+}
+export interface WaitResponse {
+    groupId: string,
+    hasErrors: boolean,
+    stepsCount: number,
+    stepsDone: number,
+    taskExecutions: {
+        [key:string]: TaskExecutions
+    }
 }
 
 export interface XMLHttpRequestLike {
@@ -95,6 +116,13 @@ export class UploadFileRequest implements XMLHttpRequestLike {
      */
     status: number= NaN;
 
+    /**
+     * Set target for dispatchEvent.
+     * default value is document.
+     * @type {Node}
+     */
+    eventTarget: Node = document;
+
     private _mediaId:string | null = null;
 
     /**
@@ -109,7 +137,7 @@ export class UploadFileRequest implements XMLHttpRequestLike {
 
     private config: Config.ConfigType | null = null;
     private isAbort:boolean = false;
-    private currentRequest: XMLHttpRequest | null = null ;
+    private currentRequest: OzoneAPIRequest | null = null ;
 
     constructor() {
         this.upload = {
@@ -162,13 +190,11 @@ export class UploadFileRequest implements XMLHttpRequestLike {
 
     }
 
-    protected _createRequest(){
+    protected _createRequest(): OzoneAPIRequest{
         if(this.isAbort){
             throw new Error('request abort');
         }
-        this.currentRequest = new XMLHttpRequest();
-        this.currentRequest.withCredentials = true;
-        this.currentRequest.responseType = 'json';
+        this.currentRequest = new OzoneAPIRequest();
         return this.currentRequest;
     }
 
@@ -206,7 +232,7 @@ export class UploadFileRequest implements XMLHttpRequestLike {
 
                 this._mediaId = mediaId;
 
-                document.dispatchEvent(
+                this.eventTarget.dispatchEvent(
                     new CustomEvent('ozone-upload-completed',
                         {bubbles: true, detail: {mediaId}})
                 );
@@ -220,26 +246,25 @@ export class UploadFileRequest implements XMLHttpRequestLike {
         });
     }
 
-    private notifyOnError(xhr: XMLHttpRequest): { (): void } {
-        return () => {
-            if (xhr.status === 0
-                || xhr.status >= 500
-                || xhr.status >= 400) {
-                this.status = xhr.status;
-                this.readyState = 4;
-                this.callOneadystatechange();
+    private notifyOnError(): ((this: XMLHttpRequest, ev: Event) => any){
+        const self = this;
+        return function (this: XMLHttpRequest, ev: Event) {
+            if (this.status === 0
+                || this.status >= 500
+                || this.status >= 400) {
+                self.status = this.status;
+                self.readyState = 4;
+                self.callOneadystatechange();
             }
         };
     }
 
     _startUploadSession(file: FormData, folderId: string): Promise<UploadSessionResult> {
-        const xhr = this. _createRequest();
-        const url = this._buildUrl('uploadStart');
-        xhr.open('POST', url, true);
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.setRequestHeader("Accept", "application/json");
+        const request = this. _createRequest();
+        request.url = this._buildUrl('uploadStart');
+        request.method ='POST';
 
-        xhr.onreadystatechange = this.notifyOnError(xhr);
+        request.onreadystatechange = this.notifyOnError();
 
         //TODO understand need of folderId??
         const numeric_id = parseInt('0x' + folderId.split('-')[4]);
@@ -257,13 +282,9 @@ export class UploadFileRequest implements XMLHttpRequestLike {
                 "valueObject": numeric_id.toString()
             }]
         };
-        const result = new Promise((resolve, reject) => {
-            xhr.addEventListener("load", resolve);
-            xhr.addEventListener("error", reject);
-        });
-        xhr.send(JSON.stringify(body));
-        return result
-            .then(() => {
+        request.body = JSON.stringify(body);
+        return request.sendRequest()
+            .then((xhr: XMLHttpRequest) => {
                 const response = xhr.response;
                 return {
                     file: file,
@@ -273,89 +294,94 @@ export class UploadFileRequest implements XMLHttpRequestLike {
     }
 
     _getUploadId(data: UploadSessionResult): Promise<UploadIdResult> {
-        const xhr = this. _createRequest();
-        const url = this._buildUrl('uploadId', data.sessionId);
-        xhr.open('GET', url, true);
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.setRequestHeader("Accept", "application/json");
+        const request = this. _createRequest();
+        request.url = this._buildUrl('uploadId', data.sessionId);
+        request.method = 'GET';
 
-        xhr.onreadystatechange = this.notifyOnError(xhr);
+        request.onreadystatechange = this.notifyOnError();
 
-        const result = new Promise((resolve, reject) => {
-            xhr.addEventListener("load", resolve);
-            xhr.addEventListener("error", reject);
-        })
-            .then(() => {
+        return request.sendRequest()
+            .then((xhr: XMLHttpRequest) => {
                 const response = xhr.response;
                 const resultInfo:UploadIdResult = data  as UploadIdResult;
                 resultInfo.uploadId = response.result;
                 resultInfo.folderId = response.folderId;
                 return resultInfo;
             });
-        xhr.send(null);
-        return result;
     }
 
     _performUpload(data: UploadIdResult): Promise<UploadIdResult> {
-        const xhr = this. _createRequest();
-        const url = this._buildUrl('upload', data.uploadId);
-        xhr.open('POST', url, true);
+        const request = this. _createRequest();
+        request.url = this._buildUrl('upload', data.uploadId);
+        request.method = 'POST';
 
-        xhr.onreadystatechange = this.notifyOnError(xhr);
-
+        request.onreadystatechange = this.notifyOnError();
+        const xhr = request.createXMLHttpRequest(false)
         xhr.upload.onprogress = this.upload.onprogress;
 
-        const result = new Promise((resolve, reject) => {
-            xhr.addEventListener("load", resolve);
-            xhr.addEventListener("error", reject);
-        });
-
-        xhr.send(data.file);
-        return result.then(() => {
+        request.body = data.file;
+        return request.sendRequest(xhr)
+            .then(() => {
             return data;
         });
     }
 
     _endUploadSession(data: UploadIdResult): Promise<UploadEndResult> {
-        const xhr = this. _createRequest();
-        const url = this._buildUrl('uploadComplete', data.sessionId);
-        xhr.open('POST', url, true);
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.setRequestHeader("Accept", "application/json");
-
-        xhr.onreadystatechange = this.notifyOnError(xhr);
+        const request = this. _createRequest();
+        request.url = this._buildUrl('uploadComplete', data.sessionId);
+        request.method = 'POST';
 
 
-        const result = new Promise((resolve, reject) => {
-            xhr.addEventListener("load", resolve);
-            xhr.addEventListener("error", reject);
-        })
-            .then(() => {
-                const response:UploadEndResult = data as UploadEndResult;
-                response.uploadFileId = xhr.response.file;
-                return response;
-            });
-
+        request.onreadystatechange = this.notifyOnError();
         const info = {
             'selectedFileFieldNames': [['files']],
             mediaMetadatas: [
                 { type: { type: 'PROPERTY', identifier: 'org.taktik.metadata.folderId' }, valueObject: data.folderId }
             ]
         };
-        xhr.send(JSON.stringify(info));
-        return result;
-    }
+        request.body = JSON.stringify(info);
 
+        return request.sendRequest()
+            .then((xhr: XMLHttpRequest) => {
+                const response:UploadEndResult = data as UploadEndResult;
+                response.uploadFileId = xhr.response.file;
+                return response;
+            });
+    }
+    _waitForSubTasks(asyncTasksGroupId: string): Promise<void> {
+        let mediaId: string;
+        return (new Promise((resolve, reject) => {
+            let interval = setInterval(() => {
+                this._awaitTask(asyncTasksGroupId)
+                    .then((data: WaitResponse) => {
+                        if(data.stepsCount === data.stepsDone) {
+                            clearInterval(interval);
+                            resolve();
+                        }
+                        else if(data.hasErrors)
+                            reject('possessing tasks as an error')
+                    })
+                    .catch((error) => {
+                        clearInterval(interval);
+                        reject(error);
+                    })
+            }, this.pollInterval);
+        }))
+    }
     _waitForTask(uploadEndResult: UploadEndResult): Promise<string> {
-        return new Promise((resolve, reject) => {
+        let mediaId: string;
+        return (new Promise((resolve, reject) => {
             let interval = setInterval(() => {
                 this._awaitTask(uploadEndResult.uploadFileId)
-                    .then((data) => {
-                        if (data.taskExecutions[uploadEndResult.uploadFileId].isComplete) {
+                    .then((data: WaitResponse) => {
+                        const taskExecution = data.taskExecutions[uploadEndResult.uploadFileId];
+
+                        if (taskExecution.isComplete ||
+                            taskExecution.completed) {
                             clearInterval(interval);
-                            const mediaId: string =  data
-                                .taskExecutions[uploadEndResult.uploadFileId].taskResult.mediaId;
-                            resolve(mediaId);
+                            if(taskExecution.taskResult)
+                                mediaId = taskExecution.taskResult.mediaId;
+                            resolve(taskExecution.taskResult);
                         }
                     })
                     .catch((error) => {
@@ -363,26 +389,26 @@ export class UploadFileRequest implements XMLHttpRequestLike {
                         reject(error);
                     })
             }, this.pollInterval);
-        });
+        }))
+            .then((data: any): any => {
+                const taskResult = data || {} as TaskResult
+                if(taskResult.asyncTasksGroupId){
+                    return this._waitForSubTasks(taskResult.asyncTasksGroupId)
+                }
+            })
+            .then(()=> mediaId as string );
     }
 
-    _awaitTask(uploadFileId: string): Promise<any> {
-        const xhr = this. _createRequest();
-        const url = this._buildUrl('wait', uploadFileId, '120');
-        xhr.open('GET', url, true);
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.setRequestHeader("Accept", "application/json");
+    _awaitTask(uploadFileId: string): Promise<WaitResponse> {
+        const request = this. _createRequest();
+        request.url = this._buildUrl('wait', uploadFileId, '120');
+        request.method = 'GET';
 
-        xhr.onreadystatechange = this.notifyOnError(xhr);
+        request.onreadystatechange = this.notifyOnError();
 
-        const result = new Promise((resolve, reject) => {
-            xhr.addEventListener("load", resolve);
-            xhr.addEventListener("error", reject);
-        })
-            .then(() => {
+        return request.sendRequest()
+            .then((xhr: XMLHttpRequest) => {
                 return xhr.response;
             });
-        xhr.send(null);
-        return result;
     }
 }

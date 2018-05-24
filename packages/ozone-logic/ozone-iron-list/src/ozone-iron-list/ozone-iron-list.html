@@ -1,0 +1,68 @@
+<dom-module id="ozone-iron-list">
+    <template>
+        <style>
+            :host {
+                display: block;
+                width:100%;
+                height: 80vh;
+                overflow-y: scroll;
+                overflow-x: hidden;
+            }
+            @media only screen and (-webkit-max-device-pixel-ratio: 1) {
+                :host {
+                    will-change: transform;
+                }
+            }
+            #items {
+                @apply --iron-list-items-container;
+                position: relative;
+            }
+            :host(:not([grid])) #items > ::slotted(*) {
+                width: 100%;
+            }
+            #items > ::slotted(*[hidden]) {
+                display: none !important;
+            }
+            #items > ::slotted(*) {
+                box-sizing: border-box;
+                margin: 0;
+                position: absolute;
+                top: 0;
+                will-change: transform;
+            }
+            .loader {
+                background-color: #585185;
+                color: white;
+                position:relative;
+                bottom:0;
+                left:0;
+                right:0;
+                text-align: center;
+                height: 44px;
+                font-family:'Roboto', sans-serif;
+                font-size: 13px;
+                line-height: 44px;
+                margin:0 -10px -10px;
+                @apply --ozone-list-loader;
+            }
+        </style>
+
+        <ozone-collection
+                id="mosaicCollection"
+                items="{{items}}"
+                total="{{total}}"
+                collection="{{collectionType}}"
+                has-more-data="{{hasMoreData}}"></ozone-collection>
+
+        <array-selector
+                id="selector"
+                items="{{items}}"
+                selected="{{selectedItems}}"
+                selected-item="{{selectedItem}}"></array-selector>
+
+        <div id="items">
+            <slot></slot>
+        </div>
+        <paper-item class="loader" hidden$="[[!hasMoreData]]">Fetching new items...</paper-item>
+    </template>
+</dom-module>

@@ -1,0 +1,26 @@
+{
+  "name": "ozone-free-text-search",
+  "main": "dist/ozone-free-text-search.html",
+  "dependencies": {
+    "polymer": "^2.6.0",
+    "paper-listbox": "^2.1.1",
+    "paper-input": "^2.2.2",
+    "paper-item": "^2.1.1",
+    "paper-button": "^2.1.0",
+    "paper-material": "^2.1.0",
+    "iron-icons": "^2.1.1",
+    "iron-flex-layout": "^2.0.3",
+    "iron-collapse": "^2.2.0",
+    "paper-icon-button": "^2.2.0",
+    "font-roboto": "^0.0.2",
+    "iron-ajax": "^2.1.3"
+  },
+  "devDependencies": {
+    "web-component-tester": "^6.5.0",
+    "webcomponentsjs": "^1.2.0",
+    "iron-test-helpers": "^2.0.0"
+  },
+  "resolutions": {
+    "font-roboto": "^1.0.1"
+  }
+}

@@ -5,8 +5,7 @@ import "iron-pages/iron-pages.html"
 import "paper-tabs/paper-tabs.html"
 import "paper-tabs/paper-tab.html"
 import "../demo-header/demo-header.html"
-import "taktik-free-text-search/taktik-free-text-search.html"
-import "ozone-api-search"
+import "ozone-free-text-search"
 import "ozone-login/ozone-login.html"
 import "ozone-mosaic"
 import "ozone-upload"
@@ -16,6 +15,9 @@ import "../video-edit-panel"
 import 'ozone-media-edit'
 //import 'ozone-item-edit/src/ozone-item-edit.ts'
 import './ozone-components-demo.html'
+import {OzoneApiItem} from 'ozone-api-item';
+
+import {SearchQuery} from "ozone-search-helper";
 
 /**
  * @customElement
@@ -27,13 +29,17 @@ class OzoneComponentsDemo extends Polymer.Element {
         return {
             search: {
                 type: String,
-                value: ''
+                value: '',
+                observer: '_searchChange'
             },
             type: {
                 type: String,
                 value: 'item'
             },
             result: {
+                type: Array
+            },
+            autoCompleteResult: {
                 type: Array
             },
             numberOfResults: {
@@ -49,13 +55,21 @@ class OzoneComponentsDemo extends Polymer.Element {
         };
     }
 
+    constructor(){
+        super();
+        this._source = new OzoneApiItem();
+    }
+
     ready() {
         super.ready();
         this.$.editPanel.addEventListener('save-tap', (event) => {
-            this.$.searchDisplay.saveSelectedItem(event.detail)
+            this.$.ozoneMosaic.saveSelectedItem(event.detail)
                 .then((item) => {
                     this.$.editPanel.set('selectedItem', item)
                 });
+        });
+        this.$.ozoneMosaic.addEventListener("delete-item", (event) =>{
+            this.$.ozoneMosaic.$.ironList.$.mosaicCollection.deleteOne(event.detail.id, true)
         });
         this.$.editPanel.addEventListener('close-tap', (event) => {
             this.$.editPanel.set('display', false);
@@ -63,21 +77,56 @@ class OzoneComponentsDemo extends Polymer.Element {
         this.$.videoEditPanel.addEventListener('close-tap', (event) => {
             this.$.videoEditPanel.set('display', false);
         });
-        this.$.searchDisplay.addEventListener('edit-item', (event) => {
+        this.$.ozoneMosaic.addEventListener('edit-item', (event) => {
             this.$.editPanel.set('display', true);
             this.$.editPanel.set('selectedItem', event.detail);
         });
 
-        this.$.searchDisplay.addEventListener('info-item', (event) => {
+        this.$.ozoneMosaic.addEventListener('info-item', (event) => {
             this.$.videoEditPanel.set('display', true);
             this.$.videoEditPanel.set('selectedItem', event.detail);
+        });
+
+        this.$.ozoneUpload.addEventListener('ozone-upload-completed', (event)=>{
+            this.$.ozoneMosaic.$.ironList.$.mosaicCollection.findOne(event.detail.mediaId)
         })
+
+        this.$.freeTextSearch.addEventListener("taktik-search", () => this._searchSubmit());
     }
 
     _isConnectedChange(value) {
         if(this.isConnected){
-            this.$.freeTextSearch.registerAutoCompleteAPI(this.$.autoCompleteAPI);
-            this.$.freeTextSearch.registerSearchAPI(this.$.searchDisplay)
+        }
+
+    }
+
+    _searchSubmit (){
+        const searchQuery = new SearchQuery()
+        searchQuery
+            .quicksearch(this.search)
+            .setSize(5)
+           // .order('creationDate').ASC;
+
+        this.$.ozoneMosaic.search(searchQuery);
+
+    }
+    async _searchChange(searchString){
+
+        searchString = searchString ? searchString : ''; // replace undefined by empty string
+        let allTerms = searchString.split(' ');
+        let lastTerm = allTerms[allTerms.length-1];
+
+        const searchQuery = new SearchQuery()
+        searchQuery
+            .quicksearch(this.search)
+            .setSize(5)
+            .suggestion(searchString, lastTerm, 5);
+
+        const _searchIterator = await this._source.on(this.type).search(searchQuery);
+        const response =  await _searchIterator.next()
+        if(response.aggregations && response.aggregations.length > 0 && response.aggregations[0].buckets) {
+            const results = response.aggregations[0].buckets
+            this.set('autoCompleteResult', results)
         }
 
     }

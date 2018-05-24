@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/taktik/taktik-polymer-typescript.svg?branch=master)](https://travis-ci.org/taktik/taktik-polymer-typescript)
+[![NPM version][npm-image]][npm-url]
 
 # \<taktik-polymer-typeScript\>
 
@@ -30,3 +30,6 @@ Module providing development facilities for ozone polymer type script modules.
 ```typescript
 import {customElement} from 'taktik-polymer-typescript' // Import elements
 ```
+
+[npm-image]: https://badge.fury.io/js/ozone-type.svg
+[npm-url]: https://npmjs.org/package/ozone-type

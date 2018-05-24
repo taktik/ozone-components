@@ -6,16 +6,17 @@
 	"description": "JavaScript modules for Ozone",
 	"scripts": {
 		"bootstrap": "lerna bootstrap",
-		"pretest": "lerna bootstrap",
+		"bower": "lerna run bower",
 		"test": "lerna run test",
 		"demo": "lerna run --scope ozone-components-demo demo",
 		"build": "lerna run --scope ozone-components-demo build",
 		"doc": "lerna run doc"
 	},
 	"devDependencies": {
+		"babel-preset-env": "^1.6.1",
 		"generator-polymer-typescript": "^0.2.3",
 		"gulp": "^3.9.1",
-		"lerna": "^2.9.0",
+		"lerna": "^2.11.0",
 		"typedoc": "^0.11.1",
 		"yo": "^2.0.1"
 	},

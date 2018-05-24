@@ -1,5 +1,4 @@
-[![Build Status](https://travis-ci.org/taktik/ozone-api-item.svg?branch=master)](https://travis-ci.org/taktik/ozone-api-item)
-
+[![NPM version][npm-image]][npm-url]
 # \<ozone-api-item\>
 
 
@@ -19,5 +18,8 @@ const result = ozoneApiSearch.on('item').getOne('an-id');
 ## Install
 
 ```
-$ npm install ozone-config
+$ npm install ozone-api-item
 ```
+
+[npm-image]: https://badge.fury.io/js/ozone-api-item.svg
+[npm-url]: https://npmjs.org/package/ozone-api-item

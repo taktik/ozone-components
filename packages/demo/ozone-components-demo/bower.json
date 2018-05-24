@@ -18,7 +18,8 @@
     "paper-tabs": "^2.1.0",
     "iron-pages": "^2.1.0",
     "marked-element": "^2.4.0",
-    "marked": "^0.3.19"
+    "marked": "^0.3.19",
+    "paper-material": "^2.1.0"
   },
   "devDependencies": {
     "web-component-tester": "Polymer/web-component-tester#^6.0.0",

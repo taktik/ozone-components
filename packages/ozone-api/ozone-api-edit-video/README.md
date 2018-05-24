@@ -1,4 +1,4 @@
-
+[![NPM version][npm-image]][npm-url]
 # ozone-api-edit-video
 
 ES6 module written in typeScript to save selected video chunks.
@@ -24,3 +24,7 @@ ozoneApiEditVideo
    console.log('new video created with id', video.id)
 });
 ```
+
+
+[npm-image]: https://badge.fury.io/js/ozone-api-edit-video.svg
+[npm-url]: https://npmjs.org/package/ozone-api-edit-video

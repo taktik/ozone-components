@@ -1,0 +1,87 @@
+<head>
+
+
+</head>
+<body>
+<dom-module id="ozone-item-action">
+    <template>
+        <style>
+            :host {
+            }
+          .actions-panel {
+              height: 100%;
+              width: 100%;
+              background:#2C2958;
+              background: -webkit-linear-gradient(rgba(44,41,88,.82) 30%, rgba(4,0,47,1) 100%);
+              background: -moz-linear-gradient(rgba(44,41,88,.82) 30%, rgba(4,0,47,1) 100%);
+              background: -o-linear-gradient(rgba(44,41,88,.82) 30%, rgba(4,0,47,1) 100%);
+              background: linear-gradient(rgba(44,41,88,.82) 30%, rgba(4,0,47,1) 100%);
+
+              transform:scaleX(0) scaleY(0);
+              display:flex;
+              flex-direction: row;
+              flex-wrap:wrap;
+              justify-content: space-around;
+              align-items: center;
+              align-content: center;
+              transform-origin: bottom center;
+              z-index: 2;
+              transition: transform 0.375s cubic-bezier(0.0, 0.0, 0.2, 1);
+              @apply --actions-panel-colors;
+            }
+          .open{
+            transform-origin: center center;
+            transform: scaleX(1) scaleY(1);
+            animation: expand .375s;
+            
+            
+          }
+
+          @keyframes expand {
+            0% {
+                transform: scaleX(0) scaleY(0);
+                transition-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
+            }
+            20% {
+                transform: scaleX(.65) scaleY(0);
+                transition-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
+            }
+          
+            100% {
+                transform: scaleX(1) scaleY(1);
+                 transition-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
+            }
+          }
+
+          paper-icon-button{
+             color:white;
+              min-height:30px;
+              min-width:30px;
+              @apply --actions-panel-icons-color;
+
+            
+            --paper-icon-button-hover: {
+                background: rgba(255,255,255,.1);
+                border-radius:50%;
+            };
+          }
+
+          break{
+            flex-basis: 100%;
+            width: 0px; 
+            height: 0px; 
+            overflow: hidden;
+          }
+        </style>
+        <div class="actions-panel" id="actionsPanel">
+            <div class="actions-panel-icon action"><paper-icon-button icon="create" event="edit-item"></paper-icon-button></div>
+            <div class="actions-panel-icon action"><paper-icon-button icon="favorite" disabled></paper-icon-button></div>
+            <div class="actions-panel-icon action"><paper-icon-button icon="info" event="info-item"></paper-icon-button></div>
+            <break></break>
+            <div class="actions-panel-icon action"><paper-icon-button icon="communication:rss-feed" disabled></paper-icon-button></div>
+            <div class="actions-panel-icon action"><paper-icon-button icon="file-download" disabled></paper-icon-button></div>
+            <div class="actions-panel-icon action"><paper-icon-button icon="delete" event="delete-item"></paper-icon-button></div>
+        </div>
+    </template>
+</dom-module>
+</body>

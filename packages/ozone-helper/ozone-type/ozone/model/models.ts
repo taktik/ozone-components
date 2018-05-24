@@ -411,6 +411,7 @@ export * from './Tenant';
 export * from './TenantNode';
 export * from './TermQuery';
 export * from './TermsAggregation';
+export * from './TenantQuery';
 export * from './TermsQuery';
 export * from './TriggerInfo';
 export * from './TriggerWrapper';

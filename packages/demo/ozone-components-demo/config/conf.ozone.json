@@ -14,7 +14,7 @@
       "uploadId": "/rest/v2/media/upload/newid",
       "upload": "/upload",
       "uploadComplete": "/rest/v2/media/upload/complete",
-      "wait": "/rest/v2/task/wait",
+      "wait": "/rest/v3/task/wait",
       "file": "/rest/v3/items/file",
       "blob": "/rest/v3/blob",
       "fileType": "/rest/v3/filetype",
@@ -38,6 +38,6 @@
         "audio": ["hls", "flowr", "mp4", "mp3", "original"]
       }
     },
-    "uploadChannel": "test.uploadChannelEditor"
+    "uploadChannel": "uploadChannel1"
   }
 }

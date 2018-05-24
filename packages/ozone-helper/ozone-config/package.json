@@ -1,6 +1,6 @@
 {
   "name": "ozone-config",
-  "version": "3.1.0",
+  "version": "3.4.1",
   "publishConfig": {
     "access": "public"
   },
@@ -13,7 +13,7 @@
   "types": "dist/src/ozone-config.d.ts",
   "scripts": {
     "prepublish": "npm run tsc",
-    "postinstall": "bower install",
+    "bower": "bower install",
     "tsc": "tsc",
     "test": "wct --skip-plugin=local --configFile wct.conf.js",
     "test:persist": "wct --skip-plugin=headless -p --configFile wct.conf.js",
@@ -33,7 +33,7 @@
     "clean-webpack-plugin": "^0.1.19",
     "copy-webpack-plugin": "^4.5.1",
     "html-webpack-plugin": "^3.0.7",
-    "ozone-type": "^3.0.0",
+    "ozone-type": "^3.4.1",
     "polymer-webpack-loader": "^2.0.2",
     "reflect-metadata": "^0.1.12",
     "ts-loader": "^4.1.0",
@@ -45,8 +45,8 @@
   },
   "dependencies": {
     "@types/lodash": "^4.14.104",
-    "ozone-api-request": "^3.1.0",
-    "taktik-polymer-typescript": "^3.1.0",
+    "ozone-api-request": "^3.4.1",
+    "taktik-polymer-typescript": "^3.4.1",
     "typedoc": "^0.11.1",
     "web-component-tester": "^6.5.0"
   }

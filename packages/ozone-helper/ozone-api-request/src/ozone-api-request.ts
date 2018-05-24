@@ -74,10 +74,12 @@ import {jsElement} from 'taktik-polymer-typescript'
  */
 @jsElement()
 export class OzoneAPIRequest{
-    private _url: string ='';
+    _url: string ='';
     private _method: string = 'GET';
-    private _body: string = '';
+    private _body: string | FormData = '';
     private _responseType: XMLHttpRequestResponseType = 'json';
+
+    donePromise: Promise<XMLHttpRequest | null> = Promise.resolve(null)
 
 
     set url (url: string){
@@ -85,10 +87,10 @@ export class OzoneAPIRequest{
     }
     get url():  string{ return this._url}
 
-    set body (body: string){
+    set body (body: string | FormData){
         this._body = body;
     }
-    get body (): string { return this._body}
+    get body (): string | FormData { return this._body}
 
     set method(method:string){
         this._method = method;
@@ -100,19 +102,36 @@ export class OzoneAPIRequest{
     }
     get responseType (): XMLHttpRequestResponseType {return this._responseType;}
 
+    private currentRequest: XMLHttpRequest | null = null ;
+
+    private _onreadystatechange: ((this: XMLHttpRequest, ev: Event) => any) | null = null;
+
+    set onreadystatechange(callback: ((this: XMLHttpRequest, ev: Event) => any)){
+        this._onreadystatechange = callback;
+    }
+
+    private resolveCurrentRequest?: {(...param: Array<any>):void}
+    abort(){
+        if(this.currentRequest)
+            this.currentRequest.abort();
+        if(this.resolveCurrentRequest)
+            this.resolveCurrentRequest(this.currentRequest)
+    }
 
     /**
      * Create and open an XMLHttpRequest
      * @return {XMLHttpRequest}
      */
-    createXMLHttpRequest(): XMLHttpRequest{
+    createXMLHttpRequest(withHeader: boolean = true): XMLHttpRequest{
         const xmlhttp = new XMLHttpRequest();
         xmlhttp.withCredentials = true;
         
         xmlhttp.open(this.method, this.url, true);
         xmlhttp.responseType = this.responseType;
-        xmlhttp.setRequestHeader("Content-Type", "application/json");
-        xmlhttp.setRequestHeader('Accept', 'application/json');
+        if(withHeader) {
+            xmlhttp.setRequestHeader("Content-Type", "application/json");
+            xmlhttp.setRequestHeader('Accept', 'application/json');
+        }
         return xmlhttp;
     }
 
@@ -132,9 +151,13 @@ export class OzoneAPIRequest{
      * @return {Promise<XMLHttpRequest>}
      */
     sendRequest(request?: XMLHttpRequest):Promise<XMLHttpRequest>{
-        const xmlhttp = request || this.createXMLHttpRequest();
+        const xmlhttp = this.currentRequest = request || this.createXMLHttpRequest();
 
-        return new Promise((resolve, reject)=>{
+        if(this._onreadystatechange)
+            xmlhttp.onreadystatechange = this._onreadystatechange;
+
+        return (this.donePromise as Promise<XMLHttpRequest>) = new Promise((resolve, reject)=>{
+            this.resolveCurrentRequest = resolve;
 
             const handleResponse = ()=>{
                 switch (xmlhttp.status){
