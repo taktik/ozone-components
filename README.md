@@ -2,64 +2,64 @@
 
 # ozone-components
 
-Ozone-components is a library of polymer and javaScript modules that should facilitate development of web front-end for ozone.
-Elements available in JavaScript and typeScript.
+Ozone-components is a library of Polymer and JavaScript modules that should facilitate development of web front-end for Ozone.
+Elements are available in JavaScript and typeScript.
 
-Elements are slit in 5 categories:
-- ozone-api: Provide low level interface to ozone server.
-- ozone-material: provide paper material design to display specific ozone content. (Based on Polymer)
+Elements are split in 4 categories:
+- ozone-api: Provide low level interface to Ozone server.
+- ozone-material: provide paper material design to display specific Ozone content. (Based on Polymer)
 - ozone-helper: provide generic class helper.
-- ozone-logic: provide helper class for ozone operation.
+- ozone-logic: provide helper class for Ozone operation.
 
 
 ## Demo
 
-See demo application [demo](demo.html)
+See demo application [demo](demo.html).
 
 ## Modules
 
 - ozone-helper:
-  - [ozone-type](packages/ozone-helper/ozone-type) Declaration of ozone type
-  - [ozone-config](packages/ozone-helper/ozone-config) Expose ozone API configuration. Configuration is loaded from ./conf.ozone.json
-  - [ozone-search-helper](packages/ozone-helper/ozone-search-helper) Helper for ozone search queries
-  - [taktik-polymer-typescript](packages/ozone-helper/taktik-polymer-typescript) Module providing development facilities for ozone polymer and typescript modules.
-  - [ozone-api-request](packages/ozone-api/ozone-api-request) OzoneAPIRequest is a light wrapper over XMLHttpRequest to manager AJAX request to Ozone.
+  - [ozone-type](packages/ozone-helper/ozone-type) Declaration of Ozone type.
+  - [ozone-config](packages/ozone-helper/ozone-config) Expose Ozone API configuration. Configuration is loaded from `./conf.ozone.json`.
+  - [ozone-search-helper](packages/ozone-helper/ozone-search-helper) Helper for Ozone search queries.
+  - [taktik-polymer-typescript](packages/ozone-helper/taktik-polymer-typescript) Module providing development facilities for Ozone Polymer and TypeScript modules.
+  - [ozone-api-request](packages/ozone-api/ozone-api-request) `OzoneAPIRequest` is a light wrapper over `XMLHttpRequest` to manager AJAX request to Ozone.
 - ozone-api:
-  - [ozone-api-type](packages/ozone-api/ozone-api-type) ozone-api-type is low level polymer module to ozone type. It provide read operation on collection type.
-  - [ozone-api-authentication](packages/ozone-api/ozone-api-authentication) Low level wrapper around ozone login, logout and authentication api
-  - [ozone-api-upload](packages/ozone-api/ozone-api-upload) UploadFileRequest is a JavaScrip class that can be use as an XMLHttpRequest to upload media using ozone v2 upload chanel.
-  - [ozone-api-edit-video](packages/ozone-api/ozone-api-edit-video) ES6 module written in typeScript to save selected video chunks.
-  - [ozone-api-item](packages/ozone-api/ozone-api-item) low level es6 module to ozone api. It provide CRUD operation and search in a given collection.
+  - [ozone-api-type](packages/ozone-api/ozone-api-type) `ozone-api-type` is low level Polymer module to Ozone type. It provide read operation on collection type.
+  - [ozone-api-authentication](packages/ozone-api/ozone-api-authentication) Low level wrapper around Ozone login, logout and authentication API.
+  - [ozone-api-upload](packages/ozone-api/ozone-api-upload) `UploadFileRequest` is a JavaScript class that can be use as an `XMLHttpRequest` to upload media using Ozone v2 upload channel.
+  - [ozone-api-edit-video](packages/ozone-api/ozone-api-edit-video) ES6 module written in TypeScript to save selected video chunks.
+  - [ozone-api-item](packages/ozone-api/ozone-api-item) Low level ES6 module to Ozone API. It provide CRUD operation and search in a given collection.
 - ozone-logic
-  - [ozone-collection](packages/ozone-logic/ozone-collection) generic polymer web-component to manage collection of ozone items.
-  - [ozone-iron-list](packages/ozone-logic/ozone-iron-list) Implementation of an iron-list to display an ozone search result with lazy loading..
-  - [ozone-media-url](packages/ozone-logic/ozone-media-url) Helper to convert ozone id to media preview.
+  - [ozone-collection](packages/ozone-logic/ozone-collection) Generic Polymer `web-component` to manage collection of Ozone items.
+  - [ozone-iron-list](packages/ozone-logic/ozone-iron-list) Implementation of an `iron-list` to display an Ozone search result with lazy loading.
+  - [ozone-media-url](packages/ozone-logic/ozone-media-url) Helper to convert Ozone id to media preview.
 - ozone-material
   - [ozone-video-player](packages/ozone-material/ozone-video-player) WebComponent that play video from Ozone.
   - [ozone-free-text-search](packages/ozone-material/ozone-free-text-search) WebComponent that play video from Ozone.
-  - [ozone-upload](packages/ozone-material/ozone-upload) configurable web component to upload files on ozone. Based on vaadin-upload.
-  - [ozone-item-preview](packages/ozone-material/ozone-item-preview)  Webcomponent based on polymer to preview an ozone item
-  - [ozone-item-edit](packages/ozone-material/ozone-item-edit) This package contains several Webcomponents based on polymer to edit an ozone item.
-  - [ozone-mosaic](packages/ozone-material/ozone-mosaic) Webcomponent to display mosaic of ozone preview
+  - [ozone-upload](packages/ozone-material/ozone-upload) Configurable WebComponent to upload files on Ozone. Based on `vaadin-upload`.
+  - [ozone-item-preview](packages/ozone-material/ozone-item-preview)  Webcomponent based on Polymer to preview an Ozone item.
+  - [ozone-item-edit](packages/ozone-material/ozone-item-edit) This package contains several WebComponents based on Polymer to edit an Ozone item.
+  - [ozone-mosaic](packages/ozone-material/ozone-mosaic) Webcomponent to display mosaic of Ozone preview.
 
-## Get start
+## Get started
 
-This project contains a set of npm library that can be install individually.
-There are aime to be build with webpack.
-See demo project for webpack config example.
+This project contains a set of npm library that can be installed individually.
+There are aimed to be builded with webpack.
+See the [demo project](demo.html) for webpack configuration example.
 
-## contribute
+## Contribute
 
-Any contribution and comments are welcome.
+Any contribution and comment are welcomed.
 
-Do not hesitate rapport issue and questions in the github issue.
+Do not hesitate to report issues and ask questions in previously reported issues.
 
-You are also more than welcome to propose fix, via full request.
+You are also more than welcomed to suggest fixes through pull requests.
 
 
 ### A Lerna project
 
-ozone-components are centralize in a Lerna repo. Please refers to lerna documentation for generic usage such as project import, dependency installation or project bootstrap.
+`ozone-components` are centralized in a Lerna repo. Please refer to Lerna documentation for generic usage such as project import, dependency installation or project bootstraping.
 
 ### Set up
 
@@ -81,7 +81,7 @@ $ npm run demo
 $ npm run test
 ```
 
-### generate documentation
+### Generate documentation
 
 ```bash
 $ npm run doc
