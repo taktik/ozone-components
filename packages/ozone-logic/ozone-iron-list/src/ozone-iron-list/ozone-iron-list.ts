@@ -90,7 +90,10 @@ export class OzoneIronList  extends Polymer.ElementMixin<PolymerElement>(IronLis
     })
     hasMoreData: boolean = false;
 
-
+    @property({
+        type: Array,
+        notify:true,
+    })
     items: Array<Item> = [];
 
 
