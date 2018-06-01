@@ -9,16 +9,16 @@
                 --save-button-colors: {
                     background: #2C2958;
                     color:white;
-                }
+                };
                 --actions-icon-color: {
                     color:#2C2958;
-                }
+                };
                 --details-panel-shade: {
                     background:rgba(0,0,0,0.42);
-                }
+                };
                 --actions-background-color: {
                     background: #fafafa;
-                }
+                };
                 @apply --ozone-mosaic-list;
 
             }
@@ -54,6 +54,11 @@
                 height:calc(100% - (var(--ozone-mosaic-item-margins, 8px) * 2));
                 /* margin: var(--ozone-mosaic-item-margins, 8px); */
             }
+            .resultList{
+                /* https://github.com/PolymerElements/iron-list#sizing-iron-list */
+                height: var(--ozone-mosaic-height, 100%);
+                overflow-y: scroll;
+            }
 
         </style>
         <div class="resultList" id="resultList">
@@ -62,7 +67,7 @@
                     items="{{searchResults}}"
                     grid
                     selection-enabled
-                    scroll-target="scrollTheshold">
+                    scroll-target="resultList">
                 <template>
                     <div class="previewContainer">
                         <ozone-item-preview class="photoContent"
