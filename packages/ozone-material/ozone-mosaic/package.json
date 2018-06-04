@@ -1,6 +1,6 @@
 {
   "name": "ozone-mosaic",
-  "version": "3.4.2",
+  "version": "3.4.3",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -26,7 +26,7 @@
     "ozone-api-type": "^3.4.2",
     "ozone-collection": "^3.4.2",
     "ozone-config": "^3.4.2",
-    "ozone-iron-list": "^3.4.2",
+    "ozone-iron-list": "^3.4.3",
     "ozone-item-preview": "^3.4.2",
     "ozone-media-url": "^3.4.2",
     "ozone-search-helper": "^3.4.2",

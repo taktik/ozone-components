@@ -1,6 +1,6 @@
 {
 	"name": "ozone-components-demo",
-	"version": "3.4.2",
+	"version": "3.4.3",
 	"description": "",
 	"main": "gulpfile.js",
 	"directories": {
@@ -47,11 +47,11 @@
 		"ozone-collection": "^3.4.2",
 		"ozone-config": "^3.4.2",
 		"ozone-free-text-search": "^3.4.2",
-		"ozone-iron-list": "^3.4.2",
+		"ozone-iron-list": "^3.4.3",
 		"ozone-item-edit": "^3.4.2",
 		"ozone-item-preview": "^3.4.2",
 		"ozone-media-url": "^3.4.2",
-		"ozone-mosaic": "^3.4.2",
+		"ozone-mosaic": "^3.4.3",
 		"ozone-search-helper": "^3.4.2",
 		"ozone-type": "^3.4.2",
 		"ozone-upload": "^3.4.2",
