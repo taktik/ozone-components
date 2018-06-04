@@ -1,6 +1,6 @@
 {
 	"name": "ozone-components-demo",
-	"version": "3.4.3",
+	"version": "3.4.4",
 	"description": "",
 	"main": "gulpfile.js",
 	"directories": {
@@ -55,7 +55,7 @@
 		"ozone-search-helper": "^3.4.2",
 		"ozone-type": "^3.4.2",
 		"ozone-upload": "^3.4.2",
-		"ozone-video-player": "^3.4.2",
+		"ozone-video-player": "^3.4.4",
 		"polymer-build": "^1.6.0",
 		"proxy-middleware": "^0.15.0",
 		"run-sequence": "^2.0.0",
