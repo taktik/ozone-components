@@ -21,7 +21,13 @@ import {property} from "taktik-polymer-typescript";
  * <ozone-iron-list> is an iron-list composed of an ozone-connection.
  *
  * ```html
- *         <div >
+ *         <style>
+ *             #scrollTheshold {
+ *              height: 70vh; // container has to be a fix size see https://github.com/PolymerElements/iron-list#sizing-iron-list
+ *              overflow-y: scroll;
+ *             }
+ *         </style>
+ *         <div id="scrollTheshold">
  *           <ozone-iron-list
  *             id="ironList"
  *             items="{{searchResults}}"
@@ -61,10 +67,13 @@ import {property} from "taktik-polymer-typescript";
  *  `--ozone-list-loader`  | css mixin for loader element | `{ background-color: #585185; color: white; position:relative; bottom:0; left:0; right:0; text-align: center; height: 44px; font-family:'Roboto', sans-serif; font-size: 13px; line-height: 44px; margin:0 -10px -10px;}`
  *
  */
-declare class IronList extends PolymerElement{}
+export declare class IronList extends PolymerElement{
+    scrollTarget?: PolymerElement;
+    notifyResize(): void;
+}
 
 @customElement('ozone-iron-list')
-export class OzoneIronList  extends Polymer.ElementMixin<PolymerElement>(IronList){
+export class OzoneIronList  extends Polymer.ElementMixin<IronList>(IronList){
 
     $: {
         selector: HTMLElement
@@ -139,7 +148,11 @@ export class OzoneIronList  extends Polymer.ElementMixin<PolymerElement>(IronLis
     }
 
     private getScrollPercentage(){
-        return (this.clientHeight + this.scrollTop) / this.scrollHeight * 100;
+        if(this.scrollTarget){
+            return (this.scrollTarget.clientHeight + this.scrollTarget.scrollTop) / this.scrollTarget.scrollHeight * 100;
+        } else {
+            return 0;
+        }
     }
 
     /**
@@ -156,6 +169,10 @@ export class OzoneIronList  extends Polymer.ElementMixin<PolymerElement>(IronLis
                 })
                 .then(() => {
                     this.clearTriggers();
+                    // workaround to enable infinit scroll, othervise it does not display all the list.
+                    // Needed only once.
+                    // TODO improve component to avoid this call
+                    this.notifyResize()
                 });
         }
         this.clearTriggers();
