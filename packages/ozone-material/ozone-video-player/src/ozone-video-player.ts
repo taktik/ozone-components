@@ -188,7 +188,11 @@ export class OzoneVideoPlayer extends Polymer.Element{
             this._updateSubtitlesAvailable(data);
             const mediaUrl = new this.OzoneMediaUrl(data.id as string, config);
             const url = await mediaUrl.getVideoUrl();
-            const previewImage = mediaUrl.getPreviewUrlJpg(OzonePreviewSize.Small);
+            let previewImage = mediaUrl.getPreviewUrlJpg(OzonePreviewSize.Medium);
+            if(data.logo){
+                const previewUrl = new this.OzoneMediaUrl(data.logo, config);
+                previewImage = previewUrl.getPreviewUrlJpg(OzonePreviewSize.Medium);
+            }
 
             const clapprConfig = this.addConfigSubtitle(data, config)
 
