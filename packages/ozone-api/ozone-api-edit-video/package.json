@@ -1,6 +1,6 @@
 {
   "name": "ozone-api-edit-video",
-  "version": "3.4.2",
+  "version": "3.4.5",
   "publishConfig": {
     "access": "public"
   },
@@ -32,7 +32,7 @@
     "ozone-api-item": "^3.4.2",
     "ozone-api-request": "^3.4.2",
     "ozone-config": "^3.4.2",
-    "ozone-media-url": "^3.4.2",
+    "ozone-media-url": "^3.4.5",
     "ozone-search-helper": "^3.4.2",
     "taktik-polymer-typescript": "^3.4.2",
     "typedoc": "^0.11.1"

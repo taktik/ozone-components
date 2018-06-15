@@ -1,6 +1,6 @@
 {
   "name": "ozone-iron-list",
-  "version": "3.4.3",
+  "version": "3.4.5",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -26,8 +26,8 @@
     "ozone-api-type": "^3.4.2",
     "ozone-collection": "^3.4.2",
     "ozone-config": "^3.4.2",
-    "ozone-item-preview": "^3.4.2",
-    "ozone-media-url": "^3.4.2",
+    "ozone-item-preview": "^3.4.5",
+    "ozone-media-url": "^3.4.5",
     "ozone-search-helper": "^3.4.2",
     "ozone-type": "^3.4.2",
     "reflect-metadata": "^0.1.12",
