@@ -25,12 +25,13 @@
     "permissions": "/rest/v3/items/bulkGetPermissions",
     "format": {
       "type": {
+        "wrong": "a.type.that.not.exist.on.ozone",
         "hls": "org.taktik.filetype.video.hls",
         "original": "org.taktik.filetype.original",
         "jpg": "org.taktik.filetype.image.preview.{SIZE}"
       },
       "priority":{
-        "video": ["hls"]
+        "video": ["wrong", "hls"]
       }
     }
   }

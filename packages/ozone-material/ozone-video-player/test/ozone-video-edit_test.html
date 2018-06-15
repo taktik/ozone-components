@@ -38,7 +38,7 @@
                 element.OzoneMediaUrl.prototype.getVideoUrl = sinon.stub()
                 element.OzoneMediaUrl.prototype.getVideoUrl.withArgs().returns('http://download.blender.org/peach/trailer/trailer_1080p.ogg');
                 element.OzoneMediaUrl.prototype.getPreviewUrlJpg = sinon.stub()
-                element.OzoneMediaUrl.prototype.getPreviewUrlJpg.withArgs(250).returns('3/org.taktik.filetype.image.preview.250');
+                element.OzoneMediaUrl.prototype.getPreviewUrlJpg.withArgs(500).returns('3/org.taktik.filetype.image.preview.250');
                 element.loadOzoneVideo({id: 'any'});
                 setTimeout(()=> {
                     assert.lengthOf(element.root.querySelectorAll('video'), 1)

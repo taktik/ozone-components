@@ -170,7 +170,9 @@ export class OzoneMediaUrl {
                     console.log(format, 'not found')
                 })
         });
-        return Promise.all(promises);
+        return Promise.all(promises).then((types: Array<object | undefined >) => {
+            return types.filter(type => typeof type !== 'undefined');
+        })
     }
 
     private _referedVideoFormat?:string;
