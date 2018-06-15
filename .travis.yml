@@ -13,4 +13,3 @@ script:
   - npm run bootstrap
   - npm run bower
   - npm run test
-  - npm run doc
