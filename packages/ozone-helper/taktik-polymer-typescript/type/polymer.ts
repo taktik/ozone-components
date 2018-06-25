@@ -64,7 +64,7 @@ declare class PolymerElement extends PolymerMetaEffects {
   connectedCallback(): void;
   ready(): void;
 
-  updateStyles(properties: string[]): void;
+  updateStyles(properties: {[prop: string]: string;}): void;
 
   //$:any;
 
