@@ -27,7 +27,8 @@ export class TaktikFreeTextSearch extends Polymer.Element {
      */
     @property({
         type: String,
-        notify: true
+        notify: true,
+        observer:'searchValueChange'
     })
     searchValue?: string;
     /**
@@ -38,7 +39,6 @@ export class TaktikFreeTextSearch extends Polymer.Element {
         notify: true,
         //readOnly: true
     })
-
     searchResults: Array<any> = [];
     /**
      * Array of suggestions
@@ -55,13 +55,24 @@ export class TaktikFreeTextSearch extends Polymer.Element {
      * Disable search input
      */
     @property({type: Boolean, observer:'_disabledChange'})
-    disabled: boolean = false
+    disabled: boolean = false;
+
+    /**
+     * name of the iron-icon to diplay for search. Default value is "icons:search"
+     * @type {string}
+     */
+    @property({type: String})
+    iconSearch: string = "icons:search";
 
     @property({
         type: Boolean,
         notify: true
     })
     _isInputFocus: boolean = false
+
+    $:{
+        clear: HTMLElement
+    } | any;
 
     ready (){
         super.ready();
@@ -201,6 +212,13 @@ export class TaktikFreeTextSearch extends Polymer.Element {
 
     _clear(){
         this.set("searchValue", "");
+    }
+    searchValueChange(){
+        if(typeof this.searchValue !== "undefined" && this.searchValue.length > 0){
+            this.$.clear.classList.remove('hidden')
+        } else {
+            this.$.clear.classList.add('hidden')
+        }
     }
 
     _disabledChange(disabled?: boolean){
