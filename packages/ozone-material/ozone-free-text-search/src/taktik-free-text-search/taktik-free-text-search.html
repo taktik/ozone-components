@@ -126,7 +126,9 @@ Custom property | Description | Default
       .clear{
         padding: 12px;
         color: rgba(0, 0, 0, .54);
-
+      }
+      .hidden{
+        display: none;
       }
     </style>
 
@@ -138,8 +140,8 @@ Custom property | Description | Default
           <input  autofocus id="searchInput" value="{{searchValue::input}}" disabled$="{{disabled}}">
         </iron-input>
         <div slot="suffix">
-          <paper-icon-button class="clear" icon="clear" on-tap="_clear"  disabled$="{{disabled}}"></paper-icon-button>
-          <paper-icon-button icon="icons:search" on-tap="fireTaktikSearch"  disabled$="{{disabled}}"></paper-icon-button>
+          <paper-icon-button id="clear" class="clear" icon="clear" on-tap="_clear" disabled$="{{disabled}}"></paper-icon-button>
+          <paper-icon-button id="iconSearch" icon="[[iconSearch]]" on-tap="fireTaktikSearch"  disabled$="{{disabled}}"></paper-icon-button>
         </div>
       </paper-input-container>
 

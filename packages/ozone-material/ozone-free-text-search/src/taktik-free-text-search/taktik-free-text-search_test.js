@@ -86,20 +86,35 @@ describe('search-content basic behavior', () => {
 
     it('should contains search input label', (done) => {
         flush(() => {
-        let label = Polymer
-            .dom(element.shadowRoot)
-            .querySelector('label');
-        expect(label.textContent).to.be.equal('Search');
+            let label = Polymer
+                .dom(element.shadowRoot)
+                .querySelector('label');
+            expect(label.textContent).to.be.equal('Search');
             done();
         });
     });
 
     it('should contains search icon', (done) => {
         flush(() => {
-        let item = Polymer
-            .dom(element.shadowRoot)
-            .querySelector('[icon="icons:search"]');
-        expect(item.getAttribute('icon')).to.be.equal('icons:search');
+            let item = element.$.iconSearch;
+            expect(item.icon).to.be.equal('icons:search');
+            done();
+        });
+    });
+
+    it('should not contains clean icon when search value is empty', (done) => {
+        element.set('searchValue', '')
+        flush(() => {
+            let item = element.$.clear;
+            expect(item.classList.contains('hidden')).to.be.equal(true, 'clear button does not has hidden class');
+            done();
+        });
+    });
+    it('should contains clean icon when search value is typed', (done) => {
+        element.set('searchValue', 'any')
+        flush(() => {
+            let item = element.$.clear;
+            expect(item.classList.contains('hidden')).to.be.equal(false, 'clear button has hidden class');
             done();
         });
     });
