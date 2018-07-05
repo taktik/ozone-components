@@ -81,6 +81,7 @@ export class TaktikFreeTextSearch extends Polymer.Element {
         this.$.searchInput.addEventListener("blur", () => this._formBlur());
         this.$.searchInput.addEventListener("focus", () => this._formFocus());
         this.$.searchInput.addEventListener("tap", () => this._formFocus());
+        this._disabledChange(this.disabled);
     }
 
     static get observers() {
