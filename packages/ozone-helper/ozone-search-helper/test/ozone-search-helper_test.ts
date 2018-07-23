@@ -303,4 +303,111 @@ describe('ozone-search-helper', function() {
             })
         })
     })
+    describe('combineWith order', ()=>{
+        it('shoud combine two query',()=>{
+            const searchQuery = new SearchQuery();
+            const searchQueryToCombine = new SearchQuery();
+
+            searchQuery.termQuery('myField', 'aText').order('aField').ASC;
+            searchQueryToCombine.termQuery('otherField', 'aValue');
+            searchQuery.or.combineWith(searchQueryToCombine);
+
+            expect(JSON.parse(searchQuery.searchQuery)).to.be.deep.equal({
+                size: 10,
+                query: {
+                    "$type": "BoolQuery",
+                    shouldClauses: [
+                        {
+                            $type: "TermQuery",
+                            field: "myField",
+                            value: 'aText'
+                        },
+                        {
+                            $type: "TermQuery",
+                            field: "otherField",
+                            value: 'aValue'
+                        },
+                    ]
+                },
+                sorts:[
+                    {
+                        field: 'aField',
+                        order: 'ASC'
+                    }
+                ]
+            })
+
+        })
+
+        it('shoud combine two BoolQuery query',()=>{
+            const searchQuery = new SearchQuery();
+            const searchQueryToCombine = new SearchQuery();
+            searchQuery.termQuery('myField', 'aText').order('aField').ASC;
+            searchQueryToCombine.not.termQuery('otherField', 'aValue');
+            searchQuery.and.combineWith(searchQueryToCombine);
+
+            expect(JSON.parse(searchQuery.searchQuery)).to.be.deep.equal({
+                size: 10,
+                query: {
+                    "$type": "BoolQuery",
+                    mustClauses: [
+                        {
+                            $type: "TermQuery",
+                            field: "myField",
+                            value: 'aText'
+                        },
+                        {
+                            "$type": "BoolQuery",
+                            mustNotClauses: [
+                                {
+                                    $type: "TermQuery",
+                                    field: "otherField",
+                                    value: 'aValue'
+                                },
+                            ]
+                        },
+                    ]
+                },
+                sorts:[
+                    {
+                        field: 'aField',
+                        order: 'ASC'
+                    }
+                ]
+            })
+
+        });
+    });
+    describe('rangeQuery', ()=>{
+        it('should create a range query', ()=>{
+            const searchQuery = new SearchQuery();
+            searchQuery.rangeQuery('aField', {from: 1, to: 2})
+            expect(JSON.parse(searchQuery.searchQuery)).to.be.deep.equal({
+                size: 10,
+                query: {
+                    "$type": "RangeQuery",
+                    field: "aField",
+                    from: 1,
+                    to: 2
+                }
+            })
+        })
+    });
+    describe('regexpQuery', ()=>{
+        it('should create a RegexpQuery', ()=>{
+            const searchQuery = new SearchQuery();
+            searchQuery.regexpQuery('aField','match.*', true);
+
+            expect(JSON.parse(searchQuery.searchQuery)).to.be.deep.equal({
+                size: 10,
+                query: {
+                    "$type": "RegexpQuery",
+                    field: "aField",
+                    ignoreCase: true,
+                    regexp: "match.*"
+                }
+            })
+        })
+    });
+
 })

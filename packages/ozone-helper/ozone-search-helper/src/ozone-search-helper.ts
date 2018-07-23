@@ -3,7 +3,7 @@
  */
 
 import {jsElement} from 'taktik-polymer-typescript'
-import {Item, SearchRequest, ItemSearchResult, TermsAggregation, Aggregation, QueryStringQuery, TermQuery, ModeType, TermsQuery, TenantQuery, TypeQuery, Query, BoolQuery, Sort, IdsQuery, AggregationItem} from 'ozone-type';
+import {Item, SearchRequest, ItemSearchResult, TermsAggregation, Aggregation, QueryStringQuery, TermQuery, ModeType, TermsQuery, TenantQuery, TypeQuery, Query, BoolQuery, Sort, IdsQuery, AggregationItem, RegexpQuery, RangeQuery} from 'ozone-type';
 
 
 
@@ -17,6 +17,8 @@ export interface SearchResult {
     total: number;
     aggregations?: Array<AggregationItem>
 }
+
+export type BoolQueryName = 'mustClauses' | 'shouldClauses' | 'mustNotClauses'
 
 /**
  * Class helper to create searchQuery.
@@ -125,16 +127,32 @@ export class SearchQuery {
      * @param {string} kind kind of bool query
      * @return {SearchQuery}
      */
-    boolQuery(kind: string):SearchQuery{
-        const currentQuery = Object.assign({}, this._searchRequest.query)
+    boolQuery(kind: BoolQueryName):SearchQuery{
+
+        const currentQuery = this._searchRequest.query? Object.assign({}, this._searchRequest.query): undefined;
         this._searchRequest.query = {
             "$type": "BoolQuery",
         } as BoolQuery;
 
-        this._searchRequest.query[kind] = [currentQuery]
+        this._searchRequest.query[kind] = [];
+        if(currentQuery)
+            this._searchRequest.query[kind].push(currentQuery)
+
         return this;
     }
 
+    /**
+     * Combine query
+     * @param searchQuery
+     */
+    combineWith(searchQuery: SearchQuery): SearchQuery{
+        if(searchQuery._searchRequest && searchQuery._searchRequest.query){
+            this.addQuery(searchQuery._searchRequest.query)
+            return this;
+        } else {
+            throw Error('No query define in combineWith(searchQuery)')
+        }
+    }
     /**
      * ozone QueryStringQuery
      * @param {string} searchString string to search
@@ -261,6 +279,35 @@ export class SearchQuery {
     }
 
     /**
+     * Search in a range of value
+     * @param field
+     * @param param {from?: any, to?: any}
+     */
+    rangeQuery(field: string, param: {from?: any, to?: any}): SearchQuery{
+        const query: RangeQuery = Object.assign({
+            "$type": "RangeQuery",
+            field
+        }, param);
+
+        return this.addQuery(query);
+    }
+
+    /**
+     * Search with a regular expression
+     * @param field
+     * @param regexp
+     * @param ignoreCase
+     */
+    regexpQuery(field: string, regexp: string, ignoreCase: boolean = false): SearchQuery{
+        const query: RegexpQuery = {
+            '$type':'RegexpQuery',
+            field,
+            regexp,
+            ignoreCase
+        };
+        return this.addQuery(query)
+    }
+    /**
      *
      * @param {Query} query
      * @return {SearchQuery}
@@ -284,6 +331,7 @@ export class SearchQuery {
 
         return this
     }
+
 
     /**
      * function to an order on a field
