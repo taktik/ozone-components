@@ -409,5 +409,20 @@ describe('ozone-search-helper', function() {
             })
         })
     });
+    describe('wildcardQuery', ()=>{
+        it('should create a WildcardQuery', ()=>{
+            const searchQuery = new SearchQuery();
+            searchQuery.wildcardQuery('aField','match');
+
+            expect(JSON.parse(searchQuery.searchQuery)).to.be.deep.equal({
+                size: 10,
+                query: {
+                    "$type": "WildcardQuery",
+                    field: "aField",
+                    wildcard: "match"
+                }
+            })
+        })
+    });
 
 })
