@@ -316,12 +316,16 @@ export class SearchQuery {
      * The wildcard query maps to Lucene WildcardQuery.
      * @param field
      * @param wildcard
+     * @param ignoreCase
+     * @param analyzed
      */
-    wildcardQuery(field: string, wildcard: string): SearchQuery{
+    wildcardQuery(field: string, wildcard: string,ignoreCase?: boolean, analyzed?: boolean): SearchQuery{
         const query: WildcardQuery = {
             '$type':'WildcardQuery',
             field,
             wildcard,
+            ignoreCase,
+            analyzed
         };
         return this.addQuery(query)
     }
