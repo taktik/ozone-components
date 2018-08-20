@@ -3,7 +3,7 @@
  */
 
 import {jsElement} from 'taktik-polymer-typescript'
-import {Item, SearchRequest, ItemSearchResult, TermsAggregation, Aggregation, QueryStringQuery, TermQuery, ModeType, TermsQuery, TenantQuery, TypeQuery, Query, BoolQuery, Sort, IdsQuery, AggregationItem, RegexpQuery, RangeQuery} from 'ozone-type';
+import {Item, SearchRequest, ItemSearchResult, TermsAggregation, Aggregation, WildcardQuery, QueryStringQuery, TermQuery, ModeType, TermsQuery, TenantQuery, TypeQuery, Query, BoolQuery, Sort, IdsQuery, AggregationItem, RegexpQuery, RangeQuery} from 'ozone-type';
 
 
 
@@ -304,6 +304,24 @@ export class SearchQuery {
             field,
             regexp,
             ignoreCase
+        };
+        return this.addQuery(query)
+    }
+    /**
+     * Matches documents that have fields matching a wildcard expression (not analyzed).
+     * Supported wildcards are *, which matches any character sequence (including the empty one), and ?,
+     * which matches any single character. Note that this query can be slow, as it needs to iterate over many terms.
+     * In order to prevent extremely slow wildcard queries,
+     * a wildcard term should not start with one of the wildcards * or ?.
+     * The wildcard query maps to Lucene WildcardQuery.
+     * @param field
+     * @param wildcard
+     */
+    wildcardQuery(field: string, wildcard: string): SearchQuery{
+        const query: WildcardQuery = {
+            '$type':'WildcardQuery',
+            field,
+            wildcard,
         };
         return this.addQuery(query)
     }
