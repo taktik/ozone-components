@@ -1,6 +1,6 @@
 {
   "name": "ozone-api-item",
-  "version": "3.4.10",
+  "version": "3.4.11",
   "publishConfig": {
     "access": "public"
   },
@@ -29,7 +29,7 @@
     "@types/lodash": "^4.14.104",
     "ozone-api-request": "^3.4.6",
     "ozone-config": "^3.4.6",
-    "ozone-search-helper": "^3.4.10",
+    "ozone-search-helper": "^3.4.11",
     "taktik-polymer-typescript": "^3.4.6",
     "ts-loader": "^4.1.0",
     "typedoc": "^0.11.1",
