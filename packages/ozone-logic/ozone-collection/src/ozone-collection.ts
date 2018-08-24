@@ -66,6 +66,12 @@ export class OzoneCollection  extends Polymer.Element{
     @property({type: Boolean, notify:true})
     hasMoreData: boolean = false;
 
+    /**
+     * map function run on search result received from the server.
+     * Useful form migration task
+     */
+    mapSearchResult: {(item:Item): Item} | undefined;
+
     private _source: OzoneApiItem;
 
     private get _getSource() {return this._source as OzoneApiItem};
@@ -146,11 +152,19 @@ export class OzoneCollection  extends Polymer.Element{
         if(this._searchIterator)
             this.set('hasMoreData', this._searchIterator.hasMoreData)
             if(searchResult) {
+                let resultsList: Array<Item>;
+                if(this.mapSearchResult) {
+                    resultsList = searchResult.results.map(this.mapSearchResult);
+                }
+                else {
+                    resultsList = searchResult.results;
+                }
+
                 if(!keepData){
                     await this.clear()
                 }
                 this.set('total', searchResult.total);
-                this.push('items', ...searchResult.results)
+                this.push('items', ...resultsList)
             }
             return this.items;
         }

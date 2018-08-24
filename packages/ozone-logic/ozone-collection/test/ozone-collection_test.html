@@ -387,6 +387,23 @@
 
                 it('autosave')
             });
+            describe('_addSearchResult', function(){
+                it('shoud add resut to items', function(done){
+                    const collection = new OzoneCollection();
+                    collection._addSearchResult({results:['item_1', 'item_2'], total:2}).then(()=>{
+                        expect(collection.items).to.be.deep.equal(['item_1', 'item_2']);
+                        done()
+                    })
+                })
+                it('shoud add resut to items and mapSerachResult', function(done){
+                    const collection = new OzoneCollection();
+                    collection.mapSearchResult = item => item + '-updated';
+                    collection._addSearchResult({results:['item_1', 'item_2'], total:2}).then(()=>{
+                        expect(collection.items).to.be.deep.equal(['item_1-updated', 'item_2-updated']);
+                        done()
+                    })
+                })
+            })
         //});
     });
 </script>

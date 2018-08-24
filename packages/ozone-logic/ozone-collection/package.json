@@ -22,6 +22,7 @@
     "test:persist": "wct --skip-plugin=headless -p --configFile wct.conf.js",
     "test": "wct --skip-plugin=local --configFile wct.conf.js",
     "pretest": "webpack --config webpack.config.js",
+    "build:test:watch": "webpack --config webpack.config.js --watch",
     "prepublish": "npm run build",
     "doc": "typedoc --excludeExternals --out  doc/ src/"
   },
