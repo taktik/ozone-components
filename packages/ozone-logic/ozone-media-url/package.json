@@ -1,6 +1,6 @@
 {
   "name": "ozone-media-url",
-  "version": "3.4.11",
+  "version": "3.4.13",
   "publishConfig": {
     "access": "public"
   },
@@ -45,10 +45,10 @@
   },
   "dependencies": {
     "@types/lodash": "^4.14.104",
-    "ozone-api-item": "^3.4.11",
+    "ozone-api-item": "^3.4.13",
     "ozone-api-request": "^3.4.6",
     "ozone-config": "^3.4.6",
-    "ozone-search-helper": "^3.4.11",
+    "ozone-search-helper": "^3.4.13",
     "taktik-polymer-typescript": "^3.4.6",
     "typedoc": "^0.11.1",
     "webpack": "^4.3.0"
