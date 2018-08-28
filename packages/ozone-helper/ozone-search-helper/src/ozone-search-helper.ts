@@ -169,13 +169,15 @@ export class SearchQuery {
      * search for a term in a field
      * @param {string} field
      * @param {string} value
+     * @param {boolean} ignoreCase
      * @return {SearchQuery}
      */
-    termQuery(field: string, value: string): SearchQuery {
+    termQuery(field: string, value: string, ignoreCase: boolean = false): SearchQuery {
         return this.addQuery({
             "$type": "TermQuery",
             field: field,
-            value: value
+            value: value,
+            ignoreCase
         } as TermQuery);
     }
 
