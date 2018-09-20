@@ -1,6 +1,6 @@
 {
   "name": "ozone-collection",
-  "version": "3.4.14",
+  "version": "3.4.15",
   "publishConfig": {
     "access": "public"
   },
@@ -58,10 +58,10 @@
   "dependencies": {
     "@types/lodash": "^4.14.104",
     "global": "^4.3.2",
-    "ozone-api-item": "^3.4.14",
-    "ozone-api-request": "^3.4.14",
-    "ozone-config": "^3.4.14",
-    "ozone-search-helper": "^3.4.14",
+    "ozone-api-item": "^3.4.15",
+    "ozone-api-request": "^3.4.15",
+    "ozone-config": "^3.4.15",
+    "ozone-search-helper": "^3.4.15",
     "reflect-metadata": "^0.1.12",
     "typedoc": "^0.11.1",
     "webpack-cli": "^2.0.13"
