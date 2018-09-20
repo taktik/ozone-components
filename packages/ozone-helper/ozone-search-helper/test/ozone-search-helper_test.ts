@@ -72,7 +72,8 @@ describe('ozone-search-helper', function() {
             query: {
                 $type: "TermQuery",
                 field: "myField",
-                value: 'aText'
+                value: 'aText',
+                ignoreCase: false
             }
         })
     });
@@ -181,7 +182,8 @@ describe('ozone-search-helper', function() {
                         {
                             $type: "TermQuery",
                             field: "myField",
-                            value: 'aText'
+                            value: 'aText',
+                            ignoreCase: false
                         }
                     ]
                 }
@@ -212,7 +214,8 @@ describe('ozone-search-helper', function() {
                         {
                             $type: "TermQuery",
                             field: "myField",
-                            value: 'aText'
+                            value: 'aText',
+                            ignoreCase: false
                         }
                     ]
                 }
@@ -228,7 +231,8 @@ describe('ozone-search-helper', function() {
                 query: {
                     $type: "TermQuery",
                     field: "myField",
-                    value: 'aText'
+                    value: 'aText',
+                    ignoreCase: false
                 },
                 sorts:[
                     {
@@ -240,13 +244,14 @@ describe('ozone-search-helper', function() {
         })
         it('order ascending and search', ()=>{
             const searchQuery = new SearchQuery();
-            searchQuery.order('aField').ASC.termQuery('myField', 'aText');
+            searchQuery.order('aField').ASC.termQuery('myField', 'aText', true);
             expect(JSON.parse(searchQuery.searchQuery)).to.be.deep.equal({
                 size: 10,
                 query: {
                     $type: "TermQuery",
                     field: "myField",
-                    value: 'aText'
+                    value: 'aText',
+                    ignoreCase: true
                 },
                 sorts:[
                     {
@@ -264,7 +269,8 @@ describe('ozone-search-helper', function() {
                 query: {
                     $type: "TermQuery",
                     field: "myField",
-                    value: 'aText'
+                    value: 'aText',
+                    ignoreCase: false
                 },
                 sorts:[
                     {
@@ -284,7 +290,8 @@ describe('ozone-search-helper', function() {
                 query: {
                     $type: "TermQuery",
                     field: "myField",
-                    value: 'aText'
+                    value: 'aText',
+                    ignoreCase: false
                 },
                 sorts:[
                     {
@@ -320,12 +327,14 @@ describe('ozone-search-helper', function() {
                         {
                             $type: "TermQuery",
                             field: "myField",
-                            value: 'aText'
+                            value: 'aText',
+                            ignoreCase: false
                         },
                         {
                             $type: "TermQuery",
                             field: "otherField",
-                            value: 'aValue'
+                            value: 'aValue',
+                            ignoreCase: false
                         },
                     ]
                 },
@@ -354,7 +363,8 @@ describe('ozone-search-helper', function() {
                         {
                             $type: "TermQuery",
                             field: "myField",
-                            value: 'aText'
+                            value: 'aText',
+                            ignoreCase: false
                         },
                         {
                             "$type": "BoolQuery",
@@ -362,7 +372,8 @@ describe('ozone-search-helper', function() {
                                 {
                                     $type: "TermQuery",
                                     field: "otherField",
-                                    value: 'aValue'
+                                    value: 'aValue',
+                                    ignoreCase: false
                                 },
                             ]
                         },
