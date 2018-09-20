@@ -2,7 +2,9 @@
 
 
 import {jsElement} from 'taktik-polymer-typescript'
-
+export type OzoneAPIRequestOption = {
+    cache: boolean
+}
 /**
  * OzoneAPIRequest is a light wrapper over XMLHttpRequest to manager AJAX request to Ozone.
  *
@@ -26,10 +28,10 @@ import {jsElement} from 'taktik-polymer-typescript'
  *
  * * Basic usage with promise
  * ```typeScript
- * const OzoneAPIRequest = new OzoneAPIRequest();
- * OzoneAPIRequest.url = url;
- * OzoneAPIRequest.method = 'GET';
- * OzoneAPIRequest.sendRequest()
+ * const ozoneAPIRequest = new OzoneAPIRequest();
+ * ozoneAPIRequest.url = url;
+ * ozoneAPIRequest.method = 'GET';
+ * ozoneAPIRequest.sendRequest()
  *    .then((res:XMLHttpRequest) => {
  *        // Do something with XMLHttpRequest
  *        console.log(res.response)
@@ -51,41 +53,67 @@ import {jsElement} from 'taktik-polymer-typescript'
  *        // Do something with XMLHttpRequest to handel the error.
  *        console.error(event.detail.statusText)
  *    })
- * const OzoneAPIRequest = new OzoneAPIRequest();
- * OzoneAPIRequest.setEventTarget(this)
- * OzoneAPIRequest.url = url;
- * OzoneAPIRequest.method = 'GET';
- * OzoneAPIRequest.sendRequest();
+ * const ozoneAPIRequest = new OzoneAPIRequest();
+ * ozoneAPIRequest.setEventTarget(this)
+ * ozoneAPIRequest.url = url;
+ * ozoneAPIRequest.method = 'GET';
+ * ozoneAPIRequest.sendRequest();
  * ```
  * 
  * * Modify request before send
  * ```typeScript
- * const OzoneAPIRequest = new OzoneAPIRequest();
- * OzoneAPIRequest.url = url;
- * OzoneAPIRequest.method = 'GET';
- * const request = OzoneAPIRequest.createXMLHttpRequest();
+ * const ozoneAPIRequest = new OzoneAPIRequest();
+ * ozoneAPIRequest.url = url;
+ * ozoneAPIRequest.method = 'GET';
+ * const request = ozoneAPIRequest.createXMLHttpRequest();
  * // Modify default request
  * request.setRequestHeader('Cache-Control', 'only-if-cached');
  *
- * OzoneAPIRequest.sendRequest(request);
+ * ozoneAPIRequest.sendRequest(request);
  * // Handel response
  * ```
- * 
+ * * Setup global options
+ *
+ *  * ```typeScript
+ * const OzoneAPIRequest.setup({ cache: true })
+ * ```
  */
 @jsElement()
 export class OzoneAPIRequest{
+
+    private static option: OzoneAPIRequestOption = {
+        cache: false
+    };
+
+    /**
+     * setup OzoneAPIRequest global option.
+     * @param option: OzoneAPIRequestOption default value { cache: false }
+     */
+    static setup(option: OzoneAPIRequestOption){
+        OzoneAPIRequest.option = option
+    }
+
     _url: string ='';
     private _method: string = 'GET';
     private _body: string | FormData = '';
     private _responseType: XMLHttpRequestResponseType = 'json';
 
-    donePromise: Promise<XMLHttpRequest | null> = Promise.resolve(null)
+    donePromise: Promise<XMLHttpRequest | null> = Promise.resolve(null);
 
 
     set url (url: string){
         this._url = url;
     }
-    get url():  string{ return this._url}
+    get url():  string{
+        let url = this._url;
+        if (! OzoneAPIRequest.option.cache && this.method === 'GET'){
+            const [urlPath, param] = url.split('?');
+            const urlParam = new URLSearchParams(param);
+            urlParam.append('ts', Date.now().toString());
+            url = [urlPath, urlPath.toString()].join('?');
+        }
+        return url
+    }
 
     set body (body: string | FormData){
         this._body = body;
@@ -110,7 +138,7 @@ export class OzoneAPIRequest{
         this._onreadystatechange = callback;
     }
 
-    private resolveCurrentRequest?: {(...param: Array<any>):void}
+    private resolveCurrentRequest?: {(...param: Array<any>):void};
     abort(){
         if(this.currentRequest)
             this.currentRequest.abort();
