@@ -110,7 +110,7 @@ export class OzoneAPIRequest{
             const [urlPath, param] = url.split('?');
             const urlParam = new URLSearchParams(param);
             urlParam.append('ts', Date.now().toString());
-            url = [urlPath, urlPath.toString()].join('?');
+            url = [urlPath, urlParam.toString()].join('?');
         }
         return url
     }
