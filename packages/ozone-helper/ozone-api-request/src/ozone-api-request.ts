@@ -75,7 +75,7 @@ export type OzoneAPIRequestOption = {
  * * Setup global options
  *
  *  * ```typeScript
- * const OzoneAPIRequest.setup({ cache: true })
+ * OzoneAPIRequest.setup({ cache: false })
  * ```
  */
 @jsElement()
@@ -109,7 +109,7 @@ export class OzoneAPIRequest{
         if (! OzoneAPIRequest.option.cache && this.method === 'GET'){
             const [urlPath, param] = url.split('?');
             const urlParam = new URLSearchParams(param);
-            urlParam.append('ts', Date.now().toString());
+            urlParam.append('_', Date.now().toString());
             url = [urlPath, urlParam.toString()].join('?');
         }
         return url
