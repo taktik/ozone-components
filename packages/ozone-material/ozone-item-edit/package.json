@@ -23,6 +23,7 @@
     "test:persist": "wct --skip-plugin=headless -p --configFile wct.conf.js",
     "test": "tsc",
     "prepublish": "npm run build",
+    "demo": "webpack-dev-server --config webpack.config.js",
     "doc": "typedoc --excludeExternals --out  doc/ src/"
   },
   "keywords": [],
