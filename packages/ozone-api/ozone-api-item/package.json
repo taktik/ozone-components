@@ -54,6 +54,6 @@
     "wct-headless": "^2.2.2",
     "web-component-tester": "^6.5.0",
     "webpack": "^4.20.2",
-    "webpack-cli": "^2.0.12"
+    "webpack-cli": "^3.1.1"
   }
 }
