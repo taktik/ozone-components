@@ -8,14 +8,14 @@
 	"main": "dist/src/ozone-video-player.js",
 	"types": "dist/src/import.d.ts",
 	"directories": {
-		"test": "test"
+		"test": "echo $npm_package_name && test"
 	},
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/taktik/ozone-components/packages/ozone-material/ozone-video-player"
 	},
 	"scripts": {
-		"test": "wct --skip-plugin=local",
+		"test": "echo $npm_package_name && wct --skip-plugin=local",
 		"prepublish": "npm run build",
 		"bower": "bower install",
 		"build": "gulp build",
@@ -40,19 +40,19 @@
 		"clean-webpack-plugin": "^0.1.19",
 		"copy-webpack-plugin": "^4.5.1",
 		"html-includer-webpack-plugin": "^1.0.0-beta2",
-		"html-webpack-plugin": "^2.30.1",
+		"html-webpack-plugin": "^3.2.0",
 		"include-loader": "^1.1.0-beta",
 		"ozone-type": "^3.4.2",
 		"path": "^0.12.7",
 		"polymer-webpack-loader": "^2.0.2",
-		"ts-loader": "^3.5.0",
+		"ts-loader": "^5.2.1",
 		"typedoc": "^0.8.0",
 		"typescript": "^2.7.2",
 		"wct-headless": "^2.2.2",
 		"wct-istanbul": "^0.12.4",
 		"web-component-tester": "^6.5.0",
 		"webpack": "^4.20.2",
-		"webpack-dev-server": "^2.11.2"
+		"webpack-dev-server": "^3.1.9"
 	},
 	"dependencies": {
 		"@polymer/polymer": "^2.5.0",
@@ -71,6 +71,7 @@
 		"taktik-polymer-typescript": "^3.4.6",
 		"typedoc": "^0.11.1",
 		"uuid": "^3.2.1",
-		"webcomponents.js": "^0.7.24"
+		"webcomponents.js": "^0.7.24",
+		"webpack-cli": "^3.1.1"
 	}
 }
