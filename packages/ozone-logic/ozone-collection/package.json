@@ -51,8 +51,8 @@
     "wct-headless": "^2.2.2",
     "wct-istanbul": "^0.12.4",
     "web-component-tester": "^6.5.0",
-    "webpack": "^4.2.0",
-    "webpack-cli": "^2.0.12",
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.1",
     "webpack-dev-server": "^3.1.1"
   },
   "dependencies": {

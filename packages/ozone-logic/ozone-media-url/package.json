@@ -40,7 +40,7 @@
     "typescript": "^2.7.2",
     "wct-headless": "^2.2.2",
     "web-component-tester": "^6.5.0",
-    "webpack": "^4.2.0",
+    "webpack": "^4.20.2",
     "webpack-cli": "^2.0.12"
   },
   "dependencies": {
