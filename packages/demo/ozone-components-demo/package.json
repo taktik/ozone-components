@@ -65,7 +65,7 @@
 		"uuid": "^3.1.0",
 		"wct-junit-reporter": "git+https://github.com/marcelmeulemans/wct-junit-reporter.git",
 		"web-component-tester": "^6.2.0",
-		"webpack-dev-server": "^3.1.9"
+		"webpack-dev-server": "^3.1.9",
 		"webworkify-webpack": "^2.1.1"
 	},
 	"devDependencies": {
