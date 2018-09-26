@@ -82,7 +82,7 @@ export type OzoneAPIRequestOption = {
 export class OzoneAPIRequest{
 
     private static option: OzoneAPIRequestOption = {
-        cache: false
+        cache: true
     };
 
     /**
