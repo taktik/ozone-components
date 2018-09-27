@@ -22,6 +22,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/chai": "^4.1.5",
+    "babel-core": "^6.26.3",
     "ozone-api-item": "^3.4.15",
     "ozone-api-request": "^3.4.15",
     "ozone-api-type": "^3.4.15",
