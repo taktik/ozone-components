@@ -1,6 +1,7 @@
 import {OzoneIronList} from './ozone-iron-list'
 import './ozone-iron-list'
 import './test-ozone-iron-list.html'
+import {assert} from 'chai'
 
 declare function fixture<T>(element: string):T
 

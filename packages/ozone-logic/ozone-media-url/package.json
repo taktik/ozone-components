@@ -37,7 +37,7 @@
     "polymer-webpack-loader": "^2.0.2",
     "reflect-metadata": "^0.1.12",
     "ts-loader": "^4.1.0",
-    "typescript": "^2.7.2",
+    "typescript": "^2.9.2",
     "wct-headless": "^2.2.2",
     "web-component-tester": "^6.5.0",
     "webpack": "^4.20.2",

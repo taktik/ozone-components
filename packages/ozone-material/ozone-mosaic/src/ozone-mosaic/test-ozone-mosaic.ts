@@ -1,6 +1,7 @@
 import {OzoneMosaic} from './ozone-mosaic'
 import './ozone-mosaic'
 import './test-ozone-mosaic.html'
+import {assert} from 'chai'
 
 declare function fixture<T>(element: string):T
 
