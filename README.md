@@ -75,6 +75,8 @@ $ npm run bootstrap
 $ npm run demo
 ```
 
+Open a browser in http://localhost:9000
+
 ### Running Tests
 
 ```

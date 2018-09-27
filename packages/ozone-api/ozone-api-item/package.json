@@ -1,6 +1,6 @@
 {
   "name": "ozone-api-item",
-  "version": "3.4.13",
+  "version": "3.4.15",
   "publishConfig": {
     "access": "public"
   },
@@ -27,9 +27,9 @@
   "license": "ISC",
   "dependencies": {
     "@types/lodash": "^4.14.104",
-    "ozone-api-request": "^3.4.6",
-    "ozone-config": "^3.4.6",
-    "ozone-search-helper": "^3.4.13",
+    "ozone-api-request": "^3.4.15",
+    "ozone-config": "^3.4.15",
+    "ozone-search-helper": "^3.4.15",
     "taktik-polymer-typescript": "^3.4.6",
     "ts-loader": "^4.1.0",
     "typedoc": "^0.11.1",
@@ -50,10 +50,10 @@
     "polymer-webpack-loader": "^2.0.2",
     "reflect-metadata": "^0.1.12",
     "ts-loader": "^4.1.0",
-    "typescript": "^2.7.2",
+    "typescript": "^2.9.2",
     "wct-headless": "^2.2.2",
     "web-component-tester": "^6.5.0",
-    "webpack": "^4.2.0",
-    "webpack-cli": "^2.0.12"
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.1"
   }
 }

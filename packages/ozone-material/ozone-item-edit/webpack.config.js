@@ -5,6 +5,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const Clean = require('clean-webpack-plugin');
 const path = require('path');
 
+const setupOzoneMockup = require('./src/demo/ozoneMockup');
+
 module.exports = {
     // Tell Webpack which file kicks off our app.
     entry: {
@@ -56,6 +58,13 @@ module.exports = {
         ]
     },
     plugins: [
+        // This plugin will generate an index.html file for us that can be used
+        // by the Webpack dev server. We can give it a template file (written in EJS)
+        // and it will handle injecting our bundle for us.
+        new HtmlWebpackPlugin({
+            inject: false,
+            template: path.resolve(__dirname, 'src/demo.ejs')
+        }),
         // This plugin will copy files over to ‘./dist’ without transforming them.
         // That's important because the custom-elements-es5-adapter.js MUST
         // remain in ES2015. We’ll talk about this a bit later :)
@@ -69,10 +78,21 @@ module.exports = {
             test: /src\/(.*)\/.*/
         }]),
         new CopyWebpackPlugin([{
+            from: path.resolve(__dirname, 'config/conf.ozone.json'),
+            to: 'conf.ozone.json'
+        }]),
+        new CopyWebpackPlugin([{
             from: path.resolve(__dirname, 'src/ozone-item-edit.html'),
             to: 'dist/ozone-item-edit.html',
         }]),
 
         new Clean(['dist', 'build']),
     ],
+    devServer: {
+        contentBase: path.join(__dirname),
+        compress: true,
+        overlay: true,
+        port: 9000,
+        setup : setupOzoneMockup,
+    },
 };
