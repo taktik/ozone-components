@@ -5,6 +5,7 @@ import {jsElement} from 'taktik-polymer-typescript'
 export type OzoneAPIRequestOption = {
     cache: boolean
 }
+
 /**
  * OzoneAPIRequest is a light wrapper over XMLHttpRequest to manager AJAX request to Ozone.
  *
@@ -98,7 +99,13 @@ export class OzoneAPIRequest{
     private _body: string | FormData = '';
     private _responseType: XMLHttpRequestResponseType = 'json';
 
-    donePromise: Promise<XMLHttpRequest | null> = Promise.resolve(null);
+    private _resultPromise?: Promise<XMLHttpRequest>;
+    get result(): Promise<XMLHttpRequest>{
+        if(this._resultPromise)
+            return this._resultPromise;
+        else
+            throw new Error("Request has not been send")
+    }
 
 
     set url (url: string){
@@ -146,6 +153,12 @@ export class OzoneAPIRequest{
             this.resolveCurrentRequest(this.currentRequest)
     }
 
+    get readyState (): number{
+        if(this.currentRequest)
+            return this.currentRequest.readyState ;
+        else
+            return 0
+    }
     /**
      * Create and open an XMLHttpRequest
      * @return {XMLHttpRequest}
@@ -176,36 +189,34 @@ export class OzoneAPIRequest{
     /**
      *
      * @param {XMLHttpRequest} request (optional) This parameters overwrite the default XmlHttpRequest.
-     * @return {Promise<XMLHttpRequest>}
+     * @return {OzoneAPIRequest}
      */
-    sendRequest(request?: XMLHttpRequest):Promise<XMLHttpRequest>{
+    send(request?: XMLHttpRequest):OzoneAPIRequest{
         const xmlhttp = this.currentRequest = request || this.createXMLHttpRequest();
 
         if(this._onreadystatechange)
             xmlhttp.onreadystatechange = this._onreadystatechange;
 
-        return (this.donePromise as Promise<XMLHttpRequest>) = new Promise((resolve, reject)=>{
+
+        this._resultPromise = new Promise((resolve, reject)=>{
             this.resolveCurrentRequest = resolve;
 
             const handleResponse = ()=>{
-                switch (xmlhttp.status){
-                    case 200:
-                        this.eventTarget.dispatchEvent(new CustomEvent<XMLHttpRequest>('ozone-api-request-success', {
-                            bubbles: true, detail: xmlhttp
-                        }));
-                        resolve(xmlhttp);
-                        break;
-                    case 403:
-                        this.eventTarget.dispatchEvent(new CustomEvent<XMLHttpRequest>('ozone-api-request-unauthorized', {
-                            bubbles: true, detail: xmlhttp
-                        }));
-                        reject(xmlhttp);
-                        break;
-                    default:
-                        this.eventTarget.dispatchEvent(new CustomEvent<XMLHttpRequest>('ozone-api-request-error', {
-                            bubbles: true, detail: xmlhttp
-                        }));
-                        reject(xmlhttp);
+                if (xmlhttp.status >= 200 && xmlhttp.status < 300) {
+                    this.eventTarget.dispatchEvent(new CustomEvent<XMLHttpRequest>('ozone-api-request-success', {
+                        bubbles: true, detail: xmlhttp
+                    }));
+                    resolve(xmlhttp);
+                } else if(xmlhttp.status === 403) {
+                    this.eventTarget.dispatchEvent(new CustomEvent<XMLHttpRequest>('ozone-api-request-unauthorized', {
+                        bubbles: true, detail: xmlhttp
+                    }));
+                    reject(xmlhttp);
+                } else {
+                    this.eventTarget.dispatchEvent(new CustomEvent<XMLHttpRequest>('ozone-api-request-error', {
+                        bubbles: true, detail: xmlhttp
+                    }));
+                    reject(xmlhttp);
                 }
             };
 
@@ -222,5 +233,16 @@ export class OzoneAPIRequest{
 
             xmlhttp.send(this.body);
         });
+        return this;
+    }
+
+    /**
+     *
+     * @param {XMLHttpRequest} request (optional) This parameters overwrite the default XmlHttpRequest.
+     * @return {Promise<XMLHttpRequest>}
+     */
+    sendRequest(request?: XMLHttpRequest):Promise<XMLHttpRequest>{
+        return this.send(request).result
+
     }
 }
