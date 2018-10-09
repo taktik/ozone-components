@@ -198,7 +198,7 @@ export class OzoneApiItem<T = Item> {
  * ```
  */
 @jsElement()
-export class SearchGenerator<T> {
+export class SearchGenerator<T = Item> {
     searchParam:SearchQuery;
     url:string;
     total: number = 0;

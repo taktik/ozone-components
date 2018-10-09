@@ -372,13 +372,14 @@ export class OzoneCollection extends Polymer.Element implements StatefullOzoneCl
      * @param reflect {boolean} reflect change from ozone in items list
      * @return {any}
      */
+    @lockRequest()
     deleteOne(id:uuid, reflect:boolean=true): Promise<void>{
         try {
             this.isDefined(id);
             this._verifySource();
             return this._getSource.deleteOne(id)
                 .then((id)=>{
-                    if(reflect) {
+                    if(reflect && id) {
                         this._removeOne(id);
                     }
                 });
@@ -392,8 +393,7 @@ export class OzoneCollection extends Polymer.Element implements StatefullOzoneCl
     }
 
     private async setAll(newContent: Array<Item>){
-        await this._getSource.waitRequestFinish()
-        this.set('items', newContent)
+        this.set('items', newContent);
         return this.items
     }
 
