@@ -6,32 +6,10 @@ import "./ozone-collection.html"
 import {customElement, property, observe, jsElement} from 'taktik-polymer-typescript';
 import {Item} from 'ozone-type';
 import 'ozone-api-item';
-import {SearchGenerator, OzoneApiItem} from 'ozone-api-item';
+import {SearchGenerator, OzoneApiItem, lockRequest, StatefulOzone} from 'ozone-api-item';
 import 'ozone-search-helper';
 import {SearchQuery, SearchResult} from 'ozone-search-helper';
 
-function lockRequest() {
-    return function (target: StatefullOzoneClass, propertyKey: string, descriptor: PropertyDescriptor) {
-        let originalMethod = descriptor.value;
-
-        descriptor.value = function() {
-            const self: StatefullOzoneClass = this as any;
-            const arg = arguments;
-
-            return self._currentRequest
-                .catch()
-                .then(()=> {
-                    self._currentRequest =  originalMethod.apply(this, arg);
-                    return self._currentRequest;
-                });
-        };
-    }
-}
-
-
-export interface StatefullOzoneClass {
-    _currentRequest: Promise<any>
-}
 
 /**
  * <ozone-collection> is a generic component to manage collection of item.
@@ -52,7 +30,7 @@ export interface StatefullOzoneClass {
  *
  */
 @customElement('ozone-collection')
-export class OzoneCollection extends Polymer.Element implements StatefullOzoneClass{
+export class OzoneCollection extends Polymer.Element implements StatefulOzone{
 
     _currentRequest: Promise<any> = Promise.resolve();
 

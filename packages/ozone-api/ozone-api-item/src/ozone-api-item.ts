@@ -9,7 +9,35 @@ import {Item, ItemSearchResult} from 'ozone-type'
 import {SearchResponse, SearchResult, SearchQuery} from "ozone-search-helper";
 import {v4 as uuid} from 'uuid';
 
+/**
+ * Function decorator decorator to be used to wait until 
+ * all other decorated function resolve.
+ * This decorator is aimed to be used in class that implement StatefulOzone.
+ * It's purpose is to wait others ozone call finish, before sending a next one.
+ * 
+ */
+export function lockRequest() {
+    return function (target: StatefulOzone, propertyKey: string, descriptor: PropertyDescriptor) {
+        let originalMethod = descriptor.value;
 
+        descriptor.value = function() {
+            const self: StatefulOzone = this as any;
+            const arg = arguments;
+
+            self._currentRequest = self._currentRequest
+                .catch()
+                .then(()=> {
+                    return originalMethod.apply(this, arg);
+                });
+            return self._currentRequest
+        };
+    }
+}
+
+
+export interface StatefulOzone {
+    _currentRequest: Promise<any>
+}
 /**
  * `ozone-api-item` is low level es6 module to ozone api.
  * It provide CRUD operation and search in a given collection.
@@ -198,14 +226,15 @@ export class OzoneApiItem<T = Item> {
  * ```
  */
 @jsElement()
-export class SearchGenerator<T = Item> {
+export class SearchGenerator<T = Item> implements StatefulOzone{
+    _currentRequest: Promise<any> = Promise.resolve();
     searchParam:SearchQuery;
     url:string;
     total: number = 0;
     offset:number = 0;
     hasMoreData:boolean = true;
     currentRequest?: OzoneAPIRequest;
-
+    _canceled = false;
     id = uuid();
 
     api : OzoneApiItem<T>;
@@ -220,8 +249,9 @@ export class SearchGenerator<T = Item> {
      * load next array of results
      * @return {Promise<SearchResult>}
      */
+    @lockRequest()
     async next(): Promise<SearchResult|null>{
-        if(this.hasMoreData) {
+        if(this.hasMoreData && !this._canceled) {
             this.searchParam.offset = this.offset;
             this.currentRequest = await this.api._post(this.url, this.searchParam.searchQuery);
 
@@ -250,7 +280,8 @@ export class SearchGenerator<T = Item> {
     }
 
     cancelRequest(): void{
-        if(this.currentRequest && this.currentRequest.readyState === 3)
+        this._canceled = true;
+        if(this.currentRequest)
             return this.currentRequest.abort();
     }
 
