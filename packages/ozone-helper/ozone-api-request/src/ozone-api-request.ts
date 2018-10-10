@@ -1,7 +1,3 @@
-/// <amd-module name="ozone-api-request"/>
-
-
-import {jsElement} from 'taktik-polymer-typescript'
 export type OzoneAPIRequestOption = {
     cache: boolean
 }
@@ -79,7 +75,6 @@ export type OzoneAPIRequestOption = {
  * OzoneAPIRequest.setup({ cache: false })
  * ```
  */
-@jsElement()
 export class OzoneAPIRequest{
 
     private static option: OzoneAPIRequestOption = {
@@ -94,12 +89,16 @@ export class OzoneAPIRequest{
         OzoneAPIRequest.option = option
     }
 
-    _url: string ='';
+    private _url: string ='';
     private _method: string = 'GET';
     private _body: string | FormData = '';
     private _responseType: XMLHttpRequestResponseType = 'json';
 
     private _resultPromise?: Promise<XMLHttpRequest>;
+
+    /**
+     * Resolve with current XMLHttpRequest on achieved
+     */
     get result(): Promise<XMLHttpRequest>{
         if(this._resultPromise)
             return this._resultPromise;
