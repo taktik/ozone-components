@@ -1,6 +1,6 @@
 {
   "name": "ozone-media-url",
-  "version": "4.0.0-alpha.0",
+  "version": "4.0.0-alpha.1",
   "publishConfig": {
     "access": "public"
   },
@@ -45,11 +45,11 @@
   },
   "dependencies": {
     "@types/lodash": "^4.14.104",
-    "ozone-api-item": "^4.0.0-alpha.0",
-    "ozone-api-request": "^4.0.0-alpha.0",
-    "ozone-config": "^4.0.0-alpha.0",
-    "ozone-search-helper": "^4.0.0-alpha.0",
-    "taktik-polymer-typescript": "^4.0.0-alpha.0",
+    "ozone-api-item": "^4.0.0-alpha.1",
+    "ozone-api-request": "^4.0.0-alpha.1",
+    "ozone-config": "^4.0.0-alpha.1",
+    "ozone-search-helper": "^4.0.0-alpha.1",
+    "taktik-polymer-typescript": "^4.0.0-alpha.1",
     "typedoc": "^0.11.1",
     "webpack": "^4.3.0"
   }
