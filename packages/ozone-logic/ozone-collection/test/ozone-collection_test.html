@@ -211,9 +211,9 @@
                             {id: '1_local', name: 'one'},
                             {id: '2_local', name: 'two'}
                         ];
-                        element.add = sinon.stub();
+                        element._addItem = sinon.stub();
                         await element.saveOne({id: 'new', name: 'new name'});
-                        assert.isTrue(element.add.called, 'add has not been called');
+                        assert.isTrue(element._addItem.called, 'add has not been called');
 
                     })
                 });
