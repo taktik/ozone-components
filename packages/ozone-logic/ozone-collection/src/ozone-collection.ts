@@ -266,7 +266,7 @@ export class OzoneCollection extends Polymer.Element implements StatefulOzone{
                         return index;
                     })
             } else {
-                result = this.add(item);
+                result = this._addItem(item, reflect);
             }
             return result;
         } catch (err){
@@ -285,18 +285,21 @@ export class OzoneCollection extends Polymer.Element implements StatefulOzone{
         try {
             this.isDefined(item);
             this._verifySource();
-            return this._getSource.create(item)
-                .then(item => {
-                    if(reflect) {
-                        this.push('items', item);
-                    }
-                    return this.items.length - 1;
-                });
+            return this._addItem(item, reflect)
         } catch (err){
             return Promise.reject(err)
         }
     }
 
+    _addItem(item:Item, reflect:boolean=true):Promise<number>{
+        return this._getSource.create(item)
+            .then(item => {
+                if(reflect) {
+                    this.push('items', item);
+                }
+                return this.items.length - 1;
+            });
+    }
     /**
      * delete all items store in items from ozone.
      * @param reflect {boolean} reflect change from ozone in items list
