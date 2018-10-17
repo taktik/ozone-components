@@ -71,8 +71,6 @@
             this.bulkSave = sinon.stub();
 
             this.search = sinon.stub();
-
-            this.waitRequestFinish = sinon.stub()
         }
     }
     describe('ozone-collection', function () {
@@ -208,15 +206,14 @@
                             })
 
                     });
-                    it('should call add if the item is not in items', (done)=>{
+                    it('should call add if the item is not in items', async ()=>{
                         element.items = [
                             {id: '1_local', name: 'one'},
                             {id: '2_local', name: 'two'}
                         ];
-                        element.add = sinon.stub();
-                        element.saveOne({id: 'new', name: 'new name'});
-                        assert.isTrue(element.add.called, 'add has not been called');
-                        done()
+                        element._addItem = sinon.stub();
+                        await element.saveOne({id: 'new', name: 'new name'});
+                        assert.isTrue(element._addItem.called, 'add has not been called');
 
                     })
                 });
@@ -321,25 +318,115 @@
             describe('collection search', function () {
 
                 describe('quickSearch', function () {
-                    it('should create a quicksearch query and search', (done)=>{
+                    it('should create a quicksearch query and search', async ()=>{
                        element.search = sinon.stub();
 
-                       element.quickSearch('hello');
+                       await element.quickSearch('hello quickSearch');
                        assert.isTrue(element.search.called);
-                       done()
                     });
                 });
 
                 describe('search', function () {
-                    it('should call ozoneApi.search and loadNextItems',(done)=>{
+                    it('should call ozoneApi.search and loadNextItems', async ()=>{
+                        const element = new OzoneCollection();
+                        element.search = sinon.stub()
+                        await element.search('hello loadNextItems')
+                        assert.isTrue(element.search.calledOnce);
+                    });
+
+                    it('should add search result', async ()=>{
+                        const element = new OzoneCollection();
                         element._source = new OzoneApiFake();
-                        element.loadNextItems = sinon.stub();
-                        element._source.search.returns('returned _searchIterator');
-                        element.search('hello').then(()=>{
-                            assert.isTrue(element.loadNextItems.called);
-                            expect(element._searchIterator).to.be.equal('returned _searchIterator');
-                            done()
+                        element._source.search.returns(Promise.resolve({
+                            id: Math.random(),
+                            next: ()=> ({
+                                results: ['item1', 'item2'],
+                                total: 2
+                            })
+                        }));
+                        await element.quickSearch('should add search result')
+                        expect(element.items).to.deep.equal(['item1', 'item2']);
+                    })
+                    it('should add search result only for the current search request', async ()=>{
+                        const element = new OzoneCollection();
+                        element._source = new OzoneApiFake();
+                        element._source.search = (searchQuery) => (new Promise((resolve) => {
+                            const query = searchQuery._searchRequest.query.queryString;
+
+                            if(query === 'first*'){
+                                setTimeout(()=> {
+                                element.quickSearch('second')})
+                            }
+
+                            const  id = Math.random();
+                            setTimeout(()=> {resolve({
+                               id,
+                                next: () => {
+                                    return {
+                                        results: [query + 'item1', query + 'item2'],
+                                        total: 2
+                                    }
+                                }
+                            })});
+                        }));
+
+                        await element.quickSearch('first')
+
+                        expect(element.items).to.deep.equal(['first*item1', 'first*item2']);
+
+                        const waitFunc = (time_ms)=> new Promise((resolve) => {
+                            setTimeout(()=> {
+                                resolve()
+                            }, time_ms)
                         })
+                        await waitFunc(0)
+                        expect(element.items).to.deep.equal(['second*item1', 'second*item2']);
+
+                    })
+
+                    it('should cancel the first search request when a second is send after', async ()=>{
+                        element._source = new OzoneApiFake();
+                        const cancelRequest = sinon.stub();
+                        element._source.search = (searchQuery) => {
+                            let isCanceled = false;
+                            return Promise.resolve({
+                                next: () => (new Promise((resolve) => {
+                                    setTimeout(() => {
+                                        if(isCanceled){
+                                            resolve(null)
+                                        }
+                                        else{
+                                            resolve({
+                                                results: [
+                                                    searchQuery._searchRequest.query.queryString + 'item1',
+                                                    searchQuery._searchRequest.query.queryString + 'item2'],
+                                                total: 2
+                                            })
+                                        }
+                                    }, 2)
+                                })),
+                                cancelRequest: () => {
+                                    isCanceled = true;
+                                    cancelRequest();
+                                }
+                            });
+                        }
+
+                        element.quickSearch('first')
+                        element.quickSearch('second')
+
+                        expect(element.items).to.deep.equal([]);
+                        expect(cancelRequest.calledOnce);
+
+
+                        const waitFunc = (time_ms)=> new Promise((resolve) => {
+                            setTimeout(()=> {
+                                resolve()
+                            }, time_ms)
+                        });
+                        await waitFunc(5)
+                        expect(element.items).to.deep.equal(['second*item1', 'second*item2']);
+
                     })
                 });
             });
@@ -388,20 +475,18 @@
                 it('autosave')
             });
             describe('_addSearchResult', function(){
-                it('shoud add resut to items', function(done){
+                it('shoud add resut to items', async function(){
                     const collection = new OzoneCollection();
-                    collection._addSearchResult({results:['item_1', 'item_2'], total:2}).then(()=>{
-                        expect(collection.items).to.be.deep.equal(['item_1', 'item_2']);
-                        done()
-                    })
-                })
-                it('shoud add resut to items and mapSerachResult', function(done){
+                    collection._searchIterator = {id: 'id'};
+                    await collection._addSearchResult({results:['item_1', 'item_2'], total:2}, true, {id: 'id'});
+                    expect(collection.items).to.be.deep.equal(['item_1', 'item_2']);
+                });
+                it('shoud add resut to items and mapSerachResult', async function(){
                     const collection = new OzoneCollection();
+                    collection._searchIterator = {};
                     collection.mapSearchResult = item => item + '-updated';
-                    collection._addSearchResult({results:['item_1', 'item_2'], total:2}).then(()=>{
-                        expect(collection.items).to.be.deep.equal(['item_1-updated', 'item_2-updated']);
-                        done()
-                    })
+                    await collection._addSearchResult({results:['item_1', 'item_2'], total:2}, true, {});
+                    expect(collection.items).to.be.deep.equal(['item_1-updated', 'item_2-updated']);
                 })
             })
         //});

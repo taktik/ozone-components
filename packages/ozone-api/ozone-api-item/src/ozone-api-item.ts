@@ -5,17 +5,39 @@
 import * as Config from 'ozone-config'
 import {OzoneAPIRequest} from 'ozone-api-request'
 import {customElement, domElement, jsElement} from 'taktik-polymer-typescript'
-import {Item} from 'ozone-type'
+import {Item, ItemSearchResult} from 'ozone-type'
 import {SearchResponse, SearchResult, SearchQuery} from "ozone-search-helper";
+import {v4 as uuid} from 'uuid';
 
-export interface BulkResponse {
-    response:Array<Item>;
+/**
+ * Function decorator decorator to be used to wait until 
+ * all other decorated function resolve.
+ * This decorator is aimed to be used in class that implement StatefulOzone.
+ * It's purpose is to wait others ozone call finish, before sending a next one.
+ * 
+ */
+export function lockRequest() {
+    return function (target: StatefulOzone, propertyKey: string, descriptor: PropertyDescriptor) {
+        let originalMethod = descriptor.value;
+
+        descriptor.value = function() {
+            const self: StatefulOzone = this as any;
+            const arg = arguments;
+
+            self._currentRequest = self._currentRequest
+                .catch()
+                .then(()=> {
+                    return originalMethod.apply(this, arg);
+                });
+            return self._currentRequest
+        };
+    }
 }
 
-export interface ItemResponse {
-    response:Item;
-}
 
+export interface StatefulOzone {
+    _currentRequest: Promise<any>
+}
 /**
  * `ozone-api-item` is low level es6 module to ozone api.
  * It provide CRUD operation and search in a given collection.
@@ -29,7 +51,7 @@ export interface ItemResponse {
  */
 
 @jsElement()
-export class OzoneApiItem {
+export class OzoneApiItem<T = Item> {
 
     /**
      * type of the ozone collection.
@@ -60,7 +82,7 @@ export class OzoneApiItem {
      * @param data Item item to create.
      * @return {Promise<Item>}
      */
-    create(data:Item): Promise<Item> {
+    create(data:T): Promise<T | null> {
         return this.update(data);
     }
 
@@ -69,9 +91,9 @@ export class OzoneApiItem {
      * @param data Item item to update.
      * @return {Promise<Item>}
      */
-    async update(data:Item): Promise<Item> {
+    async update(data:T): Promise<T | null> {
         const url = await this._buildUrl('');
-        return this._postRequest(url, data, this._readItemResponse.bind(this));
+        return this._postRequest<T>(url, data, this._readResponse<T>());
     }
 
     /**
@@ -79,16 +101,9 @@ export class OzoneApiItem {
      * @param id
      * @return {Promise<Item | null>}
      */
-    async getOne(id:uuid):Promise<Item | null> {
+    async getOne(id:uuid):Promise<T | null> {
         const url = await this._buildUrl(id);
-        return this._getRequest(url)
-            .then(response => {
-                if(response == ''){
-                    return null;
-                } else {
-                    return response
-                }
-            });
+        return this._getRequest<T>(url);
     }
 
     /**
@@ -96,9 +111,9 @@ export class OzoneApiItem {
      * @param id
      * @return {Promise<any>}
      */
-    async deleteOne(id:uuid):Promise<uuid> {
+    async deleteOne(id:uuid):Promise<uuid| null> {
         const url = await this._buildUrl(id);
-        return this._deleteRequest(url);
+        return this._deleteRequest<uuid>(url);
     }
 
     /**
@@ -106,9 +121,9 @@ export class OzoneApiItem {
      * @param ids {Array<uuid>} array of id to get
      * @return {Promise<Iterator<Item>>} promise resole with an iterator of collection item
      */
-    async bulkGet(ids:Array<uuid>):Promise<Array<Item>> {
+    async bulkGet(ids:Array<uuid>):Promise<Array<T> | null> {
         const url = await this._buildUrl('bulkGet');
-        return this._postRequest(url, ids, this._readBulkItemResponse.bind(this));
+        return this._postRequest<Array<T>>(url, ids, this._readResponse<Array<T>>());
     }
 
     /**
@@ -116,9 +131,9 @@ export class OzoneApiItem {
      * @param ids
      * @return {Promise<Array<uuid>>} promise resole with an array of deleted id
      */
-    async bulkDelete(ids:Array<uuid| undefined>):Promise<Array<uuid>> {
+    async bulkDelete(ids:Array<uuid| undefined>):Promise<Array<uuid> | null> {
         const url = await this._buildUrl('bulkDelete');
-        return this._postRequest(url, ids, this._readItemResponse.bind(this));
+        return this._postRequest<Array<uuid>>(url, ids, this._readResponse<Array<uuid>>());
     }
 
     /**
@@ -126,15 +141,15 @@ export class OzoneApiItem {
      * @param items
      * @return {Promise<Iterator<Item>>} promise resole with an iterator of collection item
      */
-    async bulkSave(items:Array<Item>):Promise<Array<Item>> {
+    async bulkSave(items:Array<T>):Promise<Array<T> | null> {
         const url = await this._buildUrl('bulkSave');
-        return this._postRequest(url, items, this._readBulkItemResponse.bind(this));
+        return this._postRequest<Array<T>>(url, items, this._readResponse<Array<T>>());
     }
 
     /**
      * Submit ozone search query
      */
-    async search (search: SearchQuery): Promise<SearchGenerator> {
+    async search (search: SearchQuery): Promise<SearchGenerator<T>> {
         if(search.collection){
             this.on(search.collection)
         }
@@ -142,32 +157,21 @@ export class OzoneApiItem {
         return new SearchGenerator(url, search, this);
     }
 
-    private _readItemResponse = (res:ItemResponse) => res.response;
-
-    private _readBulkItemResponse =  (res:BulkResponse):Array<Item> => {
-        return res.response;
+    private _readResponse<T> (): (res:XMLHttpRequest) => T | null {
+        return (res:XMLHttpRequest) => {
+            return res.response as T || null;
+        }
     };
 
+    async _postCancelableRequest(url:string, body:any, responseFilter:any): Promise<any> {
 
-    async waitRequestFinish():Promise<any>{
-        if(this.pendingRequest){
-            return this.pendingRequest.donePromise
-        } else
-            return Promise.resolve();
     }
-
-    private pendingRequest?: OzoneAPIRequest;
-
 
     private async getNewRequest(): Promise<OzoneAPIRequest>{
-        if(this.pendingRequest){
-            await this.pendingRequest.donePromise
-        }
-        this.pendingRequest = new OzoneAPIRequest()
-        return this.pendingRequest
+        return new OzoneAPIRequest()
     }
 
-    async _postRequest(url:string, body:any, responseFilter:any): Promise<any> {
+    async _post(url:string, body:any): Promise<OzoneAPIRequest> {
         const ozoneAccess = await this.getNewRequest();
         ozoneAccess.url = url;
         ozoneAccess.method = 'POST';
@@ -175,11 +179,15 @@ export class OzoneApiItem {
             ozoneAccess.body = body
         else
             ozoneAccess.body = JSON.stringify(body);
-        return ozoneAccess
-            .sendRequest().then(responseFilter)
+        return ozoneAccess.send()
     }
 
-    private async _getRequest(url:string): Promise<any> {
+    async _postRequest<T>(url:string, body:any, responseFilter:(response: XMLHttpRequest) => T | null): Promise<T | null> {
+        const request = await this._post(url, body);
+        return request.result.then(responseFilter)
+    }
+
+    private async _getRequest<T>(url:string): Promise<T | null> {
         const ozoneAccess = await this.getNewRequest();
         ozoneAccess.url = url;
         ozoneAccess.method = 'GET';
@@ -187,12 +195,12 @@ export class OzoneApiItem {
             .sendRequest().then((res:any) => res.response)
     }
 
-    private async _deleteRequest(url:string): Promise<any> {
+    private async _deleteRequest<T>(url:string): Promise< T | null> {
         const ozoneAccess = await this.getNewRequest();
         ozoneAccess.url = url;
         ozoneAccess.method = 'DELETE';
         return ozoneAccess
-            .sendRequest().then((res:any) => res.response)
+            .sendRequest().then((res) => res.response)
     }
 
     private async _buildUrl(action:string, type?: string ):Promise<string>{
@@ -218,16 +226,20 @@ export class OzoneApiItem {
  * ```
  */
 @jsElement()
-export class SearchGenerator {
+export class SearchGenerator<T = Item> implements StatefulOzone{
+    _currentRequest: Promise<any> = Promise.resolve();
     searchParam:SearchQuery;
     url:string;
     total: number = 0;
     offset:number = 0;
     hasMoreData:boolean = true;
+    currentRequest?: OzoneAPIRequest;
+    _canceled = false;
+    id = uuid();
 
-    api : OzoneApiItem
+    api : OzoneApiItem<T>;
 
-    constructor(url:string, searchParam: SearchQuery, api: OzoneApiItem){
+    constructor(url:string, searchParam: SearchQuery, api: OzoneApiItem<T>){
         this.searchParam = searchParam;
         this.url = url;
         this.api = api;
@@ -237,10 +249,13 @@ export class SearchGenerator {
      * load next array of results
      * @return {Promise<SearchResult>}
      */
-    next(): Promise<SearchResult|null>{
-        if(this.hasMoreData) {
+    @lockRequest()
+    async next(): Promise<SearchResult|null>{
+        if(this.hasMoreData && !this._canceled) {
             this.searchParam.offset = this.offset;
-            return this.api._postRequest(this.url, this.searchParam.searchQuery, this._readSearchResponse.bind(this));
+            this.currentRequest = await this.api._post(this.url, this.searchParam.searchQuery);
+
+            return this._readSearchResponse(await this.currentRequest.result);
         } else {
             return Promise.resolve(null)
         }
@@ -255,7 +270,7 @@ export class SearchGenerator {
             result = (await this.next()) || result;
         }
         if(this.hasMoreData && this.offset < this.total){
-            this.searchParam.size = this.total
+            this.searchParam.size = this.total;
             const result2 = await this.next();
             if(result2){
                 result.results = [ ...result.results, ...result2.results]
@@ -264,9 +279,15 @@ export class SearchGenerator {
         return result;
     }
 
-    private _readSearchResponse (res:SearchResponse):SearchResult {
-        const response = res.response;
-        if(response) {
+    cancelRequest(): void{
+        this._canceled = true;
+        if(this.currentRequest)
+            return this.currentRequest.abort();
+    }
+
+    private _readSearchResponse (res: XMLHttpRequest):SearchResult {
+        if(res && res.response) {
+            const response = res.response as ItemSearchResult;
             let aggregations = response.aggregations;
 
 
@@ -280,7 +301,7 @@ export class SearchGenerator {
                 aggregations
             };
         } else {
-            let results: Array<Item> = []
+            let results: Array<Item> = [];
             return {
                 results,
                 total: this.total,

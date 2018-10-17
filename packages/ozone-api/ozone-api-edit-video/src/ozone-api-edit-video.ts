@@ -110,14 +110,18 @@ export class OzoneApiEditVideo {
 
     }
 
-    private async _createBlobFile(playListBlob: Blob){
+    private async _createBlobFile(playListBlob: Blob):Promise<OzoneType.File>{
 
         const blobFile: OzoneType.File = {
             blob: playListBlob.id,
             uti: 'unofficial.m3uu-playlist',
             type: 'file'
         };
-        return await this.ozoneApi.on('file').create(blobFile);
+        const file = await this.ozoneApi.on('file').create(blobFile);
+        if(file)
+            return file
+        else
+            throw new Error("Unable to create file");
         
     }
     private async getVideoFile(originalVideo: OzoneType.Video): Promise<OzoneType.File>{

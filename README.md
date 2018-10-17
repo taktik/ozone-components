@@ -23,7 +23,7 @@ See demo application [demo](demo.html).
   - [ozone-config](packages/ozone-helper/ozone-config) Expose Ozone API configuration. Configuration is loaded from `./conf.ozone.json`.
   - [ozone-search-helper](packages/ozone-helper/ozone-search-helper) Helper for Ozone search queries.
   - [taktik-polymer-typescript](packages/ozone-helper/taktik-polymer-typescript) Module providing development facilities for Ozone Polymer and TypeScript modules.
-  - [ozone-api-request](packages/ozone-api/ozone-api-request) `OzoneAPIRequest` is a light wrapper over `XMLHttpRequest` to manager AJAX request to Ozone.
+  - [ozone-api-request](packages/ozone-helper/ozone-api-request) `OzoneAPIRequest` is a light wrapper over `XMLHttpRequest` to manager AJAX request to Ozone.
 - ozone-api:
   - [ozone-api-type](packages/ozone-api/ozone-api-type) `ozone-api-type` is low level Polymer module to Ozone type. It provide read operation on collection type.
   - [ozone-api-authentication](packages/ozone-api/ozone-api-authentication) Low level wrapper around Ozone login, logout and authentication API.
