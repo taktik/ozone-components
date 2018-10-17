@@ -8,5 +8,5 @@
     "packages/ozone-logic/*",
     "packages/ozone-material/*"
   ],
-  "version": "4.0.0-alpha.1"
+  "version": "4.0.0"
 }
