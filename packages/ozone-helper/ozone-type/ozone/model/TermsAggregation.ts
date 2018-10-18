@@ -17,7 +17,7 @@ export interface TermsAggregation extends models.Aggregation {
 
     field: string;
 
-    order?: TermsAggregation.OrderEnum| string;
+    order?: TermsAggregation.OrderEnum;
 
     size?: number;
 
@@ -31,10 +31,5 @@ export interface TermsAggregation extends models.Aggregation {
 
 }
 export namespace TermsAggregation {
-    export enum OrderEnum {
-        TERMASC = <any> 'TERM_ASC',
-        TERMDESC = <any> 'TERM_DESC',
-        COUNTASC = <any> 'COUNT_ASC',
-        COUNTDESC = <any> 'COUNT_DESC'
-    }
+    export type OrderEnum = 'TERM_ASC' | 'TERM_DESC'| 'COUNT_ASC'| 'COUNT_DESC'
 }

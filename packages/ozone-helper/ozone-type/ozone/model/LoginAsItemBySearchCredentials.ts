@@ -13,8 +13,8 @@
 import * as models from './models';
 
 export interface LoginAsItemBySearchCredentials {
-    query?: models.Query;
+    query: models.Query;
 
-    secret?: string;
+    secret: string;
 
 }

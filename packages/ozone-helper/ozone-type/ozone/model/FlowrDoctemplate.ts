@@ -21,9 +21,9 @@ export interface FlowrDoctemplate extends models.Item {
 
     destination?: string;
 
-    language?: string;
-
     attachmentName?: string;
+
+    language?: string;
 
     subjectTemplate?: string;
 

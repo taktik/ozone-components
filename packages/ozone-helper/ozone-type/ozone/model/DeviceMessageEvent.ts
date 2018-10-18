@@ -15,4 +15,6 @@ import * as models from './models';
 export interface DeviceMessageEvent extends models.DeviceEvent {
     message?: any;
 
+    users?: Array<string>;
+
 }

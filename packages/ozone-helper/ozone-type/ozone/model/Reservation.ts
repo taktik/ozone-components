@@ -19,7 +19,11 @@ export interface Reservation extends models.Item {
 
     shareFlag?: string;
 
+    visitNumber?: string;
+
     guestVipStatus?: string;
+
+    lastMutationDate?: number;
 
     guestName?: string;
 

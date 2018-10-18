@@ -13,10 +13,12 @@
 import * as models from './models';
 
 export interface ItemPrincipalFieldQuery extends models.Query {
-    itemField?: string;
+    itemField: string;
 
     principalType?: string;
 
-    principalField?: string;
+    principalField: string;
+
+    exactMatch?: boolean;
 
 }

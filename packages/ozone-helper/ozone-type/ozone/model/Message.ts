@@ -17,9 +17,9 @@ export interface Message extends models.Item {
 
     fidelioId?: number;
 
-    attachments?: string;
-
     read?: number;
+
+    attachments?: string;
 
     toDeviceId?: string;
 

@@ -27,11 +27,7 @@ export interface Role {
 
     scopes?: Array<models.Permission>;
 
-    children?: Array<string>;
-
     parents?: Array<string>;
-
-    users?: Array<string>;
 
     virtualHosts?: Array<string>;
 

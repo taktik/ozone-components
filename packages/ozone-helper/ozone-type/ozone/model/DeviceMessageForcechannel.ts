@@ -17,6 +17,10 @@ export interface DeviceMessageForcechannel extends models.DeviceMessage {
 
     itemId?: string;
 
+    route?: string;
+
     sceneId?: string;
+
+    lang?: string;
 
 }

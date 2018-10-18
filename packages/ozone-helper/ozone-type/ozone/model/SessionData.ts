@@ -19,6 +19,8 @@ export interface SessionData {
 
     id?: string;
 
+    keys?: Array<string>;
+
     contextPath?: string;
 
     lastNode?: string;
@@ -38,7 +40,5 @@ export interface SessionData {
     lastAccessed?: number;
 
     maxInactiveMs?: number;
-
-    keys?: Array<string>;
 
 }

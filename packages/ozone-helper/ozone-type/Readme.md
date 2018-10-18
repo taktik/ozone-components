@@ -6,7 +6,7 @@ ozone type, Extracted from swagger
 ## Install
 
 ```
-$ npm install ozone-search-helper
+$ npm install ozone-type
 ```
 
 ## update ozone typings

@@ -13,7 +13,11 @@
 import * as models from './models';
 
 export interface Media extends models.Item {
+    localizedShortDescription?: { [key: string]: string; };
+
     localizedName?: { [key: string]: string; };
+
+    usage?: string;
 
     mediaUuid?: string;
 
@@ -33,9 +37,9 @@ export interface Media extends models.Item {
 
     fileUTI?: Array<string>;
 
-    caption?: string;
-
     fullText?: string;
+
+    caption?: string;
 
     source?: string;
 
@@ -77,8 +81,8 @@ export interface Media extends models.Item {
 
     category?: string;
 
-    status?: string;
-
     publications?: Array<string>;
+
+    status?: string;
 
 }

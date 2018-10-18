@@ -17,6 +17,6 @@ export interface Externalmedia {
 
     externalId?: string;
 
-    source?: string;
+    externalSource?: string;
 
 }

@@ -19,6 +19,8 @@ export interface Item {
 
     traits?: Array<string>;
 
+    organization?: number;
+
     modificationUser?: string;
 
     name?: string;
@@ -33,6 +35,5 @@ export interface Item {
 
     tenant?: string;
 
-    [key:string]: any;
-
+    [key: string]: any;
 }

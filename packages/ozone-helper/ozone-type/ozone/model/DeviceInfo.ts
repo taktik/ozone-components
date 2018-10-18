@@ -21,24 +21,32 @@ export interface DeviceInfo extends models.Item {
 
     deviceType?: string;
 
-    extraInformation?: Array<string>;
+    serialNumber?: string;
+
+    linkedUser?: string;
+
+    activeMacAddress?: string;
+
+    deviceVersion?: string;
+
+    validMacAddress?: string;
+
+    network?: string;
 
     macAddress?: string;
 
-    serialNumber?: string;
+    extraInformation?: Array<string>;
 
     model?: string;
 
     location?: string;
 
-    deviceVersion?: string;
-
     subLocation?: string;
 
     frontendVersion?: string;
 
-    status?: string;
+    frontendSettings?: any;
 
-    network?: string;
+    status?: string;
 
 }

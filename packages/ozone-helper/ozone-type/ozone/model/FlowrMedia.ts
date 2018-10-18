@@ -13,7 +13,11 @@
 import * as models from './models';
 
 export interface FlowrMedia {
+    localizedShortDescription?: { [key: string]: string; };
+
     localizedName?: { [key: string]: string; };
+
+    usage?: string;
 
     mediaUuid?: string;
 

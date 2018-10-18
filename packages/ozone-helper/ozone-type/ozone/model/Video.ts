@@ -13,6 +13,36 @@
 import * as models from './models';
 
 export interface Video extends models.Media {
+    highlightLogo?: string;
+
     logo?: string;
+
+    realisators?: string;
+
+    groupingId?: string;
+
+    year?: number;
+
+    presentators?: string;
+
+    language?: string;
+
+    seasonNumber?: number;
+
+    episodeNumber?: number;
+
+    actors?: string;
+
+    highlight?: boolean;
+
+    subTitle?: { [key: string]: string; };
+
+    parentalGuidance?: number;
+
+    vodType?: string;
+
+    genre?: string;
+
+    editors?: string;
 
 }

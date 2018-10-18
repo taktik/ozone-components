@@ -19,9 +19,9 @@ export interface TriggerWrapper {
 
     jobDataMap?: { [key: string]: any; };
 
-    start?: Date;
+    start?: models.Date;
 
-    end?: Date;
+    end?: models.Date;
 
     jobName: string;
 

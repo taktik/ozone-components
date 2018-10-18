@@ -15,6 +15,8 @@ import * as models from './models';
 export interface Channel extends models.Item {
     restricted?: boolean;
 
+    highlightLogo?: string;
+
     logo?: string;
 
     ottUrl?: string;
@@ -37,9 +39,9 @@ export interface Channel extends models.Item {
 
     multicastUrl?: string;
 
-    languageIndexes?: Array<string>;
-
     enabled?: boolean;
+
+    languageIndexes?: Array<string>;
 
     cbUrl?: string;
 
@@ -50,6 +52,8 @@ export interface Channel extends models.Item {
     transcodingEnabled?: boolean;
 
     bufferDuration?: number;
+
+    transcoderEnabled?: boolean;
 
     defaultPackages?: Array<string>;
 

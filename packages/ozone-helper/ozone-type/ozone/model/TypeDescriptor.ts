@@ -25,9 +25,9 @@ export interface TypeDescriptor {
 
     fields?: Array<models.FieldDescriptor>;
 
-    unsearchable?: boolean;
-
     abstract?: boolean;
+
+    unsearchable?: boolean;
 
     embedOnly?: boolean;
 

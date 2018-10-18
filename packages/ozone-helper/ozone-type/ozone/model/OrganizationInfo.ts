@@ -19,6 +19,8 @@ export interface OrganizationInfo extends models.Item {
 
     secret?: string;
 
+    frontendSettings?: any;
+
     storyboards?: string;
 
     signageGuiId?: string;
