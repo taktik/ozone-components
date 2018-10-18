@@ -1,6 +1,6 @@
 {
   "name": "ozone-iron-list",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -23,17 +23,17 @@
   "dependencies": {
     "@types/chai": "^4.1.5",
     "babel-core": "^6.26.3",
-    "ozone-api-item": "^4.0.0",
-    "ozone-api-request": "^4.0.0",
-    "ozone-api-type": "^4.0.0",
-    "ozone-collection": "^4.0.0",
-    "ozone-config": "^4.0.0",
-    "ozone-item-preview": "^4.0.0",
-    "ozone-media-url": "^4.0.0",
-    "ozone-search-helper": "^4.0.0",
-    "ozone-type": "^3.4.2",
+    "ozone-api-item": "^4.0.1",
+    "ozone-api-request": "^4.0.1",
+    "ozone-api-type": "^4.0.1",
+    "ozone-collection": "^4.0.1",
+    "ozone-config": "^4.0.1",
+    "ozone-item-preview": "^4.0.1",
+    "ozone-media-url": "^4.0.1",
+    "ozone-search-helper": "^4.0.1",
+    "ozone-type": "^4.0.1",
     "reflect-metadata": "^0.1.12",
-    "taktik-polymer-typescript": "^4.0.0"
+    "taktik-polymer-typescript": "^4.0.1"
   },
   "devDependencies": {
     "@polymer/gen-closure-declarations": "^0.4.0",
