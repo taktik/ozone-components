@@ -254,18 +254,17 @@ export class SearchQuery {
      * @param {number?} size
      * @return {SearchQuery}
      */
-    suggestion(searchString: string, lastTerm?:string, size?: number){
+    suggestion(searchString: string, lastTerm:string = '', size?: number){
         const suggestSize = size || this.size;
-        if(lastTerm) {
-            this._searchRequest.aggregations = [{
-                "$type": "TermsAggregation",
-                name: "suggest",
-                field: "_quicksearch",
-                order: "COUNT_DESC",
-                size: suggestSize,
-                includePattern: `${lastTerm}.*`
-            } as TermsAggregation];
-        }
+
+        this._searchRequest.aggregations = [{
+            "$type": "TermsAggregation",
+            name: "suggest",
+            field: "_quicksearch",
+            order: "COUNT_DESC",
+            size: suggestSize,
+            includePattern: `${lastTerm}.*`
+        } as TermsAggregation];
 
         return this.quicksearch(searchString);
     }
