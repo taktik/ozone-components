@@ -430,6 +430,7 @@ export * from './OrganizationInfoSearchResult';
 export * from './OwnPrincipalQuery';
 export * from './OwnTenantEntityFilter';
 export * from './OwnTenantQuery';
+export * from './Package';
 export * from './Passingtime';
 export * from './PassingtimeIdsSearchResult';
 export * from './PassingtimeQueryUpdate';
