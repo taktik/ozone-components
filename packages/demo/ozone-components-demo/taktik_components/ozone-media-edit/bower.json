@@ -3,18 +3,7 @@
   "main": "ozone-media-edit.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0",
-    "taktik-polymer-typeScript": "taktik/taktik-polymer-typeScript",
-    "paper-input": "^2.0.1",
-    "ozone-edit-entry": "taktik/ozone-edit-entry",
-    "taktik-language-selection": "taktik/taktik-language-selection",
-    "ozone-localized-string": "taktik/ozone-localized-string",
-    "ozone-edit-text-entry": "taktik/ozone-edit-text-entry",
-    "ozone-edit-set-entry": "taktik/ozone-edit-set-entry",
-    "ozone-edit-number-entry": "taktik/ozone-edit-number-entry",
-    "ozone-api-type": "taktik/ozone-api-type",
-    "ozone-media-url": "taktik/ozone-media-url",
-    "ozone-item-abstract-view": "taktik/ozone-item-abstract-view",
-    "taktik-clappr-wrapper": "taktik/taktik-clappr-wrapper"
+    "paper-input": "^2.0.1"
   },
   "devDependencies": {
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",

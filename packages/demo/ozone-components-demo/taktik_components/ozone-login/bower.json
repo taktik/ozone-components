@@ -3,7 +3,6 @@
   "main": "ozone-login.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0",
-    "taktik-polymer-typeScript": "taktik/taktik-polymer-typescript",
     "paper-input": "^2.0.1",
     "paper-button": "^2.0.0"
   },
