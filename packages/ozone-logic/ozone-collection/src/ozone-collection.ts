@@ -275,6 +275,29 @@ export class OzoneCollection extends Polymer.Element implements StatefulOzone{
     }
 
     /**
+     * Update one or several item in the collection.
+     * New elements will be add at the end.
+     * @param items
+     */
+    @lockRequest()
+    async update(...items: Array<Item>):Promise<Array<Item>>{
+        const results = await this._getSource.bulkSave(items);
+        if(results) {
+            results.forEach((item) => {
+                const index = this.getIndexById(item.id);
+                if (index > -1) {
+                    this.splice('items', index, 1, item);
+                } else{
+                    this.push('item', item)
+                }
+            });
+            return results;
+        }
+        else
+            throw new Error('unable to update elements');
+    }
+
+    /**
      * Create a new item in the collection
      * @param item
      * @param reflect {boolean} reflect change from ozone in items list
