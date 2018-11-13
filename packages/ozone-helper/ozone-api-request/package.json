@@ -1,6 +1,6 @@
 {
   "name": "ozone-api-request",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "publishConfig": {
     "access": "public"
   },
@@ -20,12 +20,12 @@
   "author": "hj@taktik",
   "license": "ISC",
   "devDependencies": {
-    "ozone-type": "^4.0.1",
+    "ozone-type": "^4.1.0",
     "typescript": "^2.9.2"
   },
   "dependencies": {
     "@types/lodash": "^4.14.116",
-    "taktik-polymer-typescript": "^4.0.1",
+    "taktik-polymer-typescript": "^4.1.0",
     "typedoc": "^0.11.1"
   }
 }

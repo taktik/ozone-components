@@ -1,6 +1,6 @@
 {
   "name": "ozone-item-edit",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "publishConfig": {
     "access": "public"
   },
@@ -42,9 +42,9 @@
     "clean-webpack-plugin": "^0.1.19",
     "copy-webpack-plugin": "^4.5.2",
     "html-webpack-plugin": "^2.30.1",
-    "ozone-type": "^4.0.1",
+    "ozone-type": "^4.1.0",
     "polymer-webpack-loader": "^2.0.3",
-    "taktik-polymer-typescript": "^4.0.1",
+    "taktik-polymer-typescript": "^4.1.0",
     "ts-loader": "^3.5.0",
     "typedoc": "^0.9.0",
     "typescript": "^2.9.2",
@@ -60,11 +60,11 @@
     "@webcomponents/shadycss": "^1.5.2",
     "@webcomponents/webcomponentsjs": "^1.2.7",
     "global": "^4.3.2",
-    "ozone-api-item": "^4.0.1",
-    "ozone-api-request": "^4.0.1",
-    "ozone-api-type": "^4.0.1",
-    "ozone-config": "^4.0.1",
-    "ozone-search-helper": "^4.0.1",
+    "ozone-api-item": "^4.1.0",
+    "ozone-api-request": "^4.1.0",
+    "ozone-api-type": "^4.1.0",
+    "ozone-config": "^4.1.0",
+    "ozone-search-helper": "^4.1.0",
     "reflect-metadata": "^0.1.12",
     "typedoc": "^0.11.1"
   }
