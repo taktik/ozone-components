@@ -21,13 +21,6 @@ export interface Sort {
 
 }
 export namespace Sort {
-    export enum OrderEnum {
-        ASC = <any> 'ASC',
-        DESC = <any> 'DESC',
-        NONE = <any> 'NONE'
-    }
-    export enum MissingEnum {
-        FIRST = <any> 'FIRST',
-        LAST = <any> 'LAST'
-    }
+    export type OrderEnum = 'ASC' | 'DESC' | 'NONE';
+    export type MissingEnum = 'FIRST' | 'LAST';
 }
