@@ -79,13 +79,6 @@ module.exports = {
             /* ********** */
         ]
     },
-    // Enable the Webpack dev server which will build, serve, and reload our
-    // project on changes.
-    devServer: {
-        contentBase: path.join(__dirname, 'dist'),
-        compress: true,
-        port: 9000
-    },
     plugins: [
         // This plugin will generate an index.html file for us that can be used
         // by the Webpack dev server. We can give it a template file (written in EJS)
@@ -131,6 +124,7 @@ module.exports = {
         }),
         new Clean(['dist']),
     ],
+    mode: "development",
     devServer: {
         contentBase: path.join(__dirname),
         compress: true,
