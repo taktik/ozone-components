@@ -158,8 +158,10 @@ export class OzoneIronList  extends Polymer.ElementMixin<IronList>(IronList){
     /**
      * Load more items to display
      */
-    loadMoreItems(){
-        return this.$.mosaicCollection.loadNextItems()
+    async loadMoreItems(): Promise<Array<Item>>{
+        const items = await this.$.mosaicCollection.loadNextItems();
+        this._afterCollectionUpdate();
+        return items;
     }
 
     private toggleThreshold(){
@@ -169,10 +171,6 @@ export class OzoneIronList  extends Polymer.ElementMixin<IronList>(IronList){
                 })
                 .then(() => {
                     this.clearTriggers();
-                    // workaround to enable infinit scroll, othervise it does not display all the list.
-                    // Needed only once.
-                    // TODO improve component to avoid this call
-                    this.notifyResize()
                 });
         }
         this.clearTriggers();
@@ -186,14 +184,24 @@ export class OzoneIronList  extends Polymer.ElementMixin<IronList>(IronList){
      * @param {SearchQuery} searchRequest
      * @return {Promise<Array<Item>>}
      */
-    search(searchRequest: SearchQuery){
-        return this.$.mosaicCollection.search(searchRequest)
+    async search(searchRequest: SearchQuery): Promise<Array<Item>>{
+        const items = await this.$.mosaicCollection.search(searchRequest);
+        this._afterCollectionUpdate();
+        return items
     }
 
     /**
      * empty collection
      */
-    clear(){
-        return this.$.mosaicCollection.clear()
+    async clear():Promise<void>{
+        await this.$.mosaicCollection.clear();
+        this._afterCollectionUpdate()
+    }
+
+    _afterCollectionUpdate(){
+        // workaround to enable infinit scroll, othervise it does not display all the list.
+        // Needed only once.
+        // TODO improve component to avoid this call
+        this.notifyResize()
     }
 }
