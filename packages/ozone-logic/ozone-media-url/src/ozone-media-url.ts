@@ -28,13 +28,6 @@ export class OzoneMediaUrl {
         this.id = id;
         this.config = config;
     }
-    private ozoneApi?: OzoneApiItem;
-    private _getOzoneApi():OzoneApiItem{
-        if(! this.ozoneApi){
-            this.ozoneApi = new OzoneApiItem();
-        }
-        return this.ozoneApi;
-    }
 
     /**
      * Convert uuid to ozone v2 numeric id
@@ -181,41 +174,43 @@ export class OzoneMediaUrl {
         if(this._referedVideoFormat){
             return this._referedVideoFormat
         }
-        const ozoneApi = this._getOzoneApi();
-        const video = (await ozoneApi
+        const ozoneApi = new OzoneApiItem<OzoneType.Video>();
+        const video = await ozoneApi
             .on('video')
-            .getOne(this.id)) as OzoneType.Video;
+            .getOne(this.id)
 
-        var avaliableRessourceId = [];
-        if(video.file) avaliableRessourceId.push(video.file);
-        if(video.derivedFiles) avaliableRessourceId = avaliableRessourceId.concat(video.derivedFiles);
+        if(video){
+            var avaliableRessourceId = [];
+            if(video.file) avaliableRessourceId.push(video.file);
+            if(video.derivedFiles) avaliableRessourceId = avaliableRessourceId.concat(video.derivedFiles);
 
-        const avaliableRessource = (await ozoneApi
-                    .on('file')
-                    .bulkGet(avaliableRessourceId)) as Array<OzoneType.File>;
+            const avaliableRessource = (await ozoneApi
+                .on('file')
+                .bulkGet(avaliableRessourceId)) as Array<OzoneType.File>;
 
 
-        const videoFileTypes = (await this._getVideoFileType()) as Array<OzoneType.FileType>;
+            const videoFileTypes = (await this._getVideoFileType()) as Array<OzoneType.FileType>;
 
-        for (let format of this.config.format.priority.video){
-            const ressourceToUse = avaliableRessource.find((ressource)=>{
+            for (let format of this.config.format.priority.video){
+                const ressourceToUse = avaliableRessource.find((ressource)=>{
 
-                const fileType = videoFileTypes.find((videoFileType)=>{
-                    if(videoFileType && videoFileType.id)
-                        return videoFileType.id == ressource.fileType;
-                    return false;
+                    const fileType = videoFileTypes.find((videoFileType)=>{
+                        if(videoFileType && videoFileType.id)
+                            return videoFileType.id == ressource.fileType;
+                        return false;
+                    });
+                    const filetypeIdentifier:string = this.config.format.type[format];
+                    if(!fileType ) return false;
+                    return fileType.identifier === filetypeIdentifier;
                 });
-                const filetypeIdentifier:string = this.config.format.type[format];
-                if(!fileType ) return false;
-                return fileType.identifier === filetypeIdentifier;
-            });
-            if(ressourceToUse){
-                const fileTypeToUse = videoFileTypes.find((videoFileType) => {
-                    return videoFileType.id == ressourceToUse.fileType
-                });
-                if(fileTypeToUse && fileTypeToUse.identifier) {
-                    this._referedVideoFormat = fileTypeToUse.identifier;
-                    return this._referedVideoFormat;
+                if(ressourceToUse){
+                    const fileTypeToUse = videoFileTypes.find((videoFileType) => {
+                        return videoFileType.id == ressourceToUse.fileType
+                    });
+                    if(fileTypeToUse && fileTypeToUse.identifier) {
+                        this._referedVideoFormat = fileTypeToUse.identifier;
+                        return this._referedVideoFormat;
+                    }
                 }
             }
         }

@@ -3,6 +3,7 @@ import './demo-app.html';
 import {customElement, property} from 'taktik-polymer-typescript'
 import {OzoneVideoPlayer} from "../ozone-video-player"
 import {MarkerOnVideo} from "../clappr-marker";
+import {Video} from "ozone-type";
 
 @customElement('demo-app')
 class demoApp extends Polymer.Element {
@@ -58,11 +59,12 @@ class demoApp extends Polymer.Element {
     _loadOzoneVideo(){
         if(!this.$)
             throw new Error();
-        this.$.mediaPlayer.loadOzoneVideo({
+        const video: Video = Object.assign(new Video(),
+        {
             id: '00000000-0000-0000-0000-000000000003',
-            type:'video',
-            subtitles:{ "English": "00000000-0000-0000-0000-000000000002","Polish": "00000000-0000-0000-0000-000000000001" },
+            subTitle:{ "English": "00000000-0000-0000-0000-000000000002","Polish": "00000000-0000-0000-0000-000000000001" },
         });
+        this.$.mediaPlayer.loadOzoneVideo(video);
     }
 
 

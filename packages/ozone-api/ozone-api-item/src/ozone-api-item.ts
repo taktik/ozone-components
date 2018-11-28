@@ -82,7 +82,7 @@ export class OzoneApiItem<T = Item> {
      * @param data Item item to create.
      * @return {Promise<Item>}
      */
-    create(data:T): Promise<T | null> {
+    create(data:Partial<T>): Promise<T | null> {
         return this.update(data);
     }
 
@@ -91,7 +91,7 @@ export class OzoneApiItem<T = Item> {
      * @param data Item item to update.
      * @return {Promise<Item>}
      */
-    async update(data:T): Promise<T | null> {
+    async update(data: Partial<T>): Promise<T | null> {
         const url = await this._buildUrl('');
         return this._postRequest<T>(url, data, this._readResponse<T>());
     }

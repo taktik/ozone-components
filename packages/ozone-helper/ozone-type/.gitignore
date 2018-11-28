@@ -1,4 +1,5 @@
 ozone/api
+/dist
 /ozone/configuration.ts
 /ozone/git_push.sh
 /ozone/index.ts

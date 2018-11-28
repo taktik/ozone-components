@@ -89,7 +89,8 @@ module.exports = {
         }]),
         new Clean(['build']),
     ],
-    devServer: {
+  mode: 'development',
+  devServer: {
         contentBase: path.join(__dirname),
         compress: true,
         overlay: true,

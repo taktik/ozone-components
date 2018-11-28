@@ -11,7 +11,7 @@ import './ozone-item-preview.html'
 import * as Config from 'ozone-config'
 
 import {customElement, property} from 'taktik-polymer-typescript'
-import {Item, Media} from 'ozone-type';
+import {Item, Media, Channel, Video} from 'ozone-type';
 import {OzoneMediaUrl, OzonePreviewSize, SizeEnum} from 'ozone-media-url'
 import {OzoneApiType, getOzoneApiType} from 'ozone-api-type'
 import {OzoneItemAction} from '../ozone-item-action/ozone-item-action'
@@ -97,10 +97,11 @@ export class OzoneItemPreview extends Polymer.Element{
     async dataChange(data?:Item){
         const config = await Config.OzoneConfig.get();
         this.set('previewImage', undefined)
-        if(data) {
+        if(data && data.type) {
             this.ozoneTypeApi.ifIsTypeInstanceOf(data.type, 'media').then((isTypeInstanceOf) => {
                 if(isTypeInstanceOf) {
-                    const id = data.logo || data.id
+                    const media: Video = data as Video
+                    const id = media.logo || media.id
                     const ozoneMediaUrl = new OzoneMediaUrl(id as string, config);
                     this.set('previewImage', ozoneMediaUrl.getPreviewUrlPng(OzonePreviewSize.Small));
                 }

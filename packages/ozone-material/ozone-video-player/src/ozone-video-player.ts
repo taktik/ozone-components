@@ -129,9 +129,9 @@ export class OzoneVideoPlayer extends Polymer.Element{
     }
 
     async subtitleSelectedChange(subtitle?:string){
-        if(subtitle && this.player && this.video){
+        if(subtitle && this.player && this.video && this.video.subTitle){
             const config = await (Config.OzoneConfig.get());
-            const mediaUrl = new this.OzoneMediaUrl(this.video.subtitles[subtitle] as string, config);
+            const mediaUrl = new this.OzoneMediaUrl(this.video.subTitle[subtitle] as string, config);
             if(this.player.options.subtitle) {
                 const plugin = this.player.getPlugin('subtitle-plugin');
                 plugin.options.src = mediaUrl.getOriginalFormat()
@@ -144,9 +144,9 @@ export class OzoneVideoPlayer extends Polymer.Element{
 
     addConfigSubtitle(video:Video, config:Config.ConfigType){
 
-        if(this.subtitleSelected && this._subtitles.has(this.subtitleSelected)) {
+        if(this.subtitleSelected && this._subtitles.has(this.subtitleSelected) && video.subTitle ) {
 
-            const mediaUrl = new this.OzoneMediaUrl(video.subtitles[this.subtitleSelected] as string, config);
+            const mediaUrl = new this.OzoneMediaUrl(video.subTitle[this.subtitleSelected] as string, config);
             this.defaultClapprParameters.subtitle.src = mediaUrl.getOriginalFormat();
         } else {
 
@@ -156,10 +156,9 @@ export class OzoneVideoPlayer extends Polymer.Element{
 
     }
     private _updateSubtitlesAvailable(video:Video ){
-
-        if(video.subtitles){
-            for(let s in  video.subtitles){
-                this._subtitles.set(s, video.subtitles[s])
+        if(video.subTitle){
+            for(let s in  video.subTitle){
+                this._subtitles.set(s, video.subTitle[s] as any)
                 this.push('subtitlesAvailable',s);
             }
         } else{

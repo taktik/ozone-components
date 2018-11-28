@@ -13,7 +13,7 @@ class demoApp extends Polymer.Element {
     } | any;
 
     @property({type: Object})
-    dataSet:{[key: string]: Item}={
+    dataSet:{[key: string]: any}={
         media:       {type: "media"},
         item:        {type: "item"}
     };

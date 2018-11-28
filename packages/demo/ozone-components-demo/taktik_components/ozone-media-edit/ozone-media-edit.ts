@@ -77,7 +77,7 @@ export class OzoneMediaEdit  extends Polymer.Element  {
                 this.playerElement = document.createElement('ozone-video-player') as OzoneVideoPlayer;
                 this.playerElement.set('subtitleSelected', 'en')
                 this.$.player.appendChild(this.playerElement);
-                this.playerElement.loadOzoneVideo(data);
+                this.playerElement.loadOzoneVideo(data as Video);
 
                 this.set('isVideo', true);
             }
