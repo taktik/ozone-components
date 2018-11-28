@@ -1,3 +1,5 @@
+
+
 export type UUID = string
 export type Instant = string
 
@@ -32,16 +34,20 @@ export enum Security { ALLOWED = 'ALLOWED', FORBIDDEN = 'FORBIDDEN', UNKNOWN = '
 export enum Persistence { NEW = 'NEW', DIRTY = 'DIRTY', SAVED = 'SAVED', SAVE_ERROR = 'SAVE_ERROR' }
 
 export class Item {
-  id?: UUID
-  version?: UUID
-  type?: string
-  meta?: ItemMeta
+  id: UUID
+  version: UUID
+  type: string
+  _meta: ItemMeta
   name?: string
   deleted?: boolean
   traits?: [string]
-  tenant?: UUID
+  tenant: UUID
   creationUser?: UUID
   modificationUser?: UUID
+}
+
+export class GenericItem extends Item {
+  [key: string]: any;
 }
 
 export function OzoneType(typeIdentifier:string) {
