@@ -1,3 +1,5 @@
+import { Media } from './Media'
+
 export type UUID = string
 export type Instant = string
 
@@ -42,6 +44,10 @@ export class Item {
   tenant?: UUID
   creationUser?: UUID
   modificationUser?: UUID
+}
+
+export class GenericItem extends Item {
+  [key: string]: any;
 }
 
 export function OzoneType(typeIdentifier:string) {
