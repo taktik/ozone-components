@@ -37,7 +37,7 @@ export class Item {
   id: UUID
   version: UUID
   type: string
-  meta: ItemMeta
+  _meta: ItemMeta
   name?: string
   deleted?: boolean
   traits?: [string]
