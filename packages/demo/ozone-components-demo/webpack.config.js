@@ -37,6 +37,7 @@ module.exports = {
             path.resolve(__dirname, 'node_modules/@polymer'),
             path.resolve(__dirname, 'taktik_components'),
             path.resolve(__dirname, 'node_modules'),
+            path.resolve(__dirname, '../../../node_modules'),
             path.resolve(__dirname, 'bower_components'),
 
         ],
@@ -131,5 +132,5 @@ module.exports = {
         overlay: true,
         port: 9000,
         setup: setupServerMockup,
-    },
+    }
 };

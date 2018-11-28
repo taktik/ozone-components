@@ -7,13 +7,13 @@ var ALL_BROWSERS =
             os_version: 'Sierra',
             resolution: '1024x768',
         },
-        {
-            maxInstances: 1,
-            browserName: 'firefox',
-            os: 'OS X',
-            os_version: 'Sierra',
-            resolution: '1024x768',
-        }
+        // {
+        //     maxInstances: 1,
+        //     browserName: 'firefox',
+        //     os: 'OS X',
+        //     os_version: 'Sierra',
+        //     resolution: '1024x768',
+        // }
     ];
 
 

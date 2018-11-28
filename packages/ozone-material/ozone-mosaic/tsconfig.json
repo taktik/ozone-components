@@ -19,5 +19,6 @@
       "polymer-redux": ["types/polymer-redux"]
     }
   },
-  "include": ["./src", "./types/*"]
+  "include": ["./src", "./types/*"],
+  "exclude": ["**/test-*"]
 }

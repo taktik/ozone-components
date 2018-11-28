@@ -14,45 +14,18 @@
   "scripts": {
     "prepublish": "npm run build",
     "bower": "bower install",
-    "build": "tsc",
-    "doc": "typedoc --excludeExternals --out  doc/ src/",
-    "test": "wct --skip-plugin=local --configFile wct.conf.js",
-    "test:persist": "wct --skip-plugin=headless -p --configFile wct.conf.js",
-    "build:test:watch": "webpack --config webpack.test.js --watch",
-    "pretest": "webpack --config webpack.test.js"
+    "build": "../../../node_modules/.bin/tsc",
+    "doc": "../../../node_modules/.bin/typedoc --excludeExternals --out  doc/ src/",
+    "test": "../../../node_modules/.bin/wct --skip-plugin=local --configFile wct.conf.js",
+    "test:persist": "../../../node_modules/.bin/wct --skip-plugin=headless -p --configFile wct.conf.js",
+    "build:test:watch": "../../../node_modules/.bin/webpack --config webpack.test.js --watch",
+    "pretest": "../../../node_modules/.bin/webpack --config webpack.test.js"
   },
   "author": "hj@taktik",
   "license": "ISC",
-  "devDependencies": {
-    "chai": "^4.1.2",
-    "typescript": "^2.9.2"
-  },
   "dependencies": {
-    "@types/chai": "^4.1.2",
-    "@types/core-js": "^0.9.46",
-    "@types/jasmine": "^2.8.6",
-    "@types/lodash": "^4.14.104",
-    "@types/sinon": "^4.3.1",
-    "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.4",
-    "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-es2015": "^6.24.1",
-    "clean-webpack-plugin": "^0.1.19",
-    "copy-webpack-plugin": "^4.5.1",
-    "file-loader": "^1.1.11",
-    "html-includer-webpack-plugin": "^1.0.0-beta2",
-    "html-webpack-plugin": "^3.2.0",
-    "include-loader": "^1.1.0-beta",
-    "ozone-api-request": "^4.1.1",
-    "ozone-type": "^4.1.1",
-    "taktik-polymer-typescript": "^2.3.2",
-    "ts-loader": "^4.2.0",
-    "typedoc": "^0.11.1",
-    "wct-headless": "^2.2.2",
-    "web-component-tester": "^6.5.0",
-    "webpack": "^4.20.2",
-    "webpack-cli": "^3.1.1",
-    "webpack-dev-server": "^3.1.3"
+  },
+  "devDependencies": {
+    "ozone-type": "^4.1.1"
   }
 }

@@ -31,6 +31,7 @@ module.exports = {
             path.resolve(__dirname, 'vendor'),
             path.resolve(__dirname, 'node_modules/@polymer'),
             path.resolve(__dirname, 'node_modules'),
+            path.resolve(__dirname, '../../../node_modules'),
 
         ],
         extensions: ['.ts', '.tsx', '.js', '.jsx', '.html']
