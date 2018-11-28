@@ -7,7 +7,7 @@
 	"scripts": {
 		"bootstrap": "lerna bootstrap",
 		"bower": "lerna run bower",
-		"test": "lerna run test --concurrency=1",
+		"test": "lerna run test --concurrency=5",
 		"demo": "lerna run --scope ozone-components-demo demo",
 		"build": "lerna run --scope ozone-components-demo build",
 		"doc": "lerna run doc",
