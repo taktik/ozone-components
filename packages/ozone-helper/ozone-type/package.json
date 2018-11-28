@@ -1,6 +1,6 @@
 {
   "name": "ozone-type",
-  "version": "4.1.1",
+  "version": "4.1.3-alpha.0",
   "publishConfig": {
     "access": "public"
   },
@@ -17,7 +17,5 @@
     "url": "https://github.com/taktik/ozone-components/packages/ozone-helper/ozone-type"
   },
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-  }
+  "license": "ISC"
 }
