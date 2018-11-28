@@ -27,7 +27,6 @@
   },
   "homepage": "https://github.com/taktik/ozone-components/packages/ozone-api/ozone-api-edit-video#readme",
   "dependencies": {
-    "@types/lodash": "^4.14.116",
     "hls-parser": "^0.1.8",
     "ozone-api-item": "^4.1.1",
     "ozone-api-request": "^4.1.1",

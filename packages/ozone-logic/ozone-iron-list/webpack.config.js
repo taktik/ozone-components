@@ -24,6 +24,7 @@ module.exports = {
         modules: [
             path.resolve(__dirname,  'bower_components'),
             path.resolve(__dirname,  'node_modules'),
+            path.resolve(__dirname,  '../../../node_modules'),
 
         ],
         extensions: ['.ts', '.tsx', '.js', '.jsx', '.html']

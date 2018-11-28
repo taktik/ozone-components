@@ -24,8 +24,6 @@
         "ozone-type": "^4.1.1"
     },
     "dependencies": {
-        "@types/lodash": "^4.14.116",
-        "@types/reflect-metadata": "0.0.5",
         "reflect-metadata": "^0.1.12"
     }
 }
