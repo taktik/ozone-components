@@ -13,19 +13,17 @@
   "types": "dist/ozone-api-request.d.ts",
   "scripts": {
     "prepublish": "npm run build",
-    "build": "tsc",
-    "test": "tsc",
-    "doc": "typedoc --excludeExternals --out  doc/ src/"
+    "build": "../../../node_modules/.bin/tsc",
+    "test": "../../../node_modules/.bin/tsc",
+    "doc": "../../../node_modules/.bin/typedoc --excludeExternals --out  doc/ src/"
   },
   "author": "hj@taktik",
   "license": "ISC",
   "devDependencies": {
-    "ozone-type": "^4.1.1",
-    "typescript": "^2.9.2"
+    "ozone-type": "^4.1.1"
   },
   "dependencies": {
     "@types/lodash": "^4.14.116",
-    "taktik-polymer-typescript": "^4.1.1",
-    "typedoc": "^0.11.1"
+    "taktik-polymer-typescript": "^4.1.1"
   }
 }

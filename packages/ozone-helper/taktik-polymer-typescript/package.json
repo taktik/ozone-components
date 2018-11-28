@@ -10,8 +10,8 @@
     "scripts": {
         "prepublish": "npm run build",
         "test": "echo 'NO test in taktik-polymer-typescript'",
-        "build": "tsc",
-        "doc": "typedoc --excludeExternals --out  doc/ src/"
+        "build": "../../../node_modules/.bin/tsc",
+        "doc": "../../../node_modules/.bin/typedoc --excludeExternals --out  doc/ src/"
     },
     "repository": {
         "type": "git",
@@ -26,8 +26,6 @@
     "dependencies": {
         "@types/lodash": "^4.14.116",
         "@types/reflect-metadata": "0.0.5",
-        "reflect-metadata": "^0.1.12",
-        "typedoc": "^0.11.1",
-        "typescript": "^2.9.2"
+        "reflect-metadata": "^0.1.12"
     }
 }

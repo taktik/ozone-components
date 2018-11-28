@@ -6,10 +6,10 @@
   },
   "description": "Ozone API to save a edited video",
   "scripts": {
-    "test": "tsc",
-    "build": "tsc",
+    "test": "../../../node_modules/.bin/tsc",
+    "build": "../../../node_modules/.bin/tsc",
     "prepublish": "npm run build",
-    "doc": "typedoc --excludeExternals --out  doc/ "
+    "doc": "../../../node_modules/.bin/typedoc --excludeExternals --out  doc/ "
   },
   "repository": {
     "type": "git",
@@ -34,14 +34,11 @@
     "ozone-config": "^4.1.1",
     "ozone-media-url": "^4.1.1",
     "ozone-search-helper": "^4.1.1",
-    "taktik-polymer-typescript": "^4.1.1",
-    "typedoc": "^0.11.1"
+    "taktik-polymer-typescript": "^4.1.1"
   },
   "main": "dist/ozone-api-edit-video.js",
   "types": "dist/ozone-api-edit-video.d.ts",
   "devDependencies": {
-    "ozone-type": "^4.1.1",
-    "typedoc": "^0.8.0",
-    "typescript": "^2.9.2"
+    "ozone-type": "^4.1.1"
   }
 }

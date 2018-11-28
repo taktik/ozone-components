@@ -18,13 +18,13 @@
     "tsc": "tsc",
     "build": "gulp clean && gulp build",
     "clean": "gulp clean",
-    "start": "webpack --config webpack.config.js",
+    "start": "./../../node_modules/.bin/webpack --config webpack.config.js",
     "bower": "bower install",
-    "test:persist": "wct --skip-plugin=headless -p --configFile wct.conf.js",
-    "test": "tsc",
+    "test:persist": "./../../node_modules/.bin/wct --skip-plugin=headless -p --configFile wct.conf.js",
+    "test": "./../../node_modules/.bin/tsc",
     "prepublish": "npm run build",
-    "demo": "webpack-dev-server --config webpack.config.js",
-    "doc": "typedoc --excludeExternals --out  doc/ src/"
+    "demo": "./../../node_modules/.bin/webpack-dev-server --config webpack.config.js",
+    "doc": "./../../node_modules/.bin/typedoc --excludeExternals --out  doc/ src/"
   },
   "keywords": [],
   "author": "",
@@ -34,6 +34,11 @@
     "@types/mocha": "^2.2.48",
     "@types/redux": "^3.6.31",
     "@types/sinon": "^2.3.6",
+    "@polymer/polymer": "^2.6.1",
+    "@types/lodash": "^4.14.116",
+    "@webcomponents/shadycss": "^1.5.2",
+    "@webcomponents/webcomponentsjs": "^1.2.7",
+    "global": "^4.3.2",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.5",
     "babel-plugin-add-module-exports": "^0.2.1",
@@ -45,27 +50,14 @@
     "ozone-type": "^4.1.1",
     "polymer-webpack-loader": "^2.0.3",
     "taktik-polymer-typescript": "^4.1.1",
-    "ts-loader": "^3.5.0",
-    "typedoc": "^0.9.0",
-    "typescript": "^2.9.2",
-    "wct-headless": "^2.2.2",
-    "wct-istanbul": "^0.12.4",
-    "web-component-tester": "^6.8.0",
-    "webpack": "^4.20.2",
-    "webpack-dev-server": "^2.11.3"
+    "ts-loader": "^3.5.0"
   },
   "dependencies": {
-    "@polymer/polymer": "^2.6.1",
-    "@types/lodash": "^4.14.116",
-    "@webcomponents/shadycss": "^1.5.2",
-    "@webcomponents/webcomponentsjs": "^1.2.7",
-    "global": "^4.3.2",
     "ozone-api-item": "^4.1.1",
     "ozone-api-request": "^4.1.1",
     "ozone-api-type": "^4.1.1",
     "ozone-config": "^4.1.1",
     "ozone-search-helper": "^4.1.1",
-    "reflect-metadata": "^0.1.12",
-    "typedoc": "^0.11.1"
+    "reflect-metadata": "^0.1.12"
   }
 }
