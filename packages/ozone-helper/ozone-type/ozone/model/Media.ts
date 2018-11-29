@@ -1,6 +1,5 @@
 import { FlowrMedia } from './FlowrMedia'
 import { RestrictedContent } from './RestrictedContent'
-import { Status } from './Status'
 import { TagsCustom } from './TagsCustom'
 
 import {Item, UUID, Instant, OzoneType} from './Item'
@@ -39,7 +38,7 @@ export class Media extends Item implements TagsCustom, FlowrMedia, RestrictedCon
 	restricted?: boolean
 	source?: string
 	specialInstructions?: string
-	status?: Status
+	status?: string
 	stocks?: [UUID]
 	title?: string
 	usage?: string
