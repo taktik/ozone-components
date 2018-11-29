@@ -10,7 +10,7 @@ export class ChannelOutputRecording extends ChannelOutput {
 	bufferStorage?: string
 	segmentDuration?: number
 	storage?: string
-	transcodings?: [ChannelTranscoding]
+        transcodings?: ChannelTranscoding[]
 
 	constructor(src:ChannelOutputRecording) { 
 		super(src)

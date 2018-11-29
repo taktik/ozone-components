@@ -2,7 +2,7 @@ export type UUID = string
 export type Instant = string
 
 export interface ItemError {
-  fields?: [string]
+  fields?: string[]
   message?: string
 }
 
@@ -17,9 +17,9 @@ export interface ItemMeta {
   validity: Validity
   security: Security
   persistence: Persistence
-  validityErrors?: [ValidityError]
-  securityErrors?: [SecurityError]
-  persistenceErrors?: [PersistenceError]
+  validityErrors?: ValidityError[]
+  securityErrors?: SecurityError[]
+  persistenceErrors?: PersistenceError[]
 }
 
 export enum State {
@@ -61,7 +61,7 @@ export class Item {
   _meta?: ItemMeta
   name?: string
   deleted?: boolean
-  traits?: [string]
+  traits?: string[]
   tenant?: UUID
   creationUser?: UUID
   modificationUser?: UUID

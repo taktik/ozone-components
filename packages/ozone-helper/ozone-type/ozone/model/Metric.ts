@@ -9,7 +9,7 @@ export class Metric extends TimestampedItem implements ServiceInfo {
 	properties?: { [key: string]:string; }
 	replicaId?: string
 	serviceName?: string
-	tags?: [string]
+        tags?: string[]
 
 	constructor(src:Metric) { 
 		super(src)

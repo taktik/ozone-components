@@ -4,7 +4,7 @@ import {Item, UUID, Instant, OzoneType} from './Item'
 export class Subscription extends Item { 
 	action?: UUID
 	description?: string
-	devices?: [UUID]
+        devices?: UUID[]
 	endDate?: Instant
 	isActive?: boolean
 	startDate?: Instant

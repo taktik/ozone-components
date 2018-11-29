@@ -8,7 +8,7 @@ export class DeviceInfo extends Item implements Principal {
 	activeMacAddress?: string
 	deviceType?: string
 	deviceVersion?: string
-	extraInformation?: [string]
+        extraInformation?: string[]
 	frontendSettings?: FlowrFrontendSettings
 	frontendVersion?: string
 	lastLoginDate?: Instant
@@ -19,7 +19,7 @@ export class DeviceInfo extends Item implements Principal {
 	model?: string
 	network?: UUID
 	principalName?: string
-	roles?: [UUID]
+        roles?: UUID[]
 	secret?: string
 	serialNumber?: string
 	status?: string

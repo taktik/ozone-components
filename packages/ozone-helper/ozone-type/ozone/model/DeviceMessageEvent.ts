@@ -6,7 +6,7 @@ import {Item, UUID, Instant, OzoneType} from './Item'
 @OzoneType("device.message.event")
 export class DeviceMessageEvent extends DeviceEvent { 
 	message: DeviceMessage
-	users?: [UUID]
+        users?: UUID[]
 
 	constructor(src:DeviceMessageEvent) { 
 		super(src)

@@ -4,7 +4,7 @@ import {Item, UUID, Instant, OzoneType} from './Item'
 
 @OzoneType("basket")
 export class Basket extends Media { 
-	basketItems?: [UUID]
+        basketItems?: UUID[]
 
 	constructor(src:Basket) { 
 		super(src)

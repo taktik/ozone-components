@@ -6,7 +6,7 @@ export class File extends Item {
 	fileType?: UUID
 	subFiles?: { [key: string]:UUID; }
 	uti?: string
-	utiHierarchy?: [string]
+        utiHierarchy?: string[]
 
 	constructor(src:File) { 
 		super(src)

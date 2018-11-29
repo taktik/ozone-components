@@ -10,10 +10,10 @@ export class Gui extends Item implements RestrictedContent {
 	indexLow?: number
 	inheritedFrom?: UUID
 	onlyShowIfAssetsAvailable?: boolean
-	packages?: [string]
+        packages?: string[]
 	parent?: UUID
 	restricted?: boolean
-	tags?: [string]
+        tags?: string[]
 
 	constructor(src:Gui) { 
 		super(src)

@@ -10,18 +10,18 @@ export class Media extends Item implements TagsCustom, FlowrMedia, RestrictedCon
 	caption?: string
 	category?: string
 	city?: string
-	collections?: [UUID]
+        collections?: UUID[]
 	country?: string
 	creationDate?: Instant
 	credit?: string
 	date?: Instant
-	derivedFiles?: [UUID]
+        derivedFiles?: UUID[]
 	file?: UUID
-	fileUTI?: [string]
+        fileUTI?: string[]
 	fullText?: UUID
 	height?: number
 	indexed_fulltext?: string
-	keywords?: [string]
+        keywords?: string[]
 	length?: number
 	localizedDescription?: { [key: string]: string; }
 	localizedName?: { [key: string]: string; }
@@ -33,13 +33,13 @@ export class Media extends Item implements TagsCustom, FlowrMedia, RestrictedCon
 	parentFolder?: UUID
 	previewDate?: Instant
 	previewRatio?: number
-	publications?: [string]
+        publications?: string[]
 	representedBy?: UUID
 	restricted?: boolean
 	source?: string
 	specialInstructions?: string
 	status?: string
-	stocks?: [UUID]
+        stocks?: UUID[]
 	title?: string
 	usage?: string
 	width?: number

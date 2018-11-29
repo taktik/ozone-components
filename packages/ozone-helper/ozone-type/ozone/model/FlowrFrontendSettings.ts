@@ -13,7 +13,7 @@ export class FlowrFrontendSettings extends Item {
 	lastChannelId?: UUID
 	location?: FlowrGeolocation
 	maxVolume?: number
-	preferredContent?: [UUID]
+        preferredContent?: UUID[]
 	startVolume?: number
 	subtitlesLanguage?: string
 	user?: UUID

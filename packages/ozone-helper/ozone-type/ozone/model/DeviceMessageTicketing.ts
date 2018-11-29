@@ -7,7 +7,7 @@ import {Item, UUID, Instant, OzoneType} from './Item'
 export class DeviceMessageTicketing extends DeviceMessage { 
 	action?: string
 	location?: string
-	ticketList?: [DeviceMessageTicketingTicket]
+        ticketList?: DeviceMessageTicketingTicket[]
 
 	constructor(src:DeviceMessageTicketing) { 
 		super(src)

@@ -4,7 +4,7 @@ import {Item, UUID, Instant, OzoneType} from './Item'
 
 @OzoneType("batch")
 export class Batch extends Media { 
-	batchItems?: [UUID]
+        batchItems?: UUID[]
 
 	constructor(src:Batch) { 
 		super(src)

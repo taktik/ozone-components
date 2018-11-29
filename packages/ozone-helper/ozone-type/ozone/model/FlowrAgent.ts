@@ -7,9 +7,9 @@ export class FlowrAgent extends Item implements Principal {
 	lastLoginDate?: Instant
 	lastLoginIpAddress?: string
 	network: UUID
-	networks: [UUID]
+        networks: UUID[]
 	principalName?: string
-	roles?: [UUID]
+        roles?: UUID[]
 	secret?: string
 	websocketUrl?: string
 
