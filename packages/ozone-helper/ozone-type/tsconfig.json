@@ -14,7 +14,8 @@
       "dom"
     ],
     "declaration": true,    /* Generates corresponding '.d.ts' file. */
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "strict": true
   },
   "include": ["ozone"]
 }

@@ -18,7 +18,7 @@ swagger-codegen generate -i swagger.json -l typescript-angular2   -o ozone
 
 Then generate Ozone Item classes using oz. For example:
 ```
-oz -u taktik -s https://test.flowr.cloud/ozone -p <password> generate --target typescript -o ./ozone-components/packages/ozone-helper/ozone-type/ozone/model
+oz -u taktik -s https://test.flowr.cloud/ozone -p <password> generate --package "" --target typescript -o ./ozone-components/packages/ozone-helper/ozone-type/ozone/model
 ```
 
 

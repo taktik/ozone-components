@@ -1,24 +1,22 @@
-
-
 export type UUID = string
 export type Instant = string
 
-export class ItemError {
+export interface ItemError {
   fields?: [string]
   message?: string
 }
 
-export class ValidityError extends ItemError {}
+export interface ValidityError extends ItemError {}
 
-export class SecurityError extends ItemError {}
+export interface SecurityError extends ItemError {}
 
-export class PersistenceError extends ItemError {}
+export interface PersistenceError extends ItemError {}
 
-export class ItemMeta {
-  state?: State
-  validity?: Validity
-  security?: Security
-  persistence?: Persistence
+export interface ItemMeta {
+  state: State
+  validity: Validity
+  security: Security
+  persistence: Persistence
   validityErrors?: [ValidityError]
   securityErrors?: [SecurityError]
   persistenceErrors?: [PersistenceError]
@@ -33,15 +31,38 @@ export enum Validity { VALID = 'VALID', INVALID = 'INVALID', UNKNOWN = 'UNKNOWN'
 export enum Security { ALLOWED = 'ALLOWED', FORBIDDEN = 'FORBIDDEN', UNKNOWN = 'UNKNOWN' }
 export enum Persistence { NEW = 'NEW', DIRTY = 'DIRTY', SAVED = 'SAVED', SAVE_ERROR = 'SAVE_ERROR' }
 
-export class Item {
+export type FromOzone<T extends Item> = T & {
   id: UUID
   version: UUID
-  type: string
   _meta: ItemMeta
+  tenant: UUID
+  type:string
+}
+
+export class Item {
+  constructor (src?: Item) {
+    if (src) {
+      this.id = src.id
+      this.version = src.version
+      this.type = src.type
+      this._meta = src._meta
+      this.name = src.name
+      this.deleted = src.deleted
+      this.traits = src.traits
+      this.tenant = src.tenant
+      this.creationUser = src.creationUser
+      this.modificationUser = src.modificationUser
+    }
+  }
+
+  id?: UUID
+  version?: UUID
+  type?:string
+  _meta?: ItemMeta
   name?: string
   deleted?: boolean
   traits?: [string]
-  tenant: UUID
+  tenant?: UUID
   creationUser?: UUID
   modificationUser?: UUID
 }

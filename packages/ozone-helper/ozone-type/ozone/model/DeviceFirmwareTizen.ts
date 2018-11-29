@@ -4,4 +4,4 @@ import {Item, UUID, Instant, OzoneType} from './Item'
 
 @OzoneType("device.firmware.tizen")
 export class DeviceFirmwareTizen extends DeviceFirmware { 
- } 
+}
