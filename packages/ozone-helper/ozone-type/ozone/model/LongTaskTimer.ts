@@ -1,10 +1,10 @@
 import { Metric } from './Metric'
 
-import {Item, UUID, Instant, OzoneType} from './Item'
+import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('longTaskTimer')
 export class LongTaskTimer extends Metric {
-	duration: number | null
+	duration?: number
 
 	constructor(src: LongTaskTimer) {
 		super(src)

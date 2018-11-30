@@ -1,15 +1,15 @@
 import { FlowrFrontendSettings } from './FlowrFrontendSettings'
 
-import {Item, UUID, Instant, OzoneType} from './Item'
+import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('organization.info')
 export class OrganizationInfo extends Item {
-	frontendSettings: FlowrFrontendSettings | null
-	rootGuiId: UUID | null
-	secret: UUID | null
-	settings: string | null
-	signageGuiId: UUID | null
-	storyboards: string | null
+	frontendSettings?: FlowrFrontendSettings
+	rootGuiId?: UUID
+	secret?: UUID
+	settings?: string
+	signageGuiId?: UUID
+	storyboards?: string
 
 	constructor(src: OrganizationInfo) {
 		super(src)

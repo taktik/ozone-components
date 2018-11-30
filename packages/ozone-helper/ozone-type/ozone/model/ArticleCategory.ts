@@ -1,9 +1,9 @@
-import {Item, UUID, Instant, OzoneType} from './Item'
+import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('article.category')
 export class ArticleCategory extends Item {
-	description: { [key: string]: string; } | null
-	localizedName: { [key: string]: string; } | null
+	description?: { [key: string]: string; }
+	localizedName?: { [key: string]: string; }
 
 	constructor(src: ArticleCategory) {
 		super(src)

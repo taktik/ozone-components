@@ -1,13 +1,13 @@
 import { DeviceMessage } from './DeviceMessage'
 import { DeviceMessageTicketingTicket } from './DeviceMessageTicketingTicket'
 
-import {Item, UUID, Instant, OzoneType} from './Item'
+import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('device.message.ticketing')
 export class DeviceMessageTicketing extends DeviceMessage {
-	action: string | null
-	location: string | null
-	ticketList: DeviceMessageTicketingTicket[] | null
+	action?: string
+	location?: string
+	ticketList?: DeviceMessageTicketingTicket[]
 
 	constructor(src: DeviceMessageTicketing) {
 		super(src)

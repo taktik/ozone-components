@@ -1,12 +1,12 @@
-import {Item, UUID, Instant, OzoneType} from './Item'
+import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('file')
 export class File extends Item {
-	blob: UUID | null
-	fileType: UUID | null
-	subFiles: { [key: string]:UUID; } | null
-	uti: string | null
-	utiHierarchy: string[] | null
+	blob?: UUID
+	fileType?: UUID
+	subFiles?: { [key: string]:UUID; }
+	uti?: string
+	utiHierarchy?: string[]
 
 	constructor(src: File) {
 		super(src)

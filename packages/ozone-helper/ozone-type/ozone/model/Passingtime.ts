@@ -1,10 +1,10 @@
-import {Item, UUID, Instant, OzoneType} from './Item'
+import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('passingtime')
 export class Passingtime extends Item {
-	expectedArrivalTime: Instant | null
-	lineId: number | null
-	pointId: number | null
+	expectedArrivalTime?: Instant
+	lineId?: number
+	pointId?: number
 
 	constructor(src: Passingtime) {
 		super(src)

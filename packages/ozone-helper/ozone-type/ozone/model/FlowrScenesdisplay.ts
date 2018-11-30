@@ -1,19 +1,19 @@
 import { ServiceInfo } from './ServiceInfo'
 import { TimestampedItem } from './TimestampedItem'
 
-import {Item, UUID, Instant, OzoneType} from './Item'
+import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('flowr.scenesdisplay')
 export class FlowrScenesdisplay extends TimestampedItem implements ServiceInfo {
-	description: string | null
-	displayId: UUID | null
-	duration: number | null
+	description?: string
+	displayId?: UUID
+	duration?: number
 	instanceId: string
-	itemId: UUID | null
-	properties: { [key: string]:string; } | null
-	replicaId: string | null
-	serviceName: string | null
-	userAgent: string | null
+	itemId?: UUID
+	properties?: { [key: string]:string; }
+	replicaId?: string
+	serviceName?: string
+	userAgent?: string
 
 	constructor(src: FlowrScenesdisplay) {
 		super(src)

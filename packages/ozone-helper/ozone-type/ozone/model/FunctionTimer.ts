@@ -1,12 +1,12 @@
 import { Metric } from './Metric'
 
-import {Item, UUID, Instant, OzoneType} from './Item'
+import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('functionTimer')
 export class FunctionTimer extends Metric {
-	count: number | null
-	mean: number | null
-	totalTime: number | null
+	count?: number
+	mean?: number
+	totalTime?: number
 
 	constructor(src: FunctionTimer) {
 		super(src)

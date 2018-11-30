@@ -1,12 +1,12 @@
 import { FlowrLogoitem } from './FlowrLogoitem'
 import { Media } from './Media'
 
-import {Item, UUID, Instant, OzoneType} from './Item'
+import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('audio')
 export class Audio extends Media implements FlowrLogoitem {
-	highlightLogo: UUID | null
-	logo: UUID | null
+	highlightLogo?: UUID
+	logo?: UUID
 
 	constructor(src: Audio) {
 		super(src)

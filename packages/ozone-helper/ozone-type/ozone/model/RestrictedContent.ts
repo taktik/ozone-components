@@ -1,5 +1,5 @@
-import {Item, UUID, Instant, OzoneType} from './Item'
+import { Item, UUID, Instant, OzoneType } from './Item'
 
 export interface RestrictedContent {
-	restricted: boolean | null
+	restricted?: boolean
 }

@@ -1,22 +1,22 @@
 import { ServiceInfo } from './ServiceInfo'
 import { TimestampedItem } from './TimestampedItem'
 
-import {Item, UUID, Instant, OzoneType} from './Item'
+import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('flowr.mediaplay')
 export class FlowrMediaplay extends TimestampedItem implements ServiceInfo {
-	description: string | null
-	effectivelyPlayedDuration: number | null
+	description?: string
+	effectivelyPlayedDuration?: number
 	instanceId: string
-	itemId: UUID | null
-	playId: UUID | null
-	properties: { [key: string]:string; } | null
-	ratioEffectiveTotal: number | null
-	replicaId: string | null
-	serviceName: string | null
-	totalDuration: number | null
-	url: string | null
-	userAgent: string | null
+	itemId?: UUID
+	playId?: UUID
+	properties?: { [key: string]:string; }
+	ratioEffectiveTotal?: number
+	replicaId?: string
+	serviceName?: string
+	totalDuration?: number
+	url?: string
+	userAgent?: string
 
 	constructor(src: FlowrMediaplay) {
 		super(src)

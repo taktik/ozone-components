@@ -1,6 +1,6 @@
 import { DeviceMessageFromdevice } from './DeviceMessageFromdevice'
 
-import {Item, UUID, Instant, OzoneType} from './Item'
+import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('device.message.reply')
 export class DeviceMessageReply extends DeviceMessageFromdevice {

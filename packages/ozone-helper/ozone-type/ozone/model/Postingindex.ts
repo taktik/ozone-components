@@ -1,9 +1,9 @@
-import {Item, UUID, Instant, OzoneType} from './Item'
+import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('postingindex')
 export class Postingindex extends Item {
-	creationDate: number | null
-	sequentialIndex: number | null
+	creationDate?: number
+	sequentialIndex?: number
 
 	constructor(src: Postingindex) {
 		super(src)

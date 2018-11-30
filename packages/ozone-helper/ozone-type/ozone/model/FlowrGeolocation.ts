@@ -1,10 +1,10 @@
-import {Item, UUID, Instant, OzoneType} from './Item'
+import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('flowr.geolocation')
 export class FlowrGeolocation extends Item {
-	address: string | null
-	latitude: number | null
-	longitude: number | null
+	address?: string
+	latitude?: number
+	longitude?: number
 
 	constructor(src: FlowrGeolocation) {
 		super(src)

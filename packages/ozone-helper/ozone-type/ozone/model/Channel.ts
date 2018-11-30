@@ -3,34 +3,34 @@ import { ChannelOutput } from './ChannelOutput'
 import { FlowrLogoitem } from './FlowrLogoitem'
 import { RestrictedContent } from './RestrictedContent'
 
-import {Item, UUID, Instant, OzoneType} from './Item'
+import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('channel')
 export class Channel extends Item implements RestrictedContent, FlowrLogoitem {
-	aliases: string[] | null
-	bufferDuration: number | null
-	cbUrl: string | null
-	channelType: string | null
-	channelUuid: UUID | null
-	defaultPackages: string[] | null
-	enabled: boolean | null
-	highlightLogo: UUID | null
-	horizontalRes: number | null
-	input: ChannelInput | null
-	keywords: string[] | null
-	languageIndexes: string[] | null
-	languages: string[] | null
-	logo: UUID | null
-	multicastUrl: string | null
-	ottUrl: string | null
-	output: ChannelOutput | null
-	restricted: boolean | null
-	scenes: string[] | null
-	storage: string | null
-	transcoderEnabled: boolean | null
-	transcodingEnabled: boolean | null
-	tvGuideNames: string[] | null
-	verticalRes: number | null
+	aliases?: string[]
+	bufferDuration?: number
+	cbUrl?: string
+	channelType?: string
+	channelUuid?: UUID
+	defaultPackages?: string[]
+	enabled?: boolean
+	highlightLogo?: UUID
+	horizontalRes?: number
+	input?: ChannelInput
+	keywords?: string[]
+	languageIndexes?: string[]
+	languages?: string[]
+	logo?: UUID
+	multicastUrl?: string
+	ottUrl?: string
+	output?: ChannelOutput
+	restricted?: boolean
+	scenes?: string[]
+	storage?: string
+	transcoderEnabled?: boolean
+	transcodingEnabled?: boolean
+	tvGuideNames?: string[]
+	verticalRes?: number
 
 	constructor(src: Channel) {
 		super(src)

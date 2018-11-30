@@ -1,11 +1,11 @@
 import { DeviceMessage } from './DeviceMessage'
 
-import {Item, UUID, Instant, OzoneType} from './Item'
+import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('device.message.keypress')
 export class DeviceMessageKeypress extends DeviceMessage {
 	eventName: string
-	key: string | null
+	key?: string
 
 	constructor(src: DeviceMessageKeypress) {
 		super(src)

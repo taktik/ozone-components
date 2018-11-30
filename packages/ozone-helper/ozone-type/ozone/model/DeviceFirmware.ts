@@ -1,12 +1,12 @@
-import {Item, UUID, Instant, OzoneType} from './Item'
+import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('device.firmware')
 export class DeviceFirmware extends Item {
-	binary: UUID | null
-	byteSize: number | null
-	description: string | null
-	fileName: string | null
-	softwareVersion: string | null
+	binary?: UUID
+	byteSize?: number
+	description?: string
+	fileName?: string
+	softwareVersion?: string
 
 	constructor(src: DeviceFirmware) {
 		super(src)

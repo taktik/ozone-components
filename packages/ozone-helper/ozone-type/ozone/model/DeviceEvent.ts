@@ -1,11 +1,11 @@
 import { Event } from './Event'
 
-import {Item, UUID, Instant, OzoneType} from './Item'
+import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('device.event')
 export class DeviceEvent extends Event {
-	devices: UUID[] | null
-	network: UUID | null
+	devices?: UUID[]
+	network?: UUID
 
 	constructor(src: DeviceEvent) {
 		super(src)

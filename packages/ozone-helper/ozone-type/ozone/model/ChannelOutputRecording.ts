@@ -1,16 +1,16 @@
 import { ChannelOutput } from './ChannelOutput'
 import { ChannelTranscoding } from './ChannelTranscoding'
 
-import {Item, UUID, Instant, OzoneType} from './Item'
+import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('channel.output.recording')
 export class ChannelOutputRecording extends ChannelOutput {
-	autostart: boolean | null
-	bufferDuration: number | null
-	bufferStorage: string | null
-	segmentDuration: number | null
-	storage: string | null
-	transcodings: ChannelTranscoding[] | null
+	autostart?: boolean
+	bufferDuration?: number
+	bufferStorage?: string
+	segmentDuration?: number
+	storage?: string
+	transcodings?: ChannelTranscoding[]
 
 	constructor(src: ChannelOutputRecording) {
 		super(src)

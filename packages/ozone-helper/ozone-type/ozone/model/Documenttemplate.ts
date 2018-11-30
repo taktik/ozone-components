@@ -1,9 +1,9 @@
-import {Item, UUID, Instant, OzoneType} from './Item'
+import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('documenttemplate')
 export class Documenttemplate extends Item {
-	destination: string | null
-	template: string | null
+	destination?: string
+	template?: string
 
 	constructor(src: Documenttemplate) {
 		super(src)

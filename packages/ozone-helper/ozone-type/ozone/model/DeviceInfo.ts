@@ -1,30 +1,30 @@
 import { FlowrFrontendSettings } from './FlowrFrontendSettings'
 import { Principal } from './Principal'
 
-import {Item, UUID, Instant, OzoneType} from './Item'
+import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('device.info')
 export class DeviceInfo extends Item implements Principal {
-	activeMacAddress: string | null
-	deviceType: string | null
-	deviceVersion: string | null
-	extraInformation: string[] | null
-	frontendSettings: FlowrFrontendSettings | null
-	frontendVersion: string | null
-	lastLoginDate: Instant | null
-	lastLoginIpAddress: string | null
-	linkedUser: UUID | null
-	location: string | null
-	macAddress: string | null
-	model: string | null
-	network: UUID | null
-	principalName: string | null
-	roles: UUID[] | null
-	secret: string | null
-	serialNumber: string | null
-	status: string | null
-	subLocation: string | null
-	validMacAddress: string | null
+	activeMacAddress?: string
+	deviceType?: string
+	deviceVersion?: string
+	extraInformation?: string[]
+	frontendSettings?: FlowrFrontendSettings
+	frontendVersion?: string
+	lastLoginDate?: Instant
+	lastLoginIpAddress?: string
+	linkedUser?: UUID
+	location?: string
+	macAddress?: string
+	model?: string
+	network?: UUID
+	principalName?: string
+	roles?: UUID[]
+	secret?: string
+	serialNumber?: string
+	status?: string
+	subLocation?: string
+	validMacAddress?: string
 
 	constructor(src: DeviceInfo) {
 		super(src)

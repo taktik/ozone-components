@@ -1,13 +1,13 @@
-import {Item, UUID, Instant, OzoneType} from './Item'
+import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('subscription')
 export class Subscription extends Item {
-	action: UUID | null
-	description: string | null
-	devices: UUID[] | null
-	endDate: Instant | null
-	isActive: boolean | null
-	startDate: Instant | null
+	action?: UUID
+	description?: string
+	devices?: UUID[]
+	endDate?: Instant
+	isActive?: boolean
+	startDate?: Instant
 
 	constructor(src: Subscription) {
 		super(src)

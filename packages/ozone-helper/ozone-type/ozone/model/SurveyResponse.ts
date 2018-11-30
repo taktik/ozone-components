@@ -1,4 +1,4 @@
-import {Item, UUID, Instant, OzoneType} from './Item'
+import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('survey.response')
 export class SurveyResponse extends Item {

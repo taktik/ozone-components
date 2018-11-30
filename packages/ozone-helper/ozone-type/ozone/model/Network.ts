@@ -1,11 +1,11 @@
-import {Item, UUID, Instant, OzoneType} from './Item'
+import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('network')
 export class Network extends Item {
 	address: string
-	dns: UUID | null
+	dns?: UUID
 	netmask: string
-	websocketUrl: string | null
+	websocketUrl?: string
 
 	constructor(src: Network) {
 		super(src)

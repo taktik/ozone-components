@@ -1,11 +1,11 @@
-import {Item, UUID, Instant, OzoneType} from './Item'
+import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('vehicleposition')
 export class Vehicleposition extends Item {
-	directionId: number | null
-	distanceFromPoint: number | null
-	lineId: number | null
-	pointId: number | null
+	directionId?: number
+	distanceFromPoint?: number
+	lineId?: number
+	pointId?: number
 
 	constructor(src: Vehicleposition) {
 		super(src)

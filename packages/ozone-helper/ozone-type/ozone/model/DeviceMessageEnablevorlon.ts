@@ -1,10 +1,10 @@
 import { DeviceMessage } from './DeviceMessage'
 
-import {Item, UUID, Instant, OzoneType} from './Item'
+import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('device.message.enablevorlon')
 export class DeviceMessageEnablevorlon extends DeviceMessage {
-	dashboard: string | null
+	dashboard?: string
 
 	constructor(src: DeviceMessageEnablevorlon) {
 		super(src)

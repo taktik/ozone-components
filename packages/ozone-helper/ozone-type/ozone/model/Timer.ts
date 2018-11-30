@@ -1,13 +1,13 @@
 import { Metric } from './Metric'
 
-import {Item, UUID, Instant, OzoneType} from './Item'
+import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('timer')
 export class Timer extends Metric {
-	count: number | null
-	max: number | null
-	mean: number | null
-	totalTime: number | null
+	count?: number
+	max?: number
+	mean?: number
+	totalTime?: number
 
 	constructor(src: Timer) {
 		super(src)

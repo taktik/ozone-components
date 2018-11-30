@@ -1,9 +1,9 @@
-import {Item, UUID, Instant, OzoneType} from './Item'
+import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('room')
 export class Room extends Item {
-	roomNumber: string | null
-	wakeUps: string[] | null
+	roomNumber?: string
+	wakeUps?: string[]
 
 	constructor(src: Room) {
 		super(src)

@@ -39,6 +39,10 @@ export type FromOzone<T extends Item> = T & {
   type:string
 }
 
+export type Patch<T> = {
+  [P in keyof T]?: T[P] | null;
+}
+
 @OzoneType('item')
 export class Item {
   constructor (src?: Item) {

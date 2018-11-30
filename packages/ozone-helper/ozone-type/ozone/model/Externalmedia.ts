@@ -1,7 +1,7 @@
-import {Item, UUID, Instant, OzoneType} from './Item'
+import { Item, UUID, Instant, OzoneType } from './Item'
 
 export interface Externalmedia {
-	externalId: string | null
-	externalSource: string | null
-	externalURL: string | null
+	externalId?: string
+	externalSource?: string
+	externalURL?: string
 }

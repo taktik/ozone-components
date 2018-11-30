@@ -1,10 +1,10 @@
 import { DeviceInfo } from './DeviceInfo'
 
-import {Item, UUID, Instant, OzoneType} from './Item'
+import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('input.device')
 export class InputDevice extends DeviceInfo {
-	targetDevice: UUID | null
+	targetDevice?: UUID
 
 	constructor(src: InputDevice) {
 		super(src)

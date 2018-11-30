@@ -1,12 +1,12 @@
 import { SubscriptionAction } from './SubscriptionAction'
 
-import {Item, UUID, Instant, OzoneType} from './Item'
+import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('flowr.grantcontent')
 export class FlowrGrantcontent extends SubscriptionAction {
-	actionRoles: string[] | null
-	tags: string[] | null
-	unlimitedRights: boolean | null
+	actionRoles?: string[]
+	tags?: string[]
+	unlimitedRights?: boolean
 
 	constructor(src: FlowrGrantcontent) {
 		super(src)
