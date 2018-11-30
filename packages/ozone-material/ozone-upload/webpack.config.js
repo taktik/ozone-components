@@ -29,6 +29,7 @@ module.exports = {
         modules: [
             path.resolve(__dirname, 'node_modules/@polymer'),
             path.resolve(__dirname, 'node_modules'),
+            path.resolve(__dirname, '../../../node_modules'),
             path.resolve(__dirname, 'bower_components'),
 
         ],
