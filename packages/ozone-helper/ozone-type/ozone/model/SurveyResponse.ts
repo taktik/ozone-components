@@ -1,7 +1,7 @@
 import {Item, UUID, Instant, OzoneType} from './Item'
 
-@OzoneType("survey.response")
-export class SurveyResponse extends Item { 
+@OzoneType('survey.response')
+export class SurveyResponse extends Item {
 	creationDate: Instant
 	device: UUID
 	lang: string
@@ -9,7 +9,7 @@ export class SurveyResponse extends Item {
 	submitId: UUID
 	survey: UUID
 
-	constructor(src:SurveyResponse) { 
+	constructor(src: SurveyResponse) {
 		super(src)
 		this.creationDate = src.creationDate
 		this.device = src.device

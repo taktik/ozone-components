@@ -2,13 +2,13 @@ import { DeviceMessage } from './DeviceMessage'
 
 import {Item, UUID, Instant, OzoneType} from './Item'
 
-@OzoneType("device.message.email")
-export class DeviceMessageEmail extends DeviceMessage { 
-	from?: string
+@OzoneType('device.message.email')
+export class DeviceMessageEmail extends DeviceMessage {
+	from: string | null
 	message: string
-	subject?: string
+	subject: string | null
 
-	constructor(src:DeviceMessageEmail) { 
+	constructor(src: DeviceMessageEmail) {
 		super(src)
 		this.from = src.from
 		this.message = src.message

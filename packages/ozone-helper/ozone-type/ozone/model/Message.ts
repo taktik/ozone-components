@@ -1,25 +1,25 @@
 import {Item, UUID, Instant, OzoneType} from './Item'
 
-@OzoneType("message")
-export class Message extends Item { 
-	attachments?: string
-	body?: string
-	creationDate?: number
-	date?: number
-	externalId?: number
-	fidelioId?: number
-	from?: string
-	internalLink?: string
-	messageType?: string
-	priority?: number
-	read?: number
-	subject?: string
-	time?: number
-	toDeviceId?: UUID
-	toReservationNumber?: number
-	toRoomNumber?: string
+@OzoneType('message')
+export class Message extends Item {
+	attachments: string | null
+	body: string | null
+	creationDate: number | null
+	date: number | null
+	externalId: number | null
+	fidelioId: number | null
+	from: string | null
+	internalLink: string | null
+	messageType: string | null
+	priority: number | null
+	read: number | null
+	subject: string | null
+	time: number | null
+	toDeviceId: UUID | null
+	toReservationNumber: number | null
+	toRoomNumber: string | null
 
-	constructor(src:Message) { 
+	constructor(src: Message) {
 		super(src)
 		this.attachments = src.attachments
 		this.body = src.body

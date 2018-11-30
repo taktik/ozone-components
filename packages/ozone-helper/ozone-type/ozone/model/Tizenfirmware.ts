@@ -1,14 +1,14 @@
 import {Item, UUID, Instant, OzoneType} from './Item'
 
-@OzoneType("tizenfirmware")
-export class Tizenfirmware extends Item { 
-	binary?: UUID
-	description?: string
-	fileName?: string
-	size_byte?: number
-	swVersion?: string
+@OzoneType('tizenfirmware')
+export class Tizenfirmware extends Item {
+	binary: UUID | null
+	description: string | null
+	fileName: string | null
+	size_byte: number | null
+	swVersion: string | null
 
-	constructor(src:Tizenfirmware) { 
+	constructor(src: Tizenfirmware) {
 		super(src)
 		this.binary = src.binary
 		this.description = src.description

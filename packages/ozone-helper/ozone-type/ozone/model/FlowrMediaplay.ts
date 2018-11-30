@@ -3,22 +3,22 @@ import { TimestampedItem } from './TimestampedItem'
 
 import {Item, UUID, Instant, OzoneType} from './Item'
 
-@OzoneType("flowr.mediaplay")
-export class FlowrMediaplay extends TimestampedItem implements ServiceInfo { 
-	description?: string
-	effectivelyPlayedDuration?: number
+@OzoneType('flowr.mediaplay')
+export class FlowrMediaplay extends TimestampedItem implements ServiceInfo {
+	description: string | null
+	effectivelyPlayedDuration: number | null
 	instanceId: string
-	itemId?: UUID
-	playId?: UUID
-	properties?: { [key: string]:string; }
-	ratioEffectiveTotal?: number
-	replicaId?: string
-	serviceName?: string
-	totalDuration?: number
-	url?: string
-	userAgent?: string
+	itemId: UUID | null
+	playId: UUID | null
+	properties: { [key: string]:string; } | null
+	ratioEffectiveTotal: number | null
+	replicaId: string | null
+	serviceName: string | null
+	totalDuration: number | null
+	url: string | null
+	userAgent: string | null
 
-	constructor(src:FlowrMediaplay) { 
+	constructor(src: FlowrMediaplay) {
 		super(src)
 		this.description = src.description
 		this.effectivelyPlayedDuration = src.effectivelyPlayedDuration

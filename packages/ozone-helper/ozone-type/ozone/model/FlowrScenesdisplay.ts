@@ -3,19 +3,19 @@ import { TimestampedItem } from './TimestampedItem'
 
 import {Item, UUID, Instant, OzoneType} from './Item'
 
-@OzoneType("flowr.scenesdisplay")
-export class FlowrScenesdisplay extends TimestampedItem implements ServiceInfo { 
-	description?: string
-	displayId?: UUID
-	duration?: number
+@OzoneType('flowr.scenesdisplay')
+export class FlowrScenesdisplay extends TimestampedItem implements ServiceInfo {
+	description: string | null
+	displayId: UUID | null
+	duration: number | null
 	instanceId: string
-	itemId?: UUID
-	properties?: { [key: string]:string; }
-	replicaId?: string
-	serviceName?: string
-	userAgent?: string
+	itemId: UUID | null
+	properties: { [key: string]:string; } | null
+	replicaId: string | null
+	serviceName: string | null
+	userAgent: string | null
 
-	constructor(src:FlowrScenesdisplay) { 
+	constructor(src: FlowrScenesdisplay) {
 		super(src)
 		this.description = src.description
 		this.displayId = src.displayId

@@ -1,18 +1,18 @@
 import {Item, UUID, Instant, OzoneType} from './Item'
 
-@OzoneType("channel.transcoding")
-export class ChannelTranscoding extends Item { 
-	audioFormat?: string
-	bitrate?: number
-	bitrateVariation?: number
-	copySubtitles?: boolean
-	deinterlace?: boolean
-	height?: number
-	rotation?: string
-	videoFormat?: string
-	width?: number
+@OzoneType('channel.transcoding')
+export class ChannelTranscoding extends Item {
+	audioFormat: string | null
+	bitrate: number | null
+	bitrateVariation: number | null
+	copySubtitles: boolean | null
+	deinterlace: boolean | null
+	height: number | null
+	rotation: string | null
+	videoFormat: string | null
+	width: number | null
 
-	constructor(src:ChannelTranscoding) { 
+	constructor(src: ChannelTranscoding) {
 		super(src)
 		this.audioFormat = src.audioFormat
 		this.bitrate = src.bitrate

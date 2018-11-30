@@ -1,44 +1,44 @@
 import {Item, UUID, Instant, OzoneType} from './Item'
 
-@OzoneType("reservation")
-export class Reservation extends Item { 
-	a0?: string
-	a1?: string
-	a2?: string
-	a3?: string
-	a4?: string
-	a5?: string
-	a6?: string
-	a7?: string
-	a8?: string
-	a9?: string
-	checkOut?: number
-	classOfService?: string
-	date?: number
-	guestArrivalDate?: number
-	guestDepartureDate?: number
-	guestFirstName?: string
-	guestGroupNumber?: string
-	guestLanguage?: string
-	guestName?: string
-	guestTitle?: string
-	guestVipStatus?: string
-	lastMutationDate?: number
-	minibarRights?: string
-	noPostStatus?: string
-	oldRoomNumber?: string
-	profileNumber?: string
-	reservationNumber?: number
-	roomNumber?: string
-	shareFlag?: string
-	swapFlag?: string
-	time?: number
-	tvRights?: string
-	videoRights?: string
-	visitNumber?: string
-	workstationId?: string
+@OzoneType('reservation')
+export class Reservation extends Item {
+	a0: string | null
+	a1: string | null
+	a2: string | null
+	a3: string | null
+	a4: string | null
+	a5: string | null
+	a6: string | null
+	a7: string | null
+	a8: string | null
+	a9: string | null
+	checkOut: number | null
+	classOfService: string | null
+	date: number | null
+	guestArrivalDate: number | null
+	guestDepartureDate: number | null
+	guestFirstName: string | null
+	guestGroupNumber: string | null
+	guestLanguage: string | null
+	guestName: string | null
+	guestTitle: string | null
+	guestVipStatus: string | null
+	lastMutationDate: number | null
+	minibarRights: string | null
+	noPostStatus: string | null
+	oldRoomNumber: string | null
+	profileNumber: string | null
+	reservationNumber: number | null
+	roomNumber: string | null
+	shareFlag: string | null
+	swapFlag: string | null
+	time: number | null
+	tvRights: string | null
+	videoRights: string | null
+	visitNumber: string | null
+	workstationId: string | null
 
-	constructor(src:Reservation) { 
+	constructor(src: Reservation) {
 		super(src)
 		this.a0 = src.a0
 		this.a1 = src.a1

@@ -4,26 +4,26 @@ import { Media } from './Media'
 
 import {Item, UUID, Instant, OzoneType} from './Item'
 
-@OzoneType("video")
-export class Video extends Media implements FlowrLogoitem, FlowrVod { 
-	actors?: string
-	editors?: string
-	episodeNumber?: number
-	genre?: string
-	groupingId?: string
-	highlight?: boolean
-	highlightLogo?: UUID
-	language?: string
-	logo?: UUID
-	parentalGuidance?: number
-	presentators?: string
-	realisators?: string
-	seasonNumber?: number
-	subTitle?: { [key: string]: string; }
-	vodType?: string
-	year?: number
+@OzoneType('video')
+export class Video extends Media implements FlowrLogoitem, FlowrVod {
+	actors: string | null
+	editors: string | null
+	episodeNumber: number | null
+	genre: string | null
+	groupingId: string | null
+	highlight: boolean | null
+	highlightLogo: UUID | null
+	language: string | null
+	logo: UUID | null
+	parentalGuidance: number | null
+	presentators: string | null
+	realisators: string | null
+	seasonNumber: number | null
+	subTitle: { [key: string]: string; } | null
+	vodType: string | null
+	year: number | null
 
-	constructor(src:Video) { 
+	constructor(src: Video) {
 		super(src)
 		this.actors = src.actors
 		this.editors = src.editors

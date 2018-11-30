@@ -39,6 +39,7 @@ export type FromOzone<T extends Item> = T & {
   type:string
 }
 
+@OzoneType('item')
 export class Item {
   constructor (src?: Item) {
     if (src) {

@@ -3,22 +3,22 @@ import { FlowrRemoteControlSettings } from './FlowrRemoteControlSettings'
 
 import {Item, UUID, Instant, OzoneType} from './Item'
 
-@OzoneType("flowr.frontend.settings")
-export class FlowrFrontendSettings extends Item { 
-	audioLanguage?: string
-	autoUpdate?: boolean
-	bootPageId?: UUID
-	flowrRemoteControlSettings?: FlowrRemoteControlSettings
-	interfaceLanguage?: string
-	lastChannelId?: UUID
-	location?: FlowrGeolocation
-	maxVolume?: number
-        preferredContent?: UUID[]
-	startVolume?: number
-	subtitlesLanguage?: string
-	user?: UUID
+@OzoneType('flowr.frontend.settings')
+export class FlowrFrontendSettings extends Item {
+	audioLanguage: string | null
+	autoUpdate: boolean | null
+	bootPageId: UUID | null
+	flowrRemoteControlSettings: FlowrRemoteControlSettings | null
+	interfaceLanguage: string | null
+	lastChannelId: UUID | null
+	location: FlowrGeolocation | null
+	maxVolume: number | null
+	preferredContent: UUID[] | null
+	startVolume: number | null
+	subtitlesLanguage: string | null
+	user: UUID | null
 
-	constructor(src:FlowrFrontendSettings) { 
+	constructor(src: FlowrFrontendSettings) {
 		super(src)
 		this.audioLanguage = src.audioLanguage
 		this.autoUpdate = src.autoUpdate

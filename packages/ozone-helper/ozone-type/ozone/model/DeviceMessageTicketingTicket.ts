@@ -3,13 +3,13 @@ import { DeviceMessageTicketingVisitor } from './DeviceMessageTicketingVisitor'
 
 import {Item, UUID, Instant, OzoneType} from './Item'
 
-@OzoneType("device.message.ticketing.ticket")
-export class DeviceMessageTicketingTicket extends DeviceMessage { 
-	status?: string
-	ticketId?: string
-	visitor?: DeviceMessageTicketingVisitor
+@OzoneType('device.message.ticketing.ticket')
+export class DeviceMessageTicketingTicket extends DeviceMessage {
+	status: string | null
+	ticketId: string | null
+	visitor: DeviceMessageTicketingVisitor | null
 
-	constructor(src:DeviceMessageTicketingTicket) { 
+	constructor(src: DeviceMessageTicketingTicket) {
 		super(src)
 		this.status = src.status
 		this.ticketId = src.ticketId

@@ -2,14 +2,14 @@ import { Recording } from './Recording'
 
 import {Item, UUID, Instant, OzoneType} from './Item'
 
-@OzoneType("flowrecording")
-export class Flowrecording extends Recording { 
-	description?: string
+@OzoneType('flowrecording')
+export class Flowrecording extends Recording {
+	description: string | null
 	deviceId: UUID
-	summary?: string
-	thumbnail?: string
+	summary: string | null
+	thumbnail: string | null
 
-	constructor(src:Flowrecording) { 
+	constructor(src: Flowrecording) {
 		super(src)
 		this.description = src.description
 		this.deviceId = src.deviceId

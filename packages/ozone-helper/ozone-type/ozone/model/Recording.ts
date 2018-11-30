@@ -1,14 +1,14 @@
 import {Item, UUID, Instant, OzoneType} from './Item'
 
-@OzoneType("recording")
-export class Recording extends Item { 
+@OzoneType('recording')
+export class Recording extends Item {
 	channelId: UUID
-	duration?: number
+	duration: number | null
 	start: Instant
 	stop: Instant
-	video?: UUID
+	video: UUID | null
 
-	constructor(src:Recording) { 
+	constructor(src: Recording) {
 		super(src)
 		this.channelId = src.channelId
 		this.duration = src.duration

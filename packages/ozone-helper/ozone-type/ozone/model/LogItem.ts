@@ -3,19 +3,19 @@ import { TimestampedItem } from './TimestampedItem'
 
 import {Item, UUID, Instant, OzoneType} from './Item'
 
-@OzoneType("logItem")
-export class LogItem extends TimestampedItem implements ServiceInfo { 
+@OzoneType('logItem')
+export class LogItem extends TimestampedItem implements ServiceInfo {
 	category: string
 	instanceId: string
 	message: string
-	properties?: { [key: string]:string; }
-	replicaId?: string
-	serviceName?: string
+	properties: { [key: string]:string; } | null
+	replicaId: string | null
+	serviceName: string | null
 	severity: string
 	stackTrace: string
 	thread: string
 
-	constructor(src:LogItem) { 
+	constructor(src: LogItem) {
 		super(src)
 		this.category = src.category
 		this.instanceId = src.instanceId

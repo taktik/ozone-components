@@ -2,11 +2,11 @@ import { Media } from './Media'
 
 import {Item, UUID, Instant, OzoneType} from './Item'
 
-@OzoneType("basket")
-export class Basket extends Media { 
-        basketItems?: UUID[]
+@OzoneType('basket')
+export class Basket extends Media {
+	basketItems: UUID[] | null
 
-	constructor(src:Basket) { 
+	constructor(src: Basket) {
 		super(src)
 		this.basketItems = src.basketItems
 	}
