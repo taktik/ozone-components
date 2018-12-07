@@ -72,7 +72,18 @@ export class Item {
   }
 }
 
-function toPatchWithUndefinedAsNull<T extends Item>(item:T):Patch<T> {
+function toPatch<T extends Item>(item:T): Patch<T> {
+  let patch : any = {}
+  for (let prop of Object.getOwnPropertyNames(item)) {
+    const val:any|undefined|null = (item as any)[prop]
+    if (val !== undefined) {
+      patch[prop] = val
+    }
+  }
+  return patch as Patch<T>
+}
+
+function toPatchWithUndefinedAsNull<T extends Item>(item:T): Patch<T> {
   let patch : any = {}
   for (let prop of Object.getOwnPropertyNames(item)) {
     const val:any|undefined|null = (item as any)[prop]
@@ -82,18 +93,7 @@ function toPatchWithUndefinedAsNull<T extends Item>(item:T):Patch<T> {
       patch[prop] = val
     }
   }
-  return patch
-}
-
-function toPatch<T extends Item>(item:T):Patch<T> {
-  let patch : any = {}
-  for (let prop of Object.getOwnPropertyNames(item)) {
-    const val:any|undefined|null = (item as any)[prop]
-    if (val !== undefined) {
-      patch[prop] = val
-    }
-  }
-  return patch
+  return patch as Patch<T>
 }
 
 export class GenericItem extends Item {
