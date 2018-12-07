@@ -41,11 +41,11 @@ export type FromOzone<T extends Item> = T & {
   type: string
 }
 
-export type PropsAbsentFromPatch = '_meta' | 'creationUser' | 'modificationUser'
+export type AbsentFromPatchProps = '_meta' | 'creationUser' | 'modificationUser'
 
 export type NonNullablePatchProps = 'id' | 'version' | 'type'
 
-export type NullablePatchProps<T extends Item> = Exclude<keyof T, NonNullablePatchProps | PropsAbsentFromPatch>
+export type NullablePatchProps<T extends Item> = Exclude<keyof T, NonNullablePatchProps | AbsentFromPatchProps>
 
 export type Patch<T extends Item> = {
   [P in NullablePatchProps<T>]?: T[P] | null
