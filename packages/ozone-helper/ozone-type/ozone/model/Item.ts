@@ -1,3 +1,5 @@
+import { Media } from './Media'
+
 export type UUID = string
 export type Instant = string
 
@@ -39,8 +41,16 @@ export type FromOzone<T extends Item> = T & {
   type: string
 }
 
-export type Patch<T> = {
-  [P in keyof T]?: T[P] | null;
+export type PropsAbsentFromPatch = '_meta' | 'creationUser' | 'modificationUser'
+
+export type NonNullablePatchProps = 'id' | 'version' | 'type'
+
+export type NullablePatchProps<T extends Item> = Exclude<keyof T, NonNullablePatchProps | PropsAbsentFromPatch>
+
+export type Patch<T extends Item> = {
+  [P in NullablePatchProps<T>]?: T[P] | null
+} & {
+  [P in NonNullablePatchProps]?: T[P]
 }
 
 @OzoneType('item')
@@ -75,7 +85,10 @@ export class Item {
 function toPatch<T extends Item>(item:T): Patch<T> {
   let patch : any = {}
   for (let prop of Object.getOwnPropertyNames(item)) {
-    const val:any|undefined|null = (item as any)[prop]
+    if (prop in ['_meta', 'creationUser', 'modificationUser']) {
+      continue
+    }
+    const val:any = (item as any)[prop]
     if (val !== undefined) {
       patch[prop] = val
     }
@@ -86,7 +99,10 @@ function toPatch<T extends Item>(item:T): Patch<T> {
 function toPatchWithUndefinedAsNull<T extends Item>(item:T): Patch<T> {
   let patch : any = {}
   for (let prop of Object.getOwnPropertyNames(item)) {
-    const val:any|undefined|null = (item as any)[prop]
+    if (prop in ['_meta', 'creationUser', 'modificationUser']) {
+      continue
+    }
+    const val:any = (item as any)[prop]
     if (val === undefined) {
       patch[prop] = null
     } else {
