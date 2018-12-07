@@ -36,7 +36,7 @@ export type FromOzone<T extends Item> = T & {
   version: UUID
   _meta: ItemMeta
   tenant: UUID
-  type:string
+  type: string
 }
 
 export type Patch<T> = {
@@ -45,6 +45,17 @@ export type Patch<T> = {
 
 @OzoneType('item')
 export class Item {
+  id?: UUID
+  version?: UUID
+  type?:string
+  _meta?: ItemMeta
+  name?: string
+  deleted?: boolean
+  traits?: string[]
+  tenant?: UUID
+  creationUser?: UUID
+  modificationUser?: UUID
+
   constructor (src?: Item) {
     if (src) {
       this.id = src.id
@@ -59,17 +70,30 @@ export class Item {
       this.modificationUser = src.modificationUser
     }
   }
+}
 
-  id?: UUID
-  version?: UUID
-  type?:string
-  _meta?: ItemMeta
-  name?: string
-  deleted?: boolean
-  traits?: string[]
-  tenant?: UUID
-  creationUser?: UUID
-  modificationUser?: UUID
+function toPatchWithUndefinedAsNull<T extends Item>(item:T):Patch<T> {
+  let patch : any = {}
+  for (let prop of Object.getOwnPropertyNames(item)) {
+    const val:any|undefined|null = (item as any)[prop]
+    if (val === undefined) {
+      patch[prop] = null
+    } else {
+      patch[prop] = val
+    }
+  }
+  return patch
+}
+
+function toPatch<T extends Item>(item:T):Patch<T> {
+  let patch : any = {}
+  for (let prop of Object.getOwnPropertyNames(item)) {
+    const val:any|undefined|null = (item as any)[prop]
+    if (val !== undefined) {
+      patch[prop] = val
+    }
+  }
+  return patch
 }
 
 export class GenericItem extends Item {
