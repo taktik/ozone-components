@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2015", // Use of ES6
+    "target": "es5", // Use of ES6
     "module": "esnext",    // Module strategy that is likely to be use with official Polymer/typeScript support. See PolymerLabs/IMD
     "experimentalDecorators": true, //
     "emitDecoratorMetadata": true,
