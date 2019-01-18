@@ -135,7 +135,7 @@ export class OzoneApiEditVideo {
             const serachResult = await serachGen.next();
             if(serachResult){
                 const originalHLSFile =  serachResult.results[0];
-                const file = await ozoneApi.on('file').getOne(originalHLSFile.id);
+                const file = await ozoneApi.on('file').getOne(originalHLSFile.id as OzoneType.UUID);
                 return file as OzoneType.File;
             } else {
                 throw new Error('Unable to find original File')

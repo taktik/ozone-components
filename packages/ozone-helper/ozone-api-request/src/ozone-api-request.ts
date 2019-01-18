@@ -158,6 +158,15 @@ export class OzoneAPIRequest{
         else
             return 0
     }
+    constructor(){
+        try {
+            // should not work for nodejs
+            this.eventTarget = document
+        }
+        catch(err) {
+            this.eventTarget = null
+        }
+    }
     /**
      * Create and open an XMLHttpRequest
      * @return {XMLHttpRequest}
@@ -180,9 +189,17 @@ export class OzoneAPIRequest{
      * Default value is document.
      * @type {EventTarget}
      */
-    eventTarget: EventTarget = document;
+    eventTarget: EventTarget | null;
     setEventTarget(element: EventTarget){
         this.eventTarget = element;
+    }
+
+    private dispatchEvent(eventName: string, xmlhttp: XMLHttpRequest){
+        if(this.eventTarget){
+            this.eventTarget.dispatchEvent(new CustomEvent<XMLHttpRequest>(eventName, {
+                bubbles: true, detail: xmlhttp
+            }));
+        }
     }
 
     /**
@@ -202,19 +219,13 @@ export class OzoneAPIRequest{
 
             const handleResponse = ()=>{
                 if (xmlhttp.status >= 200 && xmlhttp.status < 300) {
-                    this.eventTarget.dispatchEvent(new CustomEvent<XMLHttpRequest>('ozone-api-request-success', {
-                        bubbles: true, detail: xmlhttp
-                    }));
+                    this.dispatchEvent('ozone-api-request-success', xmlhttp);
                     resolve(xmlhttp);
                 } else if(xmlhttp.status === 403) {
-                    this.eventTarget.dispatchEvent(new CustomEvent<XMLHttpRequest>('ozone-api-request-unauthorized', {
-                        bubbles: true, detail: xmlhttp
-                    }));
+                    this.dispatchEvent('ozone-api-request-unauthorized', xmlhttp);
                     reject(xmlhttp);
                 } else {
-                    this.eventTarget.dispatchEvent(new CustomEvent<XMLHttpRequest>('ozone-api-request-error', {
-                        bubbles: true, detail: xmlhttp
-                    }));
+                    this.dispatchEvent('ozone-api-request-error', xmlhttp);
                     reject(xmlhttp);
                 }
             };
@@ -222,9 +233,7 @@ export class OzoneAPIRequest{
             xmlhttp.onload = handleResponse;
 
             xmlhttp.ontimeout = () =>{
-                this.eventTarget.dispatchEvent(new CustomEvent<XMLHttpRequest>('ozone-api-request-timeout', {
-                    bubbles: true, detail: xmlhttp
-                }));
+                this.dispatchEvent('ozone-api-request-timeout',  xmlhttp);
                 reject(xmlhttp);
             };
 
