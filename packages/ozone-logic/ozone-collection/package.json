@@ -1,6 +1,6 @@
 {
   "name": "ozone-collection",
-  "version": "4.1.1",
+  "version": "4.2.0",
   "publishConfig": {
     "access": "public"
   },
@@ -30,12 +30,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "ozone-type": "^4.1.1"
+    "ozone-type": "^4.2.0"
   },
   "dependencies": {
-    "ozone-api-item": "^4.1.1",
-    "ozone-api-request": "^4.1.1",
-    "ozone-config": "^4.1.1",
-    "ozone-search-helper": "^4.1.1"
+    "ozone-api-item": "^4.2.0",
+    "ozone-api-request": "^4.2.0",
+    "ozone-config": "^4.2.0",
+    "ozone-search-helper": "^4.2.0"
   }
 }

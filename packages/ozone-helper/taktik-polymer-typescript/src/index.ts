@@ -22,16 +22,6 @@ export function customElement(tagname: string) {
 		window.customElements.define(tagname, clazz)
 	}
 }
-/**
- * A TypeScript class decorator that declare a global class
- * `tagname` and the decorated class.
- */
-export function jsElement() {
-	return (clazz: any) => {
-		window[clazz.name] = clazz // Register class in windows se that is can be use without IMD module loading.
-		// Useful for import in pure JS project.
-	}
-}
 
 // export interface PropertyOptions {
 // 	notify?: boolean

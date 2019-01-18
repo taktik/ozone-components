@@ -301,19 +301,6 @@
                 });
             });
 
-            describe('collection CRUD api on un configured source', function () {
-
-                beforeEach((done) => {
-                    element = fixture('noApi');
-                    flush(()=>{done()})
-                });
-
-                it('should use default ozoneAPI', (done) =>{
-                    expect(element._source).to.be.an.instanceof(OzoneApiItem)
-                    done()
-                });
-            });
-
 
             describe('collection search', function () {
 

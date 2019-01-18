@@ -1,6 +1,6 @@
 
-import "../src/ozone-media-url.ts"
-import "ozone-config"
+import {OzoneMediaUrl, OzonePreviewSize, SizeEnum} from "../src/ozone-media-url.ts"
+import {OzoneConfig} from "ozone-config"
 describe('tool OzoneMediaUrl', function () {
     let config;
     beforeEach((done)=>{

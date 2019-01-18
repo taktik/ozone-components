@@ -1,6 +1,6 @@
-import '../src/ozone-api-item.ts'
-import 'ozone-config'
-import {SearchQuery} from "ozone-search-helper";
+import { OzoneApiItem, SearchGenerator } from '../src/ozone-api-item.ts'
+import { OzoneConfig } from 'ozone-config'
+import {SearchQuery } from "ozone-search-helper";
 describe('ozone-api-login tests', function () {
     describe('CRUD operation', function () {
 

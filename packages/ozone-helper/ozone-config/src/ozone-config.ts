@@ -1,5 +1,5 @@
 import {OzoneAPIRequest} from 'ozone-api-request'
-import {jsElement} from "taktik-polymer-typescript";
+
 /**
  * Structure that should verify the config.ozone.json file.
  */
@@ -54,7 +54,7 @@ const configUrl = './conf.ozone.json';
 const ozoneAPIRequest = new OzoneAPIRequest();
 ozoneAPIRequest.url = configUrl;
 ozoneAPIRequest.method = 'GET';
-@jsElement()
+
 export class OzoneConfig {
     private static configPromise: Promise<ConfigType> | null = null;
     static get(): Promise<ConfigType> {

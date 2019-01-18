@@ -15,11 +15,10 @@ import * as Config from 'ozone-config';
 export class OzoneApiAuthentication{
 
 
-    private eventTarget: EventTarget = document;
+    private eventTarget?: EventTarget;
 
     /**
      * Set event target to redirect OzoneAPIRequest events to an other target.
-     * The default value is document
      * @param {EventTarget} element
      */
     setEventTarget(element: EventTarget){
@@ -34,7 +33,8 @@ export class OzoneApiAuthentication{
         const config = await Config.OzoneConfig.get();
 
         const request = new OzoneAPIRequest();
-        request.setEventTarget(this.eventTarget);
+        if(this.eventTarget)
+            request.setEventTarget(this.eventTarget);
         request.method = 'POST';
         request.url = config.host + config.endPoints.login;
         request.body = JSON.stringify({
@@ -52,7 +52,8 @@ export class OzoneApiAuthentication{
         const config = await Config.OzoneConfig.get();
 
         const request = new OzoneAPIRequest();
-        request.setEventTarget(this.eventTarget);
+        if(this.eventTarget)
+            request.setEventTarget(this.eventTarget);
         request.method = 'GET';
         request.url = config.host + config.endPoints.logout;
 
@@ -67,7 +68,8 @@ export class OzoneApiAuthentication{
         const config = await Config.OzoneConfig.get();
 
         const request = new OzoneAPIRequest();
-        request.setEventTarget(this.eventTarget);
+        if(this.eventTarget)
+            request.setEventTarget(this.eventTarget);
         request.method = 'GET';
         request.url = config.host + config.endPoints.session;
 

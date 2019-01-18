@@ -8,6 +8,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ozone-video-player": "^3.0.3"
+    "ozone-video-player": "3.0.3"
   }
 }
