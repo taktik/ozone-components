@@ -31,7 +31,6 @@
     "ozone-api-item": "^4.1.1",
     "ozone-api-request": "^4.1.1",
     "ozone-config": "^4.1.1",
-    "ozone-search-helper": "^4.1.1",
-    "taktik-polymer-typescript": "^4.1.1"
+    "ozone-search-helper": "^4.1.1"
   }
 }
