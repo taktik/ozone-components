@@ -118,10 +118,9 @@ export class UploadFileRequest implements XMLHttpRequestLike {
 
     /**
      * Set target for dispatchEvent.
-     * default value is document.
      * @type {Node}
      */
-    eventTarget: Node = document;
+    eventTarget?: Node;
 
     private _mediaId:string | null = null;
 
@@ -144,6 +143,11 @@ export class UploadFileRequest implements XMLHttpRequestLike {
             onprogress: () => {},
             onloadstart: () => {},
         };
+        try {
+            this.eventTarget = document;
+        } catch(err){
+
+        }
     }
 
     /**
@@ -232,7 +236,8 @@ export class UploadFileRequest implements XMLHttpRequestLike {
 
                 this._mediaId = mediaId;
 
-                this.eventTarget.dispatchEvent(
+                if(this.eventTarget)
+                    this.eventTarget.dispatchEvent(
                     new CustomEvent('ozone-upload-completed',
                         {bubbles: true, detail: {mediaId}})
                 );
