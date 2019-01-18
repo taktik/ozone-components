@@ -31,7 +31,6 @@
   "dependencies": {
     "ozone-api-request": "^4.1.3-alpha.0",
     "ozone-config": "^4.1.3-alpha.0",
-    "ozone-type": "^4.1.3-alpha.0",
-    "taktik-polymer-typescript": "^4.1.3-alpha.0"
+    "ozone-type": "^4.1.3-alpha.0"
   }
 }

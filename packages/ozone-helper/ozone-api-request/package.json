@@ -23,6 +23,5 @@
     "ozone-type": "^4.1.3-alpha.0"
   },
   "dependencies": {
-    "taktik-polymer-typescript": "^4.1.3-alpha.0"
   }
 }
