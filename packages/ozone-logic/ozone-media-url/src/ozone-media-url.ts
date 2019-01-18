@@ -2,14 +2,12 @@
 /**
  * Created by hubert on 21/06/17.
  */
-
-import {jsElement} from 'taktik-polymer-typescript'
 import {OzoneApiItem} from 'ozone-api-item'
 import {OzoneAPIRequest} from 'ozone-api-request'
 import * as OzoneType from 'ozone-type'
 import * as Config from 'ozone-config';
 export type SizeEnum = Number;
-@jsElement()
+
 export class  OzonePreviewSize{
     static Small: SizeEnum= 250;
     static Medium: SizeEnum = 500;
@@ -19,12 +17,11 @@ export class  OzonePreviewSize{
 /**
  * JavaScript class to convert media ID to URL
  */
-@jsElement()
 export class OzoneMediaUrl {
 
-    id:uuid;
+    id: OzoneType.UUID;
     config: Config.ConfigType;
-    constructor(id:uuid, config: Config.ConfigType){
+    constructor(id: OzoneType.UUID, config: Config.ConfigType){
         this.id = id;
         this.config = config;
     }

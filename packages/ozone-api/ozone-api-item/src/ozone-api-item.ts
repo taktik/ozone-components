@@ -4,8 +4,7 @@
 
 import * as Config from 'ozone-config'
 import {OzoneAPIRequest} from 'ozone-api-request'
-import {customElement, domElement, jsElement} from 'taktik-polymer-typescript'
-import {Item, ItemSearchResult} from 'ozone-type'
+import {Item, ItemSearchResult, UUID} from 'ozone-type'
 import {SearchResponse, SearchResult, SearchQuery} from "ozone-search-helper";
 import {v4 as uuid} from 'uuid';
 
@@ -50,7 +49,6 @@ export interface StatefulOzone {
  *
  */
 
-@jsElement()
 export class OzoneApiItem<T = Item> {
 
     /**
@@ -101,7 +99,7 @@ export class OzoneApiItem<T = Item> {
      * @param id
      * @return {Promise<Item | null>}
      */
-    async getOne(id:uuid):Promise<T | null> {
+    async getOne(id:UUID):Promise<T | null> {
         const url = await this._buildUrl(id);
         return this._getRequest<T>(url);
     }
@@ -111,17 +109,17 @@ export class OzoneApiItem<T = Item> {
      * @param id
      * @return {Promise<any>}
      */
-    async deleteOne(id:uuid):Promise<uuid| null> {
+    async deleteOne(id:UUID):Promise<UUID| null> {
         const url = await this._buildUrl(id);
-        return this._deleteRequest<uuid>(url);
+        return this._deleteRequest<UUID>(url);
     }
 
     /**
      * get collection items from a list of id.
-     * @param ids {Array<uuid>} array of id to get
+     * @param ids {Array<UUID>} array of id to get
      * @return {Promise<Iterator<Item>>} promise resole with an iterator of collection item
      */
-    async bulkGet(ids:Array<uuid>):Promise<Array<T> | null> {
+    async bulkGet(ids:Array<UUID>):Promise<Array<T> | null> {
         const url = await this._buildUrl('bulkGet');
         return this._postRequest<Array<T>>(url, ids, this._readResponse<Array<T>>());
     }
@@ -129,11 +127,11 @@ export class OzoneApiItem<T = Item> {
     /**
      * delete items from a list of id.
      * @param ids
-     * @return {Promise<Array<uuid>>} promise resole with an array of deleted id
+     * @return {Promise<Array<UUID>>} promise resole with an array of deleted id
      */
-    async bulkDelete(ids:Array<uuid| undefined>):Promise<Array<uuid> | null> {
+    async bulkDelete(ids:Array<UUID| undefined>):Promise<Array<UUID> | null> {
         const url = await this._buildUrl('bulkDelete');
-        return this._postRequest<Array<uuid>>(url, ids, this._readResponse<Array<uuid>>());
+        return this._postRequest<Array<UUID>>(url, ids, this._readResponse<Array<UUID>>());
     }
 
     /**
@@ -225,7 +223,6 @@ export class OzoneApiItem<T = Item> {
  *           });
  * ```
  */
-@jsElement()
 export class SearchGenerator<T = Item> implements StatefulOzone{
     _currentRequest: Promise<any> = Promise.resolve();
     searchParam:SearchQuery;

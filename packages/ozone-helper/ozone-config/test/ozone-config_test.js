@@ -1,4 +1,4 @@
-  import '../src/ozone-config.ts';
+  import {OzoneConfig} from '../src/ozone-config.ts';
 
   describe('ozone-config tests', function() {
     let afterFunctions = [],
