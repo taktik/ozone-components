@@ -7,10 +7,11 @@ addons:
   chrome: stable # have Travis install chrome stable.
 
 before_script:
-  - npm install -g bower gulp
+  - npm install -g bower gulp yarn
 
 script:
-  - npm install
+  - yarn install
   - npm run bootstrap
+  - npm run build
   - npm run bower
   - npm run test

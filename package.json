@@ -5,11 +5,12 @@
 	"license": "ISC",
 	"description": "JavaScript modules for Ozone",
 	"scripts": {
-		"bootstrap": "lerna bootstrap",
+		"bootstrap": "lerna bootstrap --ignore-scripts",
+		"build": "lerna run prepublish",
 		"bower": "lerna run bower",
 		"test": "lerna run test --concurrency=5",
 		"demo": "lerna run --scope ozone-components-demo demo",
-		"build": "lerna run --scope ozone-components-demo build",
+		"build:demo": "lerna run --scope ozone-components-demo build",
 		"doc": "lerna run doc",
 		"tsc": "tsc"
 	},

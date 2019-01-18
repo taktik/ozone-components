@@ -25,13 +25,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "global": "^4.3.2",
-    "ozone-api-request": "^4.1.1",
-    "ozone-config": "^4.1.1",
-    "reflect-metadata": "^0.1.12"
+    "global": "4.3.2",
+    "ozone-api-request": "4.1.1",
+    "ozone-config": "4.1.1",
+    "reflect-metadata": "0.1.12"
   },
   "devDependencies": {
-    "ozone-type": "^4.1.1",
-    "taktik-polymer-typescript": "^4.1.1"
+    "ozone-type": "4.1.1",
+    "taktik-polymer-typescript": "4.1.1"
   }
 }

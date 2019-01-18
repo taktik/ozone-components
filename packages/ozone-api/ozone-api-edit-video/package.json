@@ -27,16 +27,16 @@
   },
   "homepage": "https://github.com/taktik/ozone-components/packages/ozone-api/ozone-api-edit-video#readme",
   "dependencies": {
-    "hls-parser": "^0.1.8",
-    "ozone-api-item": "^4.1.1",
-    "ozone-api-request": "^4.1.1",
-    "ozone-config": "^4.1.1",
-    "ozone-media-url": "^4.1.1",
-    "ozone-search-helper": "^4.1.1"
+    "hls-parser": "0.1.8",
+    "ozone-api-item": "4.1.1",
+    "ozone-api-request": "4.1.1",
+    "ozone-config": "4.1.1",
+    "ozone-media-url": "4.1.1",
+    "ozone-search-helper": "4.1.1"
   },
   "main": "dist/ozone-api-edit-video.js",
   "types": "dist/ozone-api-edit-video.d.ts",
   "devDependencies": {
-    "ozone-type": "^4.1.1"
+    "ozone-type": "4.1.1"
   }
 }

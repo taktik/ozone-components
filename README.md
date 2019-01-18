@@ -64,9 +64,10 @@ You are also more than welcomed to suggest fixes through pull requests.
 ### Set up
 
 ```
-$ npm install
+$ yarn install
 $ npm run bower
 $ npm run bootstrap
+$ npm run build
 ```
 
 ### Viewing demo Application

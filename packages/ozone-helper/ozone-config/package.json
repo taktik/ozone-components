@@ -25,9 +25,9 @@
   "author": "hj@taktik",
   "license": "ISC",
   "devDependencies": {
-    "ozone-type": "^4.1.1"
+    "ozone-type": "4.1.1"
   },
   "dependencies": {
-    "ozone-api-request": "^4.1.1"
+    "ozone-api-request": "4.1.1"
   }
 }
