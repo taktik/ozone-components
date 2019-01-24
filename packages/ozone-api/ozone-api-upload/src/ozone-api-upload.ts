@@ -1,6 +1,6 @@
 import {OzoneConfig, ConfigType} from 'ozone-config'
 import {OzoneAPIRequest} from "ozone-api-request";
-const uuid = require('uuid/v4');
+import { v4 as uuid } from 'uuid';
 
 export interface UploadSessionResult {
     file: FormData;
@@ -12,8 +12,10 @@ export interface UploadIdResult extends UploadSessionResult {
     folderId: string;
 }
 
-export interface UploadEndResult {
+export interface UploadFileId {
     uploadFileId: string;
+}
+export interface UploadEndResult extends UploadIdResult, UploadFileId{
 }
 export interface TaskResult  {
     mediaId: string;
@@ -368,7 +370,7 @@ export class UploadFileRequest implements XMLHttpRequestLike {
         });
     }
 
-    _endUploadSession(data: any): Promise<UploadEndResult> {
+    _endUploadSession(data: UploadIdResult): Promise<UploadEndResult> {
         const request = this. _createRequest();
         request.url = this._buildUrl('uploadComplete', data.sessionId);
         request.method = 'POST';
@@ -410,7 +412,7 @@ export class UploadFileRequest implements XMLHttpRequestLike {
             }, this.pollInterval);
         }))
     }
-    _waitForTask(uploadEndResult: UploadEndResult): Promise<string> {
+    _waitForTask(uploadEndResult: UploadFileId): Promise<string> {
         let mediaId: string;
         return (new Promise((resolve, reject) => {
             let interval = setInterval(() => {
