@@ -47,9 +47,9 @@ export interface XMLHttpRequestLike {
 
     onreadystatechange: { (): void };
 
-    readyState: number;
+    readonly readyState: number;
 
-    status: number;
+    readonly status: number;
 
     open(method: string, url: string, async: boolean):void;
 
@@ -111,7 +111,14 @@ export class UploadFileRequest implements XMLHttpRequestLike {
      * XMLHttpRequest.readyState
      * @type {number}
      */
-    readyState: number = 0;
+    get readyState(): number {
+        return this._internalReadyState
+    }
+    private set _readyState(readyState: number) {
+        this._internalReadyState = readyState;
+        this.callOneadystatechange();
+    }
+    private _internalReadyState: number = 0;
 
     /**
      * XMLHttpRequest.status
@@ -163,7 +170,7 @@ export class UploadFileRequest implements XMLHttpRequestLike {
      * @param {boolean} async
      */
     open(method: string, url: string, async: boolean = true) {
-        this.readyState = 1;
+        this._readyState = 1;
     }
 
     /**
@@ -232,8 +239,7 @@ export class UploadFileRequest implements XMLHttpRequestLike {
             .then((result) => this._waitForTask(result))
             .then((mediaId: string) => {
                 this.status = 200;
-                this.readyState = 4;
-                this.callOneadystatechange();
+                this._readyState = 4;
 
                 this._mediaId = mediaId;
 
@@ -245,8 +251,7 @@ export class UploadFileRequest implements XMLHttpRequestLike {
                 return mediaId;
             }).catch((error: Error)=>{
                 this.status = 555;
-                this.readyState = 4;
-                this.callOneadystatechange();
+                this._readyState = 4;
                 console.error(error.message)
                 return null
         });
@@ -267,14 +272,12 @@ export class UploadFileRequest implements XMLHttpRequestLike {
                 this._waitForTask({uploadFileId}))
             .then(() => {
                 this.status = 200;
-                this.readyState = 4;
-                this.callOneadystatechange();
+                this._readyState = 4;
                 return null
 
             }).catch((error: Error)=>{
                 this.status = 555;
-                this.readyState = 4;
-                this.callOneadystatechange();
+                this._readyState = 4;
                 console.error(error.message)
                 throw error
         });
@@ -287,8 +290,7 @@ export class UploadFileRequest implements XMLHttpRequestLike {
                 || this.status >= 500
                 || this.status >= 400) {
                 self.status = this.status;
-                self.readyState = 4;
-                self.callOneadystatechange();
+                self._readyState = 4;
             }
         };
     }
