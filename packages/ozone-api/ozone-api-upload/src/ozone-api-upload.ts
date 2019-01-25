@@ -1,4 +1,4 @@
-import {OzoneConfig, ConfigType} from 'ozone-config'
+import {OzoneConfig} from 'ozone-config'
 import {OzoneAPIRequest} from "ozone-api-request";
 import { v4 as uuid } from 'uuid';
 
@@ -137,7 +137,6 @@ export class UploadFileRequest implements XMLHttpRequestLike {
         return this._mediaId;
     }
 
-    private config: ConfigType | null = null;
     private isAbort:boolean = false;
     private currentRequest: OzoneAPIRequest | null = null ;
 
@@ -205,14 +204,12 @@ export class UploadFileRequest implements XMLHttpRequestLike {
         return this.currentRequest;
     }
 
-    private _buildUrl(service: string, ...param: Array<string>): string {
+    private async _buildUrl(service: string, ...param: Array<string>): Promise<string> {
         const otherUrlParam = param || [];
-        if (this.config ===null){
-            throw new Error('config is undefined')
-        }
+        const config = await OzoneConfig.get();
         return [
-            this.config.host.replace(/\/$/, ''),
-            this.config.endPoints[service]
+            config.host.replace(/\/$/, ''),
+            config.endPoints[service]
                 .replace(/\/$/, '')
                 .replace(/^\//, ''),
             ...otherUrlParam]
@@ -228,11 +225,7 @@ export class UploadFileRequest implements XMLHttpRequestLike {
      */
     uploadFile(file: FormData, folderId: string = '0'): Promise<string | null> {
 
-        return OzoneConfig.get()
-            .then((config) => {
-                this.config = config;
-                return this._startUploadSession(file, folderId)
-            })
+        return this._startUploadSession(file, folderId)
             .then((result) => this._getUploadId(result))
             .then((result) => this._performUpload(result))
             .then((result) => this._endUploadSession(result))
@@ -266,11 +259,8 @@ export class UploadFileRequest implements XMLHttpRequestLike {
      */
     importOrganisation(file: FormData, parentTenantId: string): Promise<null> {
 
-        return Promise.resolve(OzoneConfig.get())
-            .then((config) => {
-                this.config = config;
-                return this._uploadOrganisation(parentTenantId, file)
-            }).then((result: XMLHttpRequest) => {
+        return this._uploadOrganisation(parentTenantId, file)
+            .then((result: XMLHttpRequest) => {
                 return result.response
             })
             .then((uploadFileId: string) =>
@@ -303,20 +293,18 @@ export class UploadFileRequest implements XMLHttpRequestLike {
         };
     }
 
-    _startUploadSession(file: FormData, folderId: string): Promise<UploadSessionResult> {
+    async _startUploadSession(file: FormData, folderId: string): Promise<UploadSessionResult> {
         const request = this. _createRequest();
-        request.url = this._buildUrl('uploadStart');
+        request.url = await this._buildUrl('uploadStart');
         request.method ='POST';
 
         request.onreadystatechange = this.notifyOnError();
 
         //TODO understand need of folderId??
         const numeric_id = parseInt('0x' + folderId.split('-')[4]);
-        if (this.config ===null){
-            throw new Error('config is undefined')
-        }
+        const config = await OzoneConfig.get();
         const body = {
-            mediaUploadChannelIdentifier: this.config.uploadChannel,
+            mediaUploadChannelIdentifier: config.uploadChannel,
             autoCommit: false,
             mediaMetadatas: [{
                 "type": {
@@ -337,9 +325,9 @@ export class UploadFileRequest implements XMLHttpRequestLike {
             });
     }
 
-    _getUploadId(data: UploadSessionResult): Promise<UploadIdResult> {
+    async _getUploadId(data: UploadSessionResult): Promise<UploadIdResult> {
         const request = this. _createRequest();
-        request.url = this._buildUrl('uploadId', data.sessionId);
+        request.url = await this._buildUrl('uploadId', data.sessionId);
         request.method = 'GET';
 
         request.onreadystatechange = this.notifyOnError();
@@ -354,9 +342,9 @@ export class UploadFileRequest implements XMLHttpRequestLike {
             });
     }
 
-    _performUpload(data: UploadIdResult): Promise<UploadIdResult> {
+    async _performUpload(data: UploadIdResult): Promise<UploadIdResult> {
         const request = this. _createRequest();
-        request.url = this._buildUrl('upload', data.uploadId);
+        request.url = await this._buildUrl('upload', data.uploadId);
         request.method = 'POST';
 
         request.onreadystatechange = this.notifyOnError();
@@ -370,9 +358,9 @@ export class UploadFileRequest implements XMLHttpRequestLike {
         });
     }
 
-    _endUploadSession(data: UploadIdResult): Promise<UploadEndResult> {
+    async _endUploadSession(data: UploadIdResult): Promise<UploadEndResult> {
         const request = this. _createRequest();
-        request.url = this._buildUrl('uploadComplete', data.sessionId);
+        request.url = await this._buildUrl('uploadComplete', data.sessionId);
         request.method = 'POST';
 
 
@@ -443,9 +431,9 @@ export class UploadFileRequest implements XMLHttpRequestLike {
             .then(()=> mediaId as string );
     }
 
-    _awaitTask(uploadFileId: string): Promise<WaitResponse> {
+    async _awaitTask(uploadFileId: string): Promise<WaitResponse> {
         const request = this. _createRequest();
-        request.url = this._buildUrl('wait', uploadFileId, '120');
+        request.url = await this._buildUrl('wait', uploadFileId, '120');
         request.method = 'GET';
 
         request.onreadystatechange = this.notifyOnError();
@@ -456,10 +444,7 @@ export class UploadFileRequest implements XMLHttpRequestLike {
             });
     }
 
-    _uploadOrganisation(parentTenantId: string, file: FormData): Promise<XMLHttpRequest>{
-        if (this.config ===null){
-            throw new Error('config is undefined')
-        }
+    async _uploadOrganisation(parentTenantId: string, file: FormData): Promise<XMLHttpRequest>{
 
         const ozoneRequest = new OzoneAPIRequest();
 
@@ -468,19 +453,18 @@ export class UploadFileRequest implements XMLHttpRequestLike {
             rootTenantId: parentTenantId
         };
         const query = this.buildSearchParam(queryParams);
-        const url = this._buildUrl('import',`upload?${query}`);
-        console.log(url)
+        const url = await this._buildUrl('import',`upload?${query}`);
 
-        ozoneRequest.method = 'POST'
+        ozoneRequest.method = 'POST';
         ozoneRequest.url = url;
 
         ozoneRequest.onreadystatechange = this.notifyOnError();
-        const xmlhttp = ozoneRequest.createXMLHttpRequest(false)
+        const xmlhttp = ozoneRequest.createXMLHttpRequest(false);
         xmlhttp.setRequestHeader("Content-Type", "application/json");
         xmlhttp.setRequestHeader('Accept', 'application/json');
         xmlhttp.upload.onprogress = this.upload.onprogress;
 
-        ozoneRequest.body = file
+        ozoneRequest.body = file;
         return ozoneRequest.sendRequest(xmlhttp)
     }
 
