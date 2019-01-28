@@ -1,6 +1,6 @@
 {
   "name": "ozone-api-authentication",
-  "version": "4.2.1",
+  "version": "4.2.2",
   "publishConfig": {
     "access": "public"
   },
@@ -26,12 +26,12 @@
   "license": "ISC",
   "dependencies": {
     "global": "4.3.2",
-    "ozone-api-request": "^4.2.0",
-    "ozone-config": "^4.2.0",
+    "ozone-api-request": "^4.2.2",
+    "ozone-config": "^4.2.2",
     "reflect-metadata": "0.1.12"
   },
   "devDependencies": {
-    "ozone-type": "^4.2.0",
-    "taktik-polymer-typescript": "^4.2.0"
+    "ozone-type": "^4.2.2",
+    "taktik-polymer-typescript": "^4.2.2"
   }
 }
