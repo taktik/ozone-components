@@ -20,11 +20,13 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/uuid": "^3.4.4",
     "ozone-type": "^4.2.0"
   },
   "dependencies": {
     "ozone-api-request": "^4.2.0",
-    "ozone-config": "^4.2.0"
+    "ozone-config": "^4.2.0",
+    "uuid": "^3.3.2"
   },
   "repository": "https://github.com/taktik/ozone-components/packages/ozone-api/ozone-api-upload"
 }
