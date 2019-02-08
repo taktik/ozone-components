@@ -1,4 +1,3 @@
-/// <amd-module name="ozone-media-url"/>
 /**
  * Created by hubert on 21/06/17.
  */

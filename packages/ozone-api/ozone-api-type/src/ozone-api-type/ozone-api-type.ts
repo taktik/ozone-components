@@ -1,4 +1,3 @@
-/// <amd-module name="ozone-api-type"/>
 /**
  * Created by hubert on 19/06/17.
  */

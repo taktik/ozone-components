@@ -1,7 +1,7 @@
-import {OzoneApiType, getOzoneApiType} from './ozone-api-type'
 import {OzoneConfig, ConfigType} from 'ozone-config'
 import * as sinon from 'sinon'
 import {expect, assert} from 'chai'
+import {OzoneApiType, getOzoneApiType} from './ozone-api-type'
 
 declare function flush(cb:{():void}):void
 describe('ozone-api-type tests', function () {
