@@ -1,5 +1,6 @@
 {
   "lerna": "2.9.0",
+  "npmClient": "yarn",
   "packages": [
     "packages/*",
     "packages/demo/*",
@@ -8,5 +9,5 @@
     "packages/ozone-logic/*",
     "packages/ozone-material/*"
   ],
-  "version": "4.1.3-alpha.0"
+  "version": "4.3.0"
 }

@@ -1,5 +1,4 @@
 
-import {jsElement} from 'taktik-polymer-typescript'
 import {OzoneMediaUrl} from 'ozone-media-url'
 import * as Config from 'ozone-config';
 import * as OzoneType from 'ozone-type'
@@ -12,10 +11,10 @@ import * as HLS from 'hls-parser'
 export type Blob = {
     creationDate: string,
     hashMd5: string,
-    id: uuid,
+    id: OzoneType.UUID,
     size: number,
     status: string,
-    storageUnitId: uuid,
+    storageUnitId: OzoneType.UUID,
 
 }
 
@@ -49,7 +48,6 @@ export declare type VideoMarker = Array<VideoArea>
  *
  *
  */
-@jsElement()
 export class OzoneApiEditVideo {
 
     private _ozoneMediaUrlCollection : Map<string, OzoneMediaUrl> =  new Map();
@@ -137,7 +135,7 @@ export class OzoneApiEditVideo {
             const serachResult = await serachGen.next();
             if(serachResult){
                 const originalHLSFile =  serachResult.results[0];
-                const file = await ozoneApi.on('file').getOne(originalHLSFile.id as uuid);
+                const file = await ozoneApi.on('file').getOne(originalHLSFile.id as OzoneType.UUID);
                 return file as OzoneType.File;
             } else {
                 throw new Error('Unable to find original File')

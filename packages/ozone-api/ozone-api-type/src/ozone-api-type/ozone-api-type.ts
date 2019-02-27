@@ -1,11 +1,9 @@
-/// <amd-module name="ozone-api-type"/>
 /**
  * Created by hubert on 19/06/17.
  */
 import * as Config from 'ozone-config'
 
-import {customElement, jsElement} from 'taktik-polymer-typescript'
-import {TypeDescriptor, FieldDescriptor, Grants} from 'ozone-type'
+import {TypeDescriptor, FieldDescriptor, Grants, UUID} from 'ozone-type'
 import {OzoneAPIRequest} from 'ozone-api-request'
 
 
@@ -27,7 +25,6 @@ export type TypeDescriptorCollection = Map<string, Promise<TypeDescriptor>>
  * const ozoneTypeAPI = getOzoneApiType(); // return instance of OzoneApiType located in the dom
  * ```
  */
-@jsElement()
 export class OzoneApiType  {
 
     /**
@@ -198,7 +195,7 @@ export class OzoneApiType  {
         return false
     }
 
-    async getPermissions(fields:Array<FieldDescriptor>, id:uuid){
+    async getPermissions(fields:Array<FieldDescriptor>, id:UUID){
 
         const Ids= [id];
 

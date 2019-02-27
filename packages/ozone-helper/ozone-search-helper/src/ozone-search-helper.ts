@@ -1,8 +1,6 @@
 /**
  * Created by hubert on 8/06/17.
  */
-
-import {jsElement} from 'taktik-polymer-typescript'
 import {Item, SearchRequest, ItemSearchResult, TermsAggregation, Aggregation,
     WildcardQuery, QueryStringQuery, TermQuery, ModeType, TermsQuery, TenantQuery, TypeQuery, Query, BoolQuery, Sort, IdsQuery, AggregationItem, RegexpQuery, RangeQuery} from 'ozone-type';
 
@@ -59,7 +57,6 @@ export type BoolQueryName = 'mustClauses' | 'shouldClauses' | 'mustNotClauses'
  *   const searchGenerator = ozoneItemApi.search(searchQuery);
  * ```
  */
-@jsElement()
 export class SearchQuery {
     _searchRequest: SearchRequest = {
         size: 10

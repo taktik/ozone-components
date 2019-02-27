@@ -1,6 +1,6 @@
 {
   "name": "ozone-type",
-  "version": "4.13-alpha.8",
+  "version": "4.3.0",
   "publishConfig": {
     "access": "public"
   },
@@ -9,7 +9,7 @@
   "types": "dist/models.d.ts",
   "scripts": {
     "tsc": "../../../node_modules/.bin/tsc",
-    "prepublish": "npm run tsc",
+    "prepublish": "../../../node_modules/.bin/tsc",
     "doc": "../../../node_modules/.bin/typedoc --excludeExternals --out  doc/ ozone/model/"
   },
   "repository": {

@@ -1,5 +1,3 @@
-/// <amd-module name="ozone-edit-number-entry"/>
-
 import {customElement, property} from 'taktik-polymer-typescript'
 import {OzoneEditEntry} from '../ozone-edit-entry/ozone-edit-entry'
 import '../ozone-edit-entry/ozone-edit-entry'

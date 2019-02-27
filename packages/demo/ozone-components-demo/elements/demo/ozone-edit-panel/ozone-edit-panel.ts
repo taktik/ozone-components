@@ -1,6 +1,3 @@
-/// <amd-module name="ozone-edit-panel"/>
-
-
 import "polymer/polymer-element.html"
 
 import "paper-item/paper-item.html"
