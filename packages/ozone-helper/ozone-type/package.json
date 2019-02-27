@@ -9,7 +9,7 @@
   "types": "./ozone/include.d.ts",
   "scripts": {
     "tsc": "../../../node_modules/.bin/tsc",
-    "prepublish": "",
+    "prepublish": "../../../node_modules/.bin/tsc",
     "doc": "../../../node_modules/.bin/typedoc --excludeExternals --out  doc/ ozone/model/"
   },
   "repository": {
