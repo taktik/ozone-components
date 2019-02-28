@@ -5,7 +5,7 @@ import "./ozone-localized-string/ozone-localized-string"
 
 import './ozone-item-edit.html'
 import {customElement, property, observe} from 'taktik-polymer-typescript'
-import {Item, FieldDescriptor, Grants} from 'ozone-type'
+import {Item, FieldDescriptor, GenericItem} from 'ozone-type'
 
 
 import './ozone-edit-entry/ozone-edit-entry'
@@ -18,6 +18,11 @@ import './ozone-edit-json-entry/ozone-edit-json-entry';
 import 'ozone-api-type'
 import {FieldsPermission} from 'ozone-api-type'
 
+
+type Partial<T> = {
+    [P in keyof T]?: T[P];
+};
+export type PartialItem = Partial<GenericItem>
 
 export interface EditableFields{
     fieldType: string,
@@ -45,7 +50,7 @@ export class OzoneItemEdit  extends Polymer.Element  {
      * item to display
      */
     @property({type: Object, notify: true})
-    itemData: Item | null = null;
+    itemData: GenericItem | null = null;
 
     ozoneTypeApi: OzoneApiType = getOzoneApiType();
 
@@ -77,7 +82,7 @@ export class OzoneItemEdit  extends Polymer.Element  {
         }
         this.removeEntryIfExist();
 
-        const fields:Array<FieldDescriptor> = await(this.ozoneTypeApi.getAllFields(data.type));
+        const fields:Array<FieldDescriptor> = await(this.ozoneTypeApi.getAllFields(data.type as string));
         let permission;
         if( data.id) {
             permission = await(this.ozoneTypeApi.getPermissions(fields, data.id));
@@ -94,7 +99,7 @@ export class OzoneItemEdit  extends Polymer.Element  {
         this.$.elementView.style.visibility = 'visible'
     }
 
-    private async addInputElement(description:FieldDescriptor, data: Item, permission: FieldsPermission) {
+    private async addInputElement(description:FieldDescriptor, data: GenericItem, permission: FieldsPermission) {
         const fieldType = description.fieldType || "unknown";
 
         const identifier = description.identifier;
@@ -177,7 +182,7 @@ export class OzoneItemEdit  extends Polymer.Element  {
         if(!this.itemData)
             throw new Error()
         const entryList = this.getEntryList();
-        const updatedItem: Item = {
+        const updatedItem : PartialItem = {
             type: this.itemData.type,
             id: this.itemData.id,
         };
@@ -187,7 +192,7 @@ export class OzoneItemEdit  extends Polymer.Element  {
                 updatedItem[entry.id] = entry.value;
             }
         }
-        return updatedItem
+        return updatedItem as Item
     }
 
     updateInvalidValue(){

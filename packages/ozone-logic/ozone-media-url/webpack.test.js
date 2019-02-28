@@ -37,11 +37,13 @@ module.exports = {
             path.resolve(__dirname,  '../../../node_modules'),
 
         ],
-        extensions: ['.ts', '.tsx', '.js', '.jsx', '.html']
+        extensions: ['.ts', '.tsx', '.js', '.jsx', '.html'],
+      alias:{'ozone-api-item': path.resolve(__dirname,  'test/dummyOzoneApi')}
     },
     externals: {
         'sinon': 'sinon',
     },
+
     // These rules tell Webpack how to process different module types.cd ..
     // Remember, *everything* is a module in Webpack. That includes
     // CSS, and (thanks to our loader) HTML.

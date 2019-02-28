@@ -7,9 +7,15 @@
     "strictNullChecks": true,
     "noImplicitThis": true,
     "noImplicitAny" : true,
-    "lib": ["es2017", "dom"],
+    "lib": [
+      "es2017",
+      "es6",
+      "es5",
+      "dom"
+    ],
     "declaration": true,    /* Generates corresponding '.d.ts' file. */
-    "rootDir": "./angular/model"      /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
-
-  }
+    "outDir": "./dist",
+    "strict": true
+  },
+  "include": ["ozone"]
 }

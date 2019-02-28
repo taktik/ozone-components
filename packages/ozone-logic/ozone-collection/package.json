@@ -36,6 +36,5 @@
     "ozone-api-item": "^4.3.0",
     "ozone-api-request": "^4.3.0",
     "ozone-config": "^4.3.0",
-    "ozone-search-helper": "^4.3.0"
-  }
+    "ozone-search-helper": "^4.3.0"}
 }

@@ -50,7 +50,6 @@ export declare type VideoMarker = Array<VideoArea>
  */
 export class OzoneApiEditVideo {
 
-    ozoneApi: OzoneApiItem;
     private _ozoneMediaUrlCollection : Map<string, OzoneMediaUrl> =  new Map();
 
     private async mediaUrlFactory(video: OzoneType.Video): Promise<OzoneMediaUrl>{
@@ -62,11 +61,6 @@ export class OzoneApiEditVideo {
             this._ozoneMediaUrlCollection.set(video.id as string, ozoneMediaUrl);
             return ozoneMediaUrl;
         }
-    }
-
-
-    constructor(){
-        this.ozoneApi = new OzoneApiItem();
     }
 
     private async _createNewPlayListFile(originalVideo: OzoneType.Video, chunksList: Array<Array<string>>):Promise<string>{
@@ -110,12 +104,13 @@ export class OzoneApiEditVideo {
 
     private async _createBlobFile(playListBlob: Blob):Promise<OzoneType.File>{
 
-        const blobFile: OzoneType.File = {
+        const blobFile: Partial<OzoneType.File> = {
             blob: playListBlob.id,
             uti: 'unofficial.m3uu-playlist',
             type: 'file'
         };
-        const file = await this.ozoneApi.on('file').create(blobFile);
+        const ozoneApi = new OzoneApiItem<OzoneType.File>();
+        const file = await ozoneApi.on('file').create(blobFile);
         if(file)
             return file
         else
@@ -127,7 +122,6 @@ export class OzoneApiEditVideo {
         if(originalVideo.derivedFiles) {
             const mediaUrl = await this.mediaUrlFactory(originalVideo);
             const fileTypeIdentifier = await mediaUrl.getPreferedVideoFormat();
-            debugger
             if( typeof fileTypeIdentifier !== 'string')
                 throw new Error('No video files found')
             const fileType = await this.getFileType(fileTypeIdentifier);
@@ -136,11 +130,12 @@ export class OzoneApiEditVideo {
             query.termQuery('fileType', fileType.id as string)
                 .and.idsQuery(...originalVideo.derivedFiles);
 
-            const serachGen = await this.ozoneApi.on('file').search(query);
+            const ozoneApi = new OzoneApiItem<OzoneType.File>()
+            const serachGen = await ozoneApi.on('file').search(query);
             const serachResult = await serachGen.next();
             if(serachResult){
                 const originalHLSFile =  serachResult.results[0];
-                const file = await this.ozoneApi.on('file').getOne(originalHLSFile.id as OzoneType.UUID);
+                const file = await ozoneApi.on('file').getOne(originalHLSFile.id as OzoneType.UUID);
                 return file as OzoneType.File;
             } else {
                 throw new Error('Unable to find original File')
@@ -182,14 +177,15 @@ export class OzoneApiEditVideo {
             });
             const originalFileType = (await this.getFileType(originaFileTypeIdentifier));
             console.log('originalFileType', originalFileType,  originaFileTypeIdentifier)
-            const newFolder: OzoneType.File = {
+            const newFolder: Partial<OzoneType.File> = {
                 type: "file",
                 uti: "public.folder",
                 fileType: originalFileType.id as string,
                 subFiles: newSubFile,
 
             };
-            return (await this.ozoneApi.on('file').create(newFolder)) as OzoneType.File
+            const ozoneApi = new OzoneApiItem<OzoneType.File>();
+            return (await ozoneApi.on('file').create(newFolder)) as OzoneType.File
         } else {
             throw new Error('Video file has no subFile')
         }
@@ -197,7 +193,7 @@ export class OzoneApiEditVideo {
     }
     private async _duplicateVideo(originalVideo: OzoneType.Video, newFolder: OzoneType.File): Promise<OzoneType.Video>{
 
-        const newVideo = JSON.parse(JSON.stringify(originalVideo)) as OzoneType.Video; //deep copy
+        const newVideo: Partial<OzoneType.Video> = JSON.parse(JSON.stringify(originalVideo)) as OzoneType.Video; //deep copy
         const now = (new Date()).toISOString() as OzoneType.Date;
 
         delete newVideo.id;
@@ -207,8 +203,11 @@ export class OzoneApiEditVideo {
         newVideo.creationDate = now;
         newVideo.modificationDate = now;
         newVideo.previewDate = now;
-
-        return (await this.ozoneApi.on('video').create(newVideo)) as OzoneType.Video
+        const ozoneApi = new OzoneApiItem<OzoneType.Video>();
+        const result = (await ozoneApi.on('video').create(newVideo))
+        if(result)
+            return result
+            else throw new Error('Unable to create Video')
     }
 
     public async createSubVideo(originalVideo: OzoneType.Video, chunks: Array<Array<string>>): Promise<OzoneType.Video> {

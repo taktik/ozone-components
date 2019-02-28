@@ -1,7 +1,8 @@
 ozone/api
+/dist
 /ozone/configuration.ts
 /ozone/git_push.sh
 /ozone/index.ts
 /ozone/variables.ts
-/**/*.js
+/ozone/**/*.js
 /ozone/model/*.d.ts

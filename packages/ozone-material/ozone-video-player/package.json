@@ -24,7 +24,7 @@
 		"start": "../../../node_modules/.bin/webpack --config webpack.config.js",
 		"pretest": "../../../node_modules/.bin/webpack --config webpack.config.js",
 		"test:persist": "../../../node_modules/.bin/wct -p  --skip-plugin=headless --configFile wct.conf.js",
-		"build:test:watch": "./../../node_modules/.bin/webpack --config webpack.config.js --watch",
+		"build:test:watch": "../../../node_modules/.bin/webpack --config webpack.config.js --watch",
 		"demo": "../../../node_modules/.bin/webpack-dev-server --config webpack.config.js",
 		"doc": "../../../node_modules/.bin/typedoc --excludeExternals  --out  doc/ "
 	},

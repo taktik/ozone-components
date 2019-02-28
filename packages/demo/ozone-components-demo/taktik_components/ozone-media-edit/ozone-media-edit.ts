@@ -72,12 +72,12 @@ export class OzoneMediaEdit  extends Polymer.Element  {
 
     async loadVideo(data?: Item){
         if(this.ozoneTypeApi && data) {
-            if (await ( this.ozoneTypeApi.ifIsTypeInstanceOf(data.type, 'video'))) {
+            if (await ( this.ozoneTypeApi.ifIsTypeInstanceOf(data.type as string, 'video'))) {
 
                 this.playerElement = document.createElement('ozone-video-player') as OzoneVideoPlayer;
                 this.playerElement.set('subtitleSelected', 'en')
                 this.$.player.appendChild(this.playerElement);
-                this.playerElement.loadOzoneVideo(data);
+                this.playerElement.loadOzoneVideo(data as Video);
 
                 this.set('isVideo', true);
             }
@@ -86,7 +86,7 @@ export class OzoneMediaEdit  extends Polymer.Element  {
     async loadImage(data?: Item, size?:SizeEnum){
         size = size || OzonePreviewSize.Small;
         if(this.ozoneTypeApi && data) {
-            if (await ( this.ozoneTypeApi.ifIsTypeInstanceOf(data.type, 'media'))) {
+            if (await ( this.ozoneTypeApi.ifIsTypeInstanceOf(data.type as string, 'media'))) {
                 const config = await Config.OzoneConfig.get();
                 const ozoneMediaUrl = new OzoneMediaUrl(data.id as string, config);
                 this.set('previewImage', ozoneMediaUrl.getPreviewUrlPng(size));

@@ -53,25 +53,8 @@ describe('tool OzoneMediaUrl', function () {
 
     describe('getVideoUrl', function () {
         it('should return video url', function (done){
-            const dummyOzoneApi = function(){
-            this.on = ()=>{
-                return this
-            };
-            this.getOne = (id) =>{
-                expect(id).to.equal('00000000-046c-7fc4-0000-000000006028')
-                return {id: '00000000-046c-7fc4-0000-000000006028', file: 'f1', derivedFiles: ['f2', 'f3']}
-            };
-            this.bulkGet = (ids) => {
-                expect(ids).to.deep.equal(['f1', 'f2', 'f3'])
-                return [{
-                    fileType :'fileType'
-                }]
-            };
-            return this;
-            };
 
             const element = new OzoneMediaUrl('00000000-046c-7fc4-0000-000000006028', config);
-            element.ozoneApi = new dummyOzoneApi();
             element._getVideoFileType = sinon.stub().withArgs().returns([{id:'fileType', identifier:'org.taktik.filetype.flowr.video'}]);
             element.getVideoUrl().then((url)=>{
                 expect(url).to.equal('/ozone/view/24616/org.taktik.filetype.flowr.video/index.m3u8');
