@@ -17,19 +17,13 @@
 	"scripts": {
 		"prepublish": "npm run build",
 		"build": "npm run tslint && tsc",
-		"tslint": "tslint src/*"
+		"tslint": "../../node_modules/.bin/tslint src/*"
 	},
 	"homepage": "https://github.com/taktik/ozone-typescript-client#readme",
 	"dependencies": {
 		"log4javascript": "^1.4.15",
 		"typescript-state-machine": "^0.9.3",
 		"typescript-http-client": "^0.9.13",
-		"ozone-type": "4.14.8"
-	},
-	"devDependencies": {
-		"tslint": "^5.11.0",
-		"tslint-config-standard": "^8.0.1",
-		"typescript": "^3.1.6",
-		"typescript-eslint-parser": "^20.1.1"
+		"ozone-type": "4.4.0"
 	}
 }
