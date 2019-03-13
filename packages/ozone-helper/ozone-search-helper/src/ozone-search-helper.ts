@@ -2,6 +2,7 @@
  * Created by hubert on 8/06/17.
  */
 import {Item, SearchRequest, ItemSearchResult, TermsAggregation, Aggregation,
+	ExistsQuery,
     WildcardQuery, QueryStringQuery, TermQuery, ModeType, TermsQuery, TenantQuery, TypeQuery, Query, BoolQuery, Sort, IdsQuery, AggregationItem, RegexpQuery, RangeQuery} from 'ozone-type';
 
 
@@ -208,6 +209,13 @@ export class SearchQuery {
             ids,
         } as IdsQuery);
     }
+
+	existsQuery(field: string): SearchQuery {
+		return this.addQuery({
+			"$type": "ExistsQuery",
+			field,
+		} as ExistsQuery);
+	}
 
     /**
      * search inside a type and it's subtype
