@@ -4,7 +4,7 @@ import "polymer/polymer-element.html"
 import "./ozone-collection.html"
 
 import {customElement, property, observe, jsElement} from 'taktik-polymer-typescript';
-import {Item} from 'ozone-type';
+import {Item, FromOzone} from 'ozone-type';
 import 'ozone-api-item';
 import {SearchGenerator, OzoneApiItem, lockRequest, StatefulOzone} from 'ozone-api-item';
 import 'ozone-search-helper';
@@ -30,7 +30,7 @@ import {SearchQuery, SearchResult} from 'ozone-search-helper';
  *
  */
 @customElement('ozone-collection')
-export class OzoneCollection extends Polymer.Element implements StatefulOzone{
+export class OzoneCollection<T extends Item = Item> extends Polymer.Element implements StatefulOzone{
 
     _currentRequest: Promise<any> = Promise.resolve();
 
@@ -53,7 +53,7 @@ export class OzoneCollection extends Polymer.Element implements StatefulOzone{
      * @notify: true
      */
     @property({type: Array, notify: true})
-    items: Array<Item> = [];
+    items: Array<T> = [];
 
     /**
      * total number of results found in ozone
@@ -73,17 +73,17 @@ export class OzoneCollection extends Polymer.Element implements StatefulOzone{
      * map function run on search result received from the server.
      * Useful form migration task
      */
-    mapSearchResult: {(item:Item): Item} | undefined;
+    mapSearchResult: {(item:FromOzone<T>): FromOzone<T>} | undefined;
 
-    private _source: OzoneApiItem;
+    private _source: OzoneApiItem<T>;
 
-    private get _getSource() {return this._source as OzoneApiItem};
+    private get _getSource() {return this._source};
 
-    private _searchIterator?: SearchGenerator;
+    private _searchIterator?: SearchGenerator<T>;
 
     constructor(){
         super();
-        this._source = new OzoneApiItem();
+        this._source = new OzoneApiItem<T>();
     }
 
 
@@ -97,7 +97,7 @@ export class OzoneCollection extends Polymer.Element implements StatefulOzone{
      * items are added to the items array.
      * @param size {number} number of items to load default value is 10
      */
-    async loadItems(size:number): Promise<Array<Item>>{
+    async loadItems(size:number): Promise<Array<FromOzone<T>>>{
         return this.quickSearch('', size);
     }
 
@@ -106,7 +106,7 @@ export class OzoneCollection extends Polymer.Element implements StatefulOzone{
      * @param searchString
      * @param size {number} number of items to load default value is 10
      */
-    async quickSearch(searchString:string, size?:number): Promise<Array<Item>>{
+    async quickSearch(searchString:string, size?:number): Promise<Array<FromOzone<T>>>{
         size = size || 10;
         let searchQuery = new SearchQuery();
         searchQuery.size = size;
@@ -120,14 +120,14 @@ export class OzoneCollection extends Polymer.Element implements StatefulOzone{
      * @param searchQuery {SearchQuery} search query
      * @param keepData {Boolean} keep items in collection. Default is false, it will delete items before search.
      */
-    async search(searchQuery:SearchQuery, keepData: boolean = false): Promise<Array<Item>>{
+    async search(searchQuery:SearchQuery, keepData: boolean = false): Promise<Array<FromOzone<T>>>{
         this._verifySource();
 
         if(this._searchIterator){
             this._searchIterator.cancelRequest()
         }
 
-        this._searchIterator = (await this._getSource.search(searchQuery)) as SearchGenerator;
+        this._searchIterator = (await this._getSource.search(searchQuery));
         return this.loadNextItems(keepData)
     }
 
@@ -137,7 +137,7 @@ export class OzoneCollection extends Polymer.Element implements StatefulOzone{
      * @return {Promise}
      */
     @lockRequest()
-    async loadNextItems(keepData: boolean = true): Promise<Array<Item>>{
+    async loadNextItems(keepData: boolean = true): Promise<Array<FromOzone<T>>>{
         if(this._searchIterator) {
             return this._addSearchResult(await this._searchIterator.next(), keepData);
         }
@@ -150,18 +150,18 @@ export class OzoneCollection extends Polymer.Element implements StatefulOzone{
      * @return {Promise}
      */
     @lockRequest()
-    async loadAll(keepData: boolean = true): Promise<Array<Item>>{
+    async loadAll(keepData: boolean = true): Promise<Array<FromOzone<T>>>{
         if(this._searchIterator) {
             return this._addSearchResult(await this._searchIterator.getAll(), keepData);
         }
         return Promise.reject('_searchIterator not define you probably did not search for items')
     }
 
-    private async _addSearchResult  (searchResult: SearchResult| null , keepData: boolean): Promise<Array<Item>> {
+    private async _addSearchResult  (searchResult: SearchResult<T>| null , keepData: boolean): Promise<Array<FromOzone<T>>> {
         if (this._searchIterator) {
             this.set('hasMoreData', this._searchIterator.hasMoreData);
             if(searchResult) {
-                let resultsList: Array<Item>;
+                let resultsList: Array<FromOzone<T>>;
                 if (this.mapSearchResult) {
                     resultsList = searchResult.results.map(this.mapSearchResult);
                 } else {
@@ -175,16 +175,16 @@ export class OzoneCollection extends Polymer.Element implements StatefulOzone{
                 this.push('items', ...resultsList)
             }
         }
-        return this.items;
+        return this.items as Array<FromOzone<T>>;
     }
     /**
      * find one item in ozone collection.
      * The item found is added in the items array.
      * @param id {uuid} id of the item to get.
-     * @return {Promise<Item>} promise resolve with the item or null (if not found).
+     * @return {Promise<FromOzone<T>>} promise resolve with the item or null (if not found).
      */
     @lockRequest()
-    findOne(id:uuid): Promise<Item | null>{
+    findOne(id:uuid): Promise<T | null>{
         try {
             this.isDefined(id);
 
@@ -197,7 +197,7 @@ export class OzoneCollection extends Polymer.Element implements StatefulOzone{
                         if (item) {
                             this.splice('items', 0, 0, item);
                         }
-                        return item as Item | null;
+                        return item;
                     });
             } else {
                 result = Promise.resolve(this.items[index]);
@@ -221,7 +221,7 @@ export class OzoneCollection extends Polymer.Element implements StatefulOzone{
     async saveAll(): Promise<Array<Item>>{
         try {
             this._verifySource();
-            const items = await this._getSource.bulkSave(this.items as Array<Item>)
+            const items = await this._getSource.bulkSave(this.items)
             if(items)
                 return this.setAll(items);
             else
@@ -252,7 +252,7 @@ export class OzoneCollection extends Polymer.Element implements StatefulOzone{
      * @return {Promise<number>} Promise resolve with index of the item in items.
      */
     @lockRequest()
-    saveOne(item:Item, reflect:boolean=true):Promise<number>{
+    saveOne(item:Partial<T>, reflect:boolean=true):Promise<number>{
         try {
             this.isDefined(item);
             const index = this.getIndexById(item.id);
@@ -280,7 +280,7 @@ export class OzoneCollection extends Polymer.Element implements StatefulOzone{
      * @param items
      */
     @lockRequest()
-    async update(...items: Array<Item>):Promise<Array<Item>>{
+    async update(...items: Array<Partial<T>>):Promise<Array<Item>>{
         const results = await this._getSource.bulkSave(items);
         if(results) {
             results.forEach((item) => {
@@ -304,7 +304,7 @@ export class OzoneCollection extends Polymer.Element implements StatefulOzone{
      * @return {Promise<number>} promise the resolve with the index in items
      */
     @lockRequest()
-    add(item:Item, reflect:boolean=true):Promise<number>{
+    add(item:Partial<T>, reflect:boolean=true):Promise<number>{
         try {
             this.isDefined(item);
             this._verifySource();
@@ -314,7 +314,7 @@ export class OzoneCollection extends Polymer.Element implements StatefulOzone{
         }
     }
 
-    _addItem(item:Item, reflect:boolean=true):Promise<number>{
+    _addItem(item:Partial<T>, reflect:boolean=true):Promise<number>{
         return this._getSource.create(item)
             .then(item => {
                 if(reflect) {

@@ -4,7 +4,7 @@
 
 import * as Config from 'ozone-config'
 import {OzoneAPIRequest} from 'ozone-api-request'
-import {Item, ItemSearchResult, UUID} from 'ozone-type'
+import {Item, ItemSearchResult, UUID, FromOzone} from 'ozone-type'
 import {SearchResponse, SearchResult, SearchQuery} from "ozone-search-helper";
 import {v4 as uuid} from 'uuid';
 
@@ -80,7 +80,7 @@ export class OzoneApiItem<T = Item> {
      * @param data Item item to create.
      * @return {Promise<Item>}
      */
-    create(data:Partial<T>): Promise<T | null> {
+    create(data:Partial<T>): Promise<FromOzone<T> | null> {
         return this.update(data);
     }
 
@@ -89,7 +89,7 @@ export class OzoneApiItem<T = Item> {
      * @param data Item item to update.
      * @return {Promise<Item>}
      */
-    async update(data: Partial<T>): Promise<T | null> {
+    async update(data: Partial<T>): Promise<FromOzone<T> | null> {
         const url = await this._buildUrl('');
         return this._postRequest<T>(url, data, this._readResponse<T>());
     }
@@ -99,7 +99,7 @@ export class OzoneApiItem<T = Item> {
      * @param id
      * @return {Promise<Item | null>}
      */
-    async getOne(id:UUID):Promise<T | null> {
+    async getOne(id:UUID):Promise<FromOzone<T> | null> {
         const url = await this._buildUrl(id);
         return this._getRequest<T>(url);
     }
@@ -119,9 +119,9 @@ export class OzoneApiItem<T = Item> {
      * @param ids {Array<UUID>} array of id to get
      * @return {Promise<Iterator<Item>>} promise resole with an iterator of collection item
      */
-    async bulkGet(ids:Array<UUID>):Promise<Array<T> | null> {
+    async bulkGet(ids:Array<UUID>):Promise<Array<FromOzone<T>> | null> {
         const url = await this._buildUrl('bulkGet');
-        return this._postRequest<Array<T>>(url, ids, this._readResponse<Array<T>>());
+        return this._postRequest<Array<FromOzone<T>>>(url, ids, this._readResponse<Array<FromOzone<T>>>());
     }
 
     /**
@@ -139,9 +139,9 @@ export class OzoneApiItem<T = Item> {
      * @param items
      * @return {Promise<Iterator<Item>>} promise resole with an iterator of collection item
      */
-    async bulkSave(items:Array<T>):Promise<Array<T> | null> {
+    async bulkSave(items:Array<Partial<T>>):Promise<Array<FromOzone<T>> | null> {
         const url = await this._buildUrl('bulkSave');
-        return this._postRequest<Array<T>>(url, items, this._readResponse<Array<T>>());
+        return this._postRequest<Array<FromOzone<T>>>(url, items, this._readResponse<Array<FromOzone<T>>>());
     }
 
     /**
@@ -155,9 +155,9 @@ export class OzoneApiItem<T = Item> {
         return new SearchGenerator(url, search, this);
     }
 
-    private _readResponse<T> (): (res:XMLHttpRequest) => T | null {
+    private _readResponse<T> (): (res:XMLHttpRequest) => FromOzone<T> | null {
         return (res:XMLHttpRequest) => {
-            return res.response as T || null;
+            return res.response as FromOzone<T> || null;
         }
     };
 
@@ -180,12 +180,12 @@ export class OzoneApiItem<T = Item> {
         return ozoneAccess.send()
     }
 
-    async _postRequest<T>(url:string, body:any, responseFilter:(response: XMLHttpRequest) => T | null): Promise<T | null> {
+    async _postRequest<T>(url:string, body:any, responseFilter:(response: XMLHttpRequest) => FromOzone<T> | null): Promise<FromOzone<T> | null> {
         const request = await this._post(url, body);
         return request.result.then(responseFilter)
     }
 
-    private async _getRequest<T>(url:string): Promise<T | null> {
+    private async _getRequest<T>(url:string): Promise<FromOzone<T> | null> {
         const ozoneAccess = await this.getNewRequest();
         ozoneAccess.url = url;
         ozoneAccess.method = 'GET';
@@ -193,7 +193,7 @@ export class OzoneApiItem<T = Item> {
             .sendRequest().then((res:any) => res.response)
     }
 
-    private async _deleteRequest<T>(url:string): Promise< T | null> {
+    private async _deleteRequest<T>(url:string): Promise<FromOzone<T> | null> {
         const ozoneAccess = await this.getNewRequest();
         ozoneAccess.url = url;
         ozoneAccess.method = 'DELETE';
@@ -223,7 +223,7 @@ export class OzoneApiItem<T = Item> {
  *           });
  * ```
  */
-export class SearchGenerator<T = Item> implements StatefulOzone{
+export class SearchGenerator<T extends Item = Item> implements StatefulOzone{
     _currentRequest: Promise<any> = Promise.resolve();
     searchParam:SearchQuery;
     url:string;
@@ -247,7 +247,7 @@ export class SearchGenerator<T = Item> implements StatefulOzone{
      * @return {Promise<SearchResult>}
      */
     @lockRequest()
-    async next(): Promise<SearchResult|null>{
+    async next(): Promise<SearchResult<T>|null>{
         if(this.hasMoreData && !this._canceled) {
             this.searchParam.offset = this.offset;
             this.currentRequest = await this.api._post(this.url, this.searchParam.searchQuery);
@@ -261,8 +261,8 @@ export class SearchGenerator<T = Item> implements StatefulOzone{
     /**
      * Request all remaining result
      */
-    async getAll(): Promise<SearchResult|null>{
-        let result: SearchResult = {results: [], total:0};
+    async getAll(): Promise<SearchResult<T>|null>{
+        let result: SearchResult<T> = {results: [], total:0};
         if(this.total === 0){
             result = (await this.next()) || result;
         }
@@ -282,7 +282,7 @@ export class SearchGenerator<T = Item> implements StatefulOzone{
             return this.currentRequest.abort();
     }
 
-    private _readSearchResponse (res: XMLHttpRequest):SearchResult {
+    private _readSearchResponse (res: XMLHttpRequest):SearchResult<FromOzone<T>> {
         if(res && res.response) {
             const response = res.response as ItemSearchResult;
             let aggregations = response.aggregations;
@@ -291,14 +291,14 @@ export class SearchGenerator<T = Item> implements StatefulOzone{
             this.total = Number(response.total);
             this.offset += Number(response.size);
             this.hasMoreData = this.offset < this.total;
-            let results = response.results || [];
+            let results = (response.results || [] ) as Array<FromOzone<T>>;
             return {
                 results,
                 total: this.total,
                 aggregations
             };
         } else {
-            let results: Array<Item> = [];
+            let results: Array<FromOzone<T>> = [];
             return {
                 results,
                 total: this.total,

@@ -2,7 +2,7 @@
  * Created by hubert on 8/06/17.
  */
 import {Item, SearchRequest, ItemSearchResult, TermsAggregation, Aggregation,
-	ExistsQuery,
+	ExistsQuery,FromOzone,
     WildcardQuery, QueryStringQuery, TermQuery, ModeType, TermsQuery, TenantQuery, TypeQuery, Query, BoolQuery, Sort, IdsQuery, AggregationItem, RegexpQuery, RangeQuery} from 'ozone-type';
 
 
@@ -12,8 +12,8 @@ export interface SearchResponse {
     response: ItemSearchResult;
 }
 
-export interface SearchResult {
-    results: Array<Item>;
+export interface SearchResult<T> {
+    results: Array<FromOzone<T>>;
     total: number;
     aggregations?: Array<AggregationItem>
 }

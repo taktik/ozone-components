@@ -52,18 +52,21 @@ export class OzoneApiEditVideo {
 
     private _ozoneMediaUrlCollection : Map<string, OzoneMediaUrl> =  new Map();
 
-    private async mediaUrlFactory(video: OzoneType.Video): Promise<OzoneMediaUrl>{
+    private async mediaUrlFactory(video: OzoneType.FromOzone<OzoneType.Video>): Promise<OzoneMediaUrl>{
         if(video.id && this._ozoneMediaUrlCollection.has(video.id)){
             return this._ozoneMediaUrlCollection.get(video.id) as OzoneMediaUrl;
         } else {
             const config = await (Config.OzoneConfig.get());
-            const ozoneMediaUrl = new OzoneMediaUrl(video.id as string, config);
-            this._ozoneMediaUrlCollection.set(video.id as string, ozoneMediaUrl);
+            const ozoneMediaUrl = new OzoneMediaUrl(video.id, config);
+            this._ozoneMediaUrlCollection.set(video.id, ozoneMediaUrl);
             return ozoneMediaUrl;
         }
     }
 
-    private async _createNewPlayListFile(originalVideo: OzoneType.Video, chunksList: Array<Array<string>>):Promise<string>{
+    private async _createNewPlayListFile(
+    	originalVideo: OzoneType.FromOzone<OzoneType.Video>,
+		chunksList: Array<Array<string>>
+	):Promise<string>{
         const chunksListFlatten :Array<string> = [].concat.apply([],chunksList);
         const mediaUrl = await this.mediaUrlFactory(originalVideo);
         const url = await mediaUrl.getVideoUrl();
@@ -89,7 +92,7 @@ export class OzoneApiEditVideo {
         return HLS.stringify(playList);
     }
 
-    private async _savePlayList(playList:string): Promise<object>{
+    private async _savePlayList(playList:string): Promise<OzoneType.Blob>{
 
         const config = await (Config.OzoneConfig.get());
         const url = config.host + config.endPoints.blob;
@@ -102,7 +105,7 @@ export class OzoneApiEditVideo {
 
     }
 
-    private async _createBlobFile(playListBlob: Blob):Promise<OzoneType.File>{
+    private async _createBlobFile(playListBlob: OzoneType.Blob):Promise<OzoneType.File>{
 
         const blobFile: Partial<OzoneType.File> = {
             blob: playListBlob.id,
@@ -117,7 +120,9 @@ export class OzoneApiEditVideo {
             throw new Error("Unable to create file");
         
     }
-    private async getVideoFile(originalVideo: OzoneType.Video): Promise<OzoneType.File>{
+    private async getVideoFile(
+    	originalVideo: OzoneType.FromOzone<OzoneType.Video>
+	): Promise<OzoneType.FromOzone<OzoneType.File>>{
 
         if(originalVideo.derivedFiles) {
             const mediaUrl = await this.mediaUrlFactory(originalVideo);
@@ -135,11 +140,11 @@ export class OzoneApiEditVideo {
             const serachResult = await serachGen.next();
             if(serachResult){
                 const originalHLSFile =  serachResult.results[0];
-                const file = await ozoneApi.on('file').getOne(originalHLSFile.id as OzoneType.UUID);
-                return file as OzoneType.File;
-            } else {
-                throw new Error('Unable to find original File')
+                const file = await ozoneApi.on('file').getOne(originalHLSFile.id);
+                if(file)
+                return file;
             }
+            throw new Error('Unable to find original File')
 
         } else {
             throw new Error('originalVideo has no file')
@@ -166,7 +171,7 @@ export class OzoneApiEditVideo {
     private async _createFolder(playListFile: OzoneType.File,
                                 originalVideoFile: OzoneType.File,
                                 chunks: Array<string>,
-                                originaFileTypeIdentifier:string): Promise<OzoneType.File>{
+                                originaFileTypeIdentifier:string): Promise<OzoneType.FromOzone<OzoneType.File>>{
         const config = await (Config.OzoneConfig.get());
         if(originalVideoFile.subFiles) {
             const subFiles = originalVideoFile.subFiles
@@ -185,13 +190,17 @@ export class OzoneApiEditVideo {
 
             };
             const ozoneApi = new OzoneApiItem<OzoneType.File>();
-            return (await ozoneApi.on('file').create(newFolder)) as OzoneType.File
-        } else {
-            throw new Error('Video file has no subFile')
+            const folder = await ozoneApi.on('file').create(newFolder);
+            if(folder)
+            	return folder
         }
+        throw new Error('Video file has no subFile')
 
     }
-    private async _duplicateVideo(originalVideo: OzoneType.Video, newFolder: OzoneType.File): Promise<OzoneType.Video>{
+    private async _duplicateVideo(
+    	originalVideo: OzoneType.FromOzone<OzoneType.Video>,
+		newFolder: OzoneType.File
+	): Promise<OzoneType.Video>{
 
         const newVideo: Partial<OzoneType.Video> = JSON.parse(JSON.stringify(originalVideo)) as OzoneType.Video; //deep copy
         const now = (new Date()).toISOString() as OzoneType.Date;
@@ -210,13 +219,16 @@ export class OzoneApiEditVideo {
             else throw new Error('Unable to create Video')
     }
 
-    public async createSubVideo(originalVideo: OzoneType.Video, chunks: Array<Array<string>>): Promise<OzoneType.Video> {
+    public async createSubVideo(
+    	originalVideo: OzoneType.FromOzone<OzoneType.Video>,
+		chunks: Array<Array<string>>
+	): Promise<OzoneType.Video> {
         //console.log('originalVideo', originalVideo)
 
         const chunksListFlatten :Array<string> = [].concat.apply([],chunks);
         const playListData =  await this._createNewPlayListFile(originalVideo, chunks);
 
-        const  playListBlob = (await this._savePlayList(playListData)) as Blob;
+        const  playListBlob = await this._savePlayList(playListData);
         //console.log('playListBlob', playListBlob)
         
         //create new ozone file referencing  our playListBlob

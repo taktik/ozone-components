@@ -25,7 +25,7 @@ export interface ItemSearchResult {
 
     size?: number;
 
-    results?: Array<models.Item>;
+    results?: Array<models.FromOzone<models.Item>>;
     aggregations?:  Array<AggregationItem>
 
 
