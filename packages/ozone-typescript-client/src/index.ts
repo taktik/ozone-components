@@ -933,7 +933,7 @@ export namespace OzoneClient {
 		Try to transparently re-authenticate and retry the call if we received a 403 or 401.
 		Also, update the last session check
 	*/
-	class SessionRefreshFilter implements Filter {
+	class SessionRefreshFilter implements Filter<any> {
 		constructor(readonly client: OzoneClientInternals, readonly sessionCheckCallBack: (lastCheck: number) => void) {}
 
 		async doFilter(call: Request, filterChain: FilterChain): Promise<Response<any>> {
@@ -978,7 +978,7 @@ export namespace OzoneClient {
 	/*
 		Add "Ozone-Session-Id" Header
 	*/
-	class SessionFilter implements Filter {
+	class SessionFilter implements Filter<any> {
 		constructor(readonly authProvider: () => AuthInfo | undefined) {}
 
 		async doFilter(call: Request, filterChain: FilterChain): Promise<Response<any>> {
@@ -993,7 +993,7 @@ export namespace OzoneClient {
 	/*
 		Add sensible defaults to requests
 	*/
-	class DefaultsOptions implements Filter {
+	class DefaultsOptions implements Filter<any> {
 		private readonly defaultTimeout: number
 
 		constructor(defaultTimeout: number) {
