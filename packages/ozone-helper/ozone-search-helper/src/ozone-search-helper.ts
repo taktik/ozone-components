@@ -79,6 +79,10 @@ export class SearchQuery {
     }
     get searchQuery () {return JSON.stringify(this._searchRequest)}
 
+	/**
+	 * searchRequest getter
+	 */
+	get searchRequest (): SearchRequest { return this._searchRequest}
 
     get size(): number{return this._searchRequest.size || 0;}
     set size(size: number) {this._searchRequest.size = size;}
