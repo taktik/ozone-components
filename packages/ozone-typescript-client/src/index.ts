@@ -933,10 +933,10 @@ export namespace OzoneClient {
 		Try to transparently re-authenticate and retry the call if we received a 403 or 401.
 		Also, update the last session check
 	*/
-	class SessionRefreshFilter implements Filter {
+	class SessionRefreshFilter implements Filter<any, any> {
 		constructor(readonly client: OzoneClientInternals, readonly sessionCheckCallBack: (lastCheck: number) => void) {}
 
-		async doFilter(call: Request, filterChain: FilterChain): Promise<Response<any>> {
+		async doFilter(call: Request, filterChain: FilterChain<any>): Promise<Response<any>> {
 			try {
 				const response = await filterChain.doFilter(call)
 				const principalId = response.headers['ozone-principal-id']
@@ -978,10 +978,10 @@ export namespace OzoneClient {
 	/*
 		Add "Ozone-Session-Id" Header
 	*/
-	class SessionFilter implements Filter {
+	class SessionFilter implements Filter<any, any> {
 		constructor(readonly authProvider: () => AuthInfo | undefined) {}
 
-		async doFilter(call: Request, filterChain: FilterChain): Promise<Response<any>> {
+		async doFilter(call: Request, filterChain: FilterChain<any>): Promise<Response<any>> {
 			const authInfo = this.authProvider()
 			if (authInfo) {
 				addHeader(call, 'Ozone-Session-Id', authInfo.sessionId)
@@ -993,14 +993,14 @@ export namespace OzoneClient {
 	/*
 		Add sensible defaults to requests
 	*/
-	class DefaultsOptions implements Filter {
+	class DefaultsOptions implements Filter<any, any> {
 		private readonly defaultTimeout: number
 
 		constructor(defaultTimeout: number) {
 			this.defaultTimeout = defaultTimeout
 		}
 
-		async doFilter(request: Request, filterChain: FilterChain): Promise<Response<any>> {
+		async doFilter(request: Request, filterChain: FilterChain<any>): Promise<Response<any>> {
 			if (!request.timeout || request.timeout > this.defaultTimeout) {
 				request.timeout = this.defaultTimeout
 			}

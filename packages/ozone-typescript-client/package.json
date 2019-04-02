@@ -23,7 +23,7 @@
 	"dependencies": {
 		"log4javascript": "^1.4.15",
 		"ozone-type": "^4.4.3",
-		"typescript-http-client": "^0.9.13",
+		"typescript-http-client": "^0.9.16",
 		"typescript-state-machine": "^0.9.3"
 	}
 }
