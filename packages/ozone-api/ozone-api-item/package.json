@@ -1,6 +1,6 @@
 {
   "name": "ozone-api-item",
-  "version": "4.4.3",
+  "version": "4.4.4",
   "publishConfig": {
     "access": "public"
   },
@@ -28,7 +28,7 @@
   "dependencies": {
     "ozone-api-request": "^4.4.3",
     "ozone-config": "^4.4.3",
-    "ozone-search-helper": "^4.4.3",
+    "ozone-search-helper": "^4.4.4",
     "uuid": "3.3.2"
   },
   "devDependencies": {
