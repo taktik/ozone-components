@@ -108,20 +108,20 @@ export interface OzoneClient extends StateMachine<ClientState> {
 
 ```javaScript
 import { OzoneClient } from 'ozone-typescript-client'
+import UserCredentials = OzoneClient.UserCredentials
 import OzoneCredentials = OzoneClient.OzoneCredentials
 import ClientConfiguration = OzoneClient.ClientConfiguration
 import newOzoneClient = OzoneClient.newOzoneClient
 
-let client: OzoneClient;
+let client: OzoneClient.OzoneClient
 async function init() {
-
-    const config: ClientConfiguration = {
-                ozoneURL: `${OzoneBasicController.HTTP_PROTOCOL}://${domain}/ozone`,
-                ozoneCredentials: credentials
-            }
-    client = newOzoneClient(config)
-
-    await client.start()
+const credentials = new UserCredentials('ozoneUser', 'ozonePassword')
+		const config: ClientConfiguration = {
+			ozoneURL: `http://my.ozone.domain/ozone`,
+			ozoneCredentials: credentials
+		}
+		client = newOzoneClient(config)
+		await client.start()
 }
 
 ```
