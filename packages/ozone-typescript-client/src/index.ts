@@ -1,7 +1,7 @@
 import { fsm } from 'typescript-state-machine'
 import * as log4javascript from 'log4javascript'
 import { httpclient } from 'typescript-http-client'
-import { FromOzone, Item, Query, SearchRequest, UUID, State as MetaState, Patch } from 'ozone-type'
+import { FromOzone, Item, Query, SearchRequest, UUID, State as MetaState, Patch, DeviceMessage } from 'ozone-type'
 
 export namespace OzoneClient {
 	import AssumeStateIsNot = fsm.AssumeStateIsNot
@@ -23,8 +23,6 @@ export namespace OzoneClient {
 
 	const log = log4javascript.getLogger('ozone.client')
 	const DEFAULT_TIMEOUT = 5000
-
-	type Message = any
 
 	export class ClientState extends State {
 	}
@@ -162,14 +160,14 @@ export namespace OzoneClient {
 			@param messageType The type of message to register for
 			@param callBack The callBack that will be called
 		*/
-		onMessage<M extends Message>(messageType: string, callBack: (message: M) => void): ListenerRegistration
+		onMessage<M extends DeviceMessage>(messageType: string, callBack: (message: M) => void): ListenerRegistration
 
-		onAnyMessage(callBack: (message: Message) => void): ListenerRegistration
+		onAnyMessage(callBack: (message: DeviceMessage) => void): ListenerRegistration
 
 		/*
 			Send a message
 		*/
-		send(message: Message): void
+		send(message: DeviceMessage): void
 
 		// BEGIN HIGH LEVEL CALLS
 
@@ -251,7 +249,7 @@ export namespace OzoneClient {
 
 	class MessageListener extends Listener {
 		constructor(
-			readonly callBack: (message: Message) => void,
+			readonly callBack: (message: DeviceMessage) => void,
 			readonly messageType?: string
 		) {
 			super()
@@ -310,7 +308,7 @@ export namespace OzoneClient {
 			return this.inState(states.WS_CONNECTED)
 		}
 
-		onMessage<M extends Message>(messageType: string, callBack: (message: M) => void): ListenerRegistration {
+		onMessage<M extends DeviceMessage>(messageType: string, callBack: (message: M) => void): ListenerRegistration {
 			return this.addMessageListener(message => callBack(message as M), messageType)
 		}
 
@@ -318,7 +316,7 @@ export namespace OzoneClient {
 			return this.addMessageListener(callBack, undefined)
 		}
 
-		send(message: Message): void {
+		send(message: DeviceMessage): void {
 			this.checkInState(states.WS_CONNECTED, 'Cannot send message : Not connected')
 			this._ws!.send(JSON.stringify(message))
 		}
@@ -378,9 +376,9 @@ export namespace OzoneClient {
 			}
 		}
 
-		private static parseMessage(message: MessageEvent): Message | null {
+		private static parseMessage(message: MessageEvent): DeviceMessage | null {
 			try {
-				return JSON.parse(message.data) as Message
+				return JSON.parse(message.data) as DeviceMessage
 			} catch (e) {
 				log.error('Unable to parse websocket message:', message, '// Error:', e)
 				return null
@@ -526,7 +524,7 @@ export namespace OzoneClient {
 			}
 		}
 
-		private addMessageListener(callBack: (message: Message) => void, messageType?: string) {
+		private addMessageListener(callBack: (message: DeviceMessage) => void, messageType?: string) {
 			const messageTypeLabel = messageType || '*'
 			if (!this._messageListeners[messageTypeLabel]) {
 				this._messageListeners[messageTypeLabel] = []
@@ -695,7 +693,7 @@ export namespace OzoneClient {
 			this._clearWSRetryTimestampsTimeout = 0
 		}
 
-		private static invokeMessageListeners(message: Message, listeners?: MessageListener[]) {
+		private static invokeMessageListeners(message: DeviceMessage, listeners?: MessageListener[]) {
 			if (listeners) {
 				for (let index = 0; index < listeners.length; index++) {
 					let listener = listeners[index]
@@ -714,7 +712,7 @@ export namespace OzoneClient {
 			}
 		}
 
-		private dispatchMessage(message: Message) {
+		private dispatchMessage(message: DeviceMessage) {
 			if (message.type) {
 				OzoneClientImpl.invokeMessageListeners(message, this._messageListeners[message.type])
 				OzoneClientImpl.invokeMessageListeners(message, this._messageListeners['*'])
