@@ -93,6 +93,7 @@ export namespace OzoneClient {
 
 	/*
 		Main interface for the Ozone Client
+		This class manage connection and communication to ozone
 	*/
 	export interface OzoneClient extends StateMachine<ClientState> {
 
@@ -204,6 +205,10 @@ export namespace OzoneClient {
 		save(item: Patch<T>): Promise<FromOzone<T>>
 
 		saveAll(items: Patch<T>[]): Promise<FromOzone<T>[]>
+
+		broadcast(item: T): Promise<FromOzone<T>>
+
+		bulkBroadcast(items: T[]): Promise<FromOzone<T>[]>
 
 		findOne(id: UUID): Promise<FromOzone<T> | null>
 
@@ -710,8 +715,12 @@ export namespace OzoneClient {
 		}
 
 		private dispatchMessage(message: Message) {
-			OzoneClientImpl.invokeMessageListeners(message, this._messageListeners[message.type])
-			OzoneClientImpl.invokeMessageListeners(message, this._messageListeners['*'])
+			if (message.type) {
+				OzoneClientImpl.invokeMessageListeners(message, this._messageListeners[message.type])
+				OzoneClientImpl.invokeMessageListeners(message, this._messageListeners['*'])
+			} else {
+				throw Error('Can not dispatch message of undefined type')
+			}
 		}
 
 		private setupTransitionListeners() {
@@ -823,6 +832,28 @@ export namespace OzoneClient {
 						.setMethod('POST')
 						.setBody(searchRequest)
 					return client.call<SearchResults<FromOzone<T>>>(request)
+				}
+
+				async broadcast(item: T): Promise<FromOzone<T>> {
+					const request = new Request(`${baseURL}/rest/v3/items/${typeIdentifier}/broadcast`)
+						.setMethod('POST')
+						.setBody(item)
+					const savedItem = await client.call<FromOzone<T>>(request)
+					if (savedItem._meta.state === MetaState.ERROR) {
+						throw savedItem
+					}
+					return savedItem
+				}
+
+				async bulkBroadcast(items: T[]): Promise<FromOzone<T>[]> {
+					const request = new Request(`${baseURL}/rest/v3/items/${typeIdentifier}/bulkBroadcast`)
+						.setMethod('POST')
+						.setBody(items)
+					const savedItems = await client.call<FromOzone<T>[]>(request)
+					if (savedItems.some(item => item._meta.state === MetaState.ERROR)) {
+						throw savedItems
+					}
+					return savedItems
 				}
 			}()
 		}
