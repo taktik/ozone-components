@@ -23,7 +23,7 @@ describe('OzoneClient', () => {
 		return client.start()
 	})
 	describe('ItemClient', () => {
-		describe('braodcast', () => {
+		describe('broadcast', () => {
 			it('shoud send broadcast request', async () => {
 				server.respondWith(
 					'POST',
