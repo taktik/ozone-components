@@ -1,6 +1,6 @@
 {
   "name": "ozone-api-type",
-  "version": "4.4.3",
+  "version": "4.4.5",
   "publishConfig": {
     "access": "public"
   },
@@ -29,8 +29,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ozone-api-request": "^4.4.3",
-    "ozone-config": "^4.4.3",
-    "ozone-type": "^4.4.3"
+    "ozone-api-request": "^4.4.5",
+    "ozone-config": "^4.4.5",
+    "ozone-type": "^4.4.5"
   }
 }

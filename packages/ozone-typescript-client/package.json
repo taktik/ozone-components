@@ -1,6 +1,6 @@
 {
 	"name": "ozone-typescript-client",
-	"version": "4.4.4",
+	"version": "4.4.5",
 	"description": "",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
@@ -24,7 +24,7 @@
 	"homepage": "https://github.com/taktik/ozone-typescript-client#readme",
 	"dependencies": {
 		"log4javascript": "^1.4.15",
-		"ozone-type": "^4.4.3",
+		"ozone-type": "^4.4.5",
 		"typescript-http-client": "^0.9.16",
 		"typescript-state-machine": "^0.9.3"
 	}
