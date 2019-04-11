@@ -17,7 +17,9 @@
 	"scripts": {
 		"prepublish": "npm run build",
 		"build": "npm run tslint && tsc",
-		"tslint": "../../node_modules/.bin/tslint src/*"
+		"tslint": "../../node_modules/.bin/tslint src/*",
+		"test:debug": "../../node_modules/.bin/karma start",
+		"test": "../../node_modules/.bin/karma start  --single-run"
 	},
 	"homepage": "https://github.com/taktik/ozone-typescript-client#readme",
 	"dependencies": {
