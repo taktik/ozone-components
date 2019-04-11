@@ -152,7 +152,7 @@ export class OzoneApiItem<T = Item> {
             this.on(search.collection)
         }
         const url = await this._buildUrl('search');
-        return new SearchGenerator(url, search, this);
+        return new SearchGenerator<T>(url, search, this);
     }
 
     private _readResponse<T> (): (res:XMLHttpRequest) => FromOzone<T> | null {
