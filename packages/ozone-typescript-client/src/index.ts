@@ -3,9 +3,19 @@ import * as log4javascript from 'log4javascript'
 import { httpclient } from 'typescript-http-client'
 import { FromOzone, Item, Query, SearchRequest, UUID, State as MetaState, Patch, DeviceMessage } from 'ozone-type'
 
+//
+import * as clientState from './ozoneClient/clientState'
+import * as Credencial from './ozoneClient/Credentials'
+import * as itemClient from './itemClient/itemClient'
+import { ItemClientImpl } from './itemClient/itemClientImpl'
+import { RoleClient } from './roleClient/roleClient'
+import { RoleClientImpl } from './roleClient/roleClientImpl'
+import * as clientConfiguration from './ozoneClient/clientConfiguration'
+import { OzoneClientInterface } from './ozoneClient/ozoneClient'
+
 export namespace OzoneClient {
 	import AssumeStateIsNot = fsm.AssumeStateIsNot
-	import Transitions = fsm.Transitions
+
 
 	import State = fsm.State
 	import ListenerRegistration = fsm.ListenerRegistration
@@ -21,209 +31,21 @@ export namespace OzoneClient {
 	import InstalledFilter = httpclient.InstalledFilter
 	import FilterCollection = httpclient.FilterCollection
 
+
 	const log = log4javascript.getLogger('ozone.client')
 	const DEFAULT_TIMEOUT = 5000
 
-	export class ClientState extends State {
-	}
+	export class ClientState extends clientState.ClientState {}
 
-	export const states = {
-		STOPPED: new ClientState('STOPPED'),
-		STARTED: new ClientState('STARTED'),
-		AUTHENTICATING: new ClientState('AUTHENTICATING'),
-		AUTHENTICATED: new ClientState('AUTHENTICATED'),
-		NETWORK_OR_SERVER_ERROR: new ClientState('NETWORK_OR_SERVER_ERROR'),
-		AUTHENTICATION_ERROR: new ClientState('AUTHENTICATION_ERROR'),
-		WS_CONNECTING: new ClientState('WS_CONNECTING'),
-		WS_CONNECTED: new ClientState('WS_CONNECTED'),
-		WS_CONNECTION_ERROR: new ClientState('WS_CONNECTION_ERROR'),
-		STOPPING: new ClientState('STOPPING')
-	}
+	export const states = clientState.states
 
-	const validTransitions: Transitions<ClientState> = {}
-	validTransitions[states.STOPPED.label] = [states.STARTED]
-	validTransitions[states.STARTED.label] = [states.AUTHENTICATING]
-	validTransitions[states.AUTHENTICATING.label] = [states.STOPPING, states.AUTHENTICATION_ERROR, states.NETWORK_OR_SERVER_ERROR, states.AUTHENTICATED]
-	validTransitions[states.AUTHENTICATED.label] = [states.STOPPING, states.WS_CONNECTING, states.AUTHENTICATING]
-	validTransitions[states.AUTHENTICATION_ERROR.label] = [states.STOPPING, states.AUTHENTICATING]
-	validTransitions[states.NETWORK_OR_SERVER_ERROR.label] = [states.STOPPING, states.AUTHENTICATING]
-	validTransitions[states.WS_CONNECTING.label] = [states.STOPPING, states.WS_CONNECTED, states.WS_CONNECTION_ERROR, states.AUTHENTICATING]
-	validTransitions[states.WS_CONNECTED.label] = [states.STOPPING, states.WS_CONNECTION_ERROR, states.AUTHENTICATING]
-	validTransitions[states.WS_CONNECTION_ERROR.label] = [states.STOPPING, states.WS_CONNECTING, states.AUTHENTICATING]
-	validTransitions[states.STOPPING.label] = [states.STOPPED]
+	export interface OzoneClient extends OzoneClientInterface {}
 
-	/*
-		digraph G {
-			"STOPPED" -> "STARTED"
-			"STARTED" -> "AUTHENTICATING"
-			"AUTHENTICATING" -> "STOPPING"
-			"AUTHENTICATING" -> "AUTHENTICATION_ERROR"
-			"AUTHENTICATING" -> "AUTHENTICATED"
-			"AUTHENTICATING" -> "NETWORK_OR_SERVER_ERROR"
-			"AUTHENTICATION_ERROR" -> "STOPPING"
-			"AUTHENTICATION_ERROR" -> "AUTHENTICATING"
-			"NETWORK_OR_SERVER_ERROR" -> "STOPPING"
-			"NETWORK_OR_SERVER_ERROR" -> "AUTHENTICATING"
-			"WS_CONNECTING" -> "STOPPING"
-			"WS_CONNECTING" -> "WS_CONNECTED"
-			"WS_CONNECTING" -> "WS_CONNECTION_ERROR"
-			"WS_CONNECTING" -> "AUTHENTICATING"
-			"WS_CONNECTING" -> "NETWORK_OR_SERVER_ERROR"
+	export interface SearchResults<T> extends itemClient.SearchResults<T> {}
 
-			"WS_CONNECTED" -> "STOPPING"
-			"WS_CONNECTED" -> "WS_CONNECTION_ERROR"
-			"WS_CONNECTED" -> "AUTHENTICATING"
-			"WS_CONNECTED" -> "NETWORK_OR_SERVER_ERROR"
+	export interface ItemClient<T> extends itemClient.ItemClient<T> {}
 
-			"WS_CONNECTION_ERROR" -> "STOPPING"
-			"WS_CONNECTION_ERROR" -> "AUTHENTICATING"
-			"WS_CONNECTION_ERROR" -> "NETWORK_OR_SERVER_ERROR"
-			"WS_CONNECTION_ERROR" -> "WS_CONNECTING"
-
-			"STOPPING" -> "STOPPED"
-
-			"AUTHENTICATED" -> "STOPPING"
-			"AUTHENTICATED" -> "AUTHENTICATING"
-			"AUTHENTICATED" -> "NETWORK_OR_SERVER_ERROR"
-			"AUTHENTICATED" -> "WS_CONNECTING"
-		}
-	*/
-
-	/*
-		Main interface for the Ozone Client
-		This class manage connection and communication to ozone
-	*/
-	export interface OzoneClient extends StateMachine<ClientState> {
-
-		/* Get the client config */
-		readonly config: ClientConfiguration
-
-		/* Get the current Authentication if available */
-		readonly authInfo?: AuthInfo
-
-		/* Get the last failed login call if any */
-		readonly lastFailedLogin?: Response<AuthInfo>
-
-		/*
-			Convenience props for getting the status of the client.
-		*/
-		readonly isAuthenticated: boolean
-		readonly isConnected: boolean
-
-		/*
-			Start the client. To be called once
-		*/
-		start(): Promise<void>
-
-		/*
-			The array of filters to apply to all HTTP calls
-			BEFORE this OzoneClient's own internal filters.
-			This array can be modified at any time to add/remove filters
-		 */
-		readonly preFilters: InstalledFilter[]
-
-		/*
-			The array of filters to apply to all HTTP calls
-			AFTER this OzoneClient's own internal filters.
-			This array can be modified at any time to add/remove filters
-		 */
-		readonly postFilters: InstalledFilter[]
-
-		/*
-			Update the WS URL.
-			The client will attempt to connect automatically to the new URL.
-		*/
-		updateWSURL(url: string): void
-
-		/*
-			Update the Ozone credentials.
-			The client will attempt to login automatically.
-		*/
-		updateCredentials(ozoneCredentials: OzoneCredentials): void
-
-		/*
-			Stop the client. To be called once
-		*/
-		stop(): Promise<void>
-
-		/*
-			Perform a low-level call
-			All calls towards Ozone or other Microservices secured by Ozone should use those calls
-		*/
-		callForResponse<T>(request: Request): Promise<Response<T>>
-
-		call<T>(request: Request): Promise<T>
-
-		/*
-			Register a message listener.
-
-			@param messageType The type of message to register for
-			@param callBack The callBack that will be called
-		*/
-		onMessage<M extends DeviceMessage>(messageType: string, callBack: (message: M) => void): ListenerRegistration
-
-		onAnyMessage(callBack: (message: DeviceMessage) => void): ListenerRegistration
-
-		/*
-			Send a message
-		*/
-		send(message: DeviceMessage): void
-
-		// BEGIN HIGH LEVEL CALLS
-
-		/*
-			Get a client for working with items of the given type
-		*/
-		itemClient<T extends Item>(typeIdentifier: string): ItemClient<T>
-
-		/*
-			Insert the current Ozone session ID in the given URL ("/dsid=...).
-			This call
-			Throws an error if there is no session available.
-			The given string may or may not contain the host part.
-			Example input strings :
-			"/rest/v3/blob"
-			"https://taktik.io/rest/v2/media/view/org.taktik.filetype.original/123"
-		*/
-		insertSessionIdInURL(url: string): string
-	}
-
-	export interface SearchResults<T extends Item> {
-		id?: number
-
-		total?: number
-
-		size?: number
-
-		results?: T[]
-
-	}
-
-	export interface ItemClient<T extends Item> {
-		save(item: Patch<T>): Promise<FromOzone<T>>
-
-		saveAll(items: Patch<T>[]): Promise<FromOzone<T>[]>
-
-		broadcast(item: T): Promise<FromOzone<T>>
-
-		bulkBroadcast(items: T[]): Promise<FromOzone<T>[]>
-
-		findOne(id: UUID): Promise<FromOzone<T> | null>
-
-		findAll(): Promise<FromOzone<T>[]>
-
-		findAllByIds(ids: UUID[]): Promise<FromOzone<T>[]>
-
-		search(searchRequest: SearchRequest): Promise<SearchResults<FromOzone<T>>>
-
-		count(query?: Query): Promise<number>
-
-		deleteById(id: UUID, permanent?: boolean): Promise<UUID | null>
-
-		deleteByIds(ids: UUID[], permanent?: boolean): Promise<UUID[]>
-	}
-
-	interface OzoneClientInternals extends OzoneClient {
+	interface OzoneClientInternals extends OzoneClientInterface {
 		/* Allow state change */
 		setState(newState: ClientState): void
 
@@ -237,11 +59,7 @@ export namespace OzoneClient {
 
 	const MAX_SESSION_CHECK_DELAY: number = 60000
 
-	export interface AuthInfo {
-		principalClass: string,
-		principalId: string,
-		sessionId: string,
-	}
+	export interface AuthInfo extends Credencial.AuthInfo {}
 
 	class Listener {
 		active: boolean = true
@@ -279,7 +97,7 @@ export namespace OzoneClient {
 		readonly postFilters: InstalledFilter[] = []
 
 		constructor(configuration: ClientConfiguration) {
-			super(Object.values(states), validTransitions, states.STOPPED)
+			super(Object.values(states), clientState.validTransitions, states.STOPPED)
 			this._config = configuration
 			this._messageListeners = {}
 			this.setupTransitionListeners()
@@ -761,99 +579,13 @@ export namespace OzoneClient {
 		itemClient<T extends Item>(typeIdentifier: string): ItemClient<T> {
 			const client = this
 			const baseURL = this._config.ozoneURL
-			return new class implements ItemClient<T> {
-				async count(query?: Query): Promise<number> {
-					const results = await this.search({
-						query: query,
-						size: 0
-					})
-					return results.total || 0
-				}
+			return new ItemClientImpl(client, baseURL, typeIdentifier)
+		}
 
-				deleteById(id: UUID, permanent?: boolean): Promise<UUID | null> {
-					const request = new Request(`${baseURL}/rest/v3/items/${typeIdentifier}/${id}`)
-						.setMethod('DELETE')
-					return client.call<UUID>(request)
-				}
-
-				deleteByIds(ids: UUID[], permanent?: boolean): Promise<UUID[]> {
-					const request = new Request(`${baseURL}/rest/v3/items/${typeIdentifier}/bulkDelete`)
-						.setMethod('POST')
-						.setBody()
-					return client.call<UUID[]>(request)
-				}
-
-				async findAll(): Promise<FromOzone<T>[]> {
-					const results = await this.search({
-						size: 10_000
-					})
-					return results.results || []
-				}
-
-				findAllByIds(ids: UUID[]): Promise<FromOzone<T>[]> {
-					const request = new Request(`${baseURL}/rest/v3/items/${typeIdentifier}/bulkGet`)
-						.setMethod('POST')
-						.setBody(ids)
-					return client.call<FromOzone<T>[]>(request)
-				}
-
-				findOne(id: UUID): Promise<FromOzone<T> | null> {
-					const request = new Request(`${baseURL}/rest/v3/items/${typeIdentifier}/${id}`)
-						.setMethod('GET')
-					return client.call<FromOzone<T>>(request)
-				}
-
-				async save(item: Patch<T>): Promise<FromOzone<T>> {
-					const request = new Request(`${baseURL}/rest/v3/items/${typeIdentifier}`)
-						.setMethod('POST')
-						.setBody(item)
-					const savedItem = await client.call<FromOzone<T>>(request)
-					if (savedItem._meta.state === MetaState.ERROR) {
-						throw savedItem
-					}
-					return savedItem
-				}
-
-				async saveAll(items: Patch<T>[]): Promise<FromOzone<T>[]> {
-					const request = new Request(`${baseURL}/rest/v3/items/${typeIdentifier}/bulkSave`)
-						.setMethod('POST')
-						.setBody(items)
-					const savedItems = await client.call<FromOzone<T>[]>(request)
-					if (savedItems.some(item => item._meta.state === MetaState.ERROR)) {
-						throw savedItems
-					}
-					return savedItems
-				}
-
-				search(searchRequest: SearchRequest): Promise<SearchResults<FromOzone<T>>> {
-					const request = new Request(`${baseURL}/rest/v3/items/${typeIdentifier}/search`)
-						.setMethod('POST')
-						.setBody(searchRequest)
-					return client.call<SearchResults<FromOzone<T>>>(request)
-				}
-
-				async broadcast(item: T): Promise<FromOzone<T>> {
-					const request = new Request(`${baseURL}/rest/v3/items/${typeIdentifier}/broadcast`)
-						.setMethod('POST')
-						.setBody(item)
-					const savedItem = await client.call<FromOzone<T>>(request)
-					if (savedItem._meta.state === MetaState.ERROR) {
-						throw savedItem
-					}
-					return savedItem
-				}
-
-				async bulkBroadcast(items: T[]): Promise<FromOzone<T>[]> {
-					const request = new Request(`${baseURL}/rest/v3/items/${typeIdentifier}/bulkBroadcast`)
-						.setMethod('POST')
-						.setBody(items)
-					const savedItems = await client.call<FromOzone<T>[]>(request)
-					if (savedItems.some(item => item._meta.state === MetaState.ERROR)) {
-						throw savedItems
-					}
-					return savedItems
-				}
-			}()
+		roleClient(): RoleClient {
+			const client = this
+			const baseURL = this._config.ozoneURL
+			return new RoleClientImpl(client, baseURL)
 		}
 
 		insertSessionIdInURL(url: string): string {
@@ -875,9 +607,7 @@ export namespace OzoneClient {
 		call.headers[name] = value
 	}
 
-	export abstract class OzoneCredentials {
-		abstract authenticate(ozoneURL: string): Promise<AuthInfo>
-	}
+	export abstract class OzoneCredentials extends Credencial.OzoneCredentials {}
 
 	export class UserCredentials extends OzoneCredentials {
 		constructor(readonly username: string,
@@ -950,14 +680,7 @@ export namespace OzoneClient {
 		}
 	}
 
-	export interface ClientConfiguration {
-		ozoneURL: string
-		ozoneInstanceId?: string
-		ozoneCredentials?: OzoneCredentials
-		webSocketsURL?: string
-		defaultTimeout?: number
-	}
-
+	export interface ClientConfiguration extends clientConfiguration.ClientConfiguration {}
 	/*
 		Try to transparently re-authenticate and retry the call if we received a 403 or 401.
 		Also, update the last session check

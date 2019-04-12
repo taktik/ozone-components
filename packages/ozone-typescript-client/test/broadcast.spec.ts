@@ -20,7 +20,8 @@ describe('OzoneClient', () => {
 			ozoneCredentials: credentials
 		}
 		client = newOzoneClient(config)
-		return client.start()
+		// for test, its not mandatory to start the client
+		//return client.start()
 	})
 	describe('ItemClient', () => {
 		describe('broadcast', () => {
