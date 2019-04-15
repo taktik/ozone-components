@@ -13,12 +13,12 @@ import { RoleClientImpl } from './roleClient/roleClientImpl'
 import * as clientConfiguration from './ozoneClient/clientConfiguration'
 import * as ozoneClient from './ozoneClient/ozoneClient'
 import * as permissionClient from './permissionClient/permissionClient'
-import { PermissionClientImpl, FieldsPermissionImpl } from './permissionClient/permissionClientImpl'
+import { PermissionClientImpl } from './permissionClient/permissionClientImpl'
+import * as typeClient from './typeClient/typeClient'
+import { TypeClientImpl } from './typeClient/typeClientImpl'
 
 export namespace OzoneClient {
 	import AssumeStateIsNot = fsm.AssumeStateIsNot
-
-
 	import State = fsm.State
 	import ListenerRegistration = fsm.ListenerRegistration
 	import StateMachine = fsm.StateMachine
@@ -52,6 +52,8 @@ export namespace OzoneClient {
 	export import FieldsPermission = permissionClient.FieldsPermission
 
 	export import RoleClient = roleClient.RoleClient
+
+	export import TypeClient = typeClient.TypeClient
 
 	interface OzoneClientInternals extends OzoneClient {
 		/* Allow state change */
@@ -600,6 +602,11 @@ export namespace OzoneClient {
 			const client = this
 			const baseURL = this._config.ozoneURL
 			return new PermissionClientImpl(client, baseURL)
+		}
+		typeClient(): TypeClient{
+			const client = this
+			const baseURL = this._config.ozoneURL
+			return new TypeClientImpl(client, baseURL)
 		}
 
 		insertSessionIdInURL(url: string): string {

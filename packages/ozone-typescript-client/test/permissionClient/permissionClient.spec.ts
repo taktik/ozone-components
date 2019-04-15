@@ -23,6 +23,10 @@ describe('OzoneClient', () => {
 		// for test, its not mandatory to start the client
 		// return client.start()
 	})
+
+	after(() => {
+		server.restore()
+	})
 	describe('permissionClient', () => {
 		describe('bulkGetPermissions', () => {
 			it('shoud send POST request permission', async () => {

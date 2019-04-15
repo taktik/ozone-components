@@ -1,5 +1,4 @@
-import {FieldDescriptor, Grants, UUID} from "ozone-type";
-
+import { FieldDescriptor, Grants, UUID } from 'ozone-type'
 
 export interface PermissionClient {
 	/**
@@ -7,13 +6,13 @@ export interface PermissionClient {
 	 * @param fields
 	 * @param itemIds
 	 */
-	bulkGetPermissions(fields:Array<FieldDescriptor>, itemIds:UUID[]): Promise<Map<string, FieldsPermission>>
+	bulkGetPermissions(fields: Array<FieldDescriptor>, itemIds: UUID[]): Promise<Map<string, FieldsPermission>>
 
-	getPermissions(fields:Array<FieldDescriptor>, itemIds:UUID): Promise<FieldsPermission>
+	getPermissions(fields: Array<FieldDescriptor>, itemIds: UUID): Promise<FieldsPermission>
 }
 
 export interface FieldsPermission {
-	grant:Grants;
+	grant: Grants
 
-	isFieldEditable(fieldName:string):boolean
+	isFieldEditable(fieldName: string): boolean
 }

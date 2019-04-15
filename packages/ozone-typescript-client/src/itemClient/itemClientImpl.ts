@@ -6,7 +6,7 @@ import Response = httpclient.Response
 import Request = httpclient.Request
 
 export class ItemClientImpl<T extends Item> implements ItemClient<T> {
-	constructor(private client: OzoneClient, private baseUrl: string, private typeIdentifier: string){}
+	constructor(private client: OzoneClient, private baseUrl: string, private typeIdentifier: string) {}
 
 	async count(query?: Query): Promise<number> {
 		const results = await this.search({
@@ -99,5 +99,5 @@ export class ItemClientImpl<T extends Item> implements ItemClient<T> {
 		}
 		return savedItems
 	}
-	
+
 }

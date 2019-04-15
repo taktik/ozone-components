@@ -22,6 +22,10 @@ describe('OzoneClient', () => {
 		// for test, its not mandatory to start the client
 		// return client.start()
 	})
+
+	after(() => {
+		server.restore()
+	})
 	describe('RoleClient', () => {
 		describe('getAll', () => {
 			it('shoud send GET request on role', async () => {

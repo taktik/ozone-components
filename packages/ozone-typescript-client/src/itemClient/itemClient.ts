@@ -1,6 +1,5 @@
 import { FromOzone, Item, Query, SearchRequest, UUID, State as MetaState, Patch, DeviceMessage } from 'ozone-type'
 
-
 export interface SearchResults<T extends Item> {
 	id?: number
 
@@ -9,7 +8,6 @@ export interface SearchResults<T extends Item> {
 	size?: number
 
 	results?: T[]
-
 }
 
 export interface ItemClient<T extends Item> {

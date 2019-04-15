@@ -9,14 +9,14 @@ import { httpclient } from 'typescript-http-client'
 import Response = httpclient.Response
 import Request = httpclient.Request
 import InstalledFilter = httpclient.InstalledFilter
-import {DeviceMessage, Item} from "ozone-type";
+import { DeviceMessage, Item } from 'ozone-type'
 import { ClientState, states, validTransitions } from './clientState'
 import { ClientConfiguration } from './clientConfiguration'
 import { AuthInfo, OzoneCredentials } from './Credentials'
-import { ItemClient } from "./../itemClient/itemClient";
-import { RoleClient } from "./../roleClient/roleClient";
+import { ItemClient } from './../itemClient/itemClient'
+import { RoleClient } from './../roleClient/roleClient'
 import { PermissionClient, FieldsPermission } from './../permissionClient/permissionClient'
-
+import { TypeClient } from './../typeClient/typeClient'
 
 export interface OzoneClient extends StateMachine<ClientState> {
 
@@ -105,6 +105,11 @@ export interface OzoneClient extends StateMachine<ClientState> {
     	Get a client for working with role
 	*/
 	roleClient(): RoleClient
+
+	/**
+	 * get client to work with type
+	 */
+	typeClient(): TypeClient
 
 	/**
 	 * get client to work with permission
