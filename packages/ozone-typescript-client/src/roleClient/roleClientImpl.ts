@@ -3,11 +3,11 @@ import { httpclient } from 'typescript-http-client'
 import Response = httpclient.Response
 import Request = httpclient.Request
 import { RoleClient } from './roleClient'
-import { OzoneClientInterface } from '../ozoneClient/ozoneClient'
+import { OzoneClient } from '../ozoneClient/ozoneClient'
 
 
 export class RoleClientImpl implements RoleClient {
-	constructor(private client: OzoneClientInterface, private baseUrl: string){}
+	constructor(private client: OzoneClient, private baseUrl: string){}
 
 	getAll(): Promise<FromOzone<Role>[]>{
 		const request = new Request(`${this.baseUrl}/rest/v3/role`)

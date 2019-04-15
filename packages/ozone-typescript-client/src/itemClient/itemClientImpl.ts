@@ -1,12 +1,12 @@
 import { FromOzone, Item, Query, SearchRequest, UUID, State as MetaState, Patch, DeviceMessage } from 'ozone-type'
 import { ItemClient, SearchResults } from './itemClient'
-import { OzoneClientInterface } from '../ozoneClient/ozoneClient'
+import { OzoneClient } from '../ozoneClient/ozoneClient'
 import { httpclient } from 'typescript-http-client'
 import Response = httpclient.Response
 import Request = httpclient.Request
 
 export class ItemClientImpl<T extends Item> implements ItemClient<T> {
-	constructor(private client: OzoneClientInterface, private baseUrl: string, private typeIdentifier: string){}
+	constructor(private client: OzoneClient, private baseUrl: string, private typeIdentifier: string){}
 
 	async count(query?: Query): Promise<number> {
 		const results = await this.search({

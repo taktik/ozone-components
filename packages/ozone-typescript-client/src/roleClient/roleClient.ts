@@ -1,6 +1,5 @@
 import {FromOzone, Role, UUID, Grants} from "ozone-type";
 
-
 export interface RoleClient {
 
 	getAll(): Promise<FromOzone<Role>[]>

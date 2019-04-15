@@ -15,9 +15,10 @@ import { ClientConfiguration } from './clientConfiguration'
 import { AuthInfo, OzoneCredentials } from './Credentials'
 import { ItemClient } from "./../itemClient/itemClient";
 import { RoleClient } from "./../roleClient/roleClient";
+import { PermissionClient, FieldsPermission } from './../permissionClient/permissionClient'
 
 
-export interface OzoneClientInterface extends StateMachine<ClientState> {
+export interface OzoneClient extends StateMachine<ClientState> {
 
 	/* Get the client config */
 	readonly config: ClientConfiguration
@@ -104,6 +105,11 @@ export interface OzoneClientInterface extends StateMachine<ClientState> {
     	Get a client for working with role
 	*/
 	roleClient(): RoleClient
+
+	/**
+	 * get client to work with permission
+	 */
+	permissionClient(): PermissionClient
 
 	/*
         Insert the current Ozone session ID in the given URL ("/dsid=...).

@@ -8,10 +8,12 @@ import * as clientState from './ozoneClient/clientState'
 import * as Credencial from './ozoneClient/Credentials'
 import * as itemClient from './itemClient/itemClient'
 import { ItemClientImpl } from './itemClient/itemClientImpl'
-import { RoleClient } from './roleClient/roleClient'
+import * as roleClient from './roleClient/roleClient'
 import { RoleClientImpl } from './roleClient/roleClientImpl'
 import * as clientConfiguration from './ozoneClient/clientConfiguration'
-import { OzoneClientInterface } from './ozoneClient/ozoneClient'
+import * as ozoneClient from './ozoneClient/ozoneClient'
+import * as permissionClient from './permissionClient/permissionClient'
+import { PermissionClientImpl, FieldsPermissionImpl } from './permissionClient/permissionClientImpl'
 
 export namespace OzoneClient {
 	import AssumeStateIsNot = fsm.AssumeStateIsNot
@@ -35,17 +37,23 @@ export namespace OzoneClient {
 	const log = log4javascript.getLogger('ozone.client')
 	const DEFAULT_TIMEOUT = 5000
 
-	export class ClientState extends clientState.ClientState {}
+	export import ClientState = clientState.ClientState
 
 	export const states = clientState.states
 
-	export interface OzoneClient extends OzoneClientInterface {}
+	export import OzoneClient = ozoneClient.OzoneClient
 
-	export interface SearchResults<T> extends itemClient.SearchResults<T> {}
+	export import SearchResults = itemClient.SearchResults
 
-	export interface ItemClient<T> extends itemClient.ItemClient<T> {}
+	export import ItemClient = itemClient.ItemClient
 
-	interface OzoneClientInternals extends OzoneClientInterface {
+	export import PermissionClient = permissionClient.PermissionClient
+
+	export import FieldsPermission = permissionClient.FieldsPermission
+
+	export import RoleClient = roleClient.RoleClient
+
+	interface OzoneClientInternals extends OzoneClient {
 		/* Allow state change */
 		setState(newState: ClientState): void
 
@@ -586,6 +594,12 @@ export namespace OzoneClient {
 			const client = this
 			const baseURL = this._config.ozoneURL
 			return new RoleClientImpl(client, baseURL)
+		}
+
+		permissionClient(): PermissionClient{
+			const client = this
+			const baseURL = this._config.ozoneURL
+			return new PermissionClientImpl(client, baseURL)
 		}
 
 		insertSessionIdInURL(url: string): string {
