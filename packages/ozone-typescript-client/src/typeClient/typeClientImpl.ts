@@ -1,8 +1,8 @@
-import { FromOzone, TypeDescriptor, FieldDescriptor, UUID } from 'ozone-type'
+import { TypeDescriptor, FieldDescriptor, UUID } from 'ozone-type'
 import { TypeClient } from './typeClient'
 import { OzoneClient } from '../ozoneClient/ozoneClient'
 import { httpclient } from 'typescript-http-client'
-import Response = httpclient.Response
+import { uniqBy } from 'lodash'
 import Request = httpclient.Request
 
 export type TypeDescriptorCollection = Map<string, Promise<TypeDescriptor>>
@@ -31,7 +31,7 @@ export class TypeClientImpl implements TypeClient {
 	 * get a type
 	 * @param identifier
 	 */
-	findByIdentifier(identifier: string): Promise<TypeDescriptor> {
+	findByIdentifier(identifier: string): Promise<TypeDescriptor | null> {
 		if (TypeClientImpl.typeCached.has(identifier)) {
 			return TypeClientImpl.typeCached.get(identifier) as Promise<TypeDescriptor>
 		} else {
@@ -76,7 +76,11 @@ export class TypeClientImpl implements TypeClient {
 	 */
 	async getFields(identifier: string): Promise<Array<FieldDescriptor>> {
 		const typeDescriptor = await this.findByIdentifier(identifier)
-		return typeDescriptor.fields || []
+		if (typeDescriptor) {
+			return typeDescriptor.fields || []
+		} else {
+			return []
+		}
 	}
 
 	/**
@@ -87,12 +91,23 @@ export class TypeClientImpl implements TypeClient {
 	async getAllFields(identifier: string): Promise<Array<FieldDescriptor>> {
 		const type = await this.findByIdentifier(identifier)
 		let parentFields: Array<FieldDescriptor> = []
-		if (type && type.superType) {
-			parentFields = await this.getAllFields(type.superType)
-		}
+		let traitFields: Array<FieldDescriptor> = []
 		if (type) {
+			if (type.superType) {
+				parentFields = await this.getAllFields(type.superType)
+			}
+			if (type.traits && type.traits.length > 0) {
+				for (let trait of type.traits) {
+					traitFields.push(...(await this.getAllFields(trait)))
+				}
+			}
+
 			const fields = type.fields || []
-			return [...fields, ...parentFields]
+			return uniqBy([
+				...fields,
+				...parentFields,
+				...traitFields
+			], 'identifier')
 		}
 		return []
 	}

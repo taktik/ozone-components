@@ -10,13 +10,13 @@ import Response = httpclient.Response
 import Request = httpclient.Request
 import InstalledFilter = httpclient.InstalledFilter
 import { DeviceMessage, Item } from 'ozone-type'
-import { ClientState, states, validTransitions } from './clientState'
+import { ClientState } from './clientState'
 import { ClientConfiguration } from './clientConfiguration'
-import { AuthInfo, OzoneCredentials } from './Credentials'
-import { ItemClient } from './../itemClient/itemClient'
-import { RoleClient } from './../roleClient/roleClient'
-import { PermissionClient, FieldsPermission } from './../permissionClient/permissionClient'
-import { TypeClient } from './../typeClient/typeClient'
+import { OzoneCredentials, AuthInfo } from '../ozoneCredentials/ozoneCredentials'
+import { ItemClient } from '../itemClient/itemClient'
+import { RoleClient } from '../roleClient/roleClient'
+import { PermissionClient } from '../permissionClient/permissionClient'
+import { TypeClient } from '../typeClient/typeClient'
 
 export interface OzoneClient extends StateMachine<ClientState> {
 

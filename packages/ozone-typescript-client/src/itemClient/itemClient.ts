@@ -1,4 +1,4 @@
-import { FromOzone, Item, Query, SearchRequest, UUID, State as MetaState, Patch, DeviceMessage } from 'ozone-type'
+import { FromOzone, Item, Query, SearchRequest, UUID, Patch } from 'ozone-type'
 
 export interface SearchResults<T extends Item> {
 	id?: number

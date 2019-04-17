@@ -1,14 +1,19 @@
 import { FieldDescriptor, Grants, UUID } from 'ozone-type'
 
 export interface PermissionClient {
+
+	/**
+	 * request given fields permission for several items
+	 * @param fieldsIdentifiers array of fields identifiers
+	 * @param itemIds array of item id
+	 */
+	bulkGetPermissions(fieldsIdentifiers: string[], itemIds: UUID[]): Promise<Map<string, FieldsPermission>>
 	/**
 	 * request given fields permission for one item
-	 * @param fields
-	 * @param itemIds
+	 * @param fieldsIdentifiers
+	 * @param itemId
 	 */
-	bulkGetPermissions(fields: Array<FieldDescriptor>, itemIds: UUID[]): Promise<Map<string, FieldsPermission>>
-
-	getPermissions(fields: Array<FieldDescriptor>, itemIds: UUID): Promise<FieldsPermission>
+	getPermissions(fieldsIdentifiers: string[], itemId: UUID): Promise<FieldsPermission | undefined>
 }
 
 export interface FieldsPermission {

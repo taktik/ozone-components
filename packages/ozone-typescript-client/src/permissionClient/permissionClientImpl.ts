@@ -1,6 +1,5 @@
-import { FieldDescriptor, FromOzone, Grants, Role, UUID } from 'ozone-type'
+import { Grants, UUID } from 'ozone-type'
 import { httpclient } from 'typescript-http-client'
-import Response = httpclient.Response
 import Request = httpclient.Request
 import { OzoneClient } from '../ozoneClient/ozoneClient'
 import { PermissionClient, FieldsPermission } from './permissionClient'
@@ -9,32 +8,27 @@ export class PermissionClientImpl implements PermissionClient {
 
 	constructor(private client: OzoneClient, private baseUrl: string) {}
 
-	/**
-	 * request given fields permission for one item
-	 * @param fields
-	 * @param itemIds
-	 */
-	async bulkGetPermissions(fields: Array<FieldDescriptor>, itemIds: UUID[]): Promise<Map<string, FieldsPermission>> {
-		const fildsId = fields.map(field => field.identifier)
+	async bulkGetPermissions(fieldsIdentifiers: string[], itemIds: UUID[]): Promise<Map<string, FieldsPermission>> {
+		const fieldsId = fieldsIdentifiers
 		const parameters = new URLSearchParams()
-		parameters.append('fields', fildsId.join(','))
+		parameters.append('fields', fieldsId.join(','))
 
 		const request = new Request(`${this.baseUrl}/rest/v3/items/bulkGetPermissions?${parameters.toString()}`)
 			.setMethod('POST')
-			.setBody(fildsId)
+			.setBody(itemIds)
 
-		const grants = await this.client.call<Array<FromOzone<Grants>>>(request)
+		const grants = await this.client.call<Grants[]>(request)
 
 		const result = new Map<string, FieldsPermission>()
 		grants.forEach((grant) => {
-			result.set(grant.id, new FieldsPermissionImpl(grant))
+			result.set(grant.id!, new FieldsPermissionImpl(grant))
 		})
 		return result
 	}
 
-	async getPermissions(fields: Array<FieldDescriptor>, itemId: UUID): Promise<FieldsPermission> {
-		const permissions = await this.bulkGetPermissions(fields, [itemId])
-		return permissions.get(itemId)!
+	async getPermissions(fieldsIdentifiers: string[], itemId: UUID): Promise<FieldsPermission | undefined> {
+		const permissions = await this.bulkGetPermissions(fieldsIdentifiers, [itemId])
+		return permissions.get(itemId)
 	}
 }
 

@@ -1,4 +1,4 @@
-import { OzoneCredentials } from './Credentials'
+import { OzoneCredentials } from '../ozoneCredentials/ozoneCredentials'
 
 export interface ClientConfiguration {
 	ozoneURL: string

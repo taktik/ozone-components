@@ -1,18 +1,17 @@
 import { assert } from 'chai'
 import sinon, { SinonFakeServer } from 'sinon'
-import { OzoneClient } from './../../src/index'
+import { OzoneClient } from '../../src/index'
 import UserCredentials = OzoneClient.UserCredentials
 import OzoneCredentials = OzoneClient.OzoneCredentials
 import ClientConfiguration = OzoneClient.ClientConfiguration
 import newOzoneClient = OzoneClient.newOzoneClient
-import {FieldsPermission} from "../../src/permissionClient/permissionClient";
-
+import { FieldsPermission } from '../../src/permissionClient/permissionClient'
 
 describe('OzoneClient', () => {
 	let client: OzoneClient.OzoneClient
 	let server: SinonFakeServer
 
-	before( ()  => {
+	before(() => {
 		server = sinon.fakeServer.create()
 		const credentials = new UserCredentials('ozoneUser', 'ozonePassword')
 		const config: ClientConfiguration = {
@@ -41,12 +40,12 @@ describe('OzoneClient', () => {
 				)
 				const api = client.permissionClient()
 				const resp = api.bulkGetPermissions([
-					{identifier:'name'} as any,
-					//{identifier:'f_id2'},
-				], ['item_id_1', 'item_id_2'] )
+					'name'
+					// {identifier:'f_id2'},
+				], ['item_id_1', 'item_id_2'])
 				server.respond()
 				const data: Map<string, FieldsPermission> = await resp
-				assert.deepEqual(data.get('item_id_1')!.grant, {"id": "item_id_1", "grants": ["FIELD_EDIT", "FIELD_VIEW"], "fieldGrants": {"name": ["FIELD_EDIT", "FIELD_VIEW"]}} as any)
+				assert.deepEqual(data.get('item_id_1')!.grant, { 'id': 'item_id_1', 'grants': ['FIELD_EDIT', 'FIELD_VIEW'], 'fieldGrants': { 'name': ['FIELD_EDIT', 'FIELD_VIEW'] } } as any)
 				assert.isTrue((data.get('item_id_1')as any).isFieldEditable('name'))
 				assert.isFalse(data.get('item_id_2')!.isFieldEditable('name'))
 			})
@@ -64,13 +63,17 @@ describe('OzoneClient', () => {
 				)
 				const api = client.permissionClient()
 				const resp = api.getPermissions([
-					{identifier:'name'} as any,
-					//{identifier:'f_id2'},
-				], 'item_id_1' )
+					'name'
+					// {identifier:'f_id2'},
+				], 'item_id_1')
 				server.respond()
 				const data = await resp
-				assert.deepEqual(data.grant, {"id": "item_id_1", "grants": ["FIELD_EDIT", "FIELD_VIEW"], "fieldGrants": {"name": ["FIELD_EDIT", "FIELD_VIEW"]}} as any)
-				assert.isTrue(data.isFieldEditable('name'))
+				if (data) {
+					assert.deepEqual(data.grant, { 'id': 'item_id_1', 'grants': ['FIELD_EDIT', 'FIELD_VIEW'], 'fieldGrants': { 'name': ['FIELD_EDIT', 'FIELD_VIEW'] } } as any)
+					assert.isTrue(data.isFieldEditable('name'))
+				} else {
+					assert.isDefined(data)
+				}
 			})
 		})
 	})

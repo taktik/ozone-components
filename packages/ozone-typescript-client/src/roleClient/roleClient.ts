@@ -1,17 +1,16 @@
-import { FromOzone, Role, UUID, Grants } from 'ozone-type'
+import { Role, UUID, Grants } from 'ozone-type'
 
 export interface RoleClient {
 
-	getAll(): Promise<FromOzone<Role>[]>
+	getAll(): Promise<Role[]>
 
-	save(role: Role): Promise<FromOzone<Role>>
+	save(role: Role): Promise<Role>
 
-	getByName(roleName: string): Promise<FromOzone<Role>>
+	getByName(roleName: string): Promise<Role | null>
 
-	getPermissions(...roleIds: UUID[]): Promise<Grants[]>
+	getPermissions(roleIds: UUID[]): Promise<Grants[]>
 
-	getById(roleId: UUID): Promise<FromOzone<Role>>
+	getById(roleId: UUID): Promise<Role | null>
 
-	deleteById(id: UUID, permanent?: boolean): Promise<UUID | null>
-
+	deleteById(id: UUID): Promise<UUID | null>
 }

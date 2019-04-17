@@ -27,7 +27,11 @@
 		"outDir": "./dist",
 		"baseUrl": "./"
 	},
+	"include": [
+		"./test/**/*"
+	],
 	"files": [
 		"./src/index.ts"
-	]
+	],
+	"exclude": ["dist"]
 }

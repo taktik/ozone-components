@@ -1,4 +1,4 @@
-import { FromOzone, TypeDescriptor, FieldDescriptor, Grants, UUID } from 'ozone-type'
+import { TypeDescriptor, FieldDescriptor, UUID } from 'ozone-type'
 
 export type TypeDescriptorCollection = Map<string, Promise<TypeDescriptor>>
 
@@ -14,7 +14,7 @@ export interface TypeClient {
 	 * get a type
 	 * @param identifier
 	 */
-	findByIdentifier(identifier: string): Promise<TypeDescriptor>
+	findByIdentifier(identifier: string): Promise<TypeDescriptor | null>
 
 	/**
 	 * get all types
@@ -28,17 +28,10 @@ export interface TypeClient {
 	delete(identifier: string): Promise<UUID | null>
 
 	/**
-	 * get list of fields from a type.
-	 * @return {Promise<Array<FieldDescriptor>>} list of field
-	 */
-	getFields(identifier: string): Promise<Array<FieldDescriptor>>
-
-	/**
-	 * get list of all fields (including its parents) from a type.
-	 * TODO should we also get fields from trai?
+	 * get list of all fields (including its parents and traits) from a type.
 	 * @param identifier
 	 */
-	getAllFields(identifier: string): Promise<Array<FieldDescriptor>>
+	getAllFields(identifier: string): Promise<FieldDescriptor[]>
 
 	/**
 	 * verify if the is an instance of an other type

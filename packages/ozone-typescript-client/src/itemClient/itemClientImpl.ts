@@ -1,8 +1,7 @@
-import { FromOzone, Item, Query, SearchRequest, UUID, State as MetaState, Patch, DeviceMessage } from 'ozone-type'
+import { FromOzone, Item, Query, SearchRequest, UUID, State as MetaState, Patch } from 'ozone-type'
 import { ItemClient, SearchResults } from './itemClient'
 import { OzoneClient } from '../ozoneClient/ozoneClient'
 import { httpclient } from 'typescript-http-client'
-import Response = httpclient.Response
 import Request = httpclient.Request
 
 export class ItemClientImpl<T extends Item> implements ItemClient<T> {

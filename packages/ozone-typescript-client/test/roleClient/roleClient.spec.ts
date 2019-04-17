@@ -1,17 +1,16 @@
 import { assert } from 'chai'
 import sinon, { SinonFakeServer } from 'sinon'
-import { OzoneClient } from './../../src/index'
+import { OzoneClient } from '../../src/index'
 import UserCredentials = OzoneClient.UserCredentials
 import OzoneCredentials = OzoneClient.OzoneCredentials
 import ClientConfiguration = OzoneClient.ClientConfiguration
 import newOzoneClient = OzoneClient.newOzoneClient
 
-
 describe('OzoneClient', () => {
 	let client: OzoneClient.OzoneClient
 	let server: SinonFakeServer
 
-	before( ()  => {
+	before(() => {
 		server = sinon.fakeServer.create()
 		const credentials = new UserCredentials('ozoneUser', 'ozonePassword')
 		const config: ClientConfiguration = {
@@ -42,7 +41,7 @@ describe('OzoneClient', () => {
 				const resp = api.getAll()
 				server.respond()
 				const data = await resp
-				assert.deepEqual(data, [ {"id": "a", "name": "role1"}, {"id": "b", "name": "role2"} as any])
+				assert.deepEqual(data, [ { 'id': 'a', 'name': 'role1' }, { 'id': 'b', 'name': 'role2' } as any])
 			})
 		})
 		describe('save', () => {
@@ -57,10 +56,10 @@ describe('OzoneClient', () => {
 					]
 				)
 				const api = client.roleClient()
-				const resp = api.save({name: "role1"})
+				const resp = api.save({ name: 'role1' })
 				server.respond()
 				const data = await resp
-				assert.deepEqual(data, {"id": "a", "name": "role1"})
+				assert.deepEqual(data, { 'id': 'a', 'name': 'role1' })
 			})
 		})
 		describe('getByName', () => {
@@ -78,7 +77,7 @@ describe('OzoneClient', () => {
 				const resp = api.getByName('role1')
 				server.respond()
 				const data = await resp
-				assert.deepEqual(data, {"id": "a", "name": "role1"})
+				assert.deepEqual(data, { 'id': 'a', 'name': 'role1' })
 			})
 		})
 		describe('getPermission', () => {
@@ -93,13 +92,12 @@ describe('OzoneClient', () => {
 					]
 				)
 				const api = client.roleClient()
-				const resp = api.getPermissions('role1')
+				const resp = api.getPermissions(['role1'])
 				server.respond()
 				const data = await resp
-				assert.deepEqual(data, [{"id": "a", "grants": "AUTHENTICATE"}] as any)
+				assert.deepEqual(data, [{ 'id': 'a', 'grants': 'AUTHENTICATE' }] as any)
 			})
 		})
-
 
 		describe('getById', () => {
 			it('shoud send GET request on role/{id}', async () => {
@@ -116,7 +114,7 @@ describe('OzoneClient', () => {
 				const resp = api.getById('an_id1')
 				server.respond()
 				const data = await resp
-				assert.deepEqual(data, {"id": "an_id1", "name": "role1"})
+				assert.deepEqual(data, { 'id': 'an_id1', 'name': 'role1' })
 			})
 		})
 		describe('deleteById', () => {
