@@ -1,8 +1,8 @@
+import { httpclient } from 'typescript-http-client'
+import { uniqBy } from 'lodash'
 import { TypeDescriptor, FieldDescriptor, UUID } from 'ozone-type'
 import { TypeClient } from './typeClient'
 import { OzoneClient } from '../ozoneClient/ozoneClient'
-import { httpclient } from 'typescript-http-client'
-import { uniqBy } from 'lodash'
 import Request = httpclient.Request
 
 export type TypeDescriptorCollection = Map<string, Promise<TypeDescriptor>>
@@ -14,10 +14,6 @@ export class TypeClientImpl implements TypeClient {
 
 	static typeCached: TypeDescriptorCollection = new Map<string, Promise<TypeDescriptor>>()
 
-	/**
-	 * Update or create a new type
-	 * @param type
-	 */
 	save(type: TypeDescriptor): Promise<TypeDescriptor> {
 		const request = new Request(`${this.baseUrl}/rest/v3/type`)
 			.setMethod('POST')
@@ -27,10 +23,6 @@ export class TypeClientImpl implements TypeClient {
 		return typeDescriptor
 	}
 
-	/**
-	 * get a type
-	 * @param identifier
-	 */
 	findByIdentifier(identifier: string): Promise<TypeDescriptor | null> {
 		if (TypeClientImpl.typeCached.has(identifier)) {
 			return TypeClientImpl.typeCached.get(identifier) as Promise<TypeDescriptor>
@@ -43,9 +35,6 @@ export class TypeClientImpl implements TypeClient {
 		}
 	}
 
-	/**
-	 * get all types
-	 */
 	async findAll(): Promise<TypeDescriptor[]> {
 		const request = new Request(`${this.baseUrl}/rest/v3/type`)
 			.setMethod('GET')
@@ -58,10 +47,6 @@ export class TypeClientImpl implements TypeClient {
 		return typeDescriptors
 	}
 
-	/**
-	 * delete a type
-	 * @param identifier
-	 */
 	async delete(identifier: string): Promise<UUID | null> {
 		const request = new Request(`${this.baseUrl}/rest/v3/type/${identifier}`)
 			.setMethod('DELETE')
@@ -70,10 +55,6 @@ export class TypeClientImpl implements TypeClient {
 		return response
 	}
 
-	/**
-	 * get list of fields from a type.
-	 * @return {Promise<Array<FieldDescriptor>>} list of field
-	 */
 	async getFields(identifier: string): Promise<Array<FieldDescriptor>> {
 		const typeDescriptor = await this.findByIdentifier(identifier)
 		if (typeDescriptor) {
@@ -83,11 +64,6 @@ export class TypeClientImpl implements TypeClient {
 		}
 	}
 
-	/**
-	 * get list of all fields (including its parents) from a type.
-	 * TODO should we also get fields from trai?
-	 * @param identifier
-	 */
 	async getAllFields(identifier: string): Promise<Array<FieldDescriptor>> {
 		const type = await this.findByIdentifier(identifier)
 		let parentFields: Array<FieldDescriptor> = []
@@ -112,12 +88,6 @@ export class TypeClientImpl implements TypeClient {
 		return []
 	}
 
-	/**
-	 * verify if the is an instance of an other type
-	 * TODO should we also get fields from trai?
-	 * @param identifier
-	 * @param instance
-	 */
 	async isTypeInstanceOf(identifier: string, instance: string): Promise<boolean> {
 		if (identifier === instance) {
 			return true
@@ -131,5 +101,4 @@ export class TypeClientImpl implements TypeClient {
 			}
 		}
 	}
-
 }
