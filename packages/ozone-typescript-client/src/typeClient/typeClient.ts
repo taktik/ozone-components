@@ -1,6 +1,5 @@
-import { TypeDescriptor, FieldDescriptor, UUID } from 'ozone-type'
-
-export type TypeDescriptorCollection = Map<string, Promise<TypeDescriptor>>
+import { TypeDescriptor, UUID } from 'ozone-type'
+import { TypeCache } from './typeCache'
 
 export interface TypeClient {
 
@@ -28,16 +27,7 @@ export interface TypeClient {
 	delete(identifier: string): Promise<UUID | null>
 
 	/**
-	 * get list of all fields (including its parents and traits) from a type.
-	 * @param identifier
+	 *
 	 */
-	getAllFields(identifier: string): Promise<FieldDescriptor[]>
-
-	/**
-	 * verify if the is an instance of an other type
-	 * @param identifier
-	 * @param instance
-	 */
-	isTypeInstanceOf(identifier: string, instance: string): Promise<boolean>
-
+	getTypeCache(): Promise<TypeCache>
 }
