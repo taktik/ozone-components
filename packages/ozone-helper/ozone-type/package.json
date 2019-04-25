@@ -5,8 +5,8 @@
     "access": "public"
   },
   "description": "ozone type declaration package",
-  "main": "dist/models.js",
-  "types": "dist/models.d.ts",
+  "main": "dist",
+  "types": "dist",
   "scripts": {
     "tsc": "../../../node_modules/.bin/tsc",
     "prepublish": "../../../node_modules/.bin/tsc",

@@ -23,8 +23,6 @@ export namespace OzoneClient {
 
 	export import PermissionClient = permissionClient.PermissionClient
 
-	export import FieldsPermission = permissionClient.FieldsPermission
-
 	export import RoleClient = roleClient.RoleClient
 
 	export import TypeClient = typeClient.TypeClient

@@ -5,7 +5,7 @@ import UserCredentials = OzoneClient.UserCredentials
 import OzoneCredentials = OzoneClient.OzoneCredentials
 import ClientConfiguration = OzoneClient.ClientConfiguration
 import newOzoneClient = OzoneClient.newOzoneClient
-import { FieldsPermission } from '../../src/permissionClient/permissionClient'
+import { FieldsPermissionUtility } from 'ozone-type'
 
 describe('OzoneClient', () => {
 	let client: OzoneClient.OzoneClient
@@ -44,7 +44,7 @@ describe('OzoneClient', () => {
 					// {identifier:'f_id2'},
 				], ['item_id_1', 'item_id_2'])
 				server.respond()
-				const data: Map<string, FieldsPermission> = await resp
+				const data: Map<string, FieldsPermissionUtility> = await resp
 				assert.deepEqual(data.get('item_id_1')!.grant, { 'id': 'item_id_1', 'grants': ['FIELD_EDIT', 'FIELD_VIEW'], 'fieldGrants': { 'name': ['FIELD_EDIT', 'FIELD_VIEW'] } } as any)
 				assert.isTrue((data.get('item_id_1')as any).isFieldEditable('name'))
 				assert.isFalse(data.get('item_id_2')!.isFieldEditable('name'))
