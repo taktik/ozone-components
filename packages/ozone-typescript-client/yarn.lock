@@ -7,10 +7,10 @@ log4javascript@^1.4.15:
   resolved "https://registry.yarnpkg.com/log4javascript/-/log4javascript-1.4.15.tgz#85ac62e946b024c6b256216084e10601d5630604"
   integrity sha1-haxi6UawJMayViFghOEGAdVjBgQ=
 
-typescript-http-client@^0.9.13:
-  version "0.9.13"
-  resolved "https://registry.yarnpkg.com/typescript-http-client/-/typescript-http-client-0.9.13.tgz#12e4606222e4383e2409958b4e9fdc32d73d9bd7"
-  integrity sha512-l2WYRCZ9d+aKCs1Azd+8z5TGtnGKpN7yWXR9nL/5rth7mavgW2IyznYrLEWOm0wnjMqr0iL/QFT1QQ3xwnScog==
+typescript-http-client@^0.9.16:
+  version "0.9.16"
+  resolved "https://registry.yarnpkg.com/typescript-http-client/-/typescript-http-client-0.9.16.tgz#107b3eee20fe87c6f02c234e5843257596721903"
+  integrity sha512-8WlvAcQJ12TKSapXLNrOxFh8RqKV0ZSdvc/zoBDLMIRkGhZdquBt5QgeRTBa7jM57cHiGtVhrouysEYnGahodA==
   dependencies:
     log4javascript "^1.4.15"
 

@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"target": "es5",
+		"target": "es6",
 		"module": "commonjs",
 		// Use esnext to enable lazy loading
 		"moduleResolution": "node",
@@ -16,6 +16,7 @@
 		"allowSyntheticDefaultImports": true,
 		"lib": [
 			"es2017",
+			"es2015",
 			"es6",
 			"es5",
 			"dom"
@@ -26,7 +27,11 @@
 		"outDir": "./dist",
 		"baseUrl": "./"
 	},
+	"include": [
+		"./test/**/*"
+	],
 	"files": [
 		"./src/index.ts"
-	]
+	],
+	"exclude": ["dist"]
 }

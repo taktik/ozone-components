@@ -1,0 +1,668 @@
+import { fsm } from 'typescript-state-machine'
+import ListenerRegistration = fsm.ListenerRegistration
+import { httpclient } from 'typescript-http-client'
+import Response = httpclient.Response
+import Request = httpclient.Request
+import InstalledFilter = httpclient.InstalledFilter
+import { DeviceMessage, Item } from 'ozone-type'
+import { ClientState, states, validTransitions } from './clientState'
+import { ItemClient } from '../itemClient/itemClient'
+import { RoleClient } from '../roleClient/roleClient'
+import { PermissionClient } from '../permissionClient/permissionClient'
+import { TypeClient } from '../typeClient/typeClient'
+import { ItemClientImpl } from '../itemClient/itemClientImpl'
+import { RoleClientImpl } from '../roleClient/roleClientImpl'
+import { PermissionClientImpl } from '../permissionClient/permissionClientImpl'
+import { TypeClientImpl } from '../typeClient/typeClientImpl'
+import { OzoneClient, OzoneCredentials, AuthInfo, ClientConfiguration } from './ozoneClient'
+import AssumeStateIsNot = fsm.AssumeStateIsNot
+import AssumeStateIs = fsm.AssumeStateIs
+import StateMachineImpl = fsm.StateMachineImpl
+import HttpClient = httpclient.HttpClient
+import newHttpClient = httpclient.newHttpClient
+import FilterCollection = httpclient.FilterCollection
+import Filter = httpclient.Filter
+import FilterChain = httpclient.FilterChain
+
+const MAX_REAUTH_DELAY: number = 30000
+const INITIAL_REAUTH_DELAY: number = 1000
+
+const MAX_WS_RECONNECT_DELAY: number = 30000
+const INITIAL_WS_RECONNECT_DELAY: number = 1000
+
+const MAX_SESSION_CHECK_DELAY: number = 60000
+const DEFAULT_TIMEOUT = 5000
+
+class Listener {
+	active: boolean = true
+}
+
+class MessageListener extends Listener {
+	constructor(
+		readonly callBack: (message: DeviceMessage) => void,
+		readonly messageType?: string
+	) {
+		super()
+	}
+}
+
+interface MessageListeners {
+	[messageType: string]: MessageListener[]
+}
+
+export interface OzoneClientInternals extends OzoneClient {
+	/* Allow state change */
+	setState(newState: ClientState): void
+
+}
+
+export class OzoneClientImpl extends StateMachineImpl<ClientState> implements OzoneClientInternals {
+	private readonly _config: ClientConfiguration
+	private _authInfo?: AuthInfo
+	private _ws?: WebSocket
+	private _lastFailedLogin?: Response<AuthInfo>
+	private readonly _messageListeners: MessageListeners
+	private _lastSessionCheck: number = 0
+	private _httpClient: HttpClient
+	readonly preFilters: InstalledFilter[] = []
+	readonly postFilters: InstalledFilter[] = []
+
+	constructor(configuration: ClientConfiguration) {
+		super(Object.values(states), validTransitions, states.STOPPED)
+		this._config = configuration
+		this._messageListeners = {}
+		this.setupTransitionListeners()
+		this._httpClient = newHttpClient()
+		// Setup client & filters
+		this.setupFilters()
+	}
+
+	get config(): ClientConfiguration {
+		return this._config
+	}
+
+	get authInfo(): AuthInfo | undefined {
+		return this._authInfo
+	}
+
+	get lastFailedLogin(): Response<AuthInfo> | undefined {
+		return this._lastFailedLogin
+	}
+
+	get isAuthenticated(): boolean {
+		return this.inOneOfStates([states.WS_CONNECTED, states.WS_CONNECTING, states.WS_CONNECTION_ERROR, states.AUTHENTICATED])
+	}
+
+	get isConnected(): boolean {
+		return this.inState(states.WS_CONNECTED)
+	}
+
+	onMessage<M extends DeviceMessage>(messageType: string, callBack: (message: M) => void): ListenerRegistration {
+		return this.addMessageListener(message => callBack(message as M), messageType)
+	}
+
+	onAnyMessage(callBack: (message: any) => void): ListenerRegistration {
+		return this.addMessageListener(callBack, undefined)
+	}
+
+	send(message: DeviceMessage): void {
+		this.checkInState(states.WS_CONNECTED, 'Cannot send message : Not connected')
+		this._ws!.send(JSON.stringify(message))
+	}
+
+	async start(): Promise<void> {
+		this.checkInState(states.STOPPED, 'Client already started')
+		this.setState(states.STARTED)
+		if (this.config.ozoneCredentials) {
+			await this.waitUntilEnteredOneOf([states.AUTHENTICATION_ERROR, states.AUTHENTICATED, states.NETWORK_OR_SERVER_ERROR])
+		}
+	}
+
+	updateWSURL(url: string): void {
+		if (this._config.webSocketsURL !== url) {
+			this._config.webSocketsURL = url
+			// If we are authenticated but not connected to WS, try to connect
+			if (this.canGoToState(states.WS_CONNECTING)) {
+				this.connectIfPossible()
+			} else if (this.inOneOfStates([states.WS_CONNECTED, states.WS_CONNECTING])) {
+				OzoneClientImpl.terminateWSConnectionForcefully(this._ws!)
+			}
+		}
+	}
+
+	updateCredentials(credentials: OzoneCredentials): void {
+		this._config.ozoneCredentials = credentials
+		if (this.canGoToState(states.AUTHENTICATING)) {
+			this.loginIfPossible()
+		} else if (this.inOneOfStates([states.WS_CONNECTED, states.WS_CONNECTING])) {
+			OzoneClientImpl.terminateWSConnectionForcefully(this._ws!)
+		}
+	}
+
+	// TODO AB Implement
+	stop(): Promise<void> {
+		return Promise.reject('Not implemented')
+	}
+
+	async call<T>(call: Request): Promise<T> {
+		return this._httpClient.call<T>(call)
+	}
+
+	async callForResponse<T>(call: Request): Promise<Response<T>> {
+		return this._httpClient.callForResponse<T>(call)
+	}
+
+	private onWsMessage(message: MessageEvent) {
+		if (message.data === 'ping') {
+			this._ws && this._ws.send('pong')
+		} else if (message.data === 'pong') {
+			this.handlePong()
+		} else {
+			const parsedJSONMessage = OzoneClientImpl.parseMessage(message)
+			if (parsedJSONMessage) {
+				this.dispatchMessage(parsedJSONMessage)
+			}
+		}
+	}
+
+	private static parseMessage(message: MessageEvent): DeviceMessage | null {
+		try {
+			return JSON.parse(message.data) as DeviceMessage
+		} catch (e) {
+			log.error('Unable to parse websocket message:', message, '// Error:', e)
+			return null
+		}
+	}
+
+	@AssumeStateIs(states.WS_CONNECTED)
+	private handlePong() {
+		this._lastReceivedPong = Date.now()
+	}
+
+	// Attempt a single Ozone login
+	@AssumeStateIs(states.AUTHENTICATING)
+	private async login() {
+		// Destroy any existing WS
+		this.destroyWs()
+		try {
+			this._authInfo = undefined
+			this.log.debug('Authenticating')
+			this.log.debug(`this.config.ozoneURL ${this.config.ozoneURL}`)
+			this._authInfo = await this.config.ozoneCredentials!.authenticate(this.config.ozoneURL)
+			this.log.debug(`Authenticated with authInfo : ${JSON.stringify(this._authInfo)}`)
+			this._lastFailedLogin = undefined
+			this._lastSessionCheck = Date.now()
+			this.setState(states.AUTHENTICATED)
+		} catch (e) {
+			// TODO AB What if e is not a Response?
+			const response = e as Response<AuthInfo>
+			this.log.debug(`Authentication error : code ${response.status}`)
+			this._lastFailedLogin = e
+			if (response.status >= 400 && response.status < 500) {
+				// Invalid credentials
+				this.setState(states.AUTHENTICATION_ERROR)
+			} else {
+				this.setState(states.NETWORK_OR_SERVER_ERROR)
+			}
+		}
+	}
+
+	private static terminateWSConnectionForcefully(ws: WebSocket) {
+		ws.close(4000)
+		// Call onError explicitly, because close() doesn't call onClose immediately
+		ws.onerror!(new Event('ForceClose'))
+	}
+
+	private destroyWs() {
+		if (this._ws) {
+			let socket = this._ws
+			this._ws = undefined
+			try {
+				if (socket.readyState === socket.CONNECTING || socket.readyState === socket.OPEN) {
+					socket.close(4000)
+				}
+			} catch (e) {
+				// TODO AB DO something with e ?
+			}
+		}
+	}
+
+	// Attempt a single WebSocket connect
+	@AssumeStateIs(states.WS_CONNECTING)
+	connect(): Promise<void> {
+		// Destroy any existing WS
+		this.destroyWs()
+		log.info(`Connecting to ${this._config.webSocketsURL}`)
+		return new Promise<void>((resolve, reject) => {
+			/* FIXME AB Something is wrong here. The promise resolve or reject method should always be called but it is not the case */
+			const query = '?ozoneSessionId=' + this.authInfo!.sessionId
+			const ws = new WebSocket(this._config.webSocketsURL + query)
+			this._ws = ws
+			ws.onerror = ev => {
+				if (this._ws === ws) {
+					let mustReject = this._state === states.WS_CONNECTING
+					try {
+						if (this.state !== states.WS_CONNECTION_ERROR) {
+							// Destroy the WS
+							this.destroyWs()
+							this.setState(states.WS_CONNECTION_ERROR)
+						}
+					} finally {
+						if (mustReject) {
+							reject(ev)
+						}
+					}
+				}
+			}
+			ws.onclose = ev => {
+				if (this._ws === ws) {
+					let mustReject = this._state === states.WS_CONNECTING
+					try {
+						if (this.state !== states.WS_CONNECTION_ERROR) {
+							// Destroy the WS
+							this.destroyWs()
+							if (ev.code === 4001) {
+								this.setState(states.AUTHENTICATING)
+							} else {
+								this.setState(states.WS_CONNECTION_ERROR)
+							}
+						}
+					} finally {
+						if (mustReject) {
+							reject(ev)
+						}
+					}
+				}
+			}
+			ws.onopen = () => {
+				let mustResolve = this._state === states.WS_CONNECTING
+				try {
+					log.info(`Connected to ${this._config.webSocketsURL}`)
+					this.setState(states.WS_CONNECTED)
+				} catch (e) {
+					mustResolve = false
+					reject(e)
+				}
+				if (mustResolve) {
+					resolve()
+				}
+			}
+			ws.onmessage = (msg) => {
+				if (this._ws === ws) {
+					this.onWsMessage(msg)
+				}
+			}
+		})
+	}
+
+	/*
+        Login if we have credentials
+    */
+	private loginIfPossible() {
+		if (this._config.ozoneCredentials) {
+			this.setState(states.AUTHENTICATING)
+		}
+	}
+
+	/*
+        Connect if we have an URL, ignore errors
+    */
+	private connectIfPossible() {
+		if (this._config.webSocketsURL) {
+			this.setState(states.WS_CONNECTING)
+		}
+	}
+
+	private addMessageListener(callBack: (message: DeviceMessage) => void, messageType?: string) {
+		const messageTypeLabel = messageType || '*'
+		if (!this._messageListeners[messageTypeLabel]) {
+			this._messageListeners[messageTypeLabel] = []
+		}
+		const listenersForMessageType = this._messageListeners[messageTypeLabel]
+		const messageListener = new MessageListener(callBack, messageType)
+		listenersForMessageType.push(messageListener)
+		return {
+			cancel(): void {
+				messageListener.active = false
+			}
+		}
+	}
+
+	// Auto Re-auth to Ozone
+
+	private _lastReAuth: number = 0
+	private _lastReAuthInterval: number = 0
+	private _reAuthTimeout: number = 0
+
+	// Exponential back-off
+	private nextReAuthRetryInterval(): number {
+		if (this._lastReAuth === 0) {
+			return INITIAL_REAUTH_DELAY
+		} else if (this._lastReAuthInterval === 0) {
+			return Math.min(2 * INITIAL_REAUTH_DELAY, MAX_REAUTH_DELAY)
+		}
+		return Math.min(2 * this._lastReAuthInterval, MAX_REAUTH_DELAY)
+	}
+
+	@AssumeStateIs(states.NETWORK_OR_SERVER_ERROR)
+	private createAutoReAuthTimer() {
+		this._reAuthTimeout = window.setTimeout(() =>
+			(async () => {
+				try {
+					if (this.canGoToState(states.AUTHENTICATING)) {
+						const now = Date.now()
+						if (this._lastReAuth !== 0) {
+							this._lastReAuthInterval = now - this._lastReAuth
+						}
+						this._lastReAuth = now
+						this.setState(states.AUTHENTICATING)
+					}
+				} catch (e) {
+					log.info('login failed : ' + e)
+				}
+			})(), this.nextReAuthRetryInterval())
+	}
+
+	@AssumeStateIsNot(states.NETWORK_OR_SERVER_ERROR)
+	private clearAutoReAuthTimer() {
+		window.clearTimeout(this._reAuthTimeout)
+		this._reAuthTimeout = 0
+	}
+
+	private clearAutoReAuthRetryTimestamps() {
+		this._lastReAuth = 0
+		this._lastReAuthInterval = 0
+	}
+
+	// WS KeepAlive
+
+	private _wsKeepAliveTimer?: number
+	private _lastReceivedPong: number = 0
+	private _lastSentPing: number = 0
+
+	private installWSPingKeepAlive() {
+		if (this._wsKeepAliveTimer) {
+			// should not happen
+			log.warn('wsKeepAliveTimer defined when it should not be')
+			clearTimeout(this._wsKeepAliveTimer)
+		}
+		this._lastReceivedPong = Date.now()
+		this._wsKeepAliveTimer = window.setInterval(() => this.wsKeepAlive(), 10000)
+	}
+
+	private destroyWSPingKeepAlive() {
+		this._lastSentPing = 0
+		this._lastReceivedPong = 0
+		if (this._wsKeepAliveTimer) {
+			clearTimeout(this._wsKeepAliveTimer)
+			this._wsKeepAliveTimer = undefined
+		}
+	}
+
+	@AssumeStateIs(states.WS_CONNECTED)
+	private wsKeepAlive() {
+		if (!this._ws) {
+			return
+		}
+		// We have at least sent one ping and no pong received for more than 30s since last ping
+		// --> Problem. We close the socket and trigger onClose()
+		if (this._lastSentPing !== 0 && (this._lastSentPing - this._lastReceivedPong) > 20000) {
+			if (this._ws.readyState === this._ws.CONNECTING || this._ws.readyState === this._ws.OPEN) {
+				log.warn('Ping timeout, closing connection')
+				OzoneClientImpl.terminateWSConnectionForcefully(this._ws)
+			}
+		} else {
+			const now = Date.now()
+			this._lastSentPing = now
+			let message: string = 'ping'
+			if (now - this._lastSessionCheck > MAX_SESSION_CHECK_DELAY) {
+				this._lastSessionCheck = now
+				/*
+                                            It has been a while since we last checked the session validity,
+                                            so ask the WS server to check it. The server will close the connection
+                                            if the session is expired
+                                     */
+				message += '!'
+			}
+			this._ws.send(message)
+		}
+	}
+
+	// WS Auto-reconnect
+
+	private _lastWSReconnect: number = 0
+	private _lastWSReconnectInterval: number = 0
+	private _wsReconnectTimeout: number = 0
+
+	// Exponential back-off
+	private nextWSRetryInterval(): number {
+		if (this._lastWSReconnect === 0) {
+			return INITIAL_WS_RECONNECT_DELAY
+		} else if (this._lastWSReconnectInterval === 0) {
+			return Math.min(2 * INITIAL_WS_RECONNECT_DELAY, MAX_WS_RECONNECT_DELAY)
+		}
+		return Math.min(2 * this._lastWSReconnectInterval, MAX_WS_RECONNECT_DELAY)
+	}
+
+	@AssumeStateIs(states.WS_CONNECTION_ERROR)
+	private createAutoReconnectWSTimer() {
+		const nextWSRetryInterval = this.nextWSRetryInterval()
+		this._wsReconnectTimeout = window.setTimeout(() => (async () => {
+			if (this.canGoToState(states.WS_CONNECTING)) {
+				const now = Date.now()
+				if (this._lastWSReconnect !== 0) {
+					this._lastWSReconnectInterval = now - this._lastWSReconnect
+				}
+				this._lastWSReconnect = now
+				this.setState(states.WS_CONNECTING)
+			}
+		})(), nextWSRetryInterval)
+
+	}
+
+	@AssumeStateIsNot(states.WS_CONNECTION_ERROR)
+	private clearAutoReconnectWSTimer() {
+		window.clearTimeout(this._wsReconnectTimeout)
+		this._wsReconnectTimeout = 0
+	}
+
+	private _clearWSRetryTimestampsTimeout: number = 0
+
+	@AssumeStateIs(states.WS_CONNECTED)
+	private scheduleClearAutoReconnectWSRetryTimestamps() {
+		this._clearWSRetryTimestampsTimeout = window.setTimeout(() => {
+			this._lastWSReconnect = 0
+			this._lastWSReconnectInterval = 0
+		}, 30000)
+	}
+
+	@AssumeStateIsNot(states.WS_CONNECTED)
+	private cancelClearAutoReconnectWSRetryTimestamps() {
+		window.clearTimeout(this._clearWSRetryTimestampsTimeout)
+		this._clearWSRetryTimestampsTimeout = 0
+	}
+
+	private static invokeMessageListeners(message: DeviceMessage, listeners?: MessageListener[]) {
+		if (listeners) {
+			for (let index = 0; index < listeners.length; index++) {
+				let listener = listeners[index]
+				if (listener.active) {
+					try {
+						listener.callBack(message)
+					} catch (e) {
+						log.warn('Uncaught error in message listener :' + e)
+					}
+				} else {
+					// Remove inactive listener
+					listeners.splice(index, 1)
+					index--
+				}
+			}
+		}
+	}
+
+	private dispatchMessage(message: DeviceMessage) {
+		if (message.type) {
+			OzoneClientImpl.invokeMessageListeners(message, this._messageListeners[message.type])
+			OzoneClientImpl.invokeMessageListeners(message, this._messageListeners['*'])
+		} else {
+			throw Error('Can not dispatch message of undefined type')
+		}
+	}
+
+	private setupTransitionListeners() {
+		// Initiate login when started if possible
+		this.onEnterState(states.STARTED, () => this.loginIfPossible())
+		// Perform login when entering state "AUTHENTICATING"
+		this.onEnterState(states.AUTHENTICATING, () => this.login())
+		// Auto re-authenticate to Ozone in case of error
+		this.onEnterState(states.NETWORK_OR_SERVER_ERROR, () => this.createAutoReAuthTimer())
+		this.onLeaveState(states.NETWORK_OR_SERVER_ERROR, () => this.clearAutoReAuthTimer())
+		this.onEnterState(states.AUTHENTICATED, () => this.clearAutoReAuthRetryTimestamps())
+		this.onEnterState(states.AUTHENTICATION_ERROR, () => this.clearAutoReAuthRetryTimestamps())
+		// Auto-connect WebSocket when authenticated to Ozone
+		this.onEnterState(states.AUTHENTICATED, () => this.connectIfPossible())
+		// Connect to message server when entering state "CONNECTING"
+		this.onEnterState(states.WS_CONNECTING, () => this.connect())
+		// WS Ping KeepAlive
+		this.onEnterState(states.WS_CONNECTED, () => this.installWSPingKeepAlive())
+		this.onLeaveState(states.WS_CONNECTED, () => this.destroyWSPingKeepAlive())
+		// Auto-reconnect WS in case of error
+		this.onEnterState(states.WS_CONNECTION_ERROR, () => this.createAutoReconnectWSTimer())
+		this.onLeaveState(states.WS_CONNECTION_ERROR, () => this.clearAutoReconnectWSTimer())
+		this.onEnterState(states.WS_CONNECTED, () => this.scheduleClearAutoReconnectWSRetryTimestamps())
+		this.onLeaveState(states.WS_CONNECTED, () => this.cancelClearAutoReconnectWSRetryTimestamps())
+	}
+
+	private setupFilters() {
+		// Add pre-filters
+		this._httpClient.addFilter(new FilterCollection(this.preFilters), 'pre-filters')
+		// Try to auto-refresh the session if expired
+		this._httpClient.addFilter(new SessionRefreshFilter(this, lastCheck => this._lastSessionCheck = lastCheck), 'session-refresh')
+		// Add Ozone session header to all requests
+		this._httpClient.addFilter(new SessionFilter(() => this._authInfo), 'session-filter')
+		// Set some sensible default to all requests
+		this._httpClient.addFilter(new DefaultsOptions(this._config.defaultTimeout || DEFAULT_TIMEOUT), 'default-options')
+		// Add post-filters
+		this._httpClient.addFilter(new FilterCollection(this.postFilters), 'post-filters')
+	}
+
+	itemClient<T extends Item>(typeIdentifier: string): ItemClient<T> {
+		const client = this
+		const baseURL = this._config.ozoneURL
+		return new ItemClientImpl(client, baseURL, typeIdentifier)
+	}
+
+	roleClient(): RoleClient {
+		const client = this
+		const baseURL = this._config.ozoneURL
+		return new RoleClientImpl(client, baseURL)
+	}
+
+	permissionClient(): PermissionClient {
+		const client = this
+		const baseURL = this._config.ozoneURL
+		return new PermissionClientImpl(client, baseURL)
+	}
+	typeClient(): TypeClient {
+		const client = this
+		const baseURL = this._config.ozoneURL
+		return new TypeClientImpl(client, baseURL)
+	}
+
+	insertSessionIdInURL(url: string): string {
+		if (!url.startsWith(this.config.ozoneURL)) {
+			throw new Error(`insertSessionIdInURL : Given url should start with base url ${this.config.ozoneURL}`)
+		}
+		if (!this.authInfo) {
+			throw new Error(`insertSessionIdInURL : There is no valid session`)
+		}
+		return `${this.config.ozoneURL}/dsid=${this.authInfo.sessionId}${url.substring(this.config.ozoneURL.length)}`
+	}
+}
+
+/*
+    Add sensible defaults to requests
+*/
+class DefaultsOptions implements Filter<any, any> {
+	private readonly defaultTimeout: number
+
+	constructor(defaultTimeout: number) {
+		this.defaultTimeout = defaultTimeout
+	}
+
+	async doFilter(request: Request, filterChain: FilterChain<any>): Promise<Response<any>> {
+		if (!request.timeout || request.timeout > this.defaultTimeout) {
+			request.timeout = this.defaultTimeout
+		}
+		return filterChain.doFilter(request)
+	}
+}
+
+/*
+		Try to transparently re-authenticate and retry the call if we received a 403 or 401.
+		Also, update the last session check
+	*/
+class SessionRefreshFilter implements Filter<any, any> {
+	constructor(readonly client: OzoneClientInternals, readonly sessionCheckCallBack: (lastCheck: number) => void) {}
+
+	async doFilter(call: Request, filterChain: FilterChain<any>): Promise<Response<any>> {
+		try {
+			const response = await filterChain.doFilter(call)
+			const principalId = response.headers['ozone-principal-id']
+			if (principalId && this.client.authInfo && principalId === this.client.authInfo.principalId) {
+				this.sessionCheckCallBack(Date.now())
+			}
+			return response
+		} catch (e) {
+			const response = e as Response<any>
+			// Try to detect if the session needs to be refreshed
+			if (
+				// Only try to re-authenticate if we receive a 401 or 403 status code
+				(response.status === 403 || response.status === 401)
+				// If we receive a principal id, it means we are still authenticated with a valid session, so there is no need
+				// to try to re-authenticate
+				&& !response.headers['ozone-principal-id']
+				// Only try to re-authenticate if we are already authenticated
+				&& this.client.isAuthenticated) {
+				try {
+					// TODO AB Protect this call to avoid multiple login in //
+					// TODO AB Destroy WebSocket ( don't wait connecting state)
+					// This will trigger a login
+					this.client.setState(states.AUTHENTICATING)
+					// await result of login
+					await this.client.waitUntilLeft(states.AUTHENTICATING)
+					// Retry the call
+					return await filterChain.doFilter(call)
+				} catch (e) {
+					// TODO AB Maybe : set state to authentication error in case of login error?
+					throw e
+				}
+			} else {
+				throw e
+			}
+		}
+	}
+}
+
+/*
+    Add "Ozone-Session-Id" Header
+*/
+class SessionFilter implements Filter<any, any> {
+	constructor(readonly authProvider: () => AuthInfo | undefined) {}
+
+	async doFilter(call: Request, filterChain: FilterChain<any>): Promise<Response<any>> {
+		const authInfo = this.authProvider()
+		if (authInfo) {
+			addHeader(call, 'Ozone-Session-Id', authInfo.sessionId)
+		}
+		return filterChain.doFilter(call)
+	}
+}
+
+function addHeader(call: Request, name: string, value: string) {
+	if (!call.headers) {
+		call.headers = {}
+	}
+	call.headers[name] = value
+}
