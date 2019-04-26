@@ -4,6 +4,7 @@ import { TypeClient } from './typeClient'
 import { OzoneClient } from '../ozoneClient/ozoneClient'
 import Request = httpclient.Request
 import { TypeCacheImpl } from './typeCacheImpl'
+import { returnNullOn404 } from '../utility/utility'
 import { TypeCache } from './typeCache'
 export type TypeDescriptorCollection = Map<string, Promise<TypeDescriptor>>
 
@@ -22,7 +23,7 @@ export class TypeClientImpl implements TypeClient {
 	findByIdentifier(identifier: string): Promise<TypeDescriptor | null> {
 		const request = new Request(`${this.baseUrl}/rest/v3/type/${identifier}`)
 				.setMethod('GET')
-		return this.client.call<TypeDescriptor>(request)
+		return this.client.call<TypeDescriptor>(request).catch(returnNullOn404)
 	}
 
 	async findAll(): Promise<TypeDescriptor[]> {
@@ -35,7 +36,7 @@ export class TypeClientImpl implements TypeClient {
 	async delete(identifier: string): Promise<UUID | null> {
 		const request = new Request(`${this.baseUrl}/rest/v3/type/${identifier}`)
 			.setMethod('DELETE')
-		return this.client.call<UUID>(request)
+		return this.client.call<UUID>(request).catch(returnNullOn404)
 	}
 
 	async getFields(identifier: string): Promise<Array<FieldDescriptor>> {

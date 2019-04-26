@@ -3,6 +3,7 @@ import { httpclient } from 'typescript-http-client'
 import Request = httpclient.Request
 import { RoleClient } from './roleClient'
 import { OzoneClient } from '../ozoneClient/ozoneClient'
+import { returnNullOn404 } from '../utility/utility'
 
 export class RoleClientImpl implements RoleClient {
 	constructor(private client: OzoneClient, private baseUrl: string) {}
@@ -30,18 +31,18 @@ export class RoleClientImpl implements RoleClient {
 	getByName(roleName: string): Promise<Role | null> {
 		const request = new Request(`${this.baseUrl}/rest/v3/role/name/${roleName}`)
 			.setMethod('GET')
-		return this.client.call<Role | null>(request)
+		return this.client.call<Role | null>(request).catch(returnNullOn404)
 	}
 
 	getById(roleId: UUID): Promise<Role | null> {
 		const request = new Request(`${this.baseUrl}/rest/v3/role/${roleId}`)
 			.setMethod('GET')
-		return this.client.call<Role | null>(request)
+		return this.client.call<Role | null>(request).catch(returnNullOn404)
 	}
 
 	deleteById(id: UUID): Promise<UUID | null> {
 		const request = new Request(`${this.baseUrl}/rest/v3/role/${id}`)
 			.setMethod('DELETE')
-		return this.client.call<UUID>(request)
+		return this.client.call<UUID>(request).catch(returnNullOn404)
 	}
 }

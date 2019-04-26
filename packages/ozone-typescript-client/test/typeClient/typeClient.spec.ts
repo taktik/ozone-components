@@ -5,6 +5,8 @@ import { OzoneClient } from './../../src/index'
 import UserCredentials = OzoneClient.UserCredentials
 import ClientConfiguration = OzoneClient.ClientConfiguration
 import newOzoneClient = OzoneClient.newOzoneClient
+import { httpclient } from 'typescript-http-client'
+import Response = httpclient.Response
 
 describe('OzoneClient', () => {
 	const wait = (timeMs: number) => new Promise(resolve => setTimeout(resolve, timeMs))
@@ -38,6 +40,22 @@ describe('OzoneClient', () => {
 					responseHeaders.json,
 					JSON.stringify(type)
 				])
+			server.respondWith(
+				'GET',
+				'http://my.ozone.domain/ozone/rest/v3/type/item-unknown',
+				[
+					404,
+					responseHeaders.json,
+					JSON.stringify(type)
+				])
+			server.respondWith(
+				'GET',
+				'http://my.ozone.domain/ozone/rest/v3/type/item-error',
+				[
+					500,
+					responseHeaders.json,
+					JSON.stringify(type)
+				])
 		})
 		it('should resolve with item typeDescriptor', async () => {
 			const typeClient = client.typeClient()
@@ -45,6 +63,25 @@ describe('OzoneClient', () => {
 			server.respond()
 			const typeDescriptor = await resp
 			expect(typeDescriptor).to.deep.equal(type)
+		})
+		it('should resolve with null on 404', async () => {
+			const typeClient = client.typeClient()
+			const resp = typeClient.findByIdentifier('item-unknown')
+			server.respond()
+			const typeDescriptor = await resp
+			assert.isNull(typeDescriptor)
+		})
+		it('should reject with response on error 500', async () => {
+			const typeClient = client.typeClient()
+			const resp = typeClient.findByIdentifier('item-error')
+			server.respond()
+			try {
+				const typeDescriptor = await resp
+				assert.isTrue(false, 'previous line should throw an error')
+			} catch (response) {
+				assert.instanceOf(response, Response)
+				assert.equal(response.status, 500)
+			}
 		})
 	})
 
@@ -105,6 +142,14 @@ describe('OzoneClient', () => {
 					responseHeaders.json,
 					'id'
 				])
+			server.respondWith(
+				'DELETE',
+				'http://my.ozone.domain/ozone/rest/v3/type/item-unknown',
+				[
+					404,
+					responseHeaders.json,
+					'id'
+				])
 		})
 		it('should resolve with newType typeDescriptor', async () => {
 			const typeClient = client.typeClient()
@@ -112,6 +157,14 @@ describe('OzoneClient', () => {
 			server.respond()
 			const data = await resp
 			expect(data).to.deep.equal(null)
+		})
+
+		it('should resolve with null on 404', async () => {
+			const typeClient = client.typeClient()
+			const resp = typeClient.delete('item-unknown')
+			server.respond()
+			const typeDescriptor = await resp
+			assert.isNull(typeDescriptor)
 		})
 	})
 
