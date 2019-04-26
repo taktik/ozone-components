@@ -132,7 +132,7 @@ describe('OzoneClient', () => {
 				const data = await resp
 				assert.deepEqual(data, { 'id': 'an_id1', 'name': 'role1' })
 			})
-			it('shoud resiolve with null on 404', async () => {
+			it('shoud resolve with null on 404', async () => {
 				server.respondWith(
 					'GET',
 					'http://my.ozone.domain/ozone/rest/v3/role/an_id1',
