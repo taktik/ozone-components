@@ -1,9 +1,7 @@
 import * as clientState from './ozoneClient/clientState'
-import * as ozoneCredentials from './ozoneCredentials/ozoneCredentials'
 import * as ozoneCredentialsImpl from './ozoneCredentials/ozoneCredentialsImpl'
 import * as itemClient from './itemClient/itemClient'
 import * as roleClient from './roleClient/roleClient'
-import * as clientConfiguration from './ozoneClient/clientConfiguration'
 import * as ozoneClient from './ozoneClient/ozoneClient'
 import * as permissionClient from './permissionClient/permissionClient'
 import * as typeClient from './typeClient/typeClient'
@@ -34,9 +32,9 @@ export namespace OzoneClient {
 		return new OzoneClientImpl(config)
 	}
 
-	export import AuthInfo = ozoneCredentials.AuthInfo
+	export import AuthInfo = ozoneClient.AuthInfo
 
-	export import OzoneCredentials = ozoneCredentials.OzoneCredentials
+	export import OzoneCredentials = ozoneClient.OzoneCredentials
 
 	export import SessionCredentials = ozoneCredentialsImpl.SessionCredentials
 
@@ -48,5 +46,5 @@ export namespace OzoneClient {
 
 	export import ItemByQueryCredentials = ozoneCredentialsImpl.ItemByQueryCredentials
 
-	export import ClientConfiguration = clientConfiguration.ClientConfiguration
+	export import ClientConfiguration = ozoneClient.ClientConfiguration
 }

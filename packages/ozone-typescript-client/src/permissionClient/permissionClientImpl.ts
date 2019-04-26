@@ -22,7 +22,7 @@ export class PermissionClientImpl implements PermissionClient {
 
 		const result = new Map<string, FieldsPermissionUtility>()
 		grants.forEach((grant) => {
-			result.set(grant.id!, new FieldsPermissionImpl(grant))
+			result.set(grant.id!, new FieldsPermissionUtility(grant))
 		})
 		return result
 	}
@@ -31,25 +31,4 @@ export class PermissionClientImpl implements PermissionClient {
 		const permissions = await this.bulkGetPermissions(fieldsIdentifiers, [itemId])
 		return permissions.get(itemId)
 	}
-}
-
-export class FieldsPermissionImpl implements FieldsPermissionUtility {
-
-	constructor(public grant: Grants) {}
-
-	hasFieldPermission(fieldName: string, permission: Grants.FieldGrantsEnum): boolean {
-		if (this.grant.fieldGrants && this.grant.fieldGrants.hasOwnProperty(fieldName)) {
-			return typeof (
-				this.grant.fieldGrants[fieldName]
-					.find(i => i === permission as any)
-			) === 'string'
-		} else {
-			return false
-		}
-	}
-
-	isFieldEditable(fieldName: string): boolean {
-		return this.hasFieldPermission(fieldName, Grants.FieldGrantsEnum.FIELDEDIT)
-	}
-
 }

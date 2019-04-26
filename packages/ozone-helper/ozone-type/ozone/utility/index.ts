@@ -1,1 +1,1 @@
-export * from './FieldsPermission'
+export * from './fieldsPermissionUtility'

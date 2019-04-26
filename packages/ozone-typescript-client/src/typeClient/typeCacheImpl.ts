@@ -1,9 +1,6 @@
-import { httpclient } from 'typescript-http-client'
 import { uniqBy } from 'lodash'
-import { TypeDescriptor, FieldDescriptor, UUID } from 'ozone-type'
+import { TypeDescriptor, FieldDescriptor } from 'ozone-type'
 import { TypeCache } from './typeCache'
-import { OzoneClient } from '../ozoneClient/ozoneClient'
-import Request = httpclient.Request
 import { Cache } from '../cache/cache'
 export type TypeDescriptorCollection = Map<string, Promise<TypeDescriptor>>
 

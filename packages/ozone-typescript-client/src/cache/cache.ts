@@ -45,7 +45,7 @@ export class Cache<K, V> extends Map<K, V> {
 		if (typeof opts === 'number') {
 			options = { max: opts }
 		} else {
-			options = opts as OptionsType
+			options = opts
 		}
 
 		let max = options.max || 0
@@ -66,7 +66,7 @@ export class Cache<K, V> extends Map<K, V> {
 	}
 
 	get(key: K, mut: boolean = true) {
-		let x: MapDataType<V> = super.get(key) as any
+		let x: MapDataType<V> | undefined = super.get(key) as any
 		if (x === undefined) return x
 
 		let { expires, content } = x

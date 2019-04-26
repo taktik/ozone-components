@@ -6,8 +6,6 @@ import Request = httpclient.Request
 import InstalledFilter = httpclient.InstalledFilter
 import { DeviceMessage, Item } from 'ozone-type'
 import { ClientState, states, validTransitions } from './clientState'
-import { ClientConfiguration } from './clientConfiguration'
-import { OzoneCredentials, AuthInfo } from '../ozoneCredentials/ozoneCredentials'
 import { ItemClient } from '../itemClient/itemClient'
 import { RoleClient } from '../roleClient/roleClient'
 import { PermissionClient } from '../permissionClient/permissionClient'
@@ -16,7 +14,7 @@ import { ItemClientImpl } from '../itemClient/itemClientImpl'
 import { RoleClientImpl } from '../roleClient/roleClientImpl'
 import { PermissionClientImpl } from '../permissionClient/permissionClientImpl'
 import { TypeClientImpl } from '../typeClient/typeClientImpl'
-import { OzoneClient } from './ozoneClient'
+import { OzoneClient, OzoneCredentials, AuthInfo, ClientConfiguration } from './ozoneClient'
 import AssumeStateIsNot = fsm.AssumeStateIsNot
 import AssumeStateIs = fsm.AssumeStateIs
 import StateMachineImpl = fsm.StateMachineImpl

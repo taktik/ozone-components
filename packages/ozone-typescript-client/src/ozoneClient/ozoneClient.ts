@@ -11,12 +11,28 @@ import Request = httpclient.Request
 import InstalledFilter = httpclient.InstalledFilter
 import { DeviceMessage, Item } from 'ozone-type'
 import { ClientState } from './clientState'
-import { ClientConfiguration } from './clientConfiguration'
-import { OzoneCredentials, AuthInfo } from '../ozoneCredentials/ozoneCredentials'
 import { ItemClient } from '../itemClient/itemClient'
 import { RoleClient } from '../roleClient/roleClient'
 import { PermissionClient } from '../permissionClient/permissionClient'
 import { TypeClient } from '../typeClient/typeClient'
+
+export interface AuthInfo {
+	principalClass: string,
+	principalId: string,
+	sessionId: string,
+}
+
+export interface ClientConfiguration {
+	ozoneURL: string
+	ozoneInstanceId?: string
+	ozoneCredentials?: OzoneCredentials
+	webSocketsURL?: string
+	defaultTimeout?: number
+}
+
+export interface OzoneCredentials {
+	authenticate(ozoneURL: string): Promise<AuthInfo>
+}
 
 export interface OzoneClient extends StateMachine<ClientState> {
 

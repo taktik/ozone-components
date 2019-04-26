@@ -1,5 +1,4 @@
 import { httpclient } from 'typescript-http-client'
-import { uniqBy } from 'lodash'
 import { TypeDescriptor, FieldDescriptor, UUID } from 'ozone-type'
 import { TypeClient } from './typeClient'
 import { OzoneClient } from '../ozoneClient/ozoneClient'

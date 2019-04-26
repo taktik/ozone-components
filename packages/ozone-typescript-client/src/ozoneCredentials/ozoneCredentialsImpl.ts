@@ -2,7 +2,7 @@ import { httpclient } from 'typescript-http-client'
 import Response = httpclient.Response
 import Request = httpclient.Request
 import newHttpClient = httpclient.newHttpClient
-import { AuthInfo, OzoneCredentials } from './ozoneCredentials'
+import { AuthInfo, OzoneCredentials } from '../ozoneClient/ozoneClient'
 
 export class SessionCredentials implements OzoneCredentials {
 	async authenticate(ozoneURL: string): Promise<AuthInfo> {
