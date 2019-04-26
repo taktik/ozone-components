@@ -2,39 +2,37 @@ import { uniqBy } from 'lodash'
 import { TypeDescriptor, FieldDescriptor } from 'ozone-type'
 import { TypeCache } from './typeCache'
 import { Cache } from '../cache/cache'
+import { TypeClient } from './typeClient'
 export type TypeDescriptorCollection = Map<string, Promise<TypeDescriptor>>
 
 export class TypeCacheImpl implements TypeCache {
 
 	private _cache = new Cache<string, TypeDescriptor>()
 
-	constructor(typeDescriptors: TypeDescriptor[]) {
-		typeDescriptors.forEach(typeDescriptor =>
-		this._cache.set(typeDescriptor.identifier, typeDescriptor))
+	constructor(private _typeClient: TypeClient, typeDescriptors: TypeDescriptor[]) {
+		this.updateCache(typeDescriptors)
 	}
 
-	getAllFields(identifier: string): Array<FieldDescriptor> {
+	getAllFields(identifier: string): FieldDescriptor[] {
 		const type = this.get(identifier)
-		let parentFields: Array<FieldDescriptor> = []
-		let traitFields: Array<FieldDescriptor> = []
-		if (type) {
-			if (type.superType) {
-				parentFields = this.getAllFields(type.superType)
-			}
-			if (type.traits && type.traits.length > 0) {
-				for (let trait of type.traits) {
-					traitFields.push(...this.getAllFields(trait))
-				}
-			}
-
-			const fields = type.fields || []
-			return uniqBy([
-				...fields,
-				...parentFields,
-				...traitFields
-			], 'identifier')
+		if (!type) {
+			throw new Error('Type not found in cache : ' + identifier)
 		}
-		return []
+		let parentFields: FieldDescriptor[] = []
+		let traitFields: FieldDescriptor[] = []
+		if (type.superType) {
+			parentFields = this.getAllFields(type.superType)
+		}
+		if (type.traits && type.traits.length > 0) {
+			type.traits.forEach(trait => traitFields.push(...this.getAllFields(trait)))
+		}
+
+		const fields = type.fields || []
+		return uniqBy([
+			...fields,
+			...parentFields,
+			...traitFields
+		], 'identifier')
 	}
 
 	isTypeInstanceOf(identifier: string, instance: string): boolean {
@@ -42,12 +40,16 @@ export class TypeCacheImpl implements TypeCache {
 			return true
 		} else {
 			const typeDescriptor = this.get(identifier)
-			if (typeDescriptor && typeDescriptor.superType) {
-				// look in parent if exist
-				return (this.isTypeInstanceOf(typeDescriptor.superType, instance))
-			} else {
-				return false
+			if (!typeDescriptor) {
+				throw new Error('Type not found in cache : ' + identifier)
 			}
+			const parentsToCheck = []
+			if (typeDescriptor.superType) {
+				// look in parent if exist
+				parentsToCheck.push(typeDescriptor.superType)
+			}
+			parentsToCheck.push(...(typeDescriptor.traits || []))
+			return parentsToCheck.some(identifier => this.isTypeInstanceOf(identifier, instance))
 		}
 	}
 
@@ -57,5 +59,17 @@ export class TypeCacheImpl implements TypeCache {
 
 	has(identifier: string): boolean {
 		return this._cache.has(identifier)
+	}
+
+	async refresh(): Promise<TypeCache> {
+		const typeDescriptors = await this._typeClient.findAll()
+		this.updateCache(typeDescriptors)
+		return this
+	}
+
+	private updateCache(typeDescriptors: TypeDescriptor[]) {
+		this._cache.clear()
+		typeDescriptors.forEach(typeDescriptor =>
+			this._cache.set(typeDescriptor.identifier, typeDescriptor))
 	}
 }

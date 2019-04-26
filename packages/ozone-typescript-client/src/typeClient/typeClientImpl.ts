@@ -4,6 +4,7 @@ import { TypeClient } from './typeClient'
 import { OzoneClient } from '../ozoneClient/ozoneClient'
 import Request = httpclient.Request
 import { TypeCacheImpl } from './typeCacheImpl'
+import { TypeCache } from './typeCache'
 export type TypeDescriptorCollection = Map<string, Promise<TypeDescriptor>>
 
 export class TypeClientImpl implements TypeClient {
@@ -46,14 +47,13 @@ export class TypeClientImpl implements TypeClient {
 		}
 	}
 
-	private typeCache?: TypeCacheImpl
+	private typeCache?: TypeCache
 
-	async getTypeCache(): Promise<TypeCacheImpl> {
-		if (this.typeCache) {
-			return this.typeCache
-		} else {
+	async getTypeCache (): Promise<TypeCache> {
+		if (!this.typeCache) {
 			const typeDescriptors = await this.findAll()
-			return new TypeCacheImpl(typeDescriptors)
+			this.typeCache = new TypeCacheImpl(this, typeDescriptors)
 		}
+		return this.typeCache
 	}
 }

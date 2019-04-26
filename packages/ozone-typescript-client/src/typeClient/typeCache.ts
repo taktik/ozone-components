@@ -28,4 +28,9 @@ export interface TypeCache {
 	 * @param identifier
 	 */
 	has(identifier: string): boolean
+
+	/**
+	 * Force a refresh of the cache
+	 */
+	refresh(): Promise<TypeCache>
 }

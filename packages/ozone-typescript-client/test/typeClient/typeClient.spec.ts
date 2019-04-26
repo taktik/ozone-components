@@ -143,7 +143,6 @@ describe('OzoneClient', () => {
 				await wait(0)
 				server.respond()
 				const typeCache = await typeCachePromise
-				debugger
 				const fields = typeCache.getAllFields('itemAllFields')
 				expect(fields).to.deep.equal([...fields1, ...fields2])
 			})
@@ -184,6 +183,58 @@ describe('OzoneClient', () => {
 				const typeCache = await typeCachePromise
 				const isTypeInstanceOf = typeCache.isTypeInstanceOf('itemInstance', 'itemAllFields')
 				assert.isFalse(isTypeInstanceOf)
+			})
+		})
+
+		describe('refreshCache', () => {
+
+			const fields1: FieldDescriptor[] = [{ identifier: 'aFiled', fieldType: 'aType' }]
+			const fields2: FieldDescriptor[] = [{ identifier: 'bFiled', fieldType: 'bType' }]
+
+			const fields1AfterRefresh: FieldDescriptor[] = [{ identifier: 'aFiledAfterRefresh', fieldType: 'aTypeAfterRefresh' }]
+			const fields2AfterRefresh: FieldDescriptor[] = [{ identifier: 'bFiledAfterRefresh', fieldType: 'bTypeAfterRefresh' }]
+
+			before(() => {
+				// for test, its not mandatory to start the client
+				// return client.start()
+				server = sinon.fakeServer.create()
+				server.respondWith(
+					'GET',
+					'http://my.ozone.domain/ozone/rest/v3/type',
+					[
+						200,
+						responseHeaders.json,
+						JSON.stringify([
+							{ identifier: 'itemAllFields', superType: 'itemParent', fields: fields1 },
+							{ identifier: 'itemParent', fields: fields2 }
+						])
+					])
+			})
+			it('should resolve with item fieldDescriptor', async () => {
+				const typeClient = client.typeClient()
+				const typeCachePromise = typeClient.getTypeCache()
+				await wait(0)
+				server.respond()
+				const typeCache = await typeCachePromise
+				const fields = typeCache.getAllFields('itemAllFields')
+				expect(fields).to.deep.equal([...fields1, ...fields2])
+				server.respondWith(
+					'GET',
+					'http://my.ozone.domain/ozone/rest/v3/type',
+					[
+						200,
+						responseHeaders.json,
+						JSON.stringify([
+							{ identifier: 'itemAllFields', superType: 'itemParent', fields: fields1AfterRefresh },
+							{ identifier: 'itemParent', fields: fields2AfterRefresh }
+						])
+					])
+				const typeCacheRefreshPromise = typeCache.refresh()
+				await wait(0)
+				server.respond()
+				const refreshedTypeCache = await typeCacheRefreshPromise
+				const refreshedFields = refreshedTypeCache.getAllFields('itemAllFields')
+				expect(refreshedFields).to.deep.equal([...fields1AfterRefresh, ...fields2AfterRefresh])
 			})
 		})
 	})
