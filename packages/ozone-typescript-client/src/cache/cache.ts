@@ -1,4 +1,4 @@
-export type OptionsType = {
+export type CacheOptions = {
 	/**
 	 * max number of element store in cache
 	 */
@@ -31,17 +31,19 @@ type MapDataType<V> = {expires: number | false, content: V}
  * it's the newest kid on the block!
  *
  */
-export class Cache<K, V> extends Map<K, V> {
+export class Cache<K, V> {
+	private readonly store: Map<K,MapDataType<V>>
+
 	private readonly max: number
 
 	private readonly maxAge: number
 
 	private readonly stale: Boolean
 
-	constructor(opts: OptionsType | number = {}) {
-		super()
+	constructor(opts: CacheOptions | number = {}) {
+		this.store = new Map<K, MapDataType<V>>()
 
-		let options: OptionsType
+		let options: CacheOptions
 		if (typeof opts === 'number') {
 			options = { max: opts }
 		} else {
@@ -58,18 +60,38 @@ export class Cache<K, V> extends Map<K, V> {
 		return this.get(key, false)
 	}
 
+	get size(): number {
+	  return this.store.size
+	}
+
+	clear(): void {
+	  this.store.clear()
+	}
+
+	delete(key: K): boolean {
+	  return this.store.delete(key)
+	}
+
+	forEach(callBack: (value: V, key: K) => void): void {
+	  this.store.forEach((value, key) => callBack(value.content, key))
+	}
+
+	has(key: K): boolean {
+		return this.store.has(key)
+	}
+
 	set(key: K, content: V, maxAge: number = this.maxAge) {
 		this.has(key) && this.delete(key);
 		(this.size + 1 > this.max) && this.delete(this.keys().next().value)
-		let expires = maxAge > -1 && (maxAge + Date.now())
-		return super.set(key, { expires, content } as any)
+		const expires = maxAge > -1 && (maxAge + Date.now())
+		return this.store.set(key, { expires, content })
 	}
 
 	get(key: K, mut: boolean = true) {
-		let x: MapDataType<V> | undefined = super.get(key) as any
+		const x = this.store.get(key)
 		if (x === undefined) return x
 
-		let { expires, content } = x
+		const { expires, content } = x
 		if (expires !== false && Date.now() >= expires) {
 			this.delete(key)
 			return this.stale ? content : undefined
@@ -77,5 +99,9 @@ export class Cache<K, V> extends Map<K, V> {
 
 		if (mut) this.set(key, content)
 		return content
+	}
+
+	keys (): IterableIterator<K> {
+		return this.store.keys()
 	}
 }
