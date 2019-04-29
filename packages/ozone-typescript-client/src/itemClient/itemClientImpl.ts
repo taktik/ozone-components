@@ -3,6 +3,7 @@ import { ItemClient, SearchResults } from './itemClient'
 import { OzoneClient } from '../ozoneClient/ozoneClient'
 import { httpclient } from 'typescript-http-client'
 import Request = httpclient.Request
+import { returnNullOn404 } from '../utility/utility'
 
 export class ItemClientImpl<T extends Item> implements ItemClient<T> {
 	constructor(private client: OzoneClient, private baseUrl: string, private typeIdentifier: string) {}
@@ -18,7 +19,7 @@ export class ItemClientImpl<T extends Item> implements ItemClient<T> {
 	deleteById(id: UUID, permanent?: boolean): Promise<UUID | null> {
 		const request = new Request(`${this.baseUrl}/rest/v3/items/${this.typeIdentifier}/${id}`)
 			.setMethod('DELETE')
-		return this.client.call<UUID>(request)
+		return this.client.call<UUID>(request).catch(returnNullOn404)
 	}
 
 	deleteByIds(ids: UUID[], permanent?: boolean): Promise<UUID[]> {
@@ -45,7 +46,7 @@ export class ItemClientImpl<T extends Item> implements ItemClient<T> {
 	findOne(id: UUID): Promise<FromOzone<T> | null> {
 		const request = new Request(`${this.baseUrl}/rest/v3/items/${this.typeIdentifier}/${id}`)
 			.setMethod('GET')
-		return this.client.call<FromOzone<T>>(request)
+		return this.client.call<FromOzone<T>>(request).catch(returnNullOn404)
 	}
 
 	async save(item: Patch<T>): Promise<FromOzone<T>> {

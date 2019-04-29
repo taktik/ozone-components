@@ -79,6 +79,22 @@ describe('OzoneClient', () => {
 				const data = await resp
 				assert.deepEqual(data, { 'id': 'a', 'name': 'role1' })
 			})
+			it('shoud resolve with null on 404', async () => {
+				server.respondWith(
+					'GET',
+					'http://my.ozone.domain/ozone/rest/v3/role/name/role2',
+					[
+						404,
+						{ 'Content-Type': 'application/json' },
+						'{"id": "a", "name": "role1"}'
+					]
+				)
+				const api = client.roleClient()
+				const resp = api.getByName('role2')
+				server.respond()
+				const data = await resp
+				assert.isNull(data)
+			})
 		})
 		describe('getPermission', () => {
 			it('shoud send POST request on role/permissions', async () => {
@@ -116,6 +132,22 @@ describe('OzoneClient', () => {
 				const data = await resp
 				assert.deepEqual(data, { 'id': 'an_id1', 'name': 'role1' })
 			})
+			it('shoud resolve with null on 404', async () => {
+				server.respondWith(
+					'GET',
+					'http://my.ozone.domain/ozone/rest/v3/role/an_id1',
+					[
+						404,
+						{ 'Content-Type': 'application/json' },
+						'{"id": "an_id1", "name": "role1"}'
+					]
+				)
+				const api = client.roleClient()
+				const resp = api.getById('an_id1')
+				server.respond()
+				const data = await resp
+				assert.isNull(data)
+			})
 		})
 		describe('deleteById', () => {
 			it('shoud send DELETE request on role/{id}', async () => {
@@ -133,6 +165,22 @@ describe('OzoneClient', () => {
 				server.respond()
 				const data = await resp
 				assert.deepEqual(data, null)
+			})
+			it('shoud resolve with null on 404', async () => {
+				server.respondWith(
+					'DELETE',
+					'http://my.ozone.domain/ozone/rest/v3/role/an_id1',
+					[
+						404,
+						{ 'Content-Type': 'application/json' },
+						'an_id1'
+					]
+				)
+				const api = client.roleClient()
+				const resp = api.deleteById('an_id1')
+				server.respond()
+				const data = await resp
+				assert.isNull(data)
 			})
 		})
 	})
