@@ -23,6 +23,7 @@ import newHttpClient = httpclient.newHttpClient
 import FilterCollection = httpclient.FilterCollection
 import Filter = httpclient.Filter
 import FilterChain = httpclient.FilterChain
+import { getLogger } from 'log4javascript'
 
 const MAX_REAUTH_DELAY: number = 30000
 const INITIAL_REAUTH_DELAY: number = 1000
@@ -33,6 +34,7 @@ const INITIAL_WS_RECONNECT_DELAY: number = 1000
 const MAX_SESSION_CHECK_DELAY: number = 60000
 const DEFAULT_TIMEOUT = 5000
 
+const log = getLogger('ozoneClient')
 class Listener {
 	active: boolean = true
 }
@@ -232,7 +234,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 	connect(): Promise<void> {
 		// Destroy any existing WS
 		this.destroyWs()
-		log.info(`Connecting to ${this._config.webSocketsURL}`)
+		this.log.info(`Connecting to ${this._config.webSocketsURL}`)
 		return new Promise<void>((resolve, reject) => {
 			/* FIXME AB Something is wrong here. The promise resolve or reject method should always be called but it is not the case */
 			const query = '?ozoneSessionId=' + this.authInfo!.sessionId
@@ -277,7 +279,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 			ws.onopen = () => {
 				let mustResolve = this._state === states.WS_CONNECTING
 				try {
-					log.info(`Connected to ${this._config.webSocketsURL}`)
+					this.log.info(`Connected to ${this._config.webSocketsURL}`)
 					this.setState(states.WS_CONNECTED)
 				} catch (e) {
 					mustResolve = false
@@ -358,7 +360,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 						this.setState(states.AUTHENTICATING)
 					}
 				} catch (e) {
-					log.info('login failed : ' + e)
+					this.log.info('login failed : ' + e)
 				}
 			})(), this.nextReAuthRetryInterval())
 	}
@@ -383,7 +385,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 	private installWSPingKeepAlive() {
 		if (this._wsKeepAliveTimer) {
 			// should not happen
-			log.warn('wsKeepAliveTimer defined when it should not be')
+			this.log.warn('wsKeepAliveTimer defined when it should not be')
 			clearTimeout(this._wsKeepAliveTimer)
 		}
 		this._lastReceivedPong = Date.now()
@@ -408,7 +410,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 		// --> Problem. We close the socket and trigger onClose()
 		if (this._lastSentPing !== 0 && (this._lastSentPing - this._lastReceivedPong) > 20000) {
 			if (this._ws.readyState === this._ws.CONNECTING || this._ws.readyState === this._ws.OPEN) {
-				log.warn('Ping timeout, closing connection')
+				this.log.warn('Ping timeout, closing connection')
 				OzoneClientImpl.terminateWSConnectionForcefully(this._ws)
 			}
 		} else {

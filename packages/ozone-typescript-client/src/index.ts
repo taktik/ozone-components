@@ -28,7 +28,7 @@ export namespace OzoneClient {
 	/*
 		Factory method
 	*/
-	export function newOzoneClient(config: ClientConfiguration) {
+	export function newOzoneClient(config: ClientConfiguration): OzoneClient {
 		return new OzoneClientImpl(config)
 	}
 
