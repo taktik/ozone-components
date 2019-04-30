@@ -27,7 +27,14 @@ export class UserCredentials implements OzoneCredentials {
 	}
 
 	authenticate(ozoneURL: string): Promise<AuthInfo> {
-		return Promise.reject('Not implemented')
+		const httpClient = newHttpClient()
+		const request = new Request(`${ozoneURL}/rest/v3/authentication/login/user`)
+			.setMethod('POST')
+			.setBody({
+				username: this.username,
+				password: this.password
+			})
+		return httpClient.call<AuthInfo>(request)
 	}
 }
 
