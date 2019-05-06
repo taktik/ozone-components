@@ -14,7 +14,7 @@
 	"scripts": {
 		"prepublish": "npm run build",
 		"build": "npm run tslint && tsc",
-		"tslint": "../../node_modules/.bin/tslint  --project tsconfig.json",
+		"tslint": "../../../node_modules/.bin/tslint  --project tsconfig.json",
 		"test": "npm run build"
 	},
 	"homepage": "https://github.com/taktik/ozone-components#readme",
