@@ -1,5 +1,5 @@
 [![NPM version][npm-image]][npm-url]
-# ozone-typescript-client>
+# ozone-typescript-client
 
 
 `ozone-typescript-client` is a typescript module that manage connection and communication to ozone.
