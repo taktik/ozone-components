@@ -74,6 +74,7 @@
 		"webpack-dev-server": "^3.1.9"
 	},
 	"dependencies": {
+		"clappr-markers-plugin": "https://github.com/hubjac1/clappr-markers-plugin.git",
 		"typescript-http-client": "^0.9.16",
 		"typescript-state-machine": "^0.9.4"
 	}

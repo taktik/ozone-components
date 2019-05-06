@@ -13,7 +13,6 @@ import * as Config from 'ozone-config'
 import {customElement, property, observe} from 'taktik-polymer-typescript'
 import {Item, Media} from 'ozone-type';
 import {OzoneMediaUrl, OzonePreviewSize, SizeEnum} from 'ozone-media-url'
-import {OzoneApiType, getOzoneApiType} from 'ozone-api-type'
 
 /**
  * `ozone-item-action` display action preview.
