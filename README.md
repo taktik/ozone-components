@@ -24,8 +24,11 @@ See demo application [demo](demo.html).
   - [ozone-search-helper](packages/ozone-helper/ozone-search-helper) Helper for Ozone search queries.
   - [taktik-polymer-typescript](packages/ozone-helper/taktik-polymer-typescript) Module providing development facilities for Ozone Polymer and TypeScript modules.
   - [ozone-api-request](packages/ozone-helper/ozone-api-request) `OzoneAPIRequest` is a light wrapper over `XMLHttpRequest` to manager AJAX request to Ozone.
+  - [ozone-default-client](packages/ozone-helper/ozone-default-client) default instance of ozone-typescript-client.
+
 - ozone-api:
-  - [ozone-api-type](packages/ozone-api/ozone-api-type) `ozone-api-type` is low level Polymer module to Ozone type. It provide read operation on collection type.
+  - [ozone-typescript-client](packages/ozone-typescript-client) is a typescript module that manage connection and communication to ozone.
+  - [ozone-api-type](packages/ozone-api/ozone-api-type) `ozone-api-type` (DEPRECIATE) is low level module to Ozone type API. It provide read operation on collection type.
   - [ozone-api-authentication](packages/ozone-api/ozone-api-authentication) Low level wrapper around Ozone login, logout and authentication API.
   - [ozone-api-upload](packages/ozone-api/ozone-api-upload) `UploadFileRequest` is a JavaScript class that can be use as an `XMLHttpRequest` to upload media using Ozone v2 upload channel.
   - [ozone-api-edit-video](packages/ozone-api/ozone-api-edit-video) ES6 module written in TypeScript to save selected video chunks.
@@ -41,6 +44,7 @@ See demo application [demo](demo.html).
   - [ozone-item-preview](packages/ozone-material/ozone-item-preview)  Webcomponent based on Polymer to preview an Ozone item.
   - [ozone-item-edit](packages/ozone-material/ozone-item-edit) This package contains several WebComponents based on Polymer to edit an Ozone item.
   - [ozone-mosaic](packages/ozone-material/ozone-mosaic) Webcomponent to display mosaic of Ozone preview.
+
 
 ## Get started
 
