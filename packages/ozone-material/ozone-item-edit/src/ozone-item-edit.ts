@@ -15,16 +15,7 @@ import './ozone-edit-text-entry/ozone-edit-text-entry'
 import './ozone-edit-number-entry/ozone-edit-number-entry'
 import './ozone-edit-json-entry/ozone-edit-json-entry'
 
-type Partial<T> = {
-	[P in keyof T]?: T[P];
-}
 export type PartialItem = Partial<GenericItem>
-
-export interface EditableFields {
-	fieldType: string,
-	name: string,
-	value: string,
-}
 
 class TruePermission extends FieldsPermissionUtility {
 
@@ -71,21 +62,21 @@ export class OzoneItemEdit extends Polymer.Element {
 		if (!data) {
 			return
 		}
-		if (!data.hasOwnProperty('type')) {
+		if (!data.type) {
 			return
 		}
 		this.removeEntryIfExist()
 
 		const typeCache = await getDefaultClient().typeClient().getTypeCache()
 		const permissionClient = getDefaultClient().permissionClient()
-		const fields: Array<FieldDescriptor> = await(typeCache.getAllFields(data.type as string))
+		const fields: Array<FieldDescriptor> = await(typeCache.getAllFields(data.type))
+		fields.sort((a, b) => { return a.fieldType.localeCompare(b.fieldType) })
 		let permission
 		if (data.id) {
 			permission = await(permissionClient.getPermissions(fields.map(field => field.identifier), data.id))
 		} else {
 			permission = new TruePermission({})
 		}
-		fields.sort((a, b) => { return a.fieldType.localeCompare(b.fieldType) })
 
 		for (let description of fields) {
 			if (description && permission) {
@@ -105,7 +96,7 @@ export class OzoneItemEdit extends Polymer.Element {
 		const listEntry = document.createElement('div')
 		listEntry.className = 'ozoneEditItemContent'
 
-		const editableItemName = this.getEditableItemName(fieldType)
+		const editableItemName = OzoneItemEdit.getEditableItemName(fieldType)
 
 		if (typeof(editableItemName) === 'string') {
 
@@ -122,7 +113,7 @@ export class OzoneItemEdit extends Polymer.Element {
 					this.itemData[identifier] = (e as CustomEvent).detail.value
 				}
 			})
-			editableItem.addEventListener('invalid-changed', (e) => {
+			editableItem.addEventListener('invalid-changed', () => {
 				this.updateInvalidValue()
 			})
 
@@ -133,14 +124,14 @@ export class OzoneItemEdit extends Polymer.Element {
 			listEntry.appendChild(editableItem)
 			this.$.editableList.appendChild(listEntry)
 
-			editableItem.inputElement.addEventListener('value-changed', (d: Event) => {
+			editableItem.inputElement.addEventListener('value-changed', () => {
 				this.dispatchEvent(new CustomEvent('value-changed',
 					{ bubbles: true }))
 			})
 		}
 	}
 
-	private getEditableItemName(type: string): string | undefined {
+	private static getEditableItemName(type: string): string | undefined {
 		let editableItemName
 		switch (type) {
 		case 'string':

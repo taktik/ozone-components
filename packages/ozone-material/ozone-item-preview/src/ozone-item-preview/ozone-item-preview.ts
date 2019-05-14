@@ -11,10 +11,9 @@ import './ozone-item-preview.html'
 import * as Config from 'ozone-config'
 
 import { customElement, property } from 'taktik-polymer-typescript'
-import { Item, Media, Channel, Video } from 'ozone-type'
-import { OzoneMediaUrl, OzonePreviewSize, SizeEnum } from 'ozone-media-url'
+import { Item, Video } from 'ozone-type'
+import { OzoneMediaUrl, OzonePreviewSize } from 'ozone-media-url'
 import { getDefaultClient } from 'ozone-default-client'
-import { OzoneItemAction } from '../ozone-item-action/ozone-item-action'
 import '../ozone-item-action/ozone-item-action'
 
 /**
@@ -97,12 +96,14 @@ export class OzoneItemPreview extends Polymer.Element {
 		this.set('previewImage', undefined)
 		if (data && data.type) {
 			const typeCache = await getDefaultClient().typeClient().getTypeCache()
-			const isTypeInstanceOf = typeCache.isTypeInstanceOf(data.type, 'media')
-			if (isTypeInstanceOf) {
+			const isMedia = typeCache.isTypeInstanceOf(data.type, 'media')
+			if (isMedia) {
 				const media: Video = data as Video
 				const id = media.logo || media.id
-				const ozoneMediaUrl = new OzoneMediaUrl(id as string, config)
-				this.set('previewImage', ozoneMediaUrl.getPreviewUrlPng(OzonePreviewSize.Small))
+				if (id) {
+					const ozoneMediaUrl = new OzoneMediaUrl(id, config)
+					this.set('previewImage', ozoneMediaUrl.getPreviewUrlPng(OzonePreviewSize.Small))
+				}
 			}
 		}
 	}

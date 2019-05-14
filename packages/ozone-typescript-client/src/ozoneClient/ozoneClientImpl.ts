@@ -77,6 +77,9 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 		this._httpClient = newHttpClient()
 		// Setup client & filters
 		this.setupFilters()
+		this._roleClient = new RoleClientImpl(this, this._config.ozoneURL)
+		this._permissionClient = new PermissionClientImpl(this, this._config.ozoneURL)
+		this._typeClient = new TypeClientImpl(this, this._config.ozoneURL)
 	}
 
 	get config(): ClientConfiguration {
@@ -555,33 +558,18 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 		return new ItemClientImpl(client, baseURL, typeIdentifier)
 	}
 
-	private _roleClient: RoleClient | undefined
+	private _roleClient: RoleClient
 	roleClient(): RoleClient {
-		if (this._roleClient === undefined) {
-			const client = this
-			const baseURL = this._config.ozoneURL
-			this._roleClient = new RoleClientImpl(client, baseURL)
-		}
 		return this._roleClient
 	}
 
-	private _permissionClient: PermissionClient | undefined
+	private _permissionClient: PermissionClient
 	permissionClient(): PermissionClient {
-		if (this._permissionClient === undefined) {
-			const client = this
-			const baseURL = this._config.ozoneURL
-			this._permissionClient = new PermissionClientImpl(client, baseURL)
-		}
 		return this._permissionClient
 	}
 
-	private _typeClient: TypeClient | undefined
+	private _typeClient: TypeClient
 	typeClient(): TypeClient {
-		if (this._typeClient === undefined) {
-			const client = this
-			const baseURL = this._config.ozoneURL
-			this._typeClient = new TypeClientImpl(client, baseURL)
-		}
 		return this._typeClient
 	}
 
