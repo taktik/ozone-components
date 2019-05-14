@@ -25,7 +25,7 @@ describe('ozone-api-login tests', function () {
             const expectedResponse = {an: 'object', with: "attributes"};
             server.respondWith(
                 'POST',
-                "/ozone/rest/v3/items/item/",
+                "/ozone/rest/v3/items/item",
                 [
                     200,
                     responseHeaders.json,
@@ -92,7 +92,7 @@ describe('ozone-api-login tests', function () {
             const expectedResponse = {an: 'object', with: "attributes"};
             server.respondWith(
                 'POST',
-                "/ozone/rest/v3/items/item/",
+                "/ozone/rest/v3/items/item",
                 [
                     200,
                     responseHeaders.json,

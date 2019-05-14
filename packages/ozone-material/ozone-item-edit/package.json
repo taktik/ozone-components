@@ -1,6 +1,6 @@
 {
   "name": "ozone-item-edit",
-  "version": "4.4.7",
+  "version": "4.4.9",
   "publishConfig": {
     "access": "public"
   },
@@ -34,7 +34,7 @@
     "taktik-polymer-typescript": "^4.4.7"
   },
   "dependencies": {
-    "ozone-api-item": "^4.4.7",
+    "ozone-api-item": "^4.4.9",
     "ozone-api-request": "^4.4.7",
     "ozone-api-type": "^4.4.7",
     "ozone-config": "^4.4.7",
