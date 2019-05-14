@@ -90,7 +90,7 @@ export class OzoneApiItem<T = Item> {
      * @return {Promise<Item>}
      */
     async update(data: Partial<T>): Promise<T | null> {
-        const url = await this._buildUrl('');
+        const url = await this._buildUrl();
         return this._postRequest<T>(url, data, this._readResponse<T>());
     }
 
@@ -201,11 +201,16 @@ export class OzoneApiItem<T = Item> {
             .sendRequest().then((res) => res.response)
     }
 
-    private async _buildUrl(action:string, type?: string ):Promise<string>{
+    private async _buildUrl(action?:string, type?: string ):Promise<string>{
         const config = await Config.OzoneConfig.get();
         const ozoneEndPoint = config.endPoints[this.collection];
         const serviceUrl = config.host + ozoneEndPoint;
-        return `${serviceUrl}/${action}`;
+        if(action){
+        	return `${serviceUrl}/${action}`;
+        }
+        else {
+			return serviceUrl;
+		}
     }
 }
 
