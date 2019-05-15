@@ -1,6 +1,6 @@
 {
 	"name": "ozone-video-player",
-	"version": "4.4.1-1",
+	"version": "4.4.1-2",
 	"publishConfig": {
 		"access": "public"
 	},
@@ -38,10 +38,10 @@
 	"dependencies": {
 		"clappr": "0.2.98",
 		"clappr-markers-plugin": "git+https://github.com/hubjac1/clappr-markers-plugin.git",
-		"ozone-api-item": "^4.4.1-1",
+		"ozone-api-item": "^4.4.1-2",
 		"ozone-api-request": "^4.4.1",
 		"ozone-config": "^4.4.1",
-		"ozone-media-url": "^4.4.1-1",
+		"ozone-media-url": "^4.4.1-2",
 		"ozone-search-helper": "^4.4.1",
 		"ozone-type": "^4.4.1",
 		"uuid": "3.3.2"
