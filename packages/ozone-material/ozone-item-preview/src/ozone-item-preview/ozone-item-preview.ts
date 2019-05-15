@@ -11,7 +11,7 @@ import './ozone-item-preview.html'
 import * as Config from 'ozone-config'
 
 import { customElement, property } from 'taktik-polymer-typescript'
-import { Item, Video } from 'ozone-type'
+import { Item, FlowrLogoitem } from 'ozone-type'
 import { OzoneMediaUrl, OzonePreviewSize } from 'ozone-media-url'
 import { getDefaultClient } from 'ozone-default-client'
 import '../ozone-item-action/ozone-item-action'
@@ -96,10 +96,9 @@ export class OzoneItemPreview extends Polymer.Element {
 		this.set('previewImage', undefined)
 		if (data && data.type) {
 			const typeCache = await getDefaultClient().typeClient().getTypeCache()
-			const isMedia = typeCache.isTypeInstanceOf(data.type, 'media')
-			if (isMedia) {
-				const media: Video = data as Video
-				const id = media.logo || media.id
+			const logoItem = typeCache.asInstanceOf<FlowrLogoitem>(data, 'flowr.logoitem')
+			if (logoItem) {
+				const id = logoItem.logo || data.id
 				if (id) {
 					const ozoneMediaUrl = new OzoneMediaUrl(id, config)
 					this.set('previewImage', ozoneMediaUrl.getPreviewUrlPng(OzonePreviewSize.Small))

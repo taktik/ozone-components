@@ -1,4 +1,4 @@
-import { TypeDescriptor, FieldDescriptor } from 'ozone-type'
+import { TypeDescriptor, FieldDescriptor, Item } from 'ozone-type'
 
 export type TypeDescriptorCollection = Map<string, Promise<TypeDescriptor>>
 
@@ -16,6 +16,13 @@ export interface TypeCache {
 	 * @param instance
 	 */
 	isTypeInstanceOf(identifier: string, instance: string): boolean
+
+	/**
+	 * return data if the is an instance the given type otherwise return undefined
+	 * @param data
+	 * @param instance
+	 */
+	asInstanceOf<T>(data: Item, instance: string): T | null
 
 	/**
 	 *
