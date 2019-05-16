@@ -1,6 +1,6 @@
 {
   "name": "ozone-free-text-search",
-  "version": "4.4.7",
+  "version": "4.4.8",
   "publishConfig": {
     "access": "public"
   },
