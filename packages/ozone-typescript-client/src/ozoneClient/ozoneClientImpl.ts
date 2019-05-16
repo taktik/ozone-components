@@ -77,6 +77,9 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 		this._httpClient = newHttpClient()
 		// Setup client & filters
 		this.setupFilters()
+		this._roleClient = new RoleClientImpl(this, this._config.ozoneURL)
+		this._permissionClient = new PermissionClientImpl(this, this._config.ozoneURL)
+		this._typeClient = new TypeClientImpl(this, this._config.ozoneURL)
 	}
 
 	get config(): ClientConfiguration {
@@ -555,21 +558,19 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 		return new ItemClientImpl(client, baseURL, typeIdentifier)
 	}
 
+	private _roleClient: RoleClient
 	roleClient(): RoleClient {
-		const client = this
-		const baseURL = this._config.ozoneURL
-		return new RoleClientImpl(client, baseURL)
+		return this._roleClient
 	}
 
+	private _permissionClient: PermissionClient
 	permissionClient(): PermissionClient {
-		const client = this
-		const baseURL = this._config.ozoneURL
-		return new PermissionClientImpl(client, baseURL)
+		return this._permissionClient
 	}
+
+	private _typeClient: TypeClient
 	typeClient(): TypeClient {
-		const client = this
-		const baseURL = this._config.ozoneURL
-		return new TypeClientImpl(client, baseURL)
+		return this._typeClient
 	}
 
 	insertSessionIdInURL(url: string): string {

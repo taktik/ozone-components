@@ -203,7 +203,7 @@ describe('OzoneClient', () => {
 
 		describe('isTypeInstanceOf', () => {
 
-			before(() => {
+			before(async () => {
 				// for test, its not mandatory to start the client
 				// return client.start()
 				server = sinon.fakeServer.create()
@@ -220,8 +220,8 @@ describe('OzoneClient', () => {
 					])
 			})
 			it('should resolve with true when itemInstance is an instance of itemParent', async () => {
-				const typeClient = client.typeClient()
-				const typeCachePromise = typeClient.getTypeCache()
+				const typeClientCache = await client.typeClient().getTypeCache()
+				const typeCachePromise = typeClientCache.refresh()
 				await wait(0)
 				server.respond()
 				const typeCache = await typeCachePromise
@@ -264,8 +264,8 @@ describe('OzoneClient', () => {
 					])
 			})
 			it('should resolve with item fieldDescriptor', async () => {
-				const typeClient = client.typeClient()
-				const typeCachePromise = typeClient.getTypeCache()
+				const typeClientCache = await client.typeClient().getTypeCache()
+				const typeCachePromise = typeClientCache.refresh()
 				await wait(0)
 				server.respond()
 				const typeCache = await typeCachePromise

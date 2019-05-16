@@ -23,7 +23,6 @@
   "dependencies": {
     "ozone-api-item": "^4.4.9",
     "ozone-api-request": "^4.4.7",
-    "ozone-api-type": "^4.4.7",
     "ozone-collection": "^4.4.9",
     "ozone-config": "^4.4.7",
     "ozone-item-preview": "^4.4.9",

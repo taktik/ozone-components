@@ -36,7 +36,7 @@
   "dependencies": {
     "ozone-api-item": "^4.4.9",
     "ozone-api-request": "^4.4.7",
-    "ozone-api-type": "^4.4.7",
+    "ozone-default-client": "^4.4.7",
     "ozone-config": "^4.4.7",
     "ozone-search-helper": "^4.4.7"
   }

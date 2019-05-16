@@ -1,5 +1,5 @@
 import { uniqBy } from 'lodash'
-import { TypeDescriptor, FieldDescriptor } from 'ozone-type'
+import { TypeDescriptor, FieldDescriptor, Item } from 'ozone-type'
 import { TypeCache } from './typeCache'
 import { Cache } from '../cache/cache'
 import { TypeClient } from './typeClient'
@@ -50,6 +50,14 @@ export class TypeCacheImpl implements TypeCache {
 			}
 			parentsToCheck.push(...(typeDescriptor.traits || []))
 			return parentsToCheck.some(identifier => this.isTypeInstanceOf(identifier, instance))
+		}
+	}
+
+	asInstanceOf<T>(data: Item, instance: string): T | null {
+		if (data.type && this.isTypeInstanceOf(data.type, instance)) {
+			return data as T
+		} else {
+			return null
 		}
 	}
 

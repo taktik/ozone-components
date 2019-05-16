@@ -3,6 +3,7 @@
 /node_modules/
 /doc/
 /.idea/
-/dist
-/build
+dist/
 
+.jsbeautifyrc
+.prettierrc

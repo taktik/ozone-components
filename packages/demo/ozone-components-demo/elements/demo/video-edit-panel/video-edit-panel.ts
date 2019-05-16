@@ -7,7 +7,7 @@ import "iron-flex-layout/iron-flex-layout.html"
 import './video-edit-panel.html'
 
 import {customElement, domElement} from 'taktik-polymer-typescript';
-import {Item, Video} from 'ozone-type';
+import { Video, FromOzone } from 'ozone-type';
 import 'ozone-api-edit-video';
 import {OzoneApiEditVideo} from 'ozone-api-edit-video';
 
@@ -40,7 +40,7 @@ export class VideoEditPanel  extends Polymer.Element {
     /**
      * Item to edit
      */
-    selectedItem: Item;
+    selectedItem: FromOzone<Video>;
 
     markersJson:string;
 
@@ -104,7 +104,7 @@ export class VideoEditPanel  extends Polymer.Element {
         console.log('newVideo', selectedChunks);
         let video = null;
         if(selectedChunks) {
-            video = await this.videoEditor.createSubVideo(this.selectedItem as Video, selectedChunks)
+            video = await this.videoEditor.createSubVideo(this.selectedItem, selectedChunks)
         }
         return video
     }

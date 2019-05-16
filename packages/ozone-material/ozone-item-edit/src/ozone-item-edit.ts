@@ -1,40 +1,27 @@
-import "polymer/polymer-element.html"
-import {OzoneApiType, getOzoneApiType} from 'ozone-api-type'
+import 'polymer/polymer-element.html'
 
-import "./ozone-localized-string/ozone-localized-string"
+import './ozone-localized-string/ozone-localized-string'
 
 import './ozone-item-edit.html'
-import {customElement, property, observe} from 'taktik-polymer-typescript'
-import {Item, FieldDescriptor, GenericItem} from 'ozone-type'
-
+import { customElement, property, observe } from 'taktik-polymer-typescript'
+import { Item, FieldDescriptor, GenericItem, FieldsPermissionUtility } from 'ozone-type'
+import { getDefaultClient } from 'ozone-default-client'
 
 import './ozone-edit-entry/ozone-edit-entry'
-import {OzoneEditEntry} from './ozone-edit-entry/ozone-edit-entry'
-import './ozone-edit-set-entry/ozone-edit-set-entry';
-import './ozone-edit-text-entry/ozone-edit-text-entry';
-import './ozone-edit-number-entry/ozone-edit-number-entry';
-import './ozone-edit-json-entry/ozone-edit-json-entry';
+// tslint:disable-next-line no-duplicate-imports
+import { OzoneEditEntry } from './ozone-edit-entry/ozone-edit-entry'
+import './ozone-edit-set-entry/ozone-edit-set-entry'
+import './ozone-edit-text-entry/ozone-edit-text-entry'
+import './ozone-edit-number-entry/ozone-edit-number-entry'
+import './ozone-edit-json-entry/ozone-edit-json-entry'
 
-import 'ozone-api-type'
-import {FieldsPermission} from 'ozone-api-type'
-
-
-type Partial<T> = {
-    [P in keyof T]?: T[P];
-};
 export type PartialItem = Partial<GenericItem>
 
-export interface EditableFields{
-    fieldType: string,
-    name: string,
-    value:string,
-}
+class TruePermission extends FieldsPermissionUtility {
 
-class TruePermission extends FieldsPermission{
-
-    isFieldEditable(fieldName:string):boolean{
-        return true
-    }
+	isFieldEditable(fieldName: string): boolean {
+		return true
+	}
 }
 
 /**
@@ -45,172 +32,171 @@ class TruePermission extends FieldsPermission{
  * ```
  */
 @customElement('ozone-item-edit')
-export class OzoneItemEdit  extends Polymer.Element  {
-    /**
-     * item to display
-     */
-    @property({type: Object, notify: true})
-    itemData: GenericItem | null = null;
+export class OzoneItemEdit extends Polymer.Element {
+	/**
+	 * item to display
+	 */
+	@property({ type: Object, notify: true })
+	itemData: GenericItem | null = null
 
-    ozoneTypeApi: OzoneApiType = getOzoneApiType();
+	/**
+	 * Returns true if the value is invalid.
+	 */
+	@property({
+		type: Boolean,
+		notify: true
+	})
+	invalid: boolean = false
 
-    /**
-     * Returns true if the value is invalid.
-     */
-    @property({
-        type: Boolean,
-        notify: true
-    })
-    invalid:boolean = false;
+	$: {
+		editableList: Element,
+		elementView: HTMLElement
+	} | any
 
-    $: {
-        editableList: Element,
-        elementView: HTMLElement,
-    } | any;
+	static editEntryClass = 'editEntry'
 
-    static editEntryClass = 'editEntry';
+	@observe('itemData')
+	async dataChange(data?: Item) {
 
-    @observe('itemData')
-    async dataChange(data?:Item){
+		this.$.elementView.style.visibility = 'hidden'
+		if (!data) {
+			return
+		}
+		if (!data.type) {
+			return
+		}
+		this.removeEntryIfExist()
 
-        this.$.elementView.style.visibility = 'hidden'
-        if(!data){
-            return ;
-        }
-        if(!data.hasOwnProperty('type')){
-            return ;
-        }
-        this.removeEntryIfExist();
+		const typeCache = await getDefaultClient().typeClient().getTypeCache()
+		const permissionClient = getDefaultClient().permissionClient()
+		const fields: Array<FieldDescriptor> = await(typeCache.getAllFields(data.type))
+		fields.sort((a, b) => { return a.fieldType.localeCompare(b.fieldType) })
+		let permission
+		if (data.id) {
+			permission = await(permissionClient.getPermissions(fields.map(field => field.identifier), data.id))
+		} else {
+			permission = new TruePermission({})
+		}
 
-        const fields:Array<FieldDescriptor> = await(this.ozoneTypeApi.getAllFields(data.type as string));
-        let permission;
-        if( data.id) {
-            permission = await(this.ozoneTypeApi.getPermissions(fields, data.id));
-        } else {
-            permission = new TruePermission({})
-        }
-        fields.sort((a, b)=>{return a.fieldType.localeCompare(b.fieldType)});
+		for (let description of fields) {
+			if (description && permission) {
+				await (this.addInputElement(description, data, permission))
+			}
+		}
+		this.$.elementView.style.visibility = 'visible'
+	}
 
-        for(let description of fields){
-            if(description){
-                await (this.addInputElement(description, data, permission));
-            }
-        }
-        this.$.elementView.style.visibility = 'visible'
-    }
+	private async addInputElement(description: FieldDescriptor, data: GenericItem, permission: FieldsPermissionUtility) {
+		const fieldType = description.fieldType || 'unknown'
 
-    private async addInputElement(description:FieldDescriptor, data: GenericItem, permission: FieldsPermission) {
-        const fieldType = description.fieldType || "unknown";
+		const identifier = description.identifier
 
-        const identifier = description.identifier;
+		const fieldName = description.name || { strings: { en: identifier + '*' } }
 
-        const fieldName = description.name || {strings: {en: identifier + '*'}};
+		const listEntry = document.createElement('div')
+		listEntry.className = 'ozoneEditItemContent'
 
+		const editableItemName = OzoneItemEdit.getEditableItemName(fieldType)
 
-        const listEntry = document.createElement('div');
-        listEntry.className = 'ozoneEditItemContent';
+		if (typeof(editableItemName) === 'string') {
 
+			const editableItem = document.createElement(editableItemName) as (OzoneEditEntry)
+			editableItem.className = OzoneItemEdit.editEntryClass
+			editableItem.id = identifier
+			editableItem.type = fieldType
+			editableItem.value = data[identifier]
+			editableItem.language = 'en'
+			editableItem.name = fieldName
 
-        const editableItemName = this.getEditableItemName(fieldType);
+			editableItem.addEventListener('value-changed', (e) => {
+				if (this.itemData) {
+					this.itemData[identifier] = (e as CustomEvent).detail.value
+				}
+			})
+			editableItem.addEventListener('invalid-changed', () => {
+				this.updateInvalidValue()
+			})
 
-        if(typeof(editableItemName) == 'string') {
+			const isEditAllow: boolean = permission.isFieldEditable(identifier)
 
-            const editableItem = document.createElement(editableItemName) as (OzoneEditEntry);
-            editableItem.className = OzoneItemEdit.editEntryClass;
-            editableItem.id = identifier;
-            editableItem.type = fieldType;
-            editableItem.value = data[identifier];
-            editableItem.language = 'en';
-            editableItem.name = fieldName;
+			editableItem.disabled = !isEditAllow
 
-            editableItem.addEventListener("value-changed", (e) => {
-                if(this.itemData)
-                 this.itemData[identifier] = (e as CustomEvent).detail.value;
-            });
-            editableItem.addEventListener("invalid-changed", (e) => {
-                this.updateInvalidValue()
-            });
+			listEntry.appendChild(editableItem)
+			this.$.editableList.appendChild(listEntry)
 
-            const isEditAllow: boolean = permission.isFieldEditable(identifier);
+			editableItem.inputElement.addEventListener('value-changed', () => {
+				this.dispatchEvent(new CustomEvent('value-changed',
+					{ bubbles: true }))
+			})
+		}
+	}
 
-            editableItem.disabled = !isEditAllow;
+	private static getEditableItemName(type: string): string | undefined {
+		let editableItemName
+		switch (type) {
+		case 'string':
+		case 'uuid':
+		case 'blob':
+		case 'date':
+			editableItemName = 'ozone-edit-entry'
+			break
+		case 'set<string>':
+			editableItemName = 'ozone-edit-set-entry'
+			break
 
+		case 'analyzed_string':
+			editableItemName = 'ozone-edit-text-entry'
+			break
+		case 'integer':
+		case 'float':
+		case 'double':
+			editableItemName = 'ozone-edit-number-entry'
+			break
+		case 'map<ref<document>>':
+			editableItemName = 'ozone-edit-json-entry'
+			break
+		}
+		return editableItemName
+	}
 
-            listEntry.appendChild(editableItem);
-            this.$.editableList.appendChild(listEntry);
+	/**
+	 * get the item with it's modifies fields.
+	 * @return {Item}
+	 */
+	getUpdatedData(): Item {
+		if (!this.itemData) {
+			throw new Error()
+		}
+		const entryList = this.getEntryList()
+		const updatedItem: PartialItem = {
+			type: this.itemData.type,
+			id: this.itemData.id
+		}
+		for (let index = 0; index < entryList.length; index ++) {
+			let entry = entryList.item(index) as OzoneEditEntry
+			if (entry.isModify) {
+				updatedItem[entry.id] = entry.value
+			}
+		}
+		return updatedItem as Item
+	}
 
-            editableItem.inputElement.addEventListener('value-changed', (d:Event) => {
-                this.dispatchEvent(new CustomEvent('value-changed',
-                    {bubbles: true}));
-            })
-        }
-    }
+	updateInvalidValue() {
+		let invalid: boolean = false
+		const entryList = this.getEntryList()
+		for (let index = 0; index < entryList.length; index ++) {
+			invalid = entryList.item(index).invalid || invalid
+		}
+		this.set('invalid', invalid)
+	}
 
-    private getEditableItemName(type:string):string | undefined{
-        let editableItemName;
-        switch(type){
-            case 'string':
-            case 'uuid':
-            case 'blob':
-            case 'date':
-                editableItemName = 'ozone-edit-entry';
-                break;
-            case 'set<string>':
-                editableItemName = 'ozone-edit-set-entry';
-                break;
-
-            case 'analyzed_string':
-                editableItemName = 'ozone-edit-text-entry';
-                break;
-            case 'integer':
-            case 'float':
-            case 'double':
-                editableItemName = 'ozone-edit-number-entry';
-                break;
-            case 'map<ref<document>>':
-                editableItemName = 'ozone-edit-json-entry';
-                break;
-        }
-        return editableItemName
-    }
-
-    /**
-     * get the item with it's modifies fields.
-     * @return {Item}
-     */
-    getUpdatedData():Item{
-        if(!this.itemData)
-            throw new Error()
-        const entryList = this.getEntryList();
-        const updatedItem : PartialItem = {
-            type: this.itemData.type,
-            id: this.itemData.id,
-        };
-        for (let index = 0; index < entryList.length; index ++){
-            let entry = entryList.item(index) as OzoneEditEntry;
-            if(entry.isModify) {
-                updatedItem[entry.id] = entry.value;
-            }
-        }
-        return updatedItem as Item
-    }
-
-    updateInvalidValue(){
-        let invalid: boolean = false;
-        const entryList = this.getEntryList()
-        for (let index = 0; index < entryList.length; index ++){
-            invalid =  entryList.item(index).invalid || invalid;
-        }
-        this.set('invalid', invalid)
-    }
-
-    private getEntryList() {
-        return this.$.editableList.getElementsByClassName(OzoneItemEdit.editEntryClass);
-    }
-    private removeEntryIfExist(){
-        const entryList = this.$.editableList.getElementsByClassName('ozoneEditItemContent');
-        while (entryList.length > 0){
-            entryList[0].remove();
-        }
-    }
+	private getEntryList() {
+		return this.$.editableList.getElementsByClassName(OzoneItemEdit.editEntryClass)
+	}
+	private removeEntryIfExist() {
+		const entryList = this.$.editableList.getElementsByClassName('ozoneEditItemContent')
+		while (entryList.length > 0) {
+			entryList[0].remove()
+		}
+	}
 }

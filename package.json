@@ -42,8 +42,14 @@
 		"html-includer-webpack-plugin": "^1.0.0-beta2",
 		"html-webpack-plugin": "^3.2.0",
 		"include-loader": "^1.1.0-beta",
+		"karma": "^4.0.1",
+		"karma-chrome-launcher": "^2.2.0",
+		"karma-coverage": "^1.1.2",
+		"karma-mocha": "^1.3.0",
+		"karma-typescript": "^4.0.0",
 		"lerna": "^3.10.5",
 		"merge2": "^1.2.1",
+		"mocha": "^6.1.2",
 		"node-bourbon": "^4.2.8",
 		"node-sass": "^4.9.3",
 		"polymer-webpack-loader": "^2.0.3",
@@ -65,12 +71,11 @@
 		"web-component-tester": "^6.8.0",
 		"webpack": "^4.20.2",
 		"webpack-cli": "^3.1.1",
-		"webpack-dev-server": "^3.1.9",
-		"karma": "^4.0.1",
-		"karma-chrome-launcher": "^2.2.0",
-		"karma-coverage": "^1.1.2",
-		"karma-mocha": "^1.3.0",
-		"karma-typescript": "^4.0.0",
-		"mocha": "^6.1.2"
+		"webpack-dev-server": "^3.1.9"
+	},
+	"dependencies": {
+		"clappr-markers-plugin": "https://github.com/hubjac1/clappr-markers-plugin.git",
+		"typescript-http-client": "^0.9.16",
+		"typescript-state-machine": "^0.9.4"
 	}
 }

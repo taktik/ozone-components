@@ -27,6 +27,10 @@ export type TypeDescriptorCollection = Map<string, Promise<TypeDescriptor>>
  */
 export class OzoneApiType  {
 
+	constructor() {
+		console.warn('OzoneApiType is deprecated, use ozone-typescript-client instead')
+	}
+
     /**
      * collection type.
      * @value: item

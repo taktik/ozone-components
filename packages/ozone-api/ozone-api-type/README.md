@@ -2,7 +2,11 @@
 
 # \<ozone-api-type\>
 
- `ozone-api-type` is low level polymer module to ozone type.
+This package is now deprecated, it has been replaced by [ozone-typescript-client](../../ozone-typescript-client)
+
+
+
+ `ozone-api-type` is low level typescript module to ozone type.
  It provide read operation on collection type.
 
 ```bash
