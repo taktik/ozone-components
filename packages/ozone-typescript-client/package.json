@@ -1,6 +1,6 @@
 {
 	"name": "ozone-typescript-client",
-	"version": "4.4.7",
+	"version": "4.5.0",
 	"description": "",
 	"main": "dist/src/index.js",
 	"types": "dist/src/index.d.ts",

@@ -1,6 +1,6 @@
 {
   "name": "ozone-collection",
-  "version": "4.4.9",
+  "version": "4.5.0",
   "publishConfig": {
     "access": "public"
   },
@@ -33,7 +33,7 @@
     "ozone-type": "^4.4.7"
   },
   "dependencies": {
-    "ozone-api-item": "^4.4.9",
+    "ozone-api-item": "^4.5.0",
     "ozone-api-request": "^4.4.7",
     "ozone-config": "^4.4.7",
     "ozone-search-helper": "^4.4.7"
