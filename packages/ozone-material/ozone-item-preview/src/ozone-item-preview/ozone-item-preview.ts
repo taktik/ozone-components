@@ -11,10 +11,9 @@ import './ozone-item-preview.html'
 import * as Config from 'ozone-config'
 
 import { customElement, property } from 'taktik-polymer-typescript'
-import { Item, FlowrLogoitem } from 'ozone-type'
+import { Item, FlowrLogoitem, Media } from 'ozone-type'
 import { OzoneMediaUrl, OzonePreviewSize } from 'ozone-media-url'
 import { getDefaultClient } from 'ozone-default-client'
-import '../ozone-item-action/ozone-item-action'
 
 /**
  * `ozone-item-preview` is hight level polymer module to display preview information an ozone item.
@@ -97,12 +96,16 @@ export class OzoneItemPreview extends Polymer.Element {
 		if (data && data.type) {
 			const typeCache = await getDefaultClient().typeClient().getTypeCache()
 			const logoItem = typeCache.asInstanceOf<FlowrLogoitem>(data, 'flowr.logoitem')
+			const mediaItem = typeCache.asInstanceOf<Media>(data, 'media')
+			let previewId
 			if (logoItem) {
-				const id = logoItem.logo || data.id
-				if (id) {
-					const ozoneMediaUrl = new OzoneMediaUrl(id, config)
-					this.set('previewImage', ozoneMediaUrl.getPreviewUrlPng(OzonePreviewSize.Small))
-				}
+				previewId = logoItem.logo || data.id
+			} else if (mediaItem) {
+				previewId = data.id
+			}
+			if (previewId) {
+				const ozoneMediaUrl = new OzoneMediaUrl(previewId, config)
+				this.set('previewImage', ozoneMediaUrl.getPreviewUrlPng(OzonePreviewSize.Small))
 			}
 		}
 	}
