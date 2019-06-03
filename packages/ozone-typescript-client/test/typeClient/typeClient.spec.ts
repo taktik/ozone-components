@@ -1,6 +1,6 @@
 import { assert, expect } from 'chai'
 import { TypeDescriptor, FieldDescriptor } from 'ozone-type'
-import sinon, { SinonFakeServer } from 'sinon'
+import sinon, { SinonFakeServer, SinonSpy } from 'sinon'
 import { OzoneClient } from './../../src/index'
 import UserCredentials = OzoneClient.UserCredentials
 import ClientConfiguration = OzoneClient.ClientConfiguration
@@ -169,6 +169,39 @@ describe('OzoneClient', () => {
 	})
 
 	describe('getTypeCache', () => {
+
+		describe('cache management', () => {
+			let serverResponseCount: number
+			before(() => {
+				const fields1: FieldDescriptor[] = [{ identifier: 'aFiled', fieldType: 'aType' }]
+				const fields2: FieldDescriptor[] = [{ identifier: 'bFiled', fieldType: 'bType' }]
+				serverResponseCount = 0
+				// for test, its not mandatory to start the client
+				// return client.start()
+				server = sinon.fakeServer.create()
+				server.respondWith(
+					'GET',
+					/my.ozone.domain\/ozone\/rest\/v3\/type/,
+					(xhr: sinon.SinonFakeXMLHttpRequest) => {
+						serverResponseCount++
+						xhr.respond(200, responseHeaders.json, JSON.stringify([
+							{ identifier: 'itemAllFields', superType: 'itemParent', fields: fields1 },
+							{ identifier: 'itemParent', fields: fields2 }
+						]))
+					}
+				)
+			})
+			it('should request server information only once', async () => {
+				const typeClient = client.typeClient()
+				const typeCachePromise = typeClient.getTypeCache()
+				const typeCachePromise2 = typeClient.getTypeCache()
+				await wait(0)
+				server.respond()
+				expect(serverResponseCount).to.be.equal(1, 'server call mo,ne than once)')
+			})
+		})
+
+
 		describe('getAllFields', () => {
 
 			const fields1: FieldDescriptor[] = [{ identifier: 'aFiled', fieldType: 'aType' }]

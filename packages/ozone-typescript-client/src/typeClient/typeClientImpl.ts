@@ -1,4 +1,5 @@
 import { httpclient } from 'typescript-http-client'
+import { once } from 'helpful-decorators';
 import { TypeDescriptor, FieldDescriptor, UUID } from 'ozone-type'
 import { TypeClient } from './typeClient'
 import { OzoneClient } from '../ozoneClient/ozoneClient'
@@ -48,13 +49,9 @@ export class TypeClientImpl implements TypeClient {
 		}
 	}
 
-	private typeCache?: TypeCache
-
+	@once
 	async getTypeCache (): Promise<TypeCache> {
-		if (!this.typeCache) {
-			const typeDescriptors = await this.findAll()
-			this.typeCache = new TypeCacheImpl(this, typeDescriptors)
-		}
-		return this.typeCache
+		const typeDescriptors = await this.findAll()
+		return new TypeCacheImpl(this, typeDescriptors)
 	}
 }

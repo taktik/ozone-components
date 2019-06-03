@@ -23,6 +23,7 @@
 	},
 	"homepage": "https://github.com/taktik/ozone-typescript-client#readme",
 	"dependencies": {
+		"helpful-decorators": "^2.0.4",
 		"log4javascript": "^1.4.15",
 		"ozone-type": "^4.4.7",
 		"typescript-http-client": "^0.9.16",
