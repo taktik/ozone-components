@@ -10,6 +10,17 @@ clappr@0.2.87:
   version "0.2.87"
   resolved "https://registry.yarnpkg.com/clappr/-/clappr-0.2.87.tgz#4a305f2ad1ee595793d0906447725424bbba68b0"
 
+helpful-decorators@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/helpful-decorators/-/helpful-decorators-2.0.4.tgz#d130428f3c0d9ac64897b6ce9f6b45e9adb8865b"
+  integrity sha512-8+LNKPz0LCQ7t0BUcg87gWvjCpoL2AfFdk+l6NIbuG5BnA7BlPF9MbH3j2VMxhRyDG12IH2RYe/399QpUr7hdA==
+  dependencies:
+    lodash.debounce "4.0.8"
+    lodash.delay "4.1.1"
+    lodash.memoize "4.1.2"
+    lodash.once "4.1.1"
+    lodash.throttle "4.1.1"
+
 hls-parser@0.1.8:
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/hls-parser/-/hls-parser-0.1.8.tgz#19cc841bd4ed22cb0290eec1ddea8234e843168c"
@@ -20,6 +31,31 @@ hls.js@0.9.1:
   dependencies:
     string.prototype.endswith "^0.2.0"
     url-toolkit "^2.1.2"
+
+lodash.debounce@4.0.8:
+  version "4.0.8"
+  resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
+  integrity sha1-gteb/zCmfEAF/9XiUVMArZyk168=
+
+lodash.delay@4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/lodash.delay/-/lodash.delay-4.1.1.tgz#8a3b424988252ab912356d8e3ce93eb172d9f231"
+  integrity sha1-ijtCSYglKrkSNW2OPOk+sXLZ8jE=
+
+lodash.memoize@4.1.2:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/lodash.memoize/-/lodash.memoize-4.1.2.tgz#bcc6c49a42a2840ed997f323eada5ecd182e0bfe"
+  integrity sha1-vMbEmkKihA7Zl/Mj6tpezRguC/4=
+
+lodash.once@4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/lodash.once/-/lodash.once-4.1.1.tgz#0dd3971213c7c56df880977d504c88fb471a97ac"
+  integrity sha1-DdOXEhPHxW34gJd9UEyI+0cal6w=
+
+lodash.throttle@4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
+  integrity sha1-wj6RtxAkKscMN/HhzaknTMOb8vQ=
 
 punycode@1.3.2:
   version "1.3.2"

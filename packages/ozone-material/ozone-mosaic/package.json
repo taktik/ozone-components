@@ -21,6 +21,7 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"helpful-decorators": "^2.0.4",
 		"ozone-api-item": "^4.5.0",
 		"ozone-api-request": "^4.4.7",
 		"ozone-collection": "^4.5.0",

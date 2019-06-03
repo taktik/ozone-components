@@ -21,6 +21,7 @@
 		"clappr-markers-plugin": "git+https://github.com/hubjac1/clappr-markers-plugin.git",
 		"hls-parser": "0.1.8",
 		"hls.js": "0.9.1",
+		"helpful-decorators": "^2.0.4",
 		"ozone-api-authentication": "^4.4.7",
 		"ozone-api-edit-video": "^4.5.0",
 		"ozone-api-item": "^4.5.0",
