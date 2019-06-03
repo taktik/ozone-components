@@ -1,6 +1,6 @@
 {
   "name": "ozone-item-edit",
-  "version": "4.5.0",
+  "version": "4.5.1",
   "publishConfig": {
     "access": "public"
   },
@@ -37,7 +37,7 @@
     "ozone-api-item": "^4.5.0",
     "ozone-api-request": "^4.4.7",
     "ozone-config": "^4.4.7",
-    "ozone-default-client": "^4.5.0",
+    "ozone-default-client": "^4.5.1",
     "ozone-search-helper": "^4.4.7"
   }
 }
