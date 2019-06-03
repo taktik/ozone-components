@@ -201,7 +201,6 @@ describe('OzoneClient', () => {
 			})
 		})
 
-
 		describe('getAllFields', () => {
 
 			const fields1: FieldDescriptor[] = [{ identifier: 'aFiled', fieldType: 'aType' }]
