@@ -76,6 +76,7 @@
 	},
 	"dependencies": {
 		"clappr-markers-plugin": "https://github.com/hubjac1/clappr-markers-plugin.git",
+		"helpful-decorators": "^2.0.4",
 		"typescript-http-client": "^0.9.16",
 		"typescript-state-machine": "^0.9.4"
 	}

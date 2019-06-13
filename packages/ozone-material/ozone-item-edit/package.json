@@ -31,7 +31,8 @@
   "license": "ISC",
   "devDependencies": {
     "ozone-type": "^4.4.7",
-    "taktik-polymer-typescript": "^4.4.7"
+    "taktik-polymer-typescript": "^4.4.7",
+	  "ozone-typescript-client": "^4.5.1"
   },
   "dependencies": {
     "ozone-api-item": "^4.5.0",
