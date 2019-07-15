@@ -1,4 +1,5 @@
 import { FromOzone, Item, Query, SearchRequest, UUID, State as MetaState, Patch } from 'ozone-type'
+import { SearchQuery } from 'ozone-search-helper'
 import { ItemClient, SearchResults } from './itemClient'
 import { OzoneClient } from '../ozoneClient/ozoneClient'
 import { httpclient } from 'typescript-http-client'
@@ -76,6 +77,23 @@ export class ItemClientImpl<T extends Item> implements ItemClient<T> {
 			.setMethod('POST')
 			.setBody(searchRequest)
 		return this.client.call<SearchResults<FromOzone<T>>>(request)
+	}
+
+	async * searchGenerator (searchQuery: SearchQuery): AsyncIterableIterator<SearchResults<FromOzone<T>>> {
+		let searchResults = await this._next({ size: 0 }, searchQuery)
+		let forceOffset = undefined
+		while (searchResults.hasMoreData || typeof forceOffset === 'number') {
+			forceOffset = yield searchResults.response
+			searchResults = await this._next(searchResults.response, searchQuery, forceOffset)
+		}
+		yield searchResults.response
+	}
+
+	private async _next(prevResponse: SearchResults<FromOzone<T>>, searchQuery: SearchQuery, forceOffset?: number) {
+		searchQuery.offset = forceOffset || prevResponse.size || 0
+		const response = await this.search(searchQuery.searchRequest)
+		const hasMoreData = (response.size || 0) < Number(response.total || 0)
+		return { response, hasMoreData }
 	}
 
 	async broadcast(item: T): Promise<FromOzone<T>> {
