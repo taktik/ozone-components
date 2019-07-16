@@ -39,7 +39,6 @@ describe('OzoneClient', () => {
 					'POST',
 					'http://my.ozone.domain/ozone/rest/v3/items/item/search',
 					xhr => {
-						console.log(xhr.requestBody)
 						xhr.respond(200, { 'Content-Type': 'application/json' }, JSON.stringify({ results: [{ item: 1 }], total: 1 , size: 1 }))
 					})
 
@@ -47,7 +46,6 @@ describe('OzoneClient', () => {
 					'POST',
 					'http://my.ozone.domain/ozone/rest/v3/items/collection/search',
 					xhr => {
-						console.log(xhr.requestBody)
 						const request = JSON.parse(xhr.requestBody)
 						const index = ((request.offset || 0) / request.size) >> 0 // integer division
 						xhr.respond(200, { 'Content-Type': 'application/json' }, JSON.stringify(collectionResult[index]))
@@ -100,6 +98,17 @@ describe('OzoneClient', () => {
 				server.respond()
 				const res3 = await res3Promise
 				expect(res3.value).to.deep.equal({ results: [{ item: 3 }, { item: 4 }], total: 6 , size: 4 })
+			})
+
+			it('cancel should cancel ongoing request and finish iterator', async () => {
+				const itemApi = client.itemClient('item')
+				const searchQuery = new SearchQuery()
+				searchQuery.termQuery('foo', 'bar')
+				const searchGen: any = itemApi.searchGenerator(searchQuery)
+				const res1Promise = searchGen.next()
+				searchGen.cancel()
+				const res1 = await res1Promise
+				expect(res1.done).to.equal(true)
 			})
 		})
 	})

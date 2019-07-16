@@ -14,7 +14,7 @@ module.exports = function(config) {
 
     karmaTypescriptConfig: {
       compilerOptions: {
-        "target": "es6",
+        "target": "es2015",
         module: "commonjs",
         "moduleResolution": "node",
         "experimentalDecorators": true,
@@ -26,7 +26,7 @@ module.exports = function(config) {
         "noImplicitThis": true,
         // "noImplicitAny": true,
         "allowSyntheticDefaultImports": true,
-        "lib": ["es2017", "es6", "es5", "dom"],
+        "lib": ["es2017", "es6", "es5", "dom", "esnext"],
         "sourceMap": true,
         "outDir": "./dist",
         "baseUrl": "./",

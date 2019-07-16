@@ -34,5 +34,13 @@ export interface ItemClient<T extends Item> {
 
 	deleteByIds(ids: UUID[], permanent?: boolean): Promise<UUID[]>
 
-	searchGenerator (searchQuery: SearchQuery): AsyncIterableIterator<SearchResults<FromOzone<T>>>
+	searchGenerator (searchQuery: SearchQuery): SearchIterator<T>
+}
+export interface SearchIterator<T> extends AsyncIterableIterator<SearchResults<FromOzone<T>>> {
+
+	/**
+	 * Cancel ongoing http request
+	 * It will end the generator
+	 */
+	cancel(): void
 }
