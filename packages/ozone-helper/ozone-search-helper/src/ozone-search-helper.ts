@@ -6,18 +6,6 @@ import {Item, SearchRequest, ItemSearchResult, TermsAggregation, Aggregation,
     WildcardQuery, QueryStringQuery, TermQuery, ModeType, TermsQuery, TenantQuery, TypeQuery, Query, BoolQuery, Sort, IdsQuery, AggregationItem, RegexpQuery, RangeQuery} from 'ozone-type';
 
 
-
-
-export interface SearchResponse {
-    response: ItemSearchResult;
-}
-
-export interface SearchResult<T> {
-    results: Array<FromOzone<T>>;
-    total: number;
-    aggregations?: Array<AggregationItem>
-}
-
 export type BoolQueryName = 'mustClauses' | 'shouldClauses' | 'mustNotClauses'
 
 /**

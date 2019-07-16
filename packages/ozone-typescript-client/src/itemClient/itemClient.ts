@@ -1,4 +1,4 @@
-import { FromOzone, Item, Query, SearchRequest, UUID, Patch } from 'ozone-type'
+import { FromOzone, Item, Query, SearchRequest, UUID, Patch, AggregationItem } from 'ozone-type'
 import { SearchQuery } from 'ozone-search-helper'
 
 export interface SearchResults<T extends Item> {
@@ -8,7 +8,9 @@ export interface SearchResults<T extends Item> {
 
 	size?: number
 
-	results?: T[]
+	results?: T[],
+
+	aggregations?: Array<AggregationItem>
 }
 
 export interface ItemClient<T extends Item> {

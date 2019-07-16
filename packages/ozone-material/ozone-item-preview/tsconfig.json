@@ -9,7 +9,7 @@
     "strictNullChecks": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
-    "lib": ["es2017", "es6", "es5", "dom"],
+    "lib": ["es2017", "es6", "es5", "dom", "esnext"],
     "declaration": true,
     /* Generates corresponding '.d.ts' file. */
     "outDir": "./dist",

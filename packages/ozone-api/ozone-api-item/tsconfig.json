@@ -13,7 +13,8 @@
       "es2017",
       "es6",
       "es5",
-      "dom"
+      "dom",
+	  "esnext"
     ],
     "declaration": true,
     /* Generates corresponding '.d.ts' file. */
