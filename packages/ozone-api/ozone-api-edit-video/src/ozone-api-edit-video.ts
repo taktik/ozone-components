@@ -136,8 +136,8 @@ export class OzoneApiEditVideo {
                 .and.idsQuery(...originalVideo.derivedFiles);
 
             const ozoneApi = new OzoneApiItem<OzoneType.File>()
-            const serachGen = await ozoneApi.on('file').search(query);
-            const serachResult = await serachGen.next();
+            const searchGen = await ozoneApi.on('file').search(query);
+            const serachResult = await searchGen.next();
             if(serachResult && serachResult.results){
                 const originalHLSFile = serachResult.results[0]
                 const file = await ozoneApi.on('file').getOne(originalHLSFile.id);
