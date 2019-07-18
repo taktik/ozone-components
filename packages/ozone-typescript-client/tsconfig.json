@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"target": "es6",
+		"target": "es2015",
 		"module": "commonjs",
 		// Use esnext to enable lazy loading
 		"moduleResolution": "node",
@@ -19,7 +19,8 @@
 			"es2015",
 			"es6",
 			"es5",
-			"dom"
+			"dom",
+			"esnext"
 		],
 		"sourceMap": true,
 		"declaration": true,

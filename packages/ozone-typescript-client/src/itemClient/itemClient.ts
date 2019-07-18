@@ -1,4 +1,5 @@
-import { FromOzone, Item, Query, SearchRequest, UUID, Patch } from 'ozone-type'
+import { FromOzone, Item, Query, SearchRequest, UUID, Patch, AggregationItem } from 'ozone-type'
+import { SearchQuery } from 'ozone-search-helper'
 
 export interface SearchResults<T extends Item> {
 	id?: number
@@ -7,7 +8,9 @@ export interface SearchResults<T extends Item> {
 
 	size?: number
 
-	results?: T[]
+	results?: T[],
+
+	aggregations?: Array<AggregationItem>
 }
 
 export interface ItemClient<T extends Item> {
@@ -32,4 +35,14 @@ export interface ItemClient<T extends Item> {
 	deleteById(id: UUID, permanent?: boolean): Promise<UUID | null>
 
 	deleteByIds(ids: UUID[], permanent?: boolean): Promise<UUID[]>
+
+	searchGenerator (searchQuery: SearchQuery): SearchIterator<T>
+}
+export interface SearchIterator<T> extends AsyncIterableIterator<SearchResults<FromOzone<T>>> {
+
+	/**
+	 * Cancel ongoing http request
+	 * It will end the generator
+	 */
+	cancel(): void
 }

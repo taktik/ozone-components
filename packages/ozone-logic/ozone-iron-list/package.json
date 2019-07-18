@@ -29,6 +29,8 @@
     "ozone-media-url": "^4.5.0",
     "ozone-search-helper": "^4.4.7",
     "ozone-type": "^4.4.7",
-    "taktik-polymer-typescript": "^4.4.7"
+    "taktik-polymer-typescript": "^4.4.7",
+	  "ozone-default-client": "^4.5.1",
+	  "ozone-typescript-client": "^4.5.1"
   }
 }

@@ -118,7 +118,7 @@ export class OzoneApiEditVideo {
             return file
         else
             throw new Error("Unable to create file");
-        
+
     }
     private async getVideoFile(
     	originalVideo: OzoneType.FromOzone<OzoneType.Video>
@@ -136,10 +136,10 @@ export class OzoneApiEditVideo {
                 .and.idsQuery(...originalVideo.derivedFiles);
 
             const ozoneApi = new OzoneApiItem<OzoneType.File>()
-            const serachGen = await ozoneApi.on('file').search(query);
-            const serachResult = await serachGen.next();
-            if(serachResult){
-                const originalHLSFile =  serachResult.results[0];
+            const searchGen = await ozoneApi.on('file').search(query);
+            const searchResult = await searchGen.next();
+            if(searchResult && searchResult.results){
+                const originalHLSFile = searchResult.results[0]
                 const file = await ozoneApi.on('file').getOne(originalHLSFile.id);
                 if(file)
                 return file;
@@ -230,7 +230,7 @@ export class OzoneApiEditVideo {
 
         const  playListBlob = await this._savePlayList(playListData);
         //console.log('playListBlob', playListBlob)
-        
+
         //create new ozone file referencing  our playListBlob
         const playListFile = await this._createBlobFile(playListBlob)
         //console.log('playListFile', playListFile)

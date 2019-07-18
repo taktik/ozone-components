@@ -19,6 +19,8 @@ export namespace OzoneClient {
 
 	export import ItemClient = itemClient.ItemClient
 
+	export import SearchIterator = itemClient.SearchIterator
+
 	export import PermissionClient = permissionClient.PermissionClient
 
 	export import RoleClient = roleClient.RoleClient

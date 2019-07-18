@@ -34,8 +34,8 @@
   },
   "dependencies": {
     "ozone-api-item": "^4.5.0",
-    "ozone-api-request": "^4.4.7",
-    "ozone-config": "^4.4.7",
-    "ozone-search-helper": "^4.4.7"
+    "ozone-default-client": "^4.5.1",
+    "ozone-search-helper": "^4.4.7",
+    "ozone-typescript-client": "^4.5.1"
   }
 }

@@ -10,6 +10,10 @@
 			true,
 			"tab"
 		],
+		"one-variable-per-declaration": [
+			true,
+			"ignore-for-loop"
+		],
 		"space-before-function-paren": [
 			true,
 			{

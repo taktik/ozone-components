@@ -25,8 +25,9 @@
 	"dependencies": {
 		"helpful-decorators": "^2.0.4",
 		"log4javascript": "^1.4.15",
+		"ozone-search-helper": "^4.4.7",
 		"ozone-type": "^4.4.7",
-		"typescript-http-client": "^0.9.16",
+		"typescript-http-client": "^0.10.0",
 		"typescript-state-machine": "^0.9.3"
 	}
 }
