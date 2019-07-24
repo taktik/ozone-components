@@ -4,7 +4,7 @@
 
 import { getDefaultClient } from 'ozone-default-client'
 import { OzoneClient } from 'ozone-typescript-client'
-import { Item, ItemSearchResult, UUID, FromOzone } from 'ozone-type'
+import { Item, ItemSearchResult, UUID, FromOzone, SearchRequest } from 'ozone-type'
 import { SearchQuery } from 'ozone-search-helper'
 import { v4 as uuid } from 'uuid'
 import SearchIterator = OzoneClient.SearchIterator
@@ -153,6 +153,10 @@ export class OzoneApiItem<T = Item> {
 		}
 		const itemClient = getDefaultClient().itemClient<T>(this.collection)
 		return new SearchGenerator(itemClient.searchGenerator(search))
+	}
+	async queryDelete (search: SearchQuery): Promise<UUID[]> {
+		const itemClient = getDefaultClient().itemClient<T>(this.collection)
+		return itemClient.queryDelete(search.searchRequest)
 	}
 }
 
