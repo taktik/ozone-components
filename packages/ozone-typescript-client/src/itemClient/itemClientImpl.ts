@@ -26,7 +26,7 @@ export class ItemClientImpl<T extends Item> implements ItemClient<T> {
 	deleteByIds(ids: UUID[], permanent?: boolean): Promise<UUID[]> {
 		const request = new Request(`${this.baseUrl}/rest/v3/items/${this.typeIdentifier}/bulkDelete`)
 			.setMethod('POST')
-			.setBody()
+			.setBody(ids)
 		return this.client.call<UUID[]>(request)
 	}
 
