@@ -1,6 +1,6 @@
 {
   "name": "ozone-collection",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "publishConfig": {
     "access": "public"
   },
@@ -33,9 +33,9 @@
     "ozone-type": "^5.0.0"
   },
   "dependencies": {
-    "ozone-api-item": "^5.0.1",
-    "ozone-default-client": "^5.0.1",
+    "ozone-api-item": "^5.0.2",
+    "ozone-default-client": "^5.0.2",
     "ozone-search-helper": "^5.0.0",
-    "ozone-typescript-client": "^5.0.1"
+    "ozone-typescript-client": "^5.0.2"
   }
 }
