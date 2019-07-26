@@ -1,5 +1,4 @@
 import { FromOzone, Item, Query, SearchRequest, UUID, Patch, AggregationItem } from 'ozone-type'
-import { SearchQuery } from 'ozone-search-helper'
 
 export interface SearchResults<T extends Item> {
 	id?: number
@@ -36,7 +35,7 @@ export interface ItemClient<T extends Item> {
 
 	deleteByIds(ids: UUID[], permanent?: boolean): Promise<UUID[]>
 
-	searchGenerator (searchQuery: SearchQuery): SearchIterator<T>
+	searchGenerator (searchRequest: SearchRequest): SearchIterator<T>
 
 	queryDelete (searchQuery: Query): Promise<UUID[]>
 }
