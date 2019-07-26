@@ -38,7 +38,7 @@ export interface ItemClient<T extends Item> {
 
 	searchGenerator (searchQuery: SearchQuery): SearchIterator<T>
 
-	queryDelete (searchRequest: SearchRequest): Promise<UUID[]>
+	queryDelete (searchQuery: Query): Promise<UUID[]>
 }
 export interface SearchIterator<T> extends AsyncIterableIterator<SearchResults<FromOzone<T>>> {
 

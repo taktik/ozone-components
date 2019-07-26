@@ -195,7 +195,7 @@ export class SearchQuery {
      * @param {string} ids
      * @return {SearchQuery}
      */
-    idsQuery(...ids: Array<string>): SearchQuery {
+    idsQuery(ids: Array<string>): SearchQuery {
         return this.addQuery({
             "$type": "IdsQuery",
             ids,

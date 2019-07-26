@@ -105,10 +105,10 @@ export class ItemClientImpl<T extends Item> implements ItemClient<T> {
 		return savedItems
 	}
 
-	async queryDelete (searchRequest: SearchRequest): Promise<UUID[]> {
+	async queryDelete (searchQuery: Query): Promise<UUID[]> {
 		const request = new Request(`${this.baseUrl}/rest/v3/items/${this.typeIdentifier}/queryDelete`)
 			.setMethod('POST')
-			.setBody(searchRequest)
+			.setBody(searchQuery)
 		return this.client.call<UUID[]>(request)
 	}
 
