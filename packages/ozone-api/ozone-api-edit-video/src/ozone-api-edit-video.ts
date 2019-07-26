@@ -133,7 +133,7 @@ export class OzoneApiEditVideo {
 
             const query = new SearchQuery();
             query.termQuery('fileType', fileType.id as string)
-                .and.idsQuery(...originalVideo.derivedFiles);
+                .and.idsQuery(originalVideo.derivedFiles);
 
             const ozoneApi = new OzoneApiItem<OzoneType.File>()
             const searchGen = await ozoneApi.on('file').search(query);
