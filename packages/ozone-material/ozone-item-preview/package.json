@@ -21,13 +21,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "helpful-decorators": "^2.0.4",
-    "ozone-api-item": "^5.0.1",
-    "ozone-api-request": "^5.0.0",
-    "ozone-config": "^5.0.0",
     "ozone-default-client": "^5.0.1",
     "ozone-media-url": "^5.0.1",
-    "ozone-search-helper": "^5.0.0",
     "ozone-type": "^5.0.0",
     "ozone-typescript-client": "^5.0.1",
     "taktik-polymer-typescript": "^5.0.0"

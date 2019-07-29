@@ -8,7 +8,6 @@ import 'paper-icon-button/paper-icon-button.html'
 import 'iron-image/iron-image.html'
 
 import './ozone-item-preview.html'
-import * as Config from 'ozone-config'
 
 import { customElement, property } from 'taktik-polymer-typescript'
 import { Item, FlowrLogoitem, Media } from 'ozone-type'
@@ -91,7 +90,6 @@ export class OzoneItemPreview extends Polymer.Element {
 	}
 
 	async dataChange(data?: Item) {
-		const config = await Config.OzoneConfig.get()
 		this.set('previewImage', undefined)
 		if (data && data.type) {
 			const typeCache = await getDefaultClient().typeClient().getTypeCache()
@@ -104,7 +102,7 @@ export class OzoneItemPreview extends Polymer.Element {
 				previewId = data.id
 			}
 			if (previewId) {
-				const ozoneMediaUrl = new OzoneMediaUrl(previewId, config)
+				const ozoneMediaUrl = new OzoneMediaUrl(previewId, getDefaultClient().config.ozoneURL)
 				this.set('previewImage', ozoneMediaUrl.getPreviewUrlPng(OzonePreviewSize.Small))
 			}
 		}
