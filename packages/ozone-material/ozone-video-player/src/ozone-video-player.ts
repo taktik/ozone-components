@@ -8,7 +8,6 @@ import * as ClapprSubtitle from './Clappr-Subtitle'
 import { ClapprMarkerFactory, MarkerOnVideo } from './clappr-marker'
 import { OzoneMediaUrl, OzonePreviewSize, SizeEnum } from 'ozone-media-url'
 import { Video } from 'ozone-type'
-import { ozoneApiMediaplay, ReportInterval_ms } from './ozone-api-mediaplay'
 import { WCMediaControl } from './MediaControl'
 /**
  * `<ozone-video-player>`
@@ -181,6 +180,7 @@ export class OzoneVideoPlayer extends Polymer.Element {
 		if (data) {
 			this.video = data
 			this._updateSubtitlesAvailable(data)
+			debugger
 			const mediaUrl = new this.OzoneMediaUrl(data.id as string, getDefaultClient().config.ozoneURL)
 			const url = await mediaUrl.getVideoUrl()
 			let previewImage = mediaUrl.getPreviewUrlJpg(OzonePreviewSize.Medium)
@@ -197,10 +197,6 @@ export class OzoneVideoPlayer extends Polymer.Element {
 			}, clapprConfig)
 			param.subtitle.list = this._subtitles
 			this.createPlayer(param)
-
-			this.intervalReporter = window.setInterval(() => {
-				this.reportUsage()
-			}, ReportInterval_ms)
 		}
 	}
 
@@ -227,12 +223,6 @@ export class OzoneVideoPlayer extends Polymer.Element {
 		return this._intervalReporter
 	}
 
-	reportUsage() {
-		if (this.video && this.player && this.player.isPlaying()) {
-			ozoneApiMediaplay.reportMediaUsage(this.video)
-		}
-	}
-
 	createPlayer(param: Clappr.ClapprParam) {
 		this.destroy()
 		this.player = new Clappr.Player(param)
@@ -241,10 +231,6 @@ export class OzoneVideoPlayer extends Polymer.Element {
 			this.$.player.appendChild(playerElement)
 		}
 		this.player.attachTo(playerElement)
-
-		this.player.on(Clappr.Events.PLAYER_PLAY, () => {
-			this.reportUsage()
-		})
 	}
 
 	private visibilityChange() {

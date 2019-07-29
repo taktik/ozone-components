@@ -26,6 +26,7 @@ module.exports = {
             Clappr: 'clappr',
             "../../../shadycss/apply-shim.html": "@webcomponents/shadycss/apply-shim.html",
             "../../../shadycss/custom-style-interface.html": "@webcomponents/shadycss/custom-style-interface.html",
+			'ozone-config': path.resolve(__dirname, './test/dummyConfig')
         },
         modules: [
             path.resolve(__dirname, 'vendor'),
