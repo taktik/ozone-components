@@ -6,7 +6,7 @@ export const OzoneFormat: OzoneFormatType = {
 		'mp3': 'org.taktik.filetype.audio.mp3',
 		'original': 'org.taktik.filetype.original',
 		'jpg': 'org.taktik.filetype.image.preview.{SIZE}',
-		'png': 'org.taktik.filetype.image.preview.{SIZE}'
+		'png': 'preview.png.{SIZE}'
 	},
 	'priority': {
 		'video': ['hls', 'flowr', 'original', 'mp4'],

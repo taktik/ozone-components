@@ -2,24 +2,19 @@
 import {OzoneMediaUrl, OzonePreviewSize, SizeEnum} from "../src/ozone-media-url.ts"
 import {OzoneConfig} from "ozone-config"
 describe('tool OzoneMediaUrl', function () {
-    let config;
-    beforeEach((done)=>{
-        OzoneConfig.get().then((ozoneConfig)=>{
-            config = ozoneConfig;
-            done();
-        });
-    });
+    let config= '/ozone';
+
     describe('constructor', function () {
         it('should set config and id', (done)=>{
-            const element = new OzoneMediaUrl('an_id', {host:'ozone', view:'view'});
+            const element = new OzoneMediaUrl('an_id', 'host');
             expect(element.id).to.equal('an_id');
-            expect(element.config).to.deep.equal({host:'ozone', view:'view'});
+            expect(element.ozoneHost).to.deep.equal('host');
             done()
         });
     });
     describe('getNumericId', function () {
         it('should convert id: "00000000-046c-7fc4-0000-000000006030" to 24624', (done)=>{
-            const element = new OzoneMediaUrl('00000000-046c-7fc4-0000-000000006030', {host:'ozone', view:'/view'});
+            const element = new OzoneMediaUrl('00000000-046c-7fc4-0000-000000006030', 'host');
             expect(element.getNumericId()).to.equal(24624);
             done()
         });
