@@ -8,6 +8,7 @@
 		"bootstrap": "lerna bootstrap --ignore-scripts",
 		"build": "lerna run prepublish",
 		"bower": "lerna run bower",
+		"lerna:publish": "lerna publish",
 		"test": "lerna run test --concurrency=5",
 		"demo": "lerna run --scope ozone-components-demo demo",
 		"build:demo": "lerna run --scope ozone-components-demo build",

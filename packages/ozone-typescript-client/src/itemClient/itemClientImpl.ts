@@ -1,5 +1,4 @@
 import { FromOzone, Item, Query, SearchRequest, UUID, State as MetaState, Patch } from 'ozone-type'
-import { SearchQuery } from 'ozone-search-helper'
 import { ItemClient, SearchResults, SearchIterator } from './itemClient'
 import { OzoneClient } from '../ozoneClient/ozoneClient'
 import { httpclient } from 'typescript-http-client'
@@ -79,8 +78,8 @@ export class ItemClientImpl<T extends Item> implements ItemClient<T> {
 		return this.client.call<SearchResults<FromOzone<T>>>(request)
 	}
 
-	searchGenerator (searchQuery: SearchQuery): SearchIterator<T> {
-		return new SearchIteratorImpl<T>(this.client, this.baseUrl, this.typeIdentifier, searchQuery)
+	searchGenerator (searchRequest: SearchRequest): SearchIterator<T> {
+		return new SearchIteratorImpl<T>(this.client, this.baseUrl, this.typeIdentifier, searchRequest)
 	}
 
 	async broadcast(item: T): Promise<FromOzone<T>> {
@@ -105,10 +104,10 @@ export class ItemClientImpl<T extends Item> implements ItemClient<T> {
 		return savedItems
 	}
 
-	async queryDelete (searchRequest: SearchRequest): Promise<UUID[]> {
+	async queryDelete (searchQuery: Query): Promise<UUID[]> {
 		const request = new Request(`${this.baseUrl}/rest/v3/items/${this.typeIdentifier}/queryDelete`)
 			.setMethod('POST')
-			.setBody(searchRequest)
+			.setBody(searchQuery)
 		return this.client.call<UUID[]>(request)
 	}
 
@@ -120,7 +119,7 @@ class SearchIteratorImpl<T> implements SearchIterator<T> {
 
 	currentRequest?: Request
 
-	constructor(private client: OzoneClient, private baseUrl: string, private typeIdentifier: string, private searchQuery: SearchQuery) {}
+	constructor(private client: OzoneClient, private baseUrl: string, private typeIdentifier: string, private searchRequest: SearchRequest) {}
 
 	private _search(searchRequest: SearchRequest): Promise<SearchResults<FromOzone<T>>> {
 		try {
@@ -140,8 +139,8 @@ class SearchIteratorImpl<T> implements SearchIterator<T> {
 	public async next(forceOffset: number): Promise<IteratorResult<SearchResults<FromOzone<T>>>> {
 		try {
 			if (this.hasMoreData || forceOffset) {
-				this.searchQuery.offset = forceOffset || this.prevResponse.size || 0
-				const response = await this._search(this.searchQuery.searchRequest)
+				this.searchRequest.offset = forceOffset || this.prevResponse.size || 0
+				const response = await this._search(this.searchRequest)
 				this.prevResponse = deepCopy(response)
 				const done = !this.hasMoreData
 				this.hasMoreData = (response.size || 0) < Number(response.total || 0)

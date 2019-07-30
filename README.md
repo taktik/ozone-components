@@ -69,15 +69,15 @@ You are also more than welcomed to suggest fixes through pull requests.
 
 ```
 $ yarn install
-$ npm run bower
-$ npm run bootstrap
-$ npm run build
+$ yarn run bower
+$ yarn run bootstrap
+$ yarn run build
 ```
 
 ### Viewing demo Application
 
 ```
-$ npm run demo
+$ yarn run demo
 ```
 
 Open a browser in http://localhost:9000
@@ -85,11 +85,20 @@ Open a browser in http://localhost:9000
 ### Running Tests
 
 ```
-$ npm run test
+$ yarn run test
 ```
 
 ### Generate documentation
 
 ```bash
-$ npm run doc
+$ yarn run doc
+```
+
+### Publish
+
+We use Lerna to publish ozone-components packages. 
+At first, make sure to set up correctly your project. (see setup section)
+
+```bash
+$ yarn run lerna:publish
 ```

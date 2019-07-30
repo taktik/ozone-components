@@ -55,7 +55,7 @@ describe('OzoneClient', () => {
 				const itemApi = client.itemClient('item')
 				const searchQuery = new SearchQuery()
 				searchQuery.termQuery('foo', 'bar')
-				const searchGen: any = itemApi.searchGenerator(searchQuery)
+				const searchGen: any = itemApi.searchGenerator(searchQuery.searchRequest)
 				const res1Promise = searchGen.next()
 				server.respond()
 				const res1 = await res1Promise
@@ -70,7 +70,7 @@ describe('OzoneClient', () => {
 				server.autoRespond = true
 				let expectedResponseIndex = 0
 
-				for await (const result of itemApi.searchGenerator(searchQuery)) {
+				for await (const result of itemApi.searchGenerator(searchQuery.searchRequest)) {
 					expect(result).to.deep.equal(collectionResult[expectedResponseIndex++])
 				}
 				expect(expectedResponseIndex).to.equal(3)
@@ -81,7 +81,7 @@ describe('OzoneClient', () => {
 				const pageSize = 2
 				searchQuery.termQuery('foo', 'bar').size = pageSize
 
-				const searchGen: any = itemApi.searchGenerator(searchQuery)
+				const searchGen: any = itemApi.searchGenerator(searchQuery.searchRequest)
 				const res1Promise = searchGen.next()
 				server.respond()
 				const res1 = await res1Promise
@@ -104,7 +104,7 @@ describe('OzoneClient', () => {
 				const itemApi = client.itemClient('item')
 				const searchQuery = new SearchQuery()
 				searchQuery.termQuery('foo', 'bar')
-				const searchGen: any = itemApi.searchGenerator(searchQuery)
+				const searchGen: any = itemApi.searchGenerator(searchQuery.searchRequest)
 				const res1Promise = searchGen.next()
 				searchGen.cancel()
 				const res1 = await res1Promise
