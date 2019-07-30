@@ -12459,10 +12459,10 @@ typescript-estree@18.0.0:
     lodash.unescape "4.0.1"
     semver "5.5.0"
 
-typescript-http-client@^0.9.16:
-  version "0.9.16"
-  resolved "https://registry.yarnpkg.com/typescript-http-client/-/typescript-http-client-0.9.16.tgz#107b3eee20fe87c6f02c234e5843257596721903"
-  integrity sha512-8WlvAcQJ12TKSapXLNrOxFh8RqKV0ZSdvc/zoBDLMIRkGhZdquBt5QgeRTBa7jM57cHiGtVhrouysEYnGahodA==
+typescript-http-client@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/typescript-http-client/-/typescript-http-client-0.10.0.tgz#7b6b4922d1dfbbf44d0658a4ed79b75619da049d"
+  integrity sha512-MzQRxbA9izSNRKWW6HU5SoIaPRcgHSnSemUzVf0z6UNn8miKu+/7Ji9CsOORBD+vqrqNM7cjFtAvxSg38SBSsQ==
   dependencies:
     log4javascript "^1.4.15"
 

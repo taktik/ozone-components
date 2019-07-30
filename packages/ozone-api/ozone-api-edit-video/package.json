@@ -32,7 +32,8 @@
     "ozone-api-request": "^5.0.0",
     "ozone-config": "^5.0.0",
     "ozone-media-url": "^5.0.1",
-    "ozone-search-helper": "^5.0.0"
+    "ozone-search-helper": "^5.0.0",
+	  "ozone-default-client": "^5.0.3"
   },
   "main": "dist/ozone-api-edit-video.js",
   "types": "dist/ozone-api-edit-video.d.ts",
