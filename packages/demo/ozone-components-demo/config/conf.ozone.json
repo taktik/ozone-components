@@ -1,7 +1,7 @@
 {
   "ozoneApi": {
     "host": "/ozone",
-    "hostProxy": "https://test.flowr.cloud/ozone",
+    "hostProxy": "https://test.flowr.dev/ozone",
     "endPoints": {
       "login": "/rest/v3/authentication/login/user",
       "logout": "/rest/v3/authentication/logout",

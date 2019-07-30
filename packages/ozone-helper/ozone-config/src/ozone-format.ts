@@ -1,10 +1,10 @@
 export const OzoneFormat: OzoneFormatType = {
 	'type': {
 		'hls': 'org.taktik.filetype.video.hls',
-		'flowr': 'org.taktik.filetype.flowr.video',
-		'mp4': 'org.taktik.filetype.video.mp4',
 		'mp3': 'org.taktik.filetype.audio.mp3',
 		'original': 'org.taktik.filetype.original',
+		'flowr': 'org.taktik.filetype.flowr.video',
+		'mp4': 'org.taktik.filetype.video.mp4',
 		'jpg': 'org.taktik.filetype.image.preview.{SIZE}',
 		'png': 'preview.png.{SIZE}'
 	},

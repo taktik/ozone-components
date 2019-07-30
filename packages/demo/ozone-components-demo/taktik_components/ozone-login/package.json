@@ -2,7 +2,7 @@
   "name": "ozone-login",
   "version": "1.0.0",
   "description": "",
-  "main": "ozone-login.js",
+  "main": "ozone-login.ts",
   "directories": {
     "test": "test"
   },

@@ -180,7 +180,6 @@ export class OzoneVideoPlayer extends Polymer.Element {
 		if (data) {
 			this.video = data
 			this._updateSubtitlesAvailable(data)
-			debugger
 			const mediaUrl = new this.OzoneMediaUrl(data.id as string, getDefaultClient().config.ozoneURL)
 			const url = await mediaUrl.getVideoUrl()
 			let previewImage = mediaUrl.getPreviewUrlJpg(OzonePreviewSize.Medium)
