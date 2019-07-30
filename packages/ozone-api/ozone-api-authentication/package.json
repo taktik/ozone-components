@@ -1,6 +1,6 @@
 {
   "name": "ozone-api-authentication",
-  "version": "5.0.0",
+  "version": "5.0.4",
   "publishConfig": {
     "access": "public"
   },
@@ -27,7 +27,7 @@
   "dependencies": {
     "global": "4.3.2",
     "ozone-api-request": "^5.0.0",
-    "ozone-config": "^5.0.0",
+    "ozone-config": "^5.0.4",
     "reflect-metadata": "0.1.12"
   },
   "devDependencies": {
