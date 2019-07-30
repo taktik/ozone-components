@@ -1,6 +1,6 @@
 
 function setup(app){
-    app.get('/rest/v3/items/video/00000000-0000-0000-0000-000000000003', function(req, res) {
+    app.get('ozone/rest/v3/items/video/00000000-0000-0000-0000-000000000003', function(req, res) {
         res.json({
             derivedFiles:
                 ["00000000-0000-0000-0000-000000000004"],
@@ -10,7 +10,7 @@ function setup(app){
             subTitles:{ "en": "00000000-0000-0000-0000-000000000002","pl": "00000000-0000-0000-0000-000000000001"}
         });
     });
-      app.post('/rest/v3/items/file/bulkGet', function(req, res) {
+      app.post('ozone/rest/v3/items/file/bulkGet', function(req, res) {
         res.json([{
           fileType: "ffffffff-2",
           id: "00000000-0000-0000-0000-000000000005",
@@ -21,7 +21,7 @@ function setup(app){
           type: "file",
         }]);
       });
-      app.get('/rest/v3/filetype/identifier/org.taktik.filetype.video.hls', function(req, res) {
+      app.get('ozone/rest/v3/filetype/identifier/org.taktik.filetype.video.hls', function(req, res) {
         res.json({
           id: "ffffffff-1",
           identifier : "org.taktik.filetype.video.hls"

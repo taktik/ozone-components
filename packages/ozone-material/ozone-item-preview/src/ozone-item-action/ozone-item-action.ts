@@ -8,11 +8,9 @@ import "paper-icon-button/paper-icon-button.html"
 import "iron-image/iron-image.html"
 
 import './ozone-item-action.html'
-import * as Config from 'ozone-config'
 
 import {customElement, property, observe} from 'taktik-polymer-typescript'
 import {Item, Media} from 'ozone-type';
-import {OzoneMediaUrl, OzonePreviewSize, SizeEnum} from 'ozone-media-url'
 
 /**
  * `ozone-item-action` display action preview.

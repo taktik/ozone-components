@@ -9,8 +9,8 @@
     "type": "git",
     "url": "https://github.com/taktik/ozone-components/packages/ozone-helper/ozone-config"
   },
-  "main": "dist/src/ozone-config.js",
-  "types": "dist/src/ozone-config.d.ts",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "scripts": {
     "prepublish": "npm run tsc",
     "bower": "bower install",

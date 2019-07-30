@@ -1,4 +1,4 @@
- /**
+/**
  * `ozone-login` is a login facility for Ozone.
  *
  *                                           Example:
@@ -41,32 +41,108 @@
  *     `--ozone-api-forgot-password-button` | css mixin for forgot password button style | '{}'`
  * `--ozone-api-create-account-button` | css mixin for create account button style | '{}'`
  **/
-declare class OzoneLogin extends Polymer.Element{
+import { getDefaultClient } from 'ozone-default-client'
+import { OzoneClient } from 'ozone-typescript-client'
 
-     /**
-      * Indicate if the user is connected.
-      * This property can be watch.
-      */
-     isConnected: boolean;
+import './ozone-login.html'
+import UserCredentials = OzoneClient.UserCredentials
 
-     /**
-      * Username to use for login.
-      */
-     username: string;
+class OzoneLogin extends Polymer.Element {
+	static get is() {
+		return 'ozone-login'
+	}
+	username?: string
+	password?: string
 
-     /**
-      * Password to use for login.
-      */
-     password: string;
+	static get properties() {
+		return {
+			/**
+			 * Indicate if the user is connected.
+			 * This property can be watch.
+			 */
+			isConnected: {
+				type: Boolean,
+				value: false,
+				notify: true
+			},
+			/**
+			 * Username to use for login.
+			 */
+			username: {
+				type: String,
+				value: undefined,
+				notify: true
+			},
+			/**
+			 * Password to use for login.
+			 */
+			password: {
+				type: String,
+				value: undefined,
+				notify: false
+			},
+			/**
+			 * Error message display to explain why the connection fail.
+			 *
+			 */
+			displayedMessage: {
+				type: String,
+				value: undefined,
+				notify: true
+			}
 
-     /**
-      * Error message display to explain why the connection fail.
-      *
-      */
-     displayedMessage: string;
+		}
+	}
 
-     /**
-      * Connect to Ozone
-      */
-     ozoneConnect(): void
- }
+	ready() {
+		super.ready()
+
+		getDefaultClient()
+			.onEnterState(OzoneClient.states.AUTHENTICATION_ERROR, () => {
+				this.set('displayedMessage', 'Connection error')
+				this.set('isConnected', false)
+				this.dispatchEvent(new CustomEvent('ozone-logout', {
+					bubbles: true, composed: true
+				} as any))
+			})
+
+		getDefaultClient()
+			.onEnterState(OzoneClient.states.AUTHENTICATED, () => {
+				this.set('displayedMessage', null)
+				this.set('isConnected', true)
+				this.dispatchEvent(new CustomEvent('ozone-login', {
+					bubbles: true, composed: true
+				} as any))
+			})
+		getDefaultClient().start()
+
+		if (! getDefaultClient().isConnected) {
+			this.set('isConnected', false)
+			this.dispatchEvent(new CustomEvent('ozone-logout', {
+				bubbles: true, composed: true
+			} as any))
+		}
+		this.$.username.addEventListener('keydown', (keypress: any) => {
+			if (keypress.key === 'Enter' || keypress.keyCode === 13) {
+				this.$.password.focus()
+			}
+		})
+		this.$.password.addEventListener('keydown', (keypress: any) => {
+			if (keypress.key === 'Enter' || keypress.keyCode === 13) {
+				this.$.signInBtn.dispatchEvent(new CustomEvent('tap', {
+					bubbles: true, composed: true
+				} as any))
+			}
+		})
+	}
+
+	/**
+	 * Connect to Ozone
+	 */
+	ozoneConnect() {
+		if (this.username && this.password) {
+			getDefaultClient().updateCredentials(new UserCredentials(this.username, this.password))
+		}
+	}
+}
+window.customElements.define(OzoneLogin.is, OzoneLogin)

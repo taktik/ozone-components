@@ -11,7 +11,7 @@
 		"install": "npm install",
 		"bower": "bower install",
 		"test": "echo 'no test in ozone-components-demo'",
-		"demo": "./../../../node_modules/.bin/webpack-dev-server --config webpack.config.js",
+		"demo": "./../../../node_modules/.bin/webpack-dev-server --config webpack.config.js --watch",
 		"build": "./../../../node_modules/.bin/webpack --config webpack.config.js"
 	},
 	"author": "",
