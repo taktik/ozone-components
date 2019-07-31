@@ -115,7 +115,7 @@ export class ItemClientImpl<T extends Item> implements ItemClient<T> {
 
 class SearchIteratorImpl<T> implements SearchIterator<T> {
 	private hasMoreData: boolean = true
-	private prevResponse: SearchResults<FromOzone<T>> = { size: 0 }
+	private loadingSize: number = 0
 
 	currentRequest?: Request
 
@@ -136,14 +136,14 @@ class SearchIteratorImpl<T> implements SearchIterator<T> {
 		}
 	}
 
-	public async next(forceOffset: number): Promise<IteratorResult<SearchResults<FromOzone<T>>>> {
+	public async next(forceOffset?: number): Promise<IteratorResult<SearchResults<FromOzone<T>>>> {
 		try {
-			if (this.hasMoreData || forceOffset) {
-				this.searchRequest.offset = forceOffset || this.prevResponse.size || 0
+			if (this.hasMoreData || forceOffset !== undefined) {
+				this.searchRequest.offset = forceOffset !== undefined ? forceOffset : this.loadingSize
 				const response = await this._search(this.searchRequest)
-				this.prevResponse = deepCopy(response)
+				this.loadingSize = this.searchRequest.offset + (response.size || 0)
 				const done = !this.hasMoreData
-				this.hasMoreData = (response.size || 0) < Number(response.total || 0)
+				this.hasMoreData = this.loadingSize < Number(response.total || 0)
 				return { value: response, done }
 			}
 		} catch (err) {

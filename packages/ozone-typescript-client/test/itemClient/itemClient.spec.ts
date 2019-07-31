@@ -28,8 +28,8 @@ describe('OzoneClient', () => {
 		describe('searchGenerator', () => {
 			const collectionResult = [
 				{ results: [{ item: 1 }, { item: 2 }], total: 6 , size: 2 },
-				{ results: [{ item: 3 }, { item: 4 }], total: 6 , size: 4 },
-				{ results: [{ item: 5 }, { item: 6 }], total: 6 , size: 6 }
+				{ results: [{ item: 3 }, { item: 4 }], total: 6 , size: 2 },
+				{ results: [{ item: 5 }, { item: 6 }], total: 6 , size: 2 }
 			]
 			before(() => {
 				// for test, its not mandatory to start the client
@@ -85,19 +85,29 @@ describe('OzoneClient', () => {
 				const res1Promise = searchGen.next()
 				server.respond()
 				const res1 = await res1Promise
-				expect(res1.value).to.deep.equal({ results: [{ item: 1 }, { item: 2 }], total: 6 , size: 2 })
+				expect(res1.value).to.deep.equal({ results: [{ item: 1 }, { item: 2 }], total: 6 , size: 2 }, 'load 1st chuck of results')
 				const lastOffset = res1.value.total - pageSize
 				expect(lastOffset).to.equal(4)
 
 				const res2Promise = searchGen.next(lastOffset)
 				server.respond()
 				const res2 = await res2Promise
-				expect(res2.value).to.deep.equal({ results: [{ item: 5 }, { item: 6 }], total: 6 , size: 6 })
+				expect(res2.value).to.deep.equal({ results: [{ item: 5 }, { item: 6 }], total: 6 , size: 2 }, 'load last chuck of results')
 
 				const res3Promise = searchGen.next(2)
 				server.respond()
 				const res3 = await res3Promise
-				expect(res3.value).to.deep.equal({ results: [{ item: 3 }, { item: 4 }], total: 6 , size: 4 })
+				expect(res3.value).to.deep.equal({ results: [{ item: 3 }, { item: 4 }], total: 6 , size: 2 }, 'come back to the 2nd chuck of results')
+
+				const res4Promise = searchGen.next()
+				server.respond()
+				const res4 = await res4Promise
+				expect(res4.value).to.deep.equal({ results: [{ item: 5 }, { item: 6 }], total: 6 , size: 2 }, 'load next (last) chuck of results')
+
+				const res5Promise = searchGen.next(0)
+				server.respond()
+				const res5 = await res5Promise
+				expect(res5.value).to.deep.equal({ results: [{ item: 1 }, { item: 2 }], total: 6 , size: 2 }, 'come back to the 1st chuck of results')
 			})
 
 			it('cancel should cancel ongoing request and finish iterator', async () => {
