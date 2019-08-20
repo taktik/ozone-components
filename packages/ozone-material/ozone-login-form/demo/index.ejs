@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>ozone-login-form demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+	<!--
+	  Use the webcomponents-loader script which will feature detect which Web
+	  Components features are missing and lazy load the appropriate polyfills.
+	  When we hear the 'WebComponentsReady' event from the polyfill bundle we can
+	  insert our 'bundle.js'.
+	-->
+
+	<script>
+	    (function() {
+	        document.addEventListener('WebComponentsReady', function componentsReady() {
+	            document.removeEventListener('WebComponentsReady', componentsReady, false);
+	            var script = document.createElement('script');
+	            script.src = '<%= htmlWebpackPlugin.files.js[0] %>';
+	            var refScript = document.getElementsByTagName('script')[0];
+	            refScript.parentNode.insertBefore(script, refScript);
+	        }, false);
+	    })();
+	</script>
+	<script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+
+
+	<!--
+	  IMPORTANT: Make sure you set the inject: false option in HTMLWebpackPlugin
+	  so it doesn't try to insert bundle.js. We're handling loading it ourselves
+	  up above.
+	-->
+
+
+
+	<style>
+	body {
+		font-family: Roboto;
+	}
+	* {
+		box-sizing: border-box;
+	}
+	.demos {
+		display: flex;
+		align-items: center;
+	}
+	.demo {
+		padding: 20px;
+		display: inline-block;
+		margin: auto;
+		width: 800px;
+		border: 1px solid #ccc;
+		position: relative;
+	}
+	.rendered {
+		border: 1px dotted #ccc;
+		padding: 20px;
+		margin-bottom: 20px;
+	}
+
+	.connection-message {
+		color: #0f9d58;
+		display: none;
+	}
+	ozone-login-form[is-connected] ~ .connection-message {
+		display: block;
+	}
+	ozone-login-form[is-connected]{
+		display: none;
+	}
+	ozone-logout:not([is-connected]){
+		display: none;
+	}
+	code {
+		background: #ddd;
+		padding: 20px;
+		width: 100%;
+		display: block;
+		border: 1px solid #ccc;
+	}
+		[]
+	</style>
+</head>
+<body>
+<ozone-logout><div slot="logout-div">Disconnect</div></ozone-logout>
+	<div class="demos">
+		<div class="demo">
+			<h3>Basic ozone-login-form demo</h3>
+			<div class="rendered">
+				<ozone-login-form id="login">Loading...</ozone-login-form>
+
+				<div class="connection-message">Logged</div>
+			</div>
+			<code>
+				&lt;style><br>
+				&emsp;ozone-login-form[is-connected] ~ .connection-message {<br>
+				&emsp;&emsp;display: block;<br>
+				&emsp;}<br>
+				&emsp;ozone-login-form[is-connected]{<br>
+				&emsp;&emsp;display: none;<br>
+				&emsp;}<br>
+				&lt;/style><br>
+				&lt;ozone-login-form align-buttons="right">&lt;/ozone-login-form><br>
+				&lt;div class="connection-message">Logged&lt;/div>
+			</code>
+		</div>
+
+		<div class="demo">
+			<h3>Button alignment demo</h3>
+			<div class="rendered">
+				<ozone-login-form align-buttons="right">Loading...</ozone-login-form>
+				<div class="connection-message">Logged</div>
+
+			</div>
+			<code>
+				&lt;style><br>
+				&emsp;ozone-login-form[is-connected] ~ .connection-message {<br>
+				&emsp;&emsp;display: block;<br>
+				&emsp;}<br>
+				&emsp;ozone-login-form[is-connected]{<br>
+				&emsp;&emsp;display: none;<br>
+				&emsp;}<br>
+				&lt;/style><br>
+				&lt;ozone-login-form align-buttons="right">&lt;/ozone-login-form><br>
+				&lt;div class="connection-message">Logged&lt;/div>
+			</code>
+		</div>
+	</div>
+
+</body>
+</html>

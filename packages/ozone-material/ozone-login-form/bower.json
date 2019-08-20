@@ -1,0 +1,30 @@
+{
+  "name": "ozone-login-form",
+  "description": "generic login form for ozone authentication",
+  "main": "index.js",
+  "authors": [
+    "Axel Glorieux"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "ozone",
+    "authentication",
+    "login",
+    "form"
+  ],
+  "homepage": "https://github.com/taktik/ozone-login-form",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "webcomponentsjs": "^1.1.0",
+    "polymer": "^2.5.0",
+    "paper-input": "PolymerElements/paper-input#^2.1.1",
+    "paper-button": "PolymerElements/paper-button#^2.0.0",
+    "iron-form": "PolymerElements/iron-form#^2.1.3"
+  }
+}

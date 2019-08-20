@@ -1,0 +1,25 @@
+{
+	"name": "ozone-login-form",
+	"version": "5.0.5",
+	"description": "",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"scripts": {
+		"bower": "bower install",
+		"build": "gulp clean && gulp build",
+		"clean": "gulp clean",
+		"prepublish": "npm run build",
+		"start": "../../../node_modules/.bin/webpack --config webpack.config.js",
+		"tsc": "../../../node_modules/.bin/tsc",
+		"demo": "../../../node_modules/.bin/webpack-dev-server --config webpack.config.js"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"ozone-api-authentication": "^5.0.4",
+		"ozone-default-client": "^5.0.5",
+		"ozone-type": "^5.0.0",
+		"ozone-typescript-client": "^5.0.5",
+		"taktik-polymer-typescript": "^5.0.0"
+	}
+}

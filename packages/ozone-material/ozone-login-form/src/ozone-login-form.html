@@ -1,0 +1,46 @@
+<dom-module id="ozone-login-form">
+<template>
+	<style>
+	:host {
+		display: block;
+		--error-message-color: var(--google-red-500, 'red');
+	}
+	.center {
+		text-align: center;
+	}
+	.left {
+		text-align: left;
+	}
+	.right {
+		text-align: right;
+	}
+	.errorMessage {
+		font-weight: bold;
+		color: var(--error-message-color);
+		@apply --error-message;
+	}
+	paper-button.primary {
+		background: var(--primary-color, '#ff0');
+		color: #eee;
+	}
+	</style>
+
+	<form id="form">
+		
+		<div class="errorMessage">
+			{{errorMessage}}
+		</div>
+		<div class="fields">
+			<paper-input id="username" label="{{usernameLabel}}" value="{{username::input}}" autofocus required on-keypress="onKeyPress"></paper-input>
+			<paper-input id="password" type="password" label="{{passwordLabel}}" value="{{password::input}}" required on-keypress="onKeyPress"></paper-input>
+		</div>
+		<div class$="buttons {{alignButtons}}">
+			<paper-button raised hidden="{{!showRegister}}" on-tap="register">{{registerLabel}}</paper-button>
+			<paper-button raised hidden="{{!showLostPassword}}" on-tap="lostPassword">{{lostPasswordLabel}}</paper-button>
+			<paper-button class="primary" raised id="submit" on-tap="submitForm">{{submitLabel}}</paper-button>
+		</div>
+
+	</form>
+
+</template>
+</dom-module>
