@@ -7,7 +7,6 @@ demo header
     import "font-roboto/roboto.html"
 
     import "iron-icons/iron-icons.html"
-    import "ozone-logout/ozone-logout.html"
     import "./demo-header.html"
 
     class DemoHeader extends Polymer.Element {
@@ -101,6 +100,9 @@ Custom property | Description | Default
         :host paper-icon-button{
             color:#2C2958;
         }
+        ozone-logout:not([is-connected]){
+            display: none;
+        }
     </style>
 
     <div class="header">
@@ -109,7 +111,7 @@ Custom property | Description | Default
         <paper-tab class="header-btn">Documentation</paper-tab>
         </paper-tabs>
         <div>Ozone-components Version: {{version}}</div>
-        <ozone-logout></ozone-logout>
+        <ozone-logout> <paper-icon-button  slot="logout-div" id="logoutBtn" icon="power-settings-new"></paper-icon-button></ozone-logout>
     </div>
   </template>
 </dom-module>
