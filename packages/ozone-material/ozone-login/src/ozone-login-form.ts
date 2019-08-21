@@ -107,6 +107,10 @@ export class OzoneLoginForm extends Polymer.Element {
 		defaultClient.onEnterState(ClientStates.AUTHENTICATED,() => {
 			this.set('isConnected', true)
 		})
+		if (defaultClient.authInfo) {
+			// client is already logged
+			this.set('isConnected', true)
+		}
 	}
 
 	public async submitForm(e: Event): Promise<void> {

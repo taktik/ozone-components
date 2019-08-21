@@ -29,6 +29,10 @@ export class OzoneLogoutForm extends Polymer.Element {
 		defaultClient.onEnterState(ClientStates.AUTHENTICATED,() => {
 			this.set('isConnected', true)
 		})
+		if (defaultClient.authInfo) {
+			// client is already logged
+			this.set('isConnected', true)
+		}
 	}
 
 	public async logout(e: Event): Promise<void> {
