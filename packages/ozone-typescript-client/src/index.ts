@@ -1,6 +1,7 @@
 import * as clientState from './ozoneClient/clientState'
 import * as ozoneCredentialsImpl from './ozoneCredentials/ozoneCredentialsImpl'
 import * as itemClient from './itemClient/itemClient'
+import * as userClient from './userClient/userClient'
 import * as roleClient from './roleClient/roleClient'
 import * as ozoneClient from './ozoneClient/ozoneClient'
 import * as permissionClient from './permissionClient/permissionClient'
@@ -26,6 +27,8 @@ export namespace OzoneClient {
 	export import RoleClient = roleClient.RoleClient
 
 	export import TypeClient = typeClient.TypeClient
+
+	export import UserClient = userClient.UserClient
 
 	/*
 		Factory method

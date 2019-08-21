@@ -14,6 +14,8 @@ import { ItemClientImpl } from '../itemClient/itemClientImpl'
 import { RoleClientImpl } from '../roleClient/roleClientImpl'
 import { PermissionClientImpl } from '../permissionClient/permissionClientImpl'
 import { TypeClientImpl } from '../typeClient/typeClientImpl'
+import { UserClient } from '../userClient/userClient'
+import { UserClientImpl } from '../userClient/userClientImpl'
 import { OzoneClient, OzoneCredentials, AuthInfo, ClientConfiguration } from './ozoneClient'
 import AssumeStateIsNot = fsm.AssumeStateIsNot
 import AssumeStateIs = fsm.AssumeStateIs
@@ -556,6 +558,10 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 		const client = this
 		const baseURL = this._config.ozoneURL
 		return new ItemClientImpl(client, baseURL, typeIdentifier)
+	}
+
+	userClient(): UserClient {
+		return new UserClientImpl(this, this._config.ozoneURL)
 	}
 
 	private _roleClient: RoleClient
