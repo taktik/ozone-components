@@ -21,7 +21,7 @@ import './ozone-login-form.html'
  * ### Usage
  *
  * ```javascript
- * import 'ozone-login-form'
+ * import 'ozone-login/ozone-login-form'
  *
  * ...
  *
@@ -135,10 +135,14 @@ export class OzoneLoginForm extends Polymer.Element {
 			const defaultClient = getDefaultClient()
 
 			defaultClient.onEnterState(ClientStates.AUTHENTICATION_ERROR, updateMessagesOnError)
-			console.log('------> ',(defaultClient as any)._state)
 			const userCredentials: UserCredentials = new UserCredentials(this.username, this.password)
-			await defaultClient.updateCredentials(userCredentials)
-			await defaultClient.start()
+			defaultClient.updateCredentials(userCredentials)
+			try {
+				// start if needed
+				await defaultClient.start()
+			} catch (err) {
+				// error are handle inside the client state machine
+			}
 		}
 	}
 
@@ -149,12 +153,11 @@ export class OzoneLoginForm extends Polymer.Element {
 		if (!this.password.trim().length) this.$.password.focus()
 	}
 
-	private onKeyPress(e: KeyboardEvent): void {
+	private async onKeyPress(e: KeyboardEvent): Promise<void> {
 		if (e.key === 'Enter') {
-
 			this.validateForm()
 			if (this.$.username.value.trim().length && this.$.password.value.trim().length) {
-				this.submitForm(e)
+				await this.submitForm(e)
 			}
 		}
 	}

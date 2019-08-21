@@ -4,15 +4,15 @@ import { customElement, property } from 'taktik-polymer-typescript'
 import { OzoneClient } from 'ozone-typescript-client'
 import ClientStates = OzoneClient.states
 import { getDefaultClient } from 'ozone-default-client'
-import './ozone-logout.html'
+import './ozone-logout-form.html'
 /**
- * ### ozone-logout
+ * ### ozone-logout-form
  *
  * A generic logout form for Ozone.
  *
  */
-@customElement('ozone-logout')
-export class OzoneLogout extends Polymer.Element {
+@customElement('ozone-logout-form')
+export class OzoneLogoutForm extends Polymer.Element {
 	/**
 	 * Indicate if the user is connected.
 	 * This property can be watch.
@@ -29,7 +29,6 @@ export class OzoneLogout extends Polymer.Element {
 		defaultClient.onEnterState(ClientStates.AUTHENTICATED,() => {
 			this.set('isConnected', true)
 		})
-		this.$.logout.addEventListener('mousedown', this.logout.bind(this))
 	}
 
 	public async logout(e: Event): Promise<void> {

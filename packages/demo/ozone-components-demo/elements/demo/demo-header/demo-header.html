@@ -5,7 +5,7 @@ demo header
     import "paper-button/paper-button.html"
     import "paper-icon-button/paper-icon-button.html"
     import "font-roboto/roboto.html"
-
+    import 'ozone-login-form/dist/ozone-logout-form'
     import "iron-icons/iron-icons.html"
     import "./demo-header.html"
 
@@ -111,7 +111,7 @@ Custom property | Description | Default
         <paper-tab class="header-btn">Documentation</paper-tab>
         </paper-tabs>
         <div>Ozone-components Version: {{version}}</div>
-        <ozone-logout> <paper-icon-button  slot="logout-div" id="logoutBtn" icon="power-settings-new"></paper-icon-button></ozone-logout>
+        <ozone-logout-form> <paper-icon-button id="logoutBtn" icon="power-settings-new"></paper-icon-button></ozone-logout-form>
     </div>
   </template>
 </dom-module>

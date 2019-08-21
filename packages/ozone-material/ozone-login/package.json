@@ -1,15 +1,16 @@
 {
-	"name": "ozone-login-form",
+	"name": "ozone-login",
 	"version": "5.0.5",
 	"description": "",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"scripts": {
+		"test": "npm run tslint",
 		"bower": "bower install",
 		"build": "gulp clean && gulp build",
 		"clean": "gulp clean",
 		"prepublish": "npm run build",
-		"start": "../../../node_modules/.bin/webpack --config webpack.config.js",
+		"tslint": "../../../node_modules/.bin/tslint  --project tsconfig.json",
 		"tsc": "../../../node_modules/.bin/tsc",
 		"demo": "../../../node_modules/.bin/webpack-dev-server --config webpack.config.js"
 	},

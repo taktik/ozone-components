@@ -70,7 +70,7 @@
 	ozone-login-form[is-connected]{
 		display: none;
 	}
-	ozone-logout:not([is-connected]){
+	ozone-logout-form:not([is-connected]){
 		display: none;
 	}
 	code {
@@ -80,11 +80,14 @@
 		display: block;
 		border: 1px solid #ccc;
 	}
+	button {
+		color: red;
+	}
 		[]
 	</style>
 </head>
 <body>
-<ozone-logout><div slot="logout-div">Disconnect</div></ozone-logout>
+<ozone-logout-form><button type="button">Disconnect</button></ozone-logout-form>
 	<div class="demos">
 		<div class="demo">
 			<h3>Basic ozone-login-form demo</h3>

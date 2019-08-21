@@ -1,4 +1,4 @@
-<dom-module id="ozone-logout">
+<dom-module id="ozone-logout-form">
 <template>
 	<style>
 	:host {
@@ -6,8 +6,8 @@
 	}
 	</style>
 
-	<div id="logout">
-		<slot name="logout-div">LOGOUT</slot>
+	<div id="logout" on-click="logout">
+		<slot>LOGOUT</slot>
 	</div>
 
 </template>
