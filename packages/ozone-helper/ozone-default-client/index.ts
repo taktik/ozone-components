@@ -12,6 +12,9 @@ export function getDefaultClient(): OzoneClient.OzoneClient {
 			ozoneCredentials: sessionCredentials
 		}
 		defaultClient = OzoneClient.newOzoneClient(config)
+
+		// tslint:disable-next-line
+		defaultClient.start() // don't wait client started
 	}
 	return defaultClient
 }

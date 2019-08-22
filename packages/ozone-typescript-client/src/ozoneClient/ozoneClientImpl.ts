@@ -144,9 +144,9 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 		}
 	}
 
-	// TODO AB Implement
-	stop(): Promise<void> {
-		return Promise.reject('Not implemented')
+	async stop(): Promise<void> {
+		this.setState(states.STOPPING)
+		await this.waitUntilEnteredOneOf([states.STOPPED, states.NETWORK_OR_SERVER_ERROR])
 	}
 
 	async call<T>(call: Request): Promise<T> {
@@ -206,6 +206,35 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 			if (response.status >= 400 && response.status < 500) {
 				// Invalid credentials
 				this.setState(states.AUTHENTICATION_ERROR)
+			} else {
+				this.setState(states.NETWORK_OR_SERVER_ERROR)
+			}
+		}
+	}
+	// Attempt a single Ozone logout
+	@AssumeStateIs(states.STOPPING)
+	private async logout() {
+		this.log.debug('stopping')
+		// Destroy any existing WS
+		this.destroyWs()
+		try {
+			const httpClient = newHttpClient()
+			const request = new Request(`${this.config.ozoneURL}/rest/v3/authentication/logout`)
+				.set({
+					method: 'GET',
+					withCredentials: true
+				})
+			await (httpClient.call<void>(request))
+			this._authInfo = undefined
+			this.setState(states.STOPPED)
+		} catch (e) {
+			// TODO AB What if e is not a Response?
+			const response = e as Response<AuthInfo>
+			this.log.debug(`Authentication error : code ${response.status}`)
+			this._lastFailedLogin = e
+			if (response.status >= 400 && response.status < 500) {
+				// Invalid credentials
+				this.setState(states.STOPPED)
 			} else {
 				this.setState(states.NETWORK_OR_SERVER_ERROR)
 			}
@@ -537,6 +566,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 		this.onLeaveState(states.WS_CONNECTION_ERROR, () => this.clearAutoReconnectWSTimer())
 		this.onEnterState(states.WS_CONNECTED, () => this.scheduleClearAutoReconnectWSRetryTimestamps())
 		this.onLeaveState(states.WS_CONNECTED, () => this.cancelClearAutoReconnectWSRetryTimestamps())
+		this.onEnterState(states.STOPPING, () => this.logout())
 	}
 
 	private setupFilters() {
