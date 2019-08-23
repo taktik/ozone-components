@@ -1,5 +1,5 @@
-import {OzoneAPIRequest} from 'ozone-api-request'
-import * as Config from 'ozone-config';
+import { OzoneAPIRequest } from 'ozone-api-request'
+import * as Config from 'ozone-config'
 
 /**
  * OzoneApiAuthentication class to manage Authentication API
@@ -12,82 +12,92 @@ import * as Config from 'ozone-config';
  * import {OzoneApiAuthentication, getOzoneApiAuthentication} from 'ozone-api-authentication'
  * ```
  */
-export class OzoneApiAuthentication{
+export class OzoneApiAuthentication {
 
+	private configPromise: Promise<Config.ConfigType>
+	constructor(config?: Config.ConfigType) {
+		if (config) {
+			this.configPromise = Promise.resolve(config)
+		} else {
+			this.configPromise = Config.OzoneConfig.get()
+		}
+	}
 
-    private eventTarget?: EventTarget;
+	private eventTarget?: EventTarget
 
-    /**
-     * Set event target to redirect OzoneAPIRequest events to an other target.
-     * @param {EventTarget} element
-     */
-    setEventTarget(element: EventTarget){
-        this.eventTarget = element;
-    }
+	/**
+	 * Set event target to redirect OzoneAPIRequest events to an other target.
+	 * @param {EventTarget} element
+	 */
+	setEventTarget(element: EventTarget) {
+		this.eventTarget = element
+	}
 
-    /**
-     * connect to ozone
-     * @return {Promise<XMLHttpRequest>}
-     */
-    async ozoneConnect(username: string, password: string): Promise<XMLHttpRequest>{
-        const config = await Config.OzoneConfig.get();
+	/**
+	 * connect to ozone
+	 * @return {Promise<XMLHttpRequest>}
+	 */
+	async ozoneConnect(username: string, password: string): Promise<XMLHttpRequest> {
 
-        const request = new OzoneAPIRequest();
-        if(this.eventTarget)
-            request.setEventTarget(this.eventTarget);
-        request.method = 'POST';
-        request.url = config.host + config.endPoints.login;
-        request.body = JSON.stringify({
-            username,
-            password
-        });
-        return request.sendRequest();
-    }
+		const config = await this.configPromise
+		const request = new OzoneAPIRequest()
+		if (this.eventTarget) {
+			request.setEventTarget(this.eventTarget)
+		}
+		request.method = 'POST'
+		request.url = config.host + config.endPoints.login
+		request.body = JSON.stringify({
+			username,
+			password
+		})
+		return request.sendRequest()
+	}
 
-    /**
-     * ozone logout
-     * @return {Promise<XMLHttpRequest>}
-     */
-    async logout(): Promise<XMLHttpRequest>{
-        const config = await Config.OzoneConfig.get();
+	/**
+	 * ozone logout
+	 * @return {Promise<XMLHttpRequest>}
+	 */
+	async logout(): Promise<XMLHttpRequest> {
+		const config = await this.configPromise
 
-        const request = new OzoneAPIRequest();
-        if(this.eventTarget)
-            request.setEventTarget(this.eventTarget);
-        request.method = 'GET';
-        request.url = config.host + config.endPoints.logout;
+		const request = new OzoneAPIRequest()
+		if (this.eventTarget) {
+			request.setEventTarget(this.eventTarget)
+		}
+		request.method = 'GET'
+		request.url = config.host + config.endPoints.logout
 
-        return request.sendRequest();
-    }
+		return request.sendRequest()
+	}
 
-    /**
-     * Verify ozone connection
-     * @return {Promise<boolean>}
-     */
-    async checkConnectionStatus(): Promise<boolean>{
-        const config = await Config.OzoneConfig.get();
+	/**
+	 * Verify ozone connection
+	 * @return {Promise<boolean>}
+	 */
+	async checkConnectionStatus(): Promise<boolean> {
+		const config = await this.configPromise
 
-        const request = new OzoneAPIRequest();
-        if(this.eventTarget)
-            request.setEventTarget(this.eventTarget);
-        request.method = 'GET';
-        request.url = config.host + config.endPoints.session;
+		const request = new OzoneAPIRequest()
+		if (this.eventTarget) {
+			request.setEventTarget(this.eventTarget)
+		}
+		request.method = 'GET'
+		request.url = config.host + config.endPoints.session
 
-        const response = await request.sendRequest();
+		const response = await request.sendRequest()
 
-        if (response.response && response.response.sessionId){
-            return true
-        } else {
-            return false
-        }
-    }
+		if (response.response && response.response.sessionId) {
+			return true
+		} else {
+			return false
+		}
+	}
 }
 
-const ozoneApiAuthentication =  new OzoneApiAuthentication();
 /**
  * OzoneApiAuthentication factory
  * @return {OzoneApiAuthentication}
  */
-export const getOzoneApiAuthentication= function ():OzoneApiAuthentication{
-    return ozoneApiAuthentication
-};
+export const getOzoneApiAuthentication = function(config?: Config.ConfigType): OzoneApiAuthentication {
+	return new OzoneApiAuthentication(config)
+}
