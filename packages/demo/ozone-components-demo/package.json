@@ -1,6 +1,6 @@
 {
 	"name": "ozone-components-demo",
-	"version": "5.0.6",
+	"version": "5.0.7",
 	"description": "",
 	"main": "gulpfile.js",
 	"directories": {
@@ -22,7 +22,7 @@
 		"helpful-decorators": "^2.0.4",
 		"hls-parser": "0.1.8",
 		"hls.js": "0.9.1",
-		"ozone-api-authentication": "^5.0.4",
+		"ozone-api-authentication": "^5.0.7",
 		"ozone-api-edit-video": "^5.0.6",
 		"ozone-api-item": "^5.0.6",
 		"ozone-api-request": "^5.0.0",
