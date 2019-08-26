@@ -15,6 +15,7 @@ import { ItemClient } from '../itemClient/itemClient'
 import { RoleClient } from '../roleClient/roleClient'
 import { PermissionClient } from '../permissionClient/permissionClient'
 import { TypeClient } from '../typeClient/typeClient'
+import { UserClient } from '../userClient/userClient'
 
 export interface AuthInfo {
 	principalClass: string,
@@ -116,6 +117,11 @@ export interface OzoneClient extends StateMachine<ClientState> {
         Get a client for working with items of the given type
     */
 	itemClient<T extends Item>(typeIdentifier: string): ItemClient<T>
+
+	/*
+		 Get a client for working with user
+	*/
+	userClient(): UserClient
 
 	/*
     	Get a client for working with role
