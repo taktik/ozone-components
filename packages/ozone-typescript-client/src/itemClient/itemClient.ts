@@ -46,4 +46,10 @@ export interface SearchIterator<T> extends AsyncIterableIterator<SearchResults<F
 	 * It will end the generator
 	 */
 	cancel(): void
+
+	/**
+	 * Return a iterator with the result according to forceOffset
+	 * @param forceOffset
+	 */
+	next(forceOffset?: number): Promise<IteratorResult<SearchResults<FromOzone<T>>>>
 }
