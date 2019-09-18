@@ -16,7 +16,8 @@
 	},
 	"scripts": {
 		"prepublish": "npm run build",
-		"build": "npm run tslint && tsc",
+		"build": "npm run tslint && compile",
+		"compile": "../../node_modules/.bin/tsc",
 		"tslint": "../../node_modules/.bin/tslint  --project tsconfig.json",
 		"test:debug": "../../node_modules/.bin/karma start",
 		"test": "../../node_modules/.bin/karma start  --single-run"
