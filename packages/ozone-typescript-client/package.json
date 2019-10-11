@@ -27,7 +27,7 @@
 		"log4javascript": "^1.4.15",
 		"ozone-search-helper": "^5.1.3",
 		"ozone-type": "^5.1.3",
-		"typescript-http-client": "^0.10.0",
+		"typescript-http-client": "^0.10.1",
 		"typescript-state-machine": "^0.9.3"
 	}
 }
