@@ -53,6 +53,10 @@ export class TypeCacheImpl implements TypeCache {
 		}
 	}
 
+	isType<T>(data: Item, instance: string): data is T {
+		return !!data.type && this.isTypeInstanceOf(data.type, instance)
+	}
+
 	asInstanceOf<T>(data: Item, instance: string): T | null {
 		if (data.type && this.isTypeInstanceOf(data.type, instance)) {
 			return data as T

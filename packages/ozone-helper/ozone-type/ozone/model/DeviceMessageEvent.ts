@@ -8,11 +8,13 @@ export class DeviceMessageEvent extends DeviceEvent {
 	message: DeviceMessage
 	users?: UUID[]
 	shouldBeAcknowledged: boolean
+	shouldWakeUpDevice: boolean
 
 	constructor(src: DeviceMessageEvent) {
 		super(src)
 		this.message = src.message
 		this.users = src.users
 		this.shouldBeAcknowledged = src.shouldBeAcknowledged
+		this.shouldWakeUpDevice = src.shouldWakeUpDevice
 	}
 }

@@ -25,7 +25,8 @@ export function lockRequest() {
 			const arg = arguments
 
 			self._currentRequest = self._currentRequest
-			.catch()
+			// tslint:disable-next-line:no-empty
+			.catch(() => {}) // error should be handled by the user.
 			.then(() => {
 				return originalMethod.apply(this, arg)
 			})

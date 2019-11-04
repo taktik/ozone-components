@@ -11,6 +11,7 @@ export class DeviceInfo extends Item implements Principal {
 	extraInformation?: string[]
 	frontendSettings?: FlowrFrontendSettings
 	frontendVersion?: string
+	ipAddress?: string
 	lastLoginDate?: Instant
 	lastLoginIpAddress?: string
 	linkedUser?: UUID
@@ -34,6 +35,7 @@ export class DeviceInfo extends Item implements Principal {
 		this.extraInformation = src.extraInformation
 		this.frontendSettings = src.frontendSettings
 		this.frontendVersion = src.frontendVersion
+		this.ipAddress = src.ipAddress
 		this.lastLoginDate = src.lastLoginDate
 		this.lastLoginIpAddress = src.lastLoginIpAddress
 		this.linkedUser = src.linkedUser
