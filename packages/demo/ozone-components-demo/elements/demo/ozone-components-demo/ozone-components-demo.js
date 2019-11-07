@@ -6,7 +6,7 @@ import "paper-tabs/paper-tabs.html"
 import "paper-tabs/paper-tab.html"
 import "../demo-header/demo-header.html"
 import "ozone-free-text-search"
-import "packages/ozone-material/ozone-login"
+import "ozone-login"
 import "ozone-mosaic"
 import "ozone-upload"
 import "ozone-item-preview"
@@ -16,9 +16,10 @@ import 'ozone-media-edit'
 //import 'ozone-item-edit/src/ozone-item-edit.ts'
 import './ozone-components-demo.html'
 import {OzoneApiItem} from 'ozone-api-item';
+import { getDefaultClient } from 'ozone-default-client'
 
 import {SearchQuery} from "ozone-search-helper";
-
+import { OzoneClient } from 'ozone-typescript-client'
 /**
  * @customElement
  * @polymer
@@ -92,6 +93,26 @@ class OzoneComponentsDemo extends Polymer.Element {
         })
 
         this.$.freeTextSearch.addEventListener("taktik-search", () => this._searchSubmit());
+
+		this.$.sendFile.addEventListener("click", async () => {
+			try {
+				let file = this.$.selectedFile.files[0];
+				let fileReader = new FileReader();
+
+				fileReader.onload = async (e) => {
+					const blobClient = getDefaultClient().blobClient()
+					const blogString = await blobClient.create(e.target.result)
+					const blogCreated = await blobClient.getById(blogString.id)
+					const url = await blobClient.getDownloadableUrl(blogCreated.id, 'data.txt')
+					this.$.blobLink.href=url
+					console.log(url)
+				}
+				fileReader.readAsBinaryString(file)
+
+			} catch (e) {
+				console.error(e)
+			}
+		})
     }
 
     _isConnectedChange(value) {

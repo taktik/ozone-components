@@ -1,6 +1,7 @@
 import * as clientState from './ozoneClient/clientState'
 import * as ozoneCredentialsImpl from './ozoneCredentials/ozoneCredentialsImpl'
 import * as itemClient from './itemClient/itemClient'
+import * as blobClient from './blobClient/blobClient'
 import * as roleClient from './roleClient/roleClient'
 import * as ozoneClient from './ozoneClient/ozoneClient'
 import * as permissionClient from './permissionClient/permissionClient'
@@ -18,6 +19,8 @@ export namespace OzoneClient {
 	export import SearchResults = itemClient.SearchResults
 
 	export import ItemClient = itemClient.ItemClient
+
+	export import BlobClient = blobClient.BlobClient
 
 	export import SearchIterator = itemClient.SearchIterator
 

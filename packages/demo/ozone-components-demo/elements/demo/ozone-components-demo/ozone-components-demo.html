@@ -122,7 +122,9 @@
                 </template>
 
                 <div hidden$="[[!isConnected]]">
-
+                    send File as blob <input type="file" id="selectedFile"><br>
+                    <input type="button" id="sendFile" value="Send File"><br>
+                    <a id="blobLink" download>Download blob</a><br>
                     <ozone-upload id="ozoneUpload">Not found</ozone-upload>
                     Search in [[type]] collection.
                     <select id="selectType" value="{{type::input}}">

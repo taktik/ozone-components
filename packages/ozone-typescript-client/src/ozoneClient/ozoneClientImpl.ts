@@ -7,10 +7,12 @@ import InstalledFilter = httpclient.InstalledFilter
 import { DeviceMessage, Item } from 'ozone-type'
 import { ClientState, states, validTransitions } from './clientState'
 import { ItemClient } from '../itemClient/itemClient'
+import { BlobClient } from '../blobClient/blobClient'
 import { RoleClient } from '../roleClient/roleClient'
 import { PermissionClient } from '../permissionClient/permissionClient'
 import { TypeClient } from '../typeClient/typeClient'
 import { ItemClientImpl } from '../itemClient/itemClientImpl'
+import { BlobClientImpl } from '../blobClient/blobClientImpl'
 import { RoleClientImpl } from '../roleClient/roleClientImpl'
 import { PermissionClientImpl } from '../permissionClient/permissionClientImpl'
 import { TypeClientImpl } from '../typeClient/typeClientImpl'
@@ -586,6 +588,11 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 		const client = this
 		const baseURL = this._config.ozoneURL
 		return new ItemClientImpl(client, baseURL, typeIdentifier)
+	}
+	blobClient(): BlobClient {
+		const client = this
+		const baseURL = this._config.ozoneURL
+		return new BlobClientImpl(client, baseURL)
 	}
 
 	private _roleClient: RoleClient

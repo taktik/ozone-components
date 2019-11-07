@@ -12,6 +12,7 @@ import InstalledFilter = httpclient.InstalledFilter
 import { DeviceMessage, Item } from 'ozone-type'
 import { ClientState } from './clientState'
 import { ItemClient } from '../itemClient/itemClient'
+import { BlobClient } from '../blobClient/blobClient'
 import { RoleClient } from '../roleClient/roleClient'
 import { PermissionClient } from '../permissionClient/permissionClient'
 import { TypeClient } from '../typeClient/typeClient'
@@ -116,6 +117,10 @@ export interface OzoneClient extends StateMachine<ClientState> {
         Get a client for working with items of the given type
     */
 	itemClient<T extends Item>(typeIdentifier: string): ItemClient<T>
+	/*
+        Get a ``lob`` for working with blob
+    */
+	blobClient(): BlobClient
 
 	/*
     	Get a client for working with role
