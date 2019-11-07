@@ -1,6 +1,6 @@
 {
   "name": "ozone-media-url",
-  "version": "5.1.4",
+  "version": "5.1.5",
   "publishConfig": {
     "access": "public"
   },
@@ -28,7 +28,7 @@
     "ozone-type": "^5.1.4"
   },
   "dependencies": {
-    "ozone-api-item": "^5.1.4",
+    "ozone-api-item": "^5.1.5",
     "ozone-api-request": "^5.1.4",
     "ozone-config": "^5.1.4",
     "ozone-search-helper": "^5.1.4"
