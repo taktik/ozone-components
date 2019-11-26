@@ -14,7 +14,7 @@ module.exports = function(config) {
 
     karmaTypescriptConfig: {
       compilerOptions: {
-        "target": "es2015",
+        "target": "es5",
         module: "commonjs",
         "moduleResolution": "node",
         "experimentalDecorators": true,
