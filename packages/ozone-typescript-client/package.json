@@ -1,6 +1,6 @@
 {
 	"name": "ozone-typescript-client",
-	"version": "5.1.5",
+	"version": "5.1.6",
 	"description": "",
 	"main": "dist/src/index.js",
 	"types": "dist/src/index.d.ts",
@@ -23,11 +23,11 @@
 	},
 	"homepage": "https://github.com/taktik/ozone-typescript-client#readme",
 	"dependencies": {
-		"helpful-decorators": "^2.0.4",
-		"log4javascript": "^1.4.15",
-		"ozone-search-helper": "^5.1.4",
-		"ozone-type": "^5.1.4",
-		"typescript-http-client": "^0.10.1",
-		"typescript-state-machine": "^0.9.3"
+		"helpful-decorators": "2.0.4",
+		"log4javascript": "1.4.15",
+		"ozone-search-helper": "5.1.4",
+		"ozone-type": "5.1.4",
+		"typescript-http-client": "0.10.1",
+		"typescript-state-machine": "0.9.3"
 	}
 }
