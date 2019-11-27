@@ -1,6 +1,6 @@
 {
   "name": "ozone-media-url",
-  "version": "5.1.6",
+  "version": "5.2.0-alpha.0",
   "publishConfig": {
     "access": "public"
   },
@@ -25,12 +25,12 @@
   "author": "hj@taktik",
   "license": "ISC",
   "devDependencies": {
-    "ozone-type": "^5.1.4"
+    "ozone-type": "^5.2.0-alpha.0"
   },
   "dependencies": {
-    "ozone-api-item": "^5.1.6",
-    "ozone-api-request": "^5.1.4",
-    "ozone-config": "^5.1.4",
-    "ozone-search-helper": "^5.1.4"
+    "ozone-api-item": "^5.2.0-alpha.0",
+    "ozone-api-request": "^5.2.0-alpha.0",
+    "ozone-config": "^5.2.0-alpha.0",
+    "ozone-search-helper": "^5.2.0-alpha.0"
   }
 }

@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es5", // Use of ES6
-    "module": "commonjs",    // Module strategy that is likely to be use with official Polymer/typeScript support. See PolymerLabs/IMD
+    "target": "es6", // Use of ES6
+    "module": "esnext",
     "experimentalDecorators": true, //
     "emitDecoratorMetadata": true,
     "strictNullChecks": true,

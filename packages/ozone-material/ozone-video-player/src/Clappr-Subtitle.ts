@@ -16,7 +16,6 @@
  *  limitations under the License
  */
 import * as Clappr from 'Clappr'
-import { debug } from 'util'
 import { OzoneMediaUrl } from 'ozone-media-url'
 import { getDefaultClient } from 'ozone-default-client'
 
