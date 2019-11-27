@@ -65,9 +65,9 @@ export class OzoneApiEditVideo {
 
 	private async _createNewPlayListFile(
 		originalVideo: OzoneType.FromOzone<OzoneType.Video>,
-		chunksList: Array<Array<string>>
+		chunksList: ConcatArray<string>[]
 	): Promise<string> {
-		const chunksListFlatten: Array<string> = [].concat.apply([],chunksList)
+		const chunksListFlatten: Array<string> = Array<string>().concat.apply([],chunksList)
 		const mediaUrl = await this.mediaUrlFactory(originalVideo)
 		const url = await mediaUrl.getVideoUrl()
 		const request = new OzoneAPIRequest()
@@ -224,11 +224,11 @@ export class OzoneApiEditVideo {
 
 	public async createSubVideo(
 		originalVideo: OzoneType.FromOzone<OzoneType.Video>,
-		chunks: Array<Array<string>>
+		chunks: Array<ConcatArray<string>>
 	): Promise<OzoneType.Video> {
 		// console.log('originalVideo', originalVideo)
 
-		const chunksListFlatten: Array<string> = [].concat.apply([],chunks)
+		const chunksListFlatten: Array<string> = Array<string>().concat.apply([],chunks)
 		const playListData = await this._createNewPlayListFile(originalVideo, chunks)
 
 		const playListBlob = await this._savePlayList(playListData)

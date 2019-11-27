@@ -9,7 +9,7 @@ export function returnNullOn404<T>(response: Response<T>) {
 	}
 }
 
-export function deepCopy<T= any>(obj: T): T {
+export function deepCopy<T extends Object>(obj: T): T {
 	let copy: any
 
 	// Handle the 3 simple types, and null or undefined
