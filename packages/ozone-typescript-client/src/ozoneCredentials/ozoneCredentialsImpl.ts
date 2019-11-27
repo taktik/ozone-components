@@ -77,3 +77,41 @@ export class ItemByQueryCredentials implements OzoneCredentials {
 		return (httpClient.call<AuthInfo>(request))
 	}
 }
+
+/**
+ * Performs a redirection to ozone's login page if no active session is found
+ */
+export class OzoneLoginCredentials extends SessionCredentials {
+	private static isInBrowser(): boolean {
+		return !!window && !!window.location
+	}
+
+	private redirectToLoginPage(ozoneURL: string): void {
+		if (OzoneLoginCredentials.isInBrowser()) {
+			const loginUrl = new URL(`${ozoneURL}/login`)
+			loginUrl.searchParams.set('target', window.location.href)
+			window.location.replace(loginUrl.href)
+		} else {
+			throw Error('Not in a browser, redirection can\'t be performed. You probably want to use another type of OzoneCredentials.')
+		}
+	}
+
+	constructor() {
+		super()
+
+		if (!OzoneLoginCredentials.isInBrowser()) {
+			throw Error('Not in a browser, you probably want to use another type of OzoneCredentials.')
+		}
+	}
+
+	async authenticate(ozoneURL: string): Promise<AuthInfo> {
+		try {
+			return await super.authenticate(ozoneURL)
+		} catch (e) {
+			if (e.status === 403) {
+				this.redirectToLoginPage(ozoneURL)
+			}
+			throw e
+		}
+	}
+}
