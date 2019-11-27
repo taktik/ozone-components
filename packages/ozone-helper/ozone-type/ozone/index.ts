@@ -1,2 +1,2 @@
 export * from './model/models'
-export * from './utility'
+export * from './utility/index'
