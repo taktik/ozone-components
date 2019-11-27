@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		"target": "es6",
-		"module": "commonjs",
+		"module": "esnext",
 		// Use esnext to enable lazy loading
 		"moduleResolution": "node",
 		"experimentalDecorators": true,
