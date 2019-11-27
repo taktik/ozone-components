@@ -2,12 +2,11 @@
  * A TypeScript class decorator that defines a custom element with name
  * `tagname` and the decorated class.
  */
-import "reflect-metadata"
-import "../type/element"
-import "../type/shadow"
-import "../type/polymer"
-import "../type/iron-ajax"
-import "../type/missing"
+import 'reflect-metadata'
+import '../type/shadow'
+import '../type/polymer'
+import '../type/iron-ajax'
+import '../type/missing'
 declare interface ProjectWindow extends Window {
 	[index: string]: any
 }
@@ -68,27 +67,27 @@ function createProperty(proto: any, name: string, options?: PropertyOptions): vo
 	const notify = (options && options.notify) || false
 	const reflectToAttribute = (options && options.reflectToAttribute) || false
 	const readOnly = (options && options.readOnly) || false
-	const computed = (options && options.computed) || ""
-	const observer = (options && options.observer) || ""
+	const computed = (options && options.computed) || ''
+	const observer = (options && options.observer) || ''
 
 	let type
-	if (options && options.hasOwnProperty("type")) {
+	if (options && options.hasOwnProperty('type')) {
 		type = options.type
 	} else if (
 		(window as any).Reflect &&
 		Reflect.hasMetadata &&
 		Reflect.getMetadata &&
-		Reflect.hasMetadata("design:type", proto, name)
+		Reflect.hasMetadata('design:type', proto, name)
 	) {
-		type = Reflect.getMetadata("design:type", proto, name)
+		type = Reflect.getMetadata('design:type', proto, name)
 	} else {
 		console.error(
-			`A type could not be found for ${name}. ` + "Set a type or configure Metadata Reflection API support."
+			`A type could not be found for ${name}. ` + 'Set a type or configure Metadata Reflection API support.'
 		)
 	}
 
-	if (!proto.constructor.hasOwnProperty("properties")) {
-		Object.defineProperty(proto.constructor, "properties", { value: {} })
+	if (!proto.constructor.hasOwnProperty('properties')) {
+		Object.defineProperty(proto.constructor, 'properties', { value: {} })
 	}
 
 	const finalOpts: PropertyOptions = { type, notify, reflectToAttribute, readOnly, computed, observer }
@@ -108,6 +107,7 @@ export function property(options?: PropertyOptions) {
 }
 
 export function domElement<T>() {
+	// tslint:disable-next-line:no-empty
 	return (proto: any, propName: string): any => {}
 }
 
@@ -121,13 +121,12 @@ export function domElement<T>() {
 
 export function observe(...targets: string[]) {
 	return (proto: any, propName: string): any => {
-		if (!proto.constructor.hasOwnProperty("observers")) {
+		if (!proto.constructor.hasOwnProperty('observers')) {
 			proto.constructor.observers = []
 		}
-		proto.constructor.observers.push(`${propName}(${targets.join(",")})`)
+		proto.constructor.observers.push(`${propName}(${targets.join(',')})`)
 	}
 }
-  
 
 interface Config {
 	properties: { [name: string]: PropertyDefinition }
@@ -141,11 +140,11 @@ interface PropertyDefinition {
 
 function _ensureConfig(proto: any): Config {
 	const ctor = proto.constructor
-	if (ctor.hasOwnProperty("__polymer_ts_config")) {
+	if (ctor.hasOwnProperty('__polymer_ts_config')) {
 		return ctor.__polymer_ts_config
 	}
 
-	Object.defineProperty(ctor, "config", {
+	Object.defineProperty(ctor, 'config', {
 		get() {
 			return ctor.__polymer_ts_config
 		}
