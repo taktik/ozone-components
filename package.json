@@ -17,12 +17,12 @@
 	},
 	"devDependencies": {
 		"@babel/preset-env": "^7.7.4",
-		"@types/chai": "^4.1.5",
-		"@types/core-js": "^2.5.0",
-		"@types/lodash": "^4.14.116",
-		"@types/mocha": "^2.2.48",
+		"@types/chai": "4.2.5",
+		"@types/core-js": "2.5.2",
+		"@types/lodash": "4.14.149",
+		"@types/mocha": "2.2.48",
 		"@types/reflect-metadata": "0.0.5",
-		"@types/sinon": "^7.0.12",
+		"@types/sinon": "7.5.1",
 		"@types/source-map": "0.5.2",
 		"@webcomponents/shadycss": "^1.5.2",
 		"babel-core": "^6.26.3",
@@ -78,8 +78,8 @@
 	},
 	"dependencies": {
 		"clappr-markers-plugin": "https://github.com/hubjac1/clappr-markers-plugin.git",
-		"helpful-decorators": "^2.0.4",
-		"typescript-http-client": "^0.10.1",
-		"typescript-state-machine": "^0.9.4"
+		"helpful-decorators": "2.0.6",
+		"typescript-http-client": "0.10.1",
+		"typescript-state-machine": "0.9.4"
 	}
 }
