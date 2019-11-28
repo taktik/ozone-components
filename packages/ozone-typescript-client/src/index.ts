@@ -52,4 +52,6 @@ export namespace OzoneClient {
 	export import ItemByQueryCredentials = ozoneCredentialsImpl.ItemByQueryCredentials
 
 	export import ClientConfiguration = ozoneClient.ClientConfiguration
+
+	export import OzoneLoginCredentials = ozoneCredentialsImpl.OzoneLoginCredentials
 }
