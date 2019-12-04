@@ -1,6 +1,6 @@
 {
   "name": "ozone-collection",
-  "version": "5.2.0",
+  "version": "5.2.1-alpha.0",
   "publishConfig": {
     "access": "public"
   },
@@ -30,12 +30,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "ozone-type": "^5.2.0"
+    "ozone-type": "^5.2.1-alpha.0"
   },
   "dependencies": {
-    "ozone-api-item": "^5.2.0",
-    "ozone-default-client": "^5.2.0",
-    "ozone-search-helper": "^5.2.0",
-    "ozone-typescript-client": "^5.2.0"
+    "ozone-api-item": "^5.2.1-alpha.0",
+    "ozone-default-client": "^5.2.1-alpha.0",
+    "ozone-search-helper": "^5.2.1-alpha.0",
+    "ozone-typescript-client": "^5.2.1-alpha.0"
   }
 }
