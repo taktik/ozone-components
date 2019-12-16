@@ -715,15 +715,8 @@ class SessionFilter implements Filter<any, any> {
 	async doFilter(call: Request, filterChain: FilterChain<any>): Promise<Response<any>> {
 		const authInfo = this.authProvider()
 		if (authInfo) {
-			addHeader(call, 'Ozone-Session-Id', authInfo.sessionId)
+			call.addHeader('Ozone-Session-Id', authInfo.sessionId)
 		}
 		return filterChain.doFilter(call)
 	}
-}
-
-function addHeader(call: Request, name: string, value: string) {
-	if (!call.headers) {
-		call.headers = {}
-	}
-	call.headers[name] = value
 }
