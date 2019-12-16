@@ -7,8 +7,8 @@ import { Item, UUID, Instant, OzoneType } from './Item'
 export class Metric extends TimestampedItem implements ServiceInfo {
 	instanceId: string
 	properties?: { [key: string]:string; }
-	replicaId?: string
-	serviceName?: string
+	replicaId: string
+	serviceName: string
 	tags?: string[]
 
 	constructor(src: Metric) {

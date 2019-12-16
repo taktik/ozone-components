@@ -4,10 +4,10 @@ import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('distributionSummary')
 export class DistributionSummary extends Metric {
-	count?: number
-	max?: number
-	mean?: number
-	totalAmount?: number
+	count: number
+	max: number
+	mean: number
+	totalAmount: number
 
 	constructor(src: DistributionSummary) {
 		super(src)

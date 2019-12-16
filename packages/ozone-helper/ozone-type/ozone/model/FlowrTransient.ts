@@ -1,6 +1,6 @@
-import {Item, UUID, Instant, OzoneType} from './Item'
+import { Item, UUID, Instant, OzoneType } from './Item'
 
-export interface FlowrTransient { 
-   validFrom?: Instant
-   validUntil?: Instant
- } 
+export interface FlowrTransient {
+	validFrom?: Instant
+	validUntil?: Instant
+}

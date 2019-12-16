@@ -11,8 +11,8 @@ export class FlowrScenesdisplay extends TimestampedItem implements ServiceInfo {
 	instanceId: string
 	itemId?: UUID
 	properties?: { [key: string]:string; }
-	replicaId?: string
-	serviceName?: string
+	replicaId: string
+	serviceName: string
 	userAgent?: string
 
 	constructor(src: FlowrScenesdisplay) {

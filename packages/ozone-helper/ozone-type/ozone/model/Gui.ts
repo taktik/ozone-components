@@ -1,16 +1,17 @@
+import { FlowrPackageable } from './FlowrPackageable'
 import { RestrictedContent } from './RestrictedContent'
 
 import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('gui')
-export class Gui extends Item implements RestrictedContent {
+export class Gui extends Item implements RestrictedContent, FlowrPackageable {
 	guiUuid?: UUID
 	i18n?: string
 	indexHi?: number
 	indexLow?: number
 	inheritedFrom?: UUID
 	onlyShowIfAssetsAvailable?: boolean
-	packages?: string[]
+	packages?: UUID[]
 	parent?: UUID
 	restricted?: boolean
 	tags?: string[]

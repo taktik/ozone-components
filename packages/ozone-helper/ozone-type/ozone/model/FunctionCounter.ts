@@ -4,7 +4,7 @@ import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('functionCounter')
 export class FunctionCounter extends Metric {
-	count?: number
+	count: number
 
 	constructor(src: FunctionCounter) {
 		super(src)
