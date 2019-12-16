@@ -1,11 +1,13 @@
 import { FlowrMedia } from './FlowrMedia'
+import { FlowrPackageable } from './FlowrPackageable'
+import { FlowrTransient } from './FlowrTransient'
 import { RestrictedContent } from './RestrictedContent'
 import { TagsCustom } from './TagsCustom'
 
 import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('media')
-export class Media extends Item implements TagsCustom, FlowrMedia, RestrictedContent {
+export class Media extends Item implements TagsCustom, FlowrMedia, RestrictedContent, FlowrPackageable, FlowrTransient {
 	byLine?: string
 	caption?: string
 	category?: string
@@ -30,6 +32,7 @@ export class Media extends Item implements TagsCustom, FlowrMedia, RestrictedCon
 	mediaUuid?: UUID
 	modificationDate?: Instant
 	objectName?: string
+	packages?: UUID[]
 	parentFolder?: UUID
 	previewDate?: Instant
 	previewRatio?: number
@@ -42,6 +45,8 @@ export class Media extends Item implements TagsCustom, FlowrMedia, RestrictedCon
 	stocks?: UUID[]
 	title?: string
 	usage?: string
+	validFrom?: Instant
+	validUntil?: Instant
 	width?: number
 
 	constructor(src: Media) {
@@ -70,6 +75,7 @@ export class Media extends Item implements TagsCustom, FlowrMedia, RestrictedCon
 		this.mediaUuid = src.mediaUuid
 		this.modificationDate = src.modificationDate
 		this.objectName = src.objectName
+		this.packages = src.packages
 		this.parentFolder = src.parentFolder
 		this.previewDate = src.previewDate
 		this.previewRatio = src.previewRatio
@@ -82,6 +88,8 @@ export class Media extends Item implements TagsCustom, FlowrMedia, RestrictedCon
 		this.stocks = src.stocks
 		this.title = src.title
 		this.usage = src.usage
+		this.validFrom = src.validFrom
+		this.validUntil = src.validUntil
 		this.width = src.width
 	}
 }

@@ -12,10 +12,13 @@ export class Reservation extends Item {
 	a7?: string
 	a8?: string
 	a9?: string
+	bedName?: string
 	checkOut?: number
 	classOfService?: string
+	code?: string
 	date?: number
 	guestArrivalDate?: number
+	guestBirthDate?: string
 	guestDepartureDate?: number
 	guestFirstName?: string
 	guestGroupNumber?: string
@@ -30,12 +33,20 @@ export class Reservation extends Item {
 	profileNumber?: string
 	reservationNumber?: number
 	roomNumber?: string
+	sdaName?: string
+	sdaPrefix?: string
+	serviceName?: string
 	shareFlag?: string
 	swapFlag?: string
+	telEnabled?: boolean
 	time?: number
+	tmmAddress?: string
+	tmmName?: string
+	tvEnabled?: boolean
 	tvRights?: string
 	videoRights?: string
 	visitNumber?: string
+	webEnabled?: boolean
 	workstationId?: string
 
 	constructor(src: Reservation) {
@@ -50,10 +61,13 @@ export class Reservation extends Item {
 		this.a7 = src.a7
 		this.a8 = src.a8
 		this.a9 = src.a9
+		this.bedName = src.bedName
 		this.checkOut = src.checkOut
 		this.classOfService = src.classOfService
+		this.code = src.code
 		this.date = src.date
 		this.guestArrivalDate = src.guestArrivalDate
+		this.guestBirthDate = src.guestBirthDate
 		this.guestDepartureDate = src.guestDepartureDate
 		this.guestFirstName = src.guestFirstName
 		this.guestGroupNumber = src.guestGroupNumber
@@ -68,12 +82,20 @@ export class Reservation extends Item {
 		this.profileNumber = src.profileNumber
 		this.reservationNumber = src.reservationNumber
 		this.roomNumber = src.roomNumber
+		this.sdaName = src.sdaName
+		this.sdaPrefix = src.sdaPrefix
+		this.serviceName = src.serviceName
 		this.shareFlag = src.shareFlag
 		this.swapFlag = src.swapFlag
+		this.telEnabled = src.telEnabled
 		this.time = src.time
+		this.tmmAddress = src.tmmAddress
+		this.tmmName = src.tmmName
+		this.tvEnabled = src.tvEnabled
 		this.tvRights = src.tvRights
 		this.videoRights = src.videoRights
 		this.visitNumber = src.visitNumber
+		this.webEnabled = src.webEnabled
 		this.workstationId = src.workstationId
 	}
 }

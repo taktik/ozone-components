@@ -4,7 +4,7 @@ import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('device.message.takescreenshot')
 export class DeviceMessageTakescreenshot extends DeviceMessageFromdevice {
-	delay?: number
+	delay?: number[]
 	screenshotId?: string
 
 	constructor(src: DeviceMessageTakescreenshot) {

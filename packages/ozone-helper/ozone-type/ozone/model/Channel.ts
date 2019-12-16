@@ -1,19 +1,20 @@
 import { ChannelInput } from './ChannelInput'
 import { ChannelOutput } from './ChannelOutput'
 import { FlowrLogoitem } from './FlowrLogoitem'
+import { FlowrPackageable } from './FlowrPackageable'
+import { FlowrTransient } from './FlowrTransient'
 import { RestrictedContent } from './RestrictedContent'
 
 import { Item, UUID, Instant, OzoneType } from './Item'
 
 @OzoneType('channel')
-export class Channel extends Item implements RestrictedContent, FlowrLogoitem {
+export class Channel extends Item implements RestrictedContent, FlowrLogoitem, FlowrPackageable, FlowrTransient {
 	aliases?: string[]
 	bufferDuration?: number
 	cbUrl?: string
 	channelType?: string
 	channelUuid?: UUID
 	defaultPackages?: string[]
-	enabled?: boolean
 	highlightLogo?: UUID
 	horizontalRes?: number
 	input?: ChannelInput
@@ -24,12 +25,14 @@ export class Channel extends Item implements RestrictedContent, FlowrLogoitem {
 	multicastUrl?: string
 	ottUrl?: string
 	output?: ChannelOutput
+	packages?: UUID[]
 	restricted?: boolean
 	scenes?: string[]
 	storage?: string
 	transcoderEnabled?: boolean
-	transcodingEnabled?: boolean
 	tvGuideNames?: string[]
+	validFrom?: Instant
+	validUntil?: Instant
 	verticalRes?: number
 
 	constructor(src: Channel) {
@@ -40,7 +43,6 @@ export class Channel extends Item implements RestrictedContent, FlowrLogoitem {
 		this.channelType = src.channelType
 		this.channelUuid = src.channelUuid
 		this.defaultPackages = src.defaultPackages
-		this.enabled = src.enabled
 		this.highlightLogo = src.highlightLogo
 		this.horizontalRes = src.horizontalRes
 		this.input = src.input
@@ -51,12 +53,14 @@ export class Channel extends Item implements RestrictedContent, FlowrLogoitem {
 		this.multicastUrl = src.multicastUrl
 		this.ottUrl = src.ottUrl
 		this.output = src.output
+		this.packages = src.packages
 		this.restricted = src.restricted
 		this.scenes = src.scenes
 		this.storage = src.storage
 		this.transcoderEnabled = src.transcoderEnabled
-		this.transcodingEnabled = src.transcodingEnabled
 		this.tvGuideNames = src.tvGuideNames
+		this.validFrom = src.validFrom
+		this.validUntil = src.validUntil
 		this.verticalRes = src.verticalRes
 	}
 }
