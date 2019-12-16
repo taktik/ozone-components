@@ -4,7 +4,7 @@ import { httpclient } from 'typescript-http-client'
 import Response = httpclient.Response
 import Request = httpclient.Request
 import InstalledFilter = httpclient.InstalledFilter
-import { DeviceMessage, Item } from 'ozone-type'
+import { DeviceMessage, Item, UUID } from 'ozone-type'
 import { ClientState, states, validTransitions } from './clientState'
 import { ItemClient } from '../itemClient/itemClient'
 import { BlobClient } from '../blobClient/blobClient'
@@ -16,6 +16,7 @@ import { BlobClientImpl } from '../blobClient/blobClientImpl'
 import { RoleClientImpl } from '../roleClient/roleClientImpl'
 import { PermissionClientImpl } from '../permissionClient/permissionClientImpl'
 import { TypeClientImpl } from '../typeClient/typeClientImpl'
+import { Cache } from '../cache/cache'
 import { OzoneClient, OzoneCredentials, AuthInfo, ClientConfiguration } from './ozoneClient'
 import AssumeStateIsNot = fsm.AssumeStateIsNot
 import AssumeStateIs = fsm.AssumeStateIs
@@ -68,6 +69,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 	private readonly _messageListeners: MessageListeners
 	private _lastSessionCheck: number = 0
 	private _httpClient: HttpClient
+	private acknowledgedCache: Cache<UUID, boolean> = new Cache({ max: 100, maxAge: 60000 })
 	readonly preFilters: InstalledFilter[] = []
 	readonly postFilters: InstalledFilter[] = []
 
@@ -166,10 +168,29 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 			this.handlePong()
 		} else {
 			const parsedJSONMessage = OzoneClientImpl.parseMessage(message)
+
 			if (parsedJSONMessage) {
-				this.dispatchMessage(parsedJSONMessage)
+				if (this.acknowledgeMessage(parsedJSONMessage.postingId, parsedJSONMessage.ttl)) {
+					this.dispatchMessage(parsedJSONMessage)
+				}
 			}
 		}
+	}
+
+	private acknowledgeMessage(postingId?: UUID, ttl?: number): boolean {
+		let shouldProcess = true
+
+		try {
+			if (postingId) {
+				shouldProcess = !this.acknowledgedCache.has(postingId)
+				this.acknowledgedCache.set(postingId, true, ttl)
+				this._ws && this._ws.send(JSON.stringify({ '$type': 'Ack', postingId }))
+			}
+		} catch (err) {
+			log.warn(err, 'error in WS message acknowledge')
+		}
+
+		return shouldProcess
 	}
 
 	private static parseMessage(message: MessageEvent): DeviceMessage | null {
