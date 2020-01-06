@@ -97,23 +97,32 @@ class OzoneComponentsDemo extends Polymer.Element {
 		this.$.sendFile.addEventListener("click", async () => {
 			try {
 				let file = this.$.selectedFile.files[0];
+
+				// Example, using FormData
+				const fd = new FormData();
+				fd.append('myFile', file);
+				this._saveFile(fd)
+
+				// Alternatively, you can use a FileReader
 				let fileReader = new FileReader();
-
 				fileReader.onload = async (e) => {
-					const blobClient = getDefaultClient().blobClient()
-					const blogString = await blobClient.create(e.target.result)
-					const blogCreated = await blobClient.getById(blogString.id)
-					const url = await blobClient.getDownloadableUrl(blogCreated.id, 'data.txt')
-					this.$.blobLink.href=url
-					console.log(url)
+					this._saveFile(e.target.result)
 				}
-				fileReader.readAsBinaryString(file)
-
+				// fileReader.readAsBinaryString(file)
 			} catch (e) {
 				console.error(e)
 			}
 		})
     }
+
+    async _saveFile(fileData) {
+		const blobClient = getDefaultClient().blobClient()
+		const blobString = await blobClient.create(fileData)
+		const blobCreated = await blobClient.getById(blobString.id)
+		const url = await blobClient.getDownloadableUrl(blobCreated.id, 'data.txt')
+		this.$.blobLink.href=url
+		console.log(url)
+	}
 
     _isConnectedChange(value) {
         if(this.isConnected){
