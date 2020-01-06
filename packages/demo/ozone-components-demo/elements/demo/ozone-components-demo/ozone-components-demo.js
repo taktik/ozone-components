@@ -97,18 +97,7 @@ class OzoneComponentsDemo extends Polymer.Element {
 		this.$.sendFile.addEventListener("click", async () => {
 			try {
 				let file = this.$.selectedFile.files[0];
-
-				// Example, using FormData
-				const fd = new FormData();
-				fd.append('myFile', file);
-				this._saveFile(fd)
-
-				// Alternatively, you can use a FileReader
-				let fileReader = new FileReader();
-				fileReader.onload = async (e) => {
-					this._saveFile(e.target.result)
-				}
-				// fileReader.readAsBinaryString(file)
+				this._saveFile(file)
 			} catch (e) {
 				console.error(e)
 			}
