@@ -274,6 +274,7 @@ export * from './FlowrAgentIdsSearchResult';
 export * from './FlowrAgentQueryUpdate';
 export * from './FlowrAgentRawSearchResult';
 export * from './FlowrAgentSearchResult';
+export * from './FlowrApplication';
 export * from './FlowrDoctemplate';
 export * from './FlowrDoctemplateIdsSearchResult';
 export * from './FlowrDoctemplateQueryUpdate';
