@@ -24,6 +24,7 @@ export class OzoneLogoutForm extends Polymer.Element {
 		super.ready()
 		const defaultClient = getDefaultClient()
 		defaultClient.onEnterState(ClientStates.STOPPED,() => {
+			console.log('STOPPED')
 			this.set('isConnected', false)
 		})
 		defaultClient.onEnterState(ClientStates.AUTHENTICATED,() => {
