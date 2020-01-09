@@ -1,10 +1,10 @@
 import 'polymer/polymer.html'
-
 import { customElement, property } from 'taktik-polymer-typescript'
 import { OzoneClient } from 'ozone-typescript-client'
 import ClientStates = OzoneClient.states
 import { getDefaultClient } from 'ozone-default-client'
 import './ozone-logout-form.html'
+
 /**
  * ### ozone-logout-form
  *
