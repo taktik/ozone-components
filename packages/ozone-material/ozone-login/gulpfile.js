@@ -6,7 +6,6 @@ const clean = require('gulp-clean');
 const ts = require('gulp-typescript');
 const merge = require('merge2');
 
-
 /**
  * gulp ts
  * compile project's typeScript code
@@ -24,7 +23,6 @@ gulp.task('ts', function(){
             .pipe(gulp.dest('dist'))
     ]);
 });
-
 
 /**
  * gulp copy

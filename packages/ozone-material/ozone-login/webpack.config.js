@@ -4,7 +4,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const Clean = require('clean-webpack-plugin');
 const path = require('path');
-//const setupServerMockup = require('./demo/serverMockup');
 
 module.exports = {
 	// Tell Webpack which file kicks off our app.
@@ -79,9 +78,7 @@ module.exports = {
 		compress: true,
 		overlay: true,
 		port: 11000,
-		//setup: setupServerMockup,
 		proxy: {
-
 			'/ozone': {
 				target: 'https://test.flowr.dev/ozone',
 				secure: false,

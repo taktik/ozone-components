@@ -163,5 +163,4 @@ export class OzoneLoginForm extends Polymer.Element {
 			}
 		}
 	}
-
 }
