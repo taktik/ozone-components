@@ -16,6 +16,7 @@ import { BlobClient } from '../blobClient/blobClient'
 import { RoleClient } from '../roleClient/roleClient'
 import { PermissionClient } from '../permissionClient/permissionClient'
 import { TypeClient } from '../typeClient/typeClient'
+import { TaskClient } from '../taskClient/taskClient'
 
 export interface AuthInfo {
 	principalClass: string,
@@ -131,6 +132,11 @@ export interface OzoneClient extends StateMachine<ClientState> {
 	 * get client to work with type
 	 */
 	typeClient(): TypeClient
+
+	/**
+	 * get task client to wait manage task
+	 */
+	taskClient(): TaskClient
 
 	/**
 	 * get client to work with permission

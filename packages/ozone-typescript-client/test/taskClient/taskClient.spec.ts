@@ -1,16 +1,10 @@
 import { assert, expect } from 'chai'
-import { TypeDescriptor, FieldDescriptor } from 'ozone-type'
 import sinon, { SinonFakeServer, SinonSpy } from 'sinon'
-import { SearchQuery } from 'ozone-search-helper'
 import { OzoneClient } from './../../src/index'
 import UserCredentials = OzoneClient.UserCredentials
 import ClientConfiguration = OzoneClient.ClientConfiguration
 import newOzoneClient = OzoneClient.newOzoneClient
-import { httpclient } from 'typescript-http-client'
-import { TaskHandlerImpl, TaskClientImpl } from './../../src/taskClient/taskClientImpl'
-import Response = httpclient.Response
-import {File} from "gulp-typescript/release/input";
-import equal = File.equal;
+import { TaskHandlerImpl } from './../../src/taskClient/taskClientImpl'
 
 describe('OzoneClient', () => {
 	let client: OzoneClient.OzoneClient
@@ -51,7 +45,7 @@ describe('OzoneClient', () => {
 		describe('TaskHandlerImpl', () => {
 			describe('waitResult', () => {
 				it('should return a task result', async () => {
-					const handler = new TaskHandlerImpl('15b0a264-4d52-43a9-a7df-aaf1bb38abf4', client, `http://my.ozone.domain/ozone`, 10)
+					const handler = new TaskHandlerImpl('15b0a264-4d52-43a9-a7df-aaf1bb38abf4', client, `http://my.ozone.domain/ozone`, { pollInterval: 10 })
 					server.autoRespond = true
 					server.respond()
 					const result = await handler.waitResult
@@ -65,7 +59,7 @@ describe('OzoneClient', () => {
 			describe('onProgress', () => {
 				it('should be called at each update',(done) => {
 
-					const handler = new TaskHandlerImpl('15b0a264-4d52-43a9-a7df-aaf1bb38abf4', client, `http://my.ozone.domain/ozone`, 10)
+					const handler = new TaskHandlerImpl('15b0a264-4d52-43a9-a7df-aaf1bb38abf4', client, `http://my.ozone.domain/ozone`, { pollInterval: 10 })
 					const onProgress = sinon.stub()
 					handler.onProgress = onProgress
 					server.autoRespond = true
@@ -85,8 +79,9 @@ describe('OzoneClient', () => {
 			describe('onFinish', () => {
 				it('should be called when task is done', (done) => {
 
-					const handler = new TaskHandlerImpl('15b0a264-4d52-43a9-a7df-aaf1bb38abf4', client, `http://my.ozone.domain/ozone`, 10)
+					const handler = new TaskHandlerImpl('15b0a264-4d52-43a9-a7df-aaf1bb38abf4', client, `http://my.ozone.domain/ozone`, { pollInterval: 10 })
 					handler.onFinish = (taskExecution) => {
+						console.log(taskExecution)
 						expect(taskExecution).to.deep.equal({ 'taskId': '15b0a264-4d52-43a9-a7df-aaf1bb38abf4','groupId': '15b0a264-4d52-43a9-a7df-aaf1bb38abf4','completed': true,'submitionDate': '1970-07-28T20:40:51.062Z','completionDate': '1970-07-28T20:40:53.624Z','stepsCount': 1,'stepsDone': 1,'taskResult': { 'archiveId': '38d88341-edf1-4a30-bc42-220b8a25bc41','archiveSize': 151858695 },'progressMessage': 'Export completed','progressPercent': 1.0 })
 						done()
 					}
@@ -170,7 +165,7 @@ describe('OzoneClient', () => {
 			describe('onError', () => {
 				it('should be called when task has an error', (done) => {
 
-					const handler = new TaskHandlerImpl('task-id-with-error', client, `http://my.ozone.domain/ozone`, 10)
+					const handler = new TaskHandlerImpl('task-id-with-error', client, `http://my.ozone.domain/ozone`, { pollInterval: 10 })
 					handler.onError = (taskExecution) => {
 						expect(taskExecution).to.deep.equal({
 							'taskId': 'task-id-with-error',
@@ -192,7 +187,7 @@ describe('OzoneClient', () => {
 			describe('waitResult', () => {
 				it('should throw an exception when task has an error', async () => {
 
-					const handler = new TaskHandlerImpl('task-id-with-error', client, `http://my.ozone.domain/ozone`, 10)
+					const handler = new TaskHandlerImpl('task-id-with-error', client, `http://my.ozone.domain/ozone`, { pollInterval: 10 })
 					server.autoRespond = true
 					server.respond()
 					try {
@@ -205,7 +200,7 @@ describe('OzoneClient', () => {
 			})
 			describe('stopWaiting', () => {
 				it('should cancel ozone call and call onError',(done) => {
-					const handler = new TaskHandlerImpl('task-to-cancel', client, `http://my.ozone.domain/ozone`, 10)
+					const handler = new TaskHandlerImpl('task-to-cancel', client, `http://my.ozone.domain/ozone`, { pollInterval: 10 })
 					handler.onError = (taskExecution) => {
 						expect(taskExecution).to.deep.equal({ error: 'Wait for task canceled' })
 						expect(server.requests).to.have.lengthOf(0)
@@ -214,7 +209,7 @@ describe('OzoneClient', () => {
 					handler.stopWaiting()
 				})
 				it('should cancel ozone call and reject waitResult',(done) => {
-					const handler = new TaskHandlerImpl('task-to-cancel', client, `http://my.ozone.domain/ozone`, 10)
+					const handler = new TaskHandlerImpl('task-to-cancel', client, `http://my.ozone.domain/ozone`, { pollInterval: 10 })
 					handler.waitResult
 						.catch((taskExecution) => {
 							expect(taskExecution).to.deep.equal({ error: 'Wait for task canceled' })

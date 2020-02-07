@@ -1,5 +1,5 @@
 import { UUID, TaskExecution, GroupExecution } from 'ozone-type'
-import { TaskClient, TaskHandler } from './taskClient'
+import { TaskClient, TaskHandler, TaskHandlerOption } from './taskClient'
 import { OzoneClient } from '../ozoneClient/ozoneClient'
 import { httpclient } from 'typescript-http-client'
 import Request = httpclient.Request
@@ -7,8 +7,8 @@ import Request = httpclient.Request
 export class TaskClientImpl implements TaskClient {
 	constructor(private client: OzoneClient, private baseUrl: string) {}
 
-	waitForTask(taskId: UUID): TaskHandlerImpl {
-		return new TaskHandlerImpl(taskId, this.client, this.baseUrl)
+	waitForTask<T>(taskId: UUID, options?: TaskHandlerOption): TaskHandlerImpl {
+		return new TaskHandlerImpl<T>(taskId, this.client, this.baseUrl, options || {})
 	}
 }
 
@@ -22,7 +22,10 @@ export class TaskHandlerImpl<T = any> implements TaskHandler {
 
 	private subTaskinterval?: number
 
+	private pollInterval: number
+
 	private interval?: number
+
 	private rejectPromise?: (reason?: any) => void
 
 	stopWaiting(): void {
@@ -43,13 +46,12 @@ export class TaskHandlerImpl<T = any> implements TaskHandler {
 	}
 	readonly waitResult: Promise<T | undefined>
 
-	constructor(taskId: string, private client: OzoneClient, private baseUrl: string, private pollInterval: number = 500) {
+	constructor(taskId: string, private client: OzoneClient, private baseUrl: string, private options: TaskHandlerOption) {
+		this.pollInterval = options.pollInterval || 500
 		this.waitResult = this._waitForTask(taskId)
 	}
 
 	private _waitForSubTasks(asyncTasksGroupId: string): Promise<void> {
-		debugger
-		let mediaId: string
 		return (new Promise((resolve, reject) => {
 			this.subTaskinterval = window.setInterval(() => {
 				this._awaitTask(asyncTasksGroupId)
@@ -58,7 +60,7 @@ export class TaskHandlerImpl<T = any> implements TaskHandler {
 							this._clearPullInterval()
 							resolve()
 						} else if (data.hasErrors) {
-							reject('possessing tasks as an error')
+							reject('One of the possessing sub tasks as an error')
  }
 					})
 					.catch((error) => {
@@ -69,7 +71,7 @@ export class TaskHandlerImpl<T = any> implements TaskHandler {
 		}))
 	}
 	private _waitForTask<T>(taskId: string): Promise<T | undefined> {
-		let primaryTaskResult: T
+		let primaryTaskResult: TaskExecution
 		return (new Promise<TaskExecution>((resolve, reject) => {
 			this.rejectPromise = reject
 			this.interval = window.setInterval(() => {
@@ -86,9 +88,7 @@ export class TaskHandlerImpl<T = any> implements TaskHandler {
 
 							} else if (taskExecution.completed) {
 								this._clearPullInterval()
-								if (taskExecution.taskResult) {
-									primaryTaskResult = taskExecution.taskResult
-								}
+								primaryTaskResult = taskExecution
 								resolve(taskExecution)
 							}
 						}
@@ -99,14 +99,14 @@ export class TaskHandlerImpl<T = any> implements TaskHandler {
 					})
 			}, this.pollInterval)
 		}))
-			// .then((taskResult: TaskExecution): any => {
-			// 	// if (taskResult.groupId) {
-			// 	// 	return this._waitForSubTasks(taskResult.asyncTasksGroupId)
-			// 	// }
-			// })
+			.then((taskResult: TaskExecution): any => {
+				if (!this.options.skipWaitingOnSubTask && taskResult.taskResult.asyncTasksGroupId) {
+					return this._waitForSubTasks(taskResult.taskResult.asyncTasksGroupId)
+				}
+			})
 			.then((taskResult: TaskExecution) => {
-				this.executeCallback(this.onFinish, taskResult)
-				return primaryTaskResult
+				this.executeCallback(this.onFinish, primaryTaskResult)
+				return primaryTaskResult.taskResult
 			})
 	}
 
