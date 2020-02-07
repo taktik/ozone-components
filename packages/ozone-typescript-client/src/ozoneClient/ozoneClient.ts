@@ -17,6 +17,7 @@ import { RoleClient } from '../roleClient/roleClient'
 import { PermissionClient } from '../permissionClient/permissionClient'
 import { TypeClient } from '../typeClient/typeClient'
 import { TaskClient } from '../taskClient/taskClient'
+import { ImportExportClient } from '../importExportClient/importExportClient'
 
 export interface AuthInfo {
 	principalClass: string,
@@ -142,6 +143,11 @@ export interface OzoneClient extends StateMachine<ClientState> {
 	 * get client to work with permission
 	 */
 	permissionClient(): PermissionClient
+
+	/**
+	 * get client to work with permission
+	 */
+	importExportClient(): ImportExportClient
 
 	/*
         Insert the current Ozone session ID in the given URL ("/dsid=...).
