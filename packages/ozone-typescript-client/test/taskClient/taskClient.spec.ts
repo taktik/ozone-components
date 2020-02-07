@@ -95,5 +95,135 @@ describe('OzoneClient', () => {
 				})
 			})
 		})
+		describe('TaskHandlerImpl error mangement', () => {
+			beforeEach(() => {
+				// for test, its not mandatory to start the client
+				// return client.start()
+				server = sinon.fakeServer.create()
+				let responseIndex = 0
+				const responses = [
+					{
+						'groupid': 'task-id-with-error',
+						'stepsCount': 1,
+						'stepsDone': 0,
+						'hasErrors': false,
+						'taskExecutions': {
+							'task-id-with-error': {
+								'taskId': 'task-id-with-error',
+								'groupId': 'task-id-with-error',
+								'completed': false,
+								'submitionDate': '1970-07-28T20:40:51.062Z',
+								'stepsCount': 1,
+								'stepsDone': 0,
+								'progressMessage': 'Fetching all Referenced Items',
+								'progressPercent': 0.45
+							}
+						}
+					},
+					{
+						'groupid': 'task-id-with-error',
+						'stepsCount': 1,
+						'stepsDone': 0,
+						'hasErrors': false,
+						'taskExecutions': {
+							'task-id-with-error': {
+								'taskId': 'task-id-with-error',
+								'groupId': 'task-id-with-error',
+								'completed': false,
+								'submitionDate': '1970-07-28T20:40:51.062Z',
+								'stepsCount': 1,
+								'stepsDone': 0,
+								'progressMessage': 'Fetching all Blobs Ids',
+								'progressPercent': 0.6818181818181819
+							}
+						}
+					},
+					{
+						'groupid': 'task-id-with-error',
+						'stepsCount': 1,
+						'stepsDone': 1,
+						'hasErrors': true,
+						'taskExecutions': {
+							'task-id-with-error': {
+								'taskId': 'task-id-with-error',
+								'groupId': 'task-id-with-error',
+								'completed': true,
+								'submitionDate': '1970-07-28T20:40:51.062Z',
+								'completionDate': '1970-07-28T20:40:53.624Z',
+								'stepsCount': 1,
+								'stepsDone': 1,
+								'error': 'An error occurs',
+								'progressPercent': 0.90
+							}
+						}
+					}
+				]
+				server.respondWith(
+					'GET',
+					'http://my.ozone.domain/ozone/rest/v3/task/wait/task-id-with-error/120',
+					xhr => {
+						xhr.respond(200,
+							{ 'Content-Type': 'application/json' },
+							JSON.stringify(responses[responseIndex++]))
+					})
+			})
+			describe('onError', () => {
+				it('should be called when task has an error', (done) => {
+
+					const handler = new TaskHandlerImpl('task-id-with-error', client, `http://my.ozone.domain/ozone`, 10)
+					handler.onError = (taskExecution) => {
+						expect(taskExecution).to.deep.equal({
+							'taskId': 'task-id-with-error',
+							'groupId': 'task-id-with-error',
+							'completed': true,
+							'submitionDate': '1970-07-28T20:40:51.062Z',
+							'completionDate': '1970-07-28T20:40:53.624Z',
+							'stepsCount': 1,
+							'stepsDone': 1,
+							'error': 'An error occurs',
+							'progressPercent': 0.90
+						})
+						done()
+					}
+					server.autoRespond = true
+					server.respond()
+				})
+			})
+			describe('waitResult', () => {
+				it('should throw an exception when task has an error', async () => {
+
+					const handler = new TaskHandlerImpl('task-id-with-error', client, `http://my.ozone.domain/ozone`, 10)
+					server.autoRespond = true
+					server.respond()
+					try {
+						await handler.waitResult
+						expect(true).to.equal(false, 'wait result should not resolve')
+					} catch (error) {
+						expect(error.message).to.equal('An error occurs')
+					}
+				})
+			})
+			describe('stopWaiting', () => {
+				it('should cancel ozone call and call onError',(done) => {
+					const handler = new TaskHandlerImpl('task-to-cancel', client, `http://my.ozone.domain/ozone`, 10)
+					handler.onError = (taskExecution) => {
+						expect(taskExecution).to.deep.equal({ error: 'Wait for task canceled' })
+						expect(server.requests).to.have.lengthOf(0)
+						done()
+					}
+					handler.stopWaiting()
+				})
+				it('should cancel ozone call and reject waitResult',(done) => {
+					const handler = new TaskHandlerImpl('task-to-cancel', client, `http://my.ozone.domain/ozone`, 10)
+					handler.waitResult
+						.catch((taskExecution) => {
+							expect(taskExecution).to.deep.equal({ error: 'Wait for task canceled' })
+							expect(server.requests).to.have.lengthOf(0)
+							done()
+						})
+					handler.stopWaiting()
+				})
+			})
+		})
 	})
 })

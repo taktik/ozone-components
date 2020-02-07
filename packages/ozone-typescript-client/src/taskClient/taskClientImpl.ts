@@ -20,9 +20,19 @@ export class TaskHandlerImpl<T = any> implements TaskHandler {
 
 	onProgress?: (taskExecution: TaskExecution) => void
 
-	private interval?: number
+	private subTaskinterval?: number
 
-	cancel(): void {
+	private interval?: number
+	private rejectPromise?: (reason?: any) => void
+
+	stopWaiting(): void {
+		this._clearPullInterval()
+		this.executeCallback(this.onError, { error: 'Wait for task canceled' })
+		this.executeCallback(this.rejectPromise, { error: 'Wait for task canceled' })
+	}
+
+	_clearPullInterval(): void {
+		clearInterval(this.subTaskinterval)
 		clearInterval(this.interval)
 	}
 
@@ -41,18 +51,18 @@ export class TaskHandlerImpl<T = any> implements TaskHandler {
 		debugger
 		let mediaId: string
 		return (new Promise((resolve, reject) => {
-			this.interval = window.setInterval(() => {
+			this.subTaskinterval = window.setInterval(() => {
 				this._awaitTask(asyncTasksGroupId)
 					.then((data: GroupExecution) => {
 						if (data.stepsCount === data.stepsDone) {
-							this.cancel()
+							this._clearPullInterval()
 							resolve()
 						} else if (data.hasErrors) {
 							reject('possessing tasks as an error')
  }
 					})
 					.catch((error) => {
-						this.cancel()
+						this._clearPullInterval()
 						reject(error)
 					})
 			}, this.pollInterval)
@@ -61,17 +71,21 @@ export class TaskHandlerImpl<T = any> implements TaskHandler {
 	private _waitForTask<T>(taskId: string): Promise<T | undefined> {
 		let primaryTaskResult: T
 		return (new Promise<TaskExecution>((resolve, reject) => {
-			let interval = setInterval(() => {
+			this.rejectPromise = reject
+			this.interval = window.setInterval(() => {
 				this._awaitTask(taskId)
 					.then((data: GroupExecution) => {
 						if (data && data.taskExecutions) {
 							const taskExecution: TaskExecution = data.taskExecutions[taskId]
 							this.executeCallback(this.onProgress, taskExecution)
 
-							if (taskExecution &&
-								taskExecution.completed ||
-								taskExecution.completed) {
-								clearInterval(interval)
+							if (data.hasErrors) {
+								this.executeCallback(this.onError, taskExecution)
+								clearInterval(this.interval)
+								reject(Error(taskExecution.error || 'Error in ozone task'))
+
+							} else if (taskExecution.completed) {
+								this._clearPullInterval()
 								if (taskExecution.taskResult) {
 									primaryTaskResult = taskExecution.taskResult
 								}
@@ -80,7 +94,7 @@ export class TaskHandlerImpl<T = any> implements TaskHandler {
 						}
 					})
 					.catch((error) => {
-						clearInterval(interval)
+						clearInterval(this.interval)
 						reject(error)
 					})
 			}, this.pollInterval)
@@ -103,4 +117,3 @@ export class TaskHandlerImpl<T = any> implements TaskHandler {
 		return this.client.call<GroupExecution>(request)
 	}
 }
-

@@ -12,7 +12,7 @@ export interface TaskHandler<T = any> {
 
 	onProgress?: (taskExecution: TaskExecution) => void
 
-	cancel(): void
+	stopWaiting(): void
 
 	readonly waitResult: Promise<T | undefined>
 }
