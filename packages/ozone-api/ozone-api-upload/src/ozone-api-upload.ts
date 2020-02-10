@@ -45,7 +45,7 @@ export interface XMLHttpRequestLike {
 		onloadstart: { (event: Event): void }
 	}
 
-	onreadystatechange: { (): void }
+	onreadystatechange?: { (): void }
 
 	readonly readyState: number
 
@@ -95,7 +95,7 @@ export class UploadFileRequest implements XMLHttpRequestLike {
 	 * XMLHttpRequest.onreadystatechange event handler
 	 */
 	// tslint:disable-next-line:no-empty
-	onreadystatechange: { (): void } = () => {}
+	onreadystatechange?: { (): void } = () => {}
 	private callOneadystatechange() {
 		if (typeof (this.onreadystatechange) === 'function') {
 			this.onreadystatechange()
