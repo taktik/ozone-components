@@ -30,8 +30,9 @@ export class TaskHandlerImpl<T = any> implements TaskHandler {
 
 	stopWaiting(): void {
 		this._clearPullInterval()
-		this.executeCallback(this.onError, { error: 'Wait for task canceled' })
-		this.executeCallback(this.rejectPromise, { error: 'Wait for task canceled' })
+		const stopWaitingErrorMessage = { error: 'Wait for task canceled' }
+		this.executeCallback(this.onError, stopWaitingErrorMessage)
+		this.executeCallback(this.rejectPromise, stopWaitingErrorMessage)
 	}
 
 	_clearPullInterval(): void {

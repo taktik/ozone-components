@@ -34,7 +34,7 @@ export interface TaskHandler<T = any> {
 	onProgress?: (taskExecution: TaskExecution) => void
 
 	/**
-	 * cancel the waiting acion on the task
+	 * cancel the waiting action on the task
 	 */
 	stopWaiting(): void
 
