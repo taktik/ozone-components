@@ -1,14 +1,15 @@
-import { ExportSpec, UUID } from 'ozone-type'
+import { ExportSpec, UUID, ImportSpec } from 'ozone-type'
 
 export interface ArchiveType {
 	archiveId: UUID,
 	archiveSize: number
 }
+
 export interface ImportExportClient {
 	/**
 	 * Launch an Export Task to export items and associated data, return the task id
 	 */
-	createExport(exportSpec: ExportSpec): Promise<UUID>
+	createExport(exportSpec: ExportSpec, progressCallback?: (event: Event) => void): Promise<UUID>
 
 	/**
 	 * request a export and return the export ID ones it's ready
@@ -23,11 +24,11 @@ export interface ImportExportClient {
 	/**
 	 * Import zip archive to ozone, return the task id
 	 */
-	uploadImport(zipFile: Blob): Promise<UUID>
+	uploadImport(zipFile: Blob, options?: ImportSpec, progressCallback?: (event: Event) => void): Promise<UUID>
 
 	/**
 	 * Import zip archive to ozone
 	 */
-	uploadImportAndWaitForCompeted(zipFile: Blob): Promise<void>
+	uploadImportAndWaitForCompeted(zipFile: Blob, options?: ImportSpec): Promise<void>
 
 }

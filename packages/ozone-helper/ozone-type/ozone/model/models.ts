@@ -348,6 +348,7 @@ export * from './ImageIdsSearchResult';
 export * from './ImageQueryUpdate';
 export * from './ImageRawSearchResult';
 export * from './ImageSearchResult';
+export * from './ImportSpec';
 export * from './InputDevice';
 export * from './InputDeviceIdsSearchResult';
 export * from './InputDeviceQueryUpdate';

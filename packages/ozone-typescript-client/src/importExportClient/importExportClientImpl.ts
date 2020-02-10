@@ -1,4 +1,4 @@
-import { Blob, ExportSpec, UUID } from 'ozone-type'
+import { Blob, ExportSpec, UUID, ImportSpec } from 'ozone-type'
 import { ImportExportClient, ArchiveType } from './importExportClient'
 import { OzoneClient } from '../ozoneClient/ozoneClient'
 import { httpclient } from 'typescript-http-client'
@@ -7,11 +7,14 @@ const UPLOAD_TIMEOUT = 600000 // let 10min max to upload the archive
 export class ImportExportClientImpl implements ImportExportClient {
 	constructor(private client: OzoneClient, private baseUrl: string) {}
 
-	createExport(exportSpec: ExportSpec): Promise<UUID> {
+	createExport(exportSpec: ExportSpec, progressCallback?: (event: Event) => void): Promise<UUID> {
 		const request = new Request(`${this.baseUrl}/rest/v3/export/create`)
 			.setMethod('POST')
 			.setTimeout(UPLOAD_TIMEOUT)
 			.setBody(exportSpec)
+		if (progressCallback) {
+			request.upload.onprogress = progressCallback
+		}
 		return this.client.call<string>(request)
 	}
 
@@ -25,18 +28,22 @@ export class ImportExportClientImpl implements ImportExportClient {
 		return `${this.baseUrl}/rest/v3/export/download/${exportId}`
 	}
 
-	uploadImport(zipFile: Blob): Promise<UUID> {
-		const request = new Request(`${this.baseUrl}/rest/v3/import/upload`)
+	uploadImport(zipFile: Blob, options: ImportSpec = {}, progressCallback?: (event: Event) => void): Promise<UUID> {
+		const optionsQuery = new URLSearchParams(options as any)
+		const request = new Request(`${this.baseUrl}/rest/v3/import/upload?${optionsQuery.toString()}`)
 			.setMethod('POST')
 			.setTimeout(UPLOAD_TIMEOUT)
 			.setBody(zipFile)
 		request.contentType = 'application/octet-stream'
+		if (progressCallback) {
+			request.upload.onprogress = progressCallback
+		}
 		return this.client.call<string>(request)
 	}
 
-	async uploadImportAndWaitForCompeted(zipFile: Blob): Promise<void> {
-		const taskId = await this.uploadImport(zipFile)
-		const taskHandler = this.client.taskClient().waitForTask<any>(taskId)
+	async uploadImportAndWaitForCompeted(zipFile: Blob, options?: ImportSpec): Promise<void> {
+		const taskId = await this.uploadImport(zipFile, options)
+		const taskHandler = this.client.taskClient().waitForTask<void>(taskId)
 		return taskHandler.waitResult
 	}
 }

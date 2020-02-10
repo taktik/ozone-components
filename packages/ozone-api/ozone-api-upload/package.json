@@ -26,6 +26,7 @@
   "dependencies": {
     "ozone-api-request": "^5.2.3",
     "ozone-config": "^5.2.3",
+    "ozone-default-client": "^5.2.3",
     "uuid": "^3.3.2"
   },
   "repository": "https://github.com/taktik/ozone-components/packages/ozone-api/ozone-api-upload"

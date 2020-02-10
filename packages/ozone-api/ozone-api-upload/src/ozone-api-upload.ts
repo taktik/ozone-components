@@ -1,6 +1,7 @@
 import { OzoneConfig } from 'ozone-config'
 import { OzoneAPIRequest } from 'ozone-api-request'
 import { v4 as uuid } from 'uuid'
+import { getDefaultClient } from 'ozone-default-client'
 
 export interface UploadSessionResult {
 	file: FormData
@@ -239,7 +240,10 @@ export class UploadFileRequest implements XMLHttpRequestLike {
 			.then((result) => this._performUpload(result))
 			.then((result) => this._endUploadSession(result))
 			.then((result) => this._waitForTask(result))
-			.then((mediaId: string) => {
+			.then((mediaId?: string) => {
+				if (!mediaId) {
+					throw Error('No media define in Ozone')
+				}
 				this.status = 200
 				this._readyState = 4
 
@@ -265,19 +269,21 @@ export class UploadFileRequest implements XMLHttpRequestLike {
 	 * @param {string} parentTenantId
 	 * @return {Promise<null>}
 	 */
-	importOrganisation(file: FormData, parentTenantId: string): Promise<null> {
+	async importOrganisation(file: Blob, parentTenantId: string): Promise<null> {
+		const queryParams = {
+			tenantsPrefix: uuid(),
+			rootTenantId: parentTenantId
+		}
 
-		return this._uploadOrganisation(parentTenantId, file)
-			.then((result: XMLHttpRequest) => {
-				return result.response
-			})
-			.then((uploadFileId: string) =>
-				this._waitForTask({ uploadFileId }))
+		const importClient = getDefaultClient().importExportClient()
+		const taskClient = getDefaultClient().taskClient()
+		const importTask = await importClient.uploadImport(file, queryParams, this.upload.onprogress)
+		const taskHandler = taskClient.waitForTask<undefined>(importTask)
+		return taskHandler.waitResult
 			.then(() => {
 				this.status = 200
 				this._readyState = 4
 				return null
-
 			}).catch((error: Error) => {
 				this.status = 555
 				this._readyState = 4
@@ -388,109 +394,10 @@ export class UploadFileRequest implements XMLHttpRequestLike {
 					return response
 				})
 	}
-	_waitForSubTasks(asyncTasksGroupId: string): Promise < void > {
-		let mediaId: string
-		return (new Promise((resolve, reject) => {
-			let interval = setInterval(() => {
-				this._awaitTask(asyncTasksGroupId)
-						.then((data: WaitResponse) => {
-							if (data.stepsCount === data.stepsDone) {
-								clearInterval(interval)
-								resolve()
-							} else if (data.hasErrors) {
-								reject('possessing tasks as an error')
-							}
-						})
-						.catch((error) => {
-							clearInterval(interval)
-							reject(error)
-						})
-			}, this.pollInterval)
-		}))
-	}
-	_waitForTask(uploadEndResult: UploadFileId): Promise < string > {
-		let mediaId: string
-		return (new Promise((resolve, reject) => {
-			let interval = setInterval(() => {
-				this._awaitTask(uploadEndResult.uploadFileId)
-						.then((data: WaitResponse) => {
-							const taskExecution = data.taskExecutions[uploadEndResult.uploadFileId]
-
-							if (taskExecution.isComplete ||
-								taskExecution.completed) {
-								clearInterval(interval)
-								if (taskExecution.taskResult) {
-									mediaId = taskExecution.taskResult.mediaId
-								}
-								resolve(taskExecution.taskResult)
-							}
-						})
-						.catch((error) => {
-							clearInterval(interval)
-							reject(error)
-						})
-			}, this.pollInterval)
-		}))
-				.then((data: any): any => {
-					const taskResult = data || {} as TaskResult
-					if (taskResult.asyncTasksGroupId) {
-						return this._waitForSubTasks(taskResult.asyncTasksGroupId)
-					}
-				})
-				.then(() => mediaId as string)
-	}
-
-	async _awaitTask(uploadFileId: string): Promise < WaitResponse > {
-		const request = this. _createRequest()
-		request.url = await this._buildUrl('wait', uploadFileId, '120')
-		request.method = 'GET'
-
-		request.onreadystatechange = this.notifyOnError()
-
-		return request.sendRequest()
-				.then((xhr: XMLHttpRequest) => {
-					return xhr.response
-				})
-	}
-
-	async _uploadOrganisation(parentTenantId: string, file: FormData): Promise < XMLHttpRequest > {
-
-		const ozoneRequest = new OzoneAPIRequest()
-
-		const queryParams: any = {
-			tenantsPrefix: uuid(),
-			rootTenantId: parentTenantId
-		}
-		const query = this.buildSearchParam(queryParams)
-		const url = await this._buildUrl('import',`upload?${query}`)
-
-		ozoneRequest.method = 'POST'
-		ozoneRequest.url = url
-
-		ozoneRequest.onreadystatechange = this.notifyOnError()
-		const xmlhttp = ozoneRequest.createXMLHttpRequest(false)
-		xmlhttp.setRequestHeader('Content-Type', 'application/json')
-		xmlhttp.setRequestHeader('Accept', 'application/json')
-		xmlhttp.upload.onprogress = this.upload.onprogress
-
-		ozoneRequest.body = file
-		return ozoneRequest.sendRequest(xmlhttp)
-	}
-
-		/**
-		 * This function build url query parameters
-		 * In node environment overwrite this function:
-		 * ```javaScript
-		 * UploadFileRequest.prototype
-		 * 		.buildSearchParam = function buildSearchParam(queryParams) {
-		 * 			const querystring = require('querystring');
-		 * 			return querystring.stringify(queryParams);
-		 * 		};
-		 * ```
-		 * @param queryParams
-		 * @return {string}
-		 */
-	buildSearchParam(queryParams: any) {
-		return new URLSearchParams(queryParams).toString()
+	async _waitForTask(uploadEndResult: UploadFileId): Promise < string | undefined > {
+		const taskClient = getDefaultClient().taskClient()
+		const taskHandler = taskClient.waitForTask<TaskResult>(uploadEndResult.uploadFileId)
+		const result = await taskHandler.waitResult
+		return result && result.mediaId
 	}
 }
