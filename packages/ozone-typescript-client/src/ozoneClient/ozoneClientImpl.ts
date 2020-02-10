@@ -669,7 +669,7 @@ class DefaultsOptions implements Filter<any, any> {
 	}
 
 	async doFilter(request: Request, filterChain: FilterChain<any>): Promise<Response<any>> {
-		if (!request.timeout || request.timeout > this.defaultTimeout) {
+		if (!request.timeout) {
 			request.timeout = this.defaultTimeout
 		}
 		return filterChain.doFilter(request)

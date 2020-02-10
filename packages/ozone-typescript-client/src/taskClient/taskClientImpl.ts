@@ -80,7 +80,6 @@ export class TaskHandlerImpl<T = any> implements TaskHandler {
 						if (data && data.taskExecutions) {
 							const taskExecution: TaskExecution = data.taskExecutions[taskId]
 							this.executeCallback(this.onProgress, taskExecution)
-
 							if (data.hasErrors) {
 								this.executeCallback(this.onError, taskExecution)
 								clearInterval(this.interval)
@@ -100,7 +99,9 @@ export class TaskHandlerImpl<T = any> implements TaskHandler {
 			}, this.pollInterval)
 		}))
 			.then((taskResult: TaskExecution): any => {
-				if (!this.options.skipWaitingOnSubTask && taskResult.taskResult.asyncTasksGroupId) {
+				if (!this.options.skipWaitingOnSubTask
+					&& taskResult.taskResult
+					&& taskResult.taskResult.asyncTasksGroupId) {
 					return this._waitForSubTasks(taskResult.taskResult.asyncTasksGroupId)
 				}
 			})
