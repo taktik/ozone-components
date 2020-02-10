@@ -263,34 +263,6 @@ export class UploadFileRequest implements XMLHttpRequestLike {
 				return null
 			})
 	}
-	/**
-	 * alias to send method.
-	 * @param {FormData} file
-	 * @param {string} parentTenantId
-	 * @return {Promise<null>}
-	 */
-	async importOrganisation(file: Blob, parentTenantId: string): Promise<null> {
-		const queryParams = {
-			tenantsPrefix: uuid(),
-			rootTenantId: parentTenantId
-		}
-
-		const importClient = getDefaultClient().importExportClient()
-		const taskClient = getDefaultClient().taskClient()
-		const importTask = await importClient.uploadImport(file, queryParams, this.upload.onprogress)
-		const taskHandler = taskClient.waitForTask<undefined>(importTask)
-		return taskHandler.waitResult
-			.then(() => {
-				this.status = 200
-				this._readyState = 4
-				return null
-			}).catch((error: Error) => {
-				this.status = 555
-				this._readyState = 4
-				console.error(error.message)
-				throw error
-			})
-	}
 
 	private notifyOnError(): ((this: XMLHttpRequest, ev: Event) => any) {
 		const self = this
