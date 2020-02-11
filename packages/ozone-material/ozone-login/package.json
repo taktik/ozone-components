@@ -1,5 +1,6 @@
 {
 	"name": "ozone-login",
+	"private": true,
 	"version": "5.2.5",
 	"description": "",
 	"main": "dist/index.js",
