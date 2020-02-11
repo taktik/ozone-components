@@ -1,1 +1,1 @@
-export * from  "./ozone-api-upload"
+export * from './ozone-api-upload'

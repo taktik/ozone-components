@@ -27,6 +27,10 @@ import FilterCollection = httpclient.FilterCollection
 import Filter = httpclient.Filter
 import FilterChain = httpclient.FilterChain
 import { getLogger } from 'log4javascript'
+import { TaskClient } from '../taskClient/taskClient'
+import { TaskClientImpl } from '../taskClient/taskClientImpl'
+import { ImportExportClient } from '../importExportClient/importExportClient'
+import { ImportExportClientImpl } from '../importExportClient/importExportClientImpl'
 
 const MAX_REAUTH_DELAY: number = 30000
 const INITIAL_REAUTH_DELAY: number = 1000
@@ -84,6 +88,8 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 		this._roleClient = new RoleClientImpl(this, this._config.ozoneURL)
 		this._permissionClient = new PermissionClientImpl(this, this._config.ozoneURL)
 		this._typeClient = new TypeClientImpl(this, this._config.ozoneURL)
+		this._taskClient = new TaskClientImpl(this, this._config.ozoneURL)
+		this._importExportClient = new ImportExportClientImpl(this, this._config.ozoneURL)
 	}
 
 	get config(): ClientConfiguration {
@@ -631,6 +637,16 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 		return this._typeClient
 	}
 
+	private _taskClient: TaskClient
+	taskClient(): TaskClient {
+		return this._taskClient
+	}
+
+	private _importExportClient: ImportExportClient
+	importExportClient(): ImportExportClient {
+		return this._importExportClient
+	}
+
 	insertSessionIdInURL(url: string): string {
 		if (!url.startsWith(this.config.ozoneURL)) {
 			throw new Error(`insertSessionIdInURL : Given url should start with base url ${this.config.ozoneURL}`)
@@ -653,7 +669,7 @@ class DefaultsOptions implements Filter<any, any> {
 	}
 
 	async doFilter(request: Request, filterChain: FilterChain<any>): Promise<Response<any>> {
-		if (!request.timeout || request.timeout > this.defaultTimeout) {
+		if (!request.timeout) {
 			request.timeout = this.defaultTimeout
 		}
 		return filterChain.doFilter(request)
