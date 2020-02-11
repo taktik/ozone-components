@@ -1,6 +1,6 @@
 {
   "name": "ozone-api-upload",
-  "version": "5.2.3",
+  "version": "5.3.0",
   "publishConfig": {
     "access": "public"
   },
@@ -22,12 +22,12 @@
   "license": "ISC",
   "devDependencies": {
     "@types/uuid": "^3.4.4",
-    "ozone-type": "^5.2.3"
+    "ozone-type": "^5.3.0"
   },
   "dependencies": {
-    "ozone-api-request": "^5.2.3",
-    "ozone-config": "^5.2.3",
-    "ozone-default-client": "^5.2.3",
+    "ozone-api-request": "^5.3.0",
+    "ozone-config": "^5.3.0",
+    "ozone-default-client": "^5.3.0",
     "uuid": "^3.3.2"
   },
   "repository": "https://github.com/taktik/ozone-components/packages/ozone-api/ozone-api-upload"
