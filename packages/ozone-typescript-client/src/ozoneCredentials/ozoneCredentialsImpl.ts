@@ -13,7 +13,7 @@ export class SessionCredentials implements OzoneCredentials {
 				withCredentials: true
 			})
 		let authInfo = await (httpClient.call<AuthInfo>(request))
-		if (!authInfo) {
+		if (!authInfo['principalId']) {
 			// The session is invalid
 			throw new Response<AuthInfo>(request, 403, 'Invalid session', {}, authInfo)
 		}
