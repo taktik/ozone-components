@@ -12,7 +12,7 @@ export interface ImportExportClient {
 	createExport(exportSpec: ExportSpec, progressCallback?: (event: Event) => void): Promise<UUID>
 
 	/**
-	 * request a export and return the export ID ones it's ready
+	 * request an export and return the export ID once it's ready
 	 */
 	exportAndWaitForCompeted(exportSpec: ExportSpec): Promise<ArchiveType | undefined>
 
