@@ -18,7 +18,7 @@ export class ImportExportClientImpl implements ImportExportClient {
 		return this.client.call<string>(request)
 	}
 
-	async exportAndWaitForCompeted(exportSpec: ExportSpec): Promise<ArchiveType | undefined> {
+	async exportAndWaitForCompleted(exportSpec: ExportSpec): Promise<ArchiveType | undefined> {
 		const taskId = await this.createExport(exportSpec)
 		const taskHandler = this.client.taskClient().waitForTask<ArchiveType>(taskId)
 		return taskHandler.waitResult
@@ -41,7 +41,7 @@ export class ImportExportClientImpl implements ImportExportClient {
 		return this.client.call<string>(request)
 	}
 
-	async uploadImportAndWaitForCompeted(zipFile: Blob, options?: ImportSpec): Promise<void> {
+	async uploadImportAndWaitForCompleted(zipFile: Blob, options?: ImportSpec): Promise<void> {
 		const taskId = await this.uploadImport(zipFile, options)
 		const taskHandler = this.client.taskClient().waitForTask<void>(taskId)
 		return taskHandler.waitResult

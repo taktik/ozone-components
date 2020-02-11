@@ -14,7 +14,7 @@ export interface ImportExportClient {
 	/**
 	 * request an export and return the export ID once it's ready
 	 */
-	exportAndWaitForCompeted(exportSpec: ExportSpec): Promise<ArchiveType | undefined>
+	exportAndWaitForCompleted(exportSpec: ExportSpec): Promise<ArchiveType | undefined>
 
 	/**
 	 * get the download URL from exportId
@@ -29,6 +29,6 @@ export interface ImportExportClient {
 	/**
 	 * Import zip archive to ozone
 	 */
-	uploadImportAndWaitForCompeted(zipFile: Blob, options?: ImportSpec): Promise<void>
+	uploadImportAndWaitForCompleted(zipFile: Blob, options?: ImportSpec): Promise<void>
 
 }

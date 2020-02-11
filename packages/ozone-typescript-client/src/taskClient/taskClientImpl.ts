@@ -61,7 +61,7 @@ export class TaskHandlerImpl<T = any> implements TaskHandler {
 							this._clearPullInterval()
 							resolve()
 						} else if (data.hasErrors) {
-							reject('One of the possessing sub tasks as an error')
+							reject('One of the processing sub tasks as an error')
  }
 					})
 					.catch((error) => {
@@ -99,14 +99,14 @@ export class TaskHandlerImpl<T = any> implements TaskHandler {
 					})
 			}, this.pollInterval)
 		}))
-			.then((taskResult: TaskExecution): any => {
+			.then((taskResult: TaskExecution): Promise<void> | undefined => {
 				if (!this.options.skipWaitingOnSubTask
 					&& taskResult.taskResult
 					&& taskResult.taskResult.asyncTasksGroupId) {
 					return this._waitForSubTasks(taskResult.taskResult.asyncTasksGroupId)
 				}
 			})
-			.then((taskResult: TaskExecution) => {
+			.then(() => {
 				this.executeCallback(this.onFinish, primaryTaskResult)
 				return primaryTaskResult.taskResult
 			})
