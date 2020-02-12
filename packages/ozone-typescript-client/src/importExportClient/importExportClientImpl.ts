@@ -1,5 +1,5 @@
 import { Blob, ExportSpec, UUID, ImportSpec } from 'ozone-type'
-import { ImportExportClient, ArchiveType } from './importExportClient'
+import { ImportExportClient, ArchiveType, UploadRequest } from './importExportClient'
 import { OzoneClient } from '../ozoneClient/ozoneClient'
 import { httpclient } from 'typescript-http-client'
 import Request = httpclient.Request
@@ -28,7 +28,7 @@ export class ImportExportClientImpl implements ImportExportClient {
 		return `${this.baseUrl}/rest/v3/export/download/${exportId}`
 	}
 
-	uploadImport(zipFile: Blob, options: ImportSpec = {}, progressCallback?: (event: Event) => void): Promise<UUID> {
+	uploadImport(zipFile: Blob, options: ImportSpec = {}, progressCallback?: (event: Event) => void): UploadRequest<UUID> {
 		const optionsQuery = new URLSearchParams(options as any)
 		const request = new Request(`${this.baseUrl}/rest/v3/import/upload?${optionsQuery.toString()}`)
 			.setMethod('POST')
@@ -38,11 +38,15 @@ export class ImportExportClientImpl implements ImportExportClient {
 		if (progressCallback) {
 			request.upload.onprogress = progressCallback
 		}
-		return this.client.call<string>(request)
+		return {
+			result: this.client.call<string>(request),
+			request
+		}
 	}
 
 	async uploadImportAndWaitForCompleted(zipFile: Blob, options?: ImportSpec): Promise<void> {
-		const taskId = await this.uploadImport(zipFile, options)
+		const uploadRequest = this.uploadImport(zipFile, options)
+		const taskId = await uploadRequest.result
 		const taskHandler = this.client.taskClient().waitForTask<void>(taskId)
 		return taskHandler.waitResult
 	}

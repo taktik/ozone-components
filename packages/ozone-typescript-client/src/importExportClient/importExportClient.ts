@@ -1,8 +1,14 @@
 import { ExportSpec, UUID, ImportSpec } from 'ozone-type'
+import { httpclient } from 'typescript-http-client'
+import Request = httpclient.Request
 
 export interface ArchiveType {
 	archiveId: UUID,
 	archiveSize: number
+}
+export interface UploadRequest<T> {
+	result: Promise<T>,
+	request: Request
 }
 
 export interface ImportExportClient {
@@ -24,7 +30,7 @@ export interface ImportExportClient {
 	/**
 	 * Import zip archive to ozone, return the task id
 	 */
-	uploadImport(zipFile: Blob, options?: ImportSpec, progressCallback?: (event: Event) => void): Promise<UUID>
+	uploadImport(zipFile: Blob, options?: ImportSpec, progressCallback?: (event: Event) => void): UploadRequest<UUID>
 
 	/**
 	 * Import zip archive to ozone
