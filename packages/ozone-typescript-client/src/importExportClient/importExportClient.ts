@@ -15,7 +15,7 @@ export interface ImportExportClient {
 	/**
 	 * Launch an Export Task to export items and associated data, return the task id
 	 */
-	createExport(exportSpec: ExportSpec, progressCallback?: (event: Event) => void): Promise<UUID>
+	createExport(exportSpec: ExportSpec): Promise<UUID>
 
 	/**
 	 * request an export and return the export ID once it's ready

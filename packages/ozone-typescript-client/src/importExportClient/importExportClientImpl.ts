@@ -7,14 +7,12 @@ const UPLOAD_TIMEOUT = 600000 // let 10min max to upload the archive
 export class ImportExportClientImpl implements ImportExportClient {
 	constructor(private client: OzoneClient, private baseUrl: string) {}
 
-	createExport(exportSpec: ExportSpec, progressCallback?: (event: Event) => void): Promise<UUID> {
+	createExport(exportSpec: ExportSpec): Promise<UUID> {
 		const request = new Request(`${this.baseUrl}/rest/v3/export/create`)
 			.setMethod('POST')
 			.setTimeout(UPLOAD_TIMEOUT)
 			.setBody(exportSpec)
-		if (progressCallback) {
-			request.upload.onprogress = progressCallback
-		}
+
 		return this.client.call<string>(request)
 	}
 
