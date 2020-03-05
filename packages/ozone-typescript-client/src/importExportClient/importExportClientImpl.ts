@@ -3,7 +3,7 @@ import { ImportExportClient, ArchiveType, UploadRequest } from './importExportCl
 import { OzoneClient } from '../ozoneClient/ozoneClient'
 import { httpclient } from 'typescript-http-client'
 import Request = httpclient.Request
-const UPLOAD_TIMEOUT = 600000 // let 10min max to upload the archive
+const UPLOAD_TIMEOUT = 60 * 60 * 1000 // let 1hour max to upload the archive
 export class ImportExportClientImpl implements ImportExportClient {
 	constructor(private client: OzoneClient, private baseUrl: string) {}
 
