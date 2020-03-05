@@ -6,6 +6,7 @@ import {Item, SearchRequest, ItemSearchResult, TermsAggregation, Aggregation,
 	WildcardQuery, QueryStringQuery, TermQuery, ModeType, TermsQuery, TenantQuery, TypeQuery, Query, BoolQuery, Sort, IdsQuery, AggregationItem, RegexpQuery, RangeQuery} from 'ozone-type'
 
 export type BoolQueryName = 'mustClauses' | 'shouldClauses' | 'mustNotClauses'
+export type BasicOzoneType = string | boolean | number
 
 /**
  * Class helper to create searchQuery.
@@ -64,7 +65,7 @@ export class SearchQuery {
 	get collection(): string | undefined {
 		return this._collection
 	}
-	get searchQuery () {return JSON.stringify(this._searchRequest)}
+	get searchQuery () { return JSON.stringify(this._searchRequest) }
 
 	/**
 	 * searchRequest getter
@@ -173,7 +174,7 @@ export class SearchQuery {
 	 * @param {boolean} ignoreCase
 	 * @return {SearchQuery}
 	 */
-	termQuery(field: string, value: string, ignoreCase: boolean = false): SearchQuery {
+	termQuery(field: string, value: BasicOzoneType, ignoreCase: boolean = false): SearchQuery {
 		return this.addQuery({
 			'$type': 'TermQuery',
 			field: field,
@@ -182,11 +183,20 @@ export class SearchQuery {
 		} as TermQuery)
 	}
 
-	termsQuery(field: string, ...values: Array<string>): SearchQuery {
+	termsQuery(field: string, ...values: Array<BasicOzoneType>): SearchQuery {
 		return this.addQuery({
 			'$type': 'TermsQuery',
 			field,
 			values
+		} as TermsQuery)
+	}
+
+	termsQueryOptions(field: string, values: Array<BasicOzoneType>, options: {ignoreCase?: boolean, exactMatch?: boolean} = {}): SearchQuery {
+		return this.addQuery({
+			'$type': 'TermsQuery',
+			field,
+			values,
+			...options
 		} as TermsQuery)
 	}
 
