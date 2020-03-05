@@ -13,7 +13,6 @@
   "types": "dist/src/ozone-search-helper.d.ts",
   "scripts": {
     "prepublish": "npm run build",
-    "bower": "bower install",
     "build": "../../../node_modules/.bin/tsc",
     "doc": "../../../node_modules/.bin/typedoc --excludeExternals --out  doc/ src/",
     "test": "../../../node_modules/.bin/wct --skip-plugin=local --configFile wct.conf.js",

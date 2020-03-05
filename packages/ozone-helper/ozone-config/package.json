@@ -13,7 +13,6 @@
   "types": "dist/src/index.d.ts",
   "scripts": {
     "prepublish": "npm run tsc",
-    "bower": "",
     "tsc": "../../../node_modules/.bin/tsc",
     "test": "echo $npm_package_name && ../../../node_modules/.bin/wct --skip-plugin=local --configFile wct.conf.js",
     "test:persist": "../../../node_modules/.bin/wct --skip-plugin=headless -p --configFile wct.conf.js",
