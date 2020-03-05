@@ -13,7 +13,7 @@
   },
   "scripts": {
     "prepublish": "npm run tsc",
-    "bower": "",
+    "bower": "bower install",
     "tsc": "../../../node_modules/.bin/tsc",
     "test": "npm run tsc",
     "doc": "../../../node_modules/.bin/typedoc --excludeExternals --out  doc/ src/"

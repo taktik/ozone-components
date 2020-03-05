@@ -1,0 +1,20 @@
+{
+  "name": "ozone-api-item",
+  "description": "Ozone config loader",
+  "main": "dist/ozone-config.js",
+  "authors": [
+    "hj@taktik"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "web-component-tester": "^6.5.0"
+  }
+}
