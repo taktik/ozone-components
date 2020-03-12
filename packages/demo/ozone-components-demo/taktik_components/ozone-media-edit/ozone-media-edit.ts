@@ -6,7 +6,7 @@ import 'polymer/polymer-element.html'
 import './ozone-media-edit.html'
 
 import { customElement, observe, property } from 'taktik-polymer-typescript'
-import { Item, FieldDescriptor, Video } from 'ozone-type'
+import { Item, FieldDescriptor, Video, FromOzone } from 'ozone-type'
 import { OzoneMediaUrl, OzonePreviewSize, SizeEnum } from 'ozone-media-url'
 import { OzoneItemEdit } from 'ozone-item-edit'
 import 'ozone-item-edit'
@@ -75,7 +75,7 @@ export class OzoneMediaEdit extends Polymer.Element {
 				this.playerElement = document.createElement('ozone-video-player') as OzoneVideoPlayer
 				this.playerElement.set('subtitleSelected', 'en')
 				this.$.player.appendChild(this.playerElement)
-				this.playerElement.loadOzoneVideo(data as Video)
+				this.playerElement.loadOzoneVideo(data as FromOzone<Video>)
 
 				this.set('isVideo', true)
 			}

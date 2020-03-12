@@ -9,8 +9,8 @@
     "type": "git",
     "url": "https://github.com/taktik/ozone-components/packages/ozone-logic/ozone-media-url"
   },
-  "main": "dist/ozone-media-url.js",
-  "types": "dist/ozone-media-url.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "prepublish": "npm run tsc",
     "bower": "bower install",
@@ -31,6 +31,7 @@
     "ozone-api-item": "^5.3.2",
     "ozone-api-request": "^5.3.0",
     "ozone-config": "^5.3.0",
-    "ozone-search-helper": "^5.3.2"
+    "ozone-search-helper": "^5.3.2",
+	"ozone-default-client": "^5.3.2"
   }
 }

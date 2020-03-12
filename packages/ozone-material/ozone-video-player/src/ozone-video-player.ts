@@ -6,8 +6,8 @@ import * as Clappr from 'Clappr'
 import * as ClapprMarkersPlugin from 'clappr-markers-plugin'
 import * as ClapprSubtitle from './Clappr-Subtitle'
 import { ClapprMarkerFactory, MarkerOnVideo } from './clappr-marker'
-import { OzoneMediaUrl, OzonePreviewSize, SizeEnum } from 'ozone-media-url'
-import { Video } from 'ozone-type'
+import { OzoneVideoUrl, OzoneMediaUrl, OzonePreviewSize, SizeEnum } from 'ozone-media-url'
+import { Video, FromOzone } from 'ozone-type'
 import { WCMediaControl } from './MediaControl'
 /**
  * `<ozone-video-player>`
@@ -54,7 +54,7 @@ export class OzoneVideoPlayer extends Polymer.Element {
 	 * Ozone video to play
 	 */
 	@property({ type: Object, observer: 'videoChange' })
-	public video?: Video
+	public video?: FromOzone<Video>
 
 	/**
 	 * hide element and pause the player.
@@ -103,6 +103,7 @@ export class OzoneVideoPlayer extends Polymer.Element {
 	}
 
 	private OzoneMediaUrl = OzoneMediaUrl // Exposed for testing purpose
+	private OzoneVideoUrl = OzoneVideoUrl // Exposed for testing purpose
 
 	private _markerFactory?: ClapprMarkerFactory
 	private get markerFactory(): ClapprMarkerFactory {
@@ -169,20 +170,21 @@ export class OzoneVideoPlayer extends Polymer.Element {
 	 * @param {Video} data
 	 * @return {Promise<void>}
 	 */
-	public async loadOzoneVideo(data?: Video) {
+	public async loadOzoneVideo(data?: FromOzone<Video>) {
 		if (data) {
 			this.video = data
 		}
 	}
 
-	private async _loadOzoneVideo(data?: Video) {
+	private async _loadOzoneVideo(data?: FromOzone<Video>) {
 
 		if (data) {
 			this.video = data
 			this._updateSubtitlesAvailable(data)
-			const mediaUrl = new this.OzoneMediaUrl(data.id as string, getDefaultClient().config.ozoneURL)
-			const url = await mediaUrl.getVideoUrl()
-			let previewImage = mediaUrl.getPreviewUrlJpg(OzonePreviewSize.Medium)
+
+			const videoUrl = new this.OzoneVideoUrl(data)
+			const url = await videoUrl.getPreferredVideoUrl()
+			let previewImage = videoUrl.getPreviewUrlJpg(OzonePreviewSize.Medium)
 			if (data.logo) {
 				const previewUrl = new this.OzoneMediaUrl(data.logo, getDefaultClient().config.ozoneURL)
 				previewImage = previewUrl.getPreviewUrlJpg(OzonePreviewSize.Medium)
@@ -243,7 +245,7 @@ export class OzoneVideoPlayer extends Polymer.Element {
 			this.loadVideoUrl(url)
 		}
 	}
-	private videoChange(video?: Video) {
+	private videoChange(video?: FromOzone<Video>) {
 		if (video) {
 			this._loadOzoneVideo(video)
 		}
