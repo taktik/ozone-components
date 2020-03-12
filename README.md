@@ -5,11 +5,12 @@
 Ozone-components is a library of Polymer and JavaScript modules that should facilitate development of web front-end for Ozone.
 Elements are available in JavaScript and typeScript.
 
-Elements are split in 4 categories:
+Elements are split in 5 categories:
 - ozone-api: Provide low level interface to Ozone server.
-- ozone-material: provide paper material design to display specific Ozone content. (Based on Polymer)
+- ozone-material: provide paper material design to display specific Ozone content. (Based on Polymer V2)
 - ozone-helper: provide generic class helper.
-- ozone-logic: provide helper class for Ozone operation.
+- ozone-logic: provide helper class for Ozone operation in side a web browser
+- [ozone-typescript-client](packages/ozone-typescript-client): typescript module that manage connection and communication to ozone v3 API.
 
 
 ## Demo
@@ -20,11 +21,11 @@ See demo application [demo](demo.html).
 
 - ozone-helper:
   - [ozone-type](packages/ozone-helper/ozone-type) Declaration of Ozone type.
-  - [ozone-config](packages/ozone-helper/ozone-config) (DEPRECATED) Expose Ozone API configuration. Configuration is loaded from `./conf.ozone.json`.
+  - [ozone-config](packages/ozone-helper/ozone-config) Expose Ozone API configuration. Configuration is loaded from `./conf.ozone.json`.
   - [ozone-search-helper](packages/ozone-helper/ozone-search-helper) Helper for Ozone search queries.
   - [taktik-polymer-typescript](packages/ozone-helper/taktik-polymer-typescript) Module providing development facilities for Ozone Polymer and TypeScript modules.
   - [ozone-api-request](packages/ozone-helper/ozone-api-request) (DEPRECATED) `OzoneAPIRequest` is a light wrapper over `XMLHttpRequest` to manager AJAX request to Ozone.
-  - [ozone-default-client](packages/ozone-helper/ozone-default-client) default instance of ozone-typescript-client.
+  - [ozone-media-url](packages/ozone-logic/ozone-media-url) Helper to convert Ozone id to media preview.
 
 - ozone-api:
   - [ozone-typescript-client](packages/ozone-typescript-client) is a typescript module that manages connection and communication to ozone.
@@ -32,12 +33,13 @@ See demo application [demo](demo.html).
   - [ozone-api-authentication](packages/ozone-api/ozone-api-authentication) (DEPRECATED) Low level wrapper around Ozone login, logout and authentication API.
   - [ozone-api-upload](packages/ozone-api/ozone-api-upload) `UploadFileRequest` is a JavaScript class that can be use as an `XMLHttpRequest` to upload media using Ozone v2 upload channel.
   - [ozone-api-edit-video](packages/ozone-api/ozone-api-edit-video) ES6 module written in TypeScript to save selected video chunks.
-  - [ozone-api-item](packages/ozone-api/ozone-api-item) Low level ES6 module to Ozone API. It provide CRUD operation and search in a given collection.
-- ozone-logic
+  - [ozone-api-item](packages/ozone-api/ozone-api-item) (DEPRECATED) Low level ES6 module to Ozone API. It provide CRUD operation and search in a given collection.
+- ozone-logic (Browser only)
   - [ozone-collection](packages/ozone-logic/ozone-collection) Generic Polymer `web-component` to manage collection of Ozone items.
   - [ozone-iron-list](packages/ozone-logic/ozone-iron-list) Implementation of an `iron-list` to display an Ozone search result with lazy loading.
-  - [ozone-media-url](packages/ozone-logic/ozone-media-url) Helper to convert Ozone id to media preview.
-- ozone-material
+  - [ozone-default-client](packages/ozone-helper/ozone-default-client) Provide an OzoneClient with current SessionCredentials.
+
+- ozone-material (Browser only)
   - [ozone-video-player](packages/ozone-material/ozone-video-player) WebComponent that play video from Ozone.
   - [ozone-free-text-search](packages/ozone-material/ozone-free-text-search) WebComponent that play video from Ozone.
   - [ozone-upload](packages/ozone-material/ozone-upload) Configurable WebComponent to upload files on Ozone. Based on `vaadin-upload`.

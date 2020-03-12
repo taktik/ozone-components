@@ -2,13 +2,16 @@ import {OzoneAPIRequest} from 'ozone-api-request'
 
 /**
  * Structure that should verify the config.ozone.json file.
+ * @deprecated
  */
 
 export interface ConfigFile {
     ozoneApi: ConfigType
 }
 
-
+/**
+ * @deprecated
+ */
 export interface ConfigType {
     type: string,
     host: string,
@@ -55,6 +58,9 @@ const ozoneAPIRequest = new OzoneAPIRequest();
 ozoneAPIRequest.url = configUrl;
 ozoneAPIRequest.method = 'GET';
 
+/**
+ * @deprecated
+ */
 export class OzoneConfig {
     private static configPromise: Promise<ConfigType> | null = null;
     static get(): Promise<ConfigType> {

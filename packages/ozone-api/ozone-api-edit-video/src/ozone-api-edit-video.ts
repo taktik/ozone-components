@@ -55,7 +55,7 @@ export class OzoneApiEditVideo {
 		if (video.id && this._ozoneMediaUrlCollection.has(video.id)) {
 			return this._ozoneMediaUrlCollection.get(video.id)!
 		} else {
-			const ozoneMediaUrl = new OzoneVideoUrl(video)
+			const ozoneMediaUrl = new OzoneVideoUrl(video, getDefaultClient())
 			this._ozoneMediaUrlCollection.set(video.id, ozoneMediaUrl)
 			return ozoneMediaUrl
 		}
@@ -113,7 +113,7 @@ export class OzoneApiEditVideo {
 
 		if (originalVideo.derivedFiles) {
 			const mediaUrl = await this.mediaUrlFactory(originalVideo)
-			const fileTypeIdentifier = await mediaUrl.getPreferedVideoFormat()
+			const fileTypeIdentifier = await mediaUrl.getPreferredVideoFormat()
 			if (typeof fileTypeIdentifier !== 'string') {
 				throw new Error('No video files found')
 			}
@@ -218,7 +218,7 @@ export class OzoneApiEditVideo {
 		// console.log('OriginalVideoFile', OriginalVideoFile)
 
 		const mediaUrl = await this.mediaUrlFactory(originalVideo)
-		const originaFileTypeIdentifier = await mediaUrl.getPreferedVideoFormat()
+		const originaFileTypeIdentifier = await mediaUrl.getPreferredVideoFormat()
 		if (typeof originaFileTypeIdentifier !== 'string') {
 			throw new Error('No video files found')
 		}

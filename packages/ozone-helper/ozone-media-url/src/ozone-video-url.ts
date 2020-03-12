@@ -3,7 +3,7 @@
  */
 import * as OzoneType from 'ozone-type'
 import { OzoneFormat } from 'ozone-config'
-import { getDefaultClient } from 'ozone-default-client'
+import { OzoneClient } from 'ozone-typescript-client'
 import { OzoneMediaUrl } from './ozone-media-url'
 
 /**
@@ -12,13 +12,16 @@ import { OzoneMediaUrl } from './ozone-media-url'
 export class OzoneVideoUrl extends OzoneMediaUrl {
 
 	video: OzoneType.FromOzone<OzoneType.Video>
-	constructor(video: OzoneType.FromOzone<OzoneType.Video>) {
-		super(video.id, getDefaultClient().config.ozoneURL)
+	private _client: OzoneClient.OzoneClient
+
+	constructor(video: OzoneType.FromOzone<OzoneType.Video>, client: OzoneClient.OzoneClient) {
+		super(video.id, client.config.ozoneURL)
 		this.video = video
+		this._client = client
 	}
 
 	private async _getVideoFileType(): Promise<Array<OzoneType.FileType>> {
-		const fileTypeCache = await getDefaultClient().fileTypeClient().getFileTypeCache()
+		const fileTypeCache = await this._client.fileTypeClient().getFileTypeCache()
 		const videoFormat = OzoneFormat.priority.video.map(key => OzoneFormat.type[key])
 		return fileTypeCache.fileTypes.filter(ft => videoFormat.includes(ft.identifier))
 	}
@@ -35,7 +38,7 @@ export class OzoneVideoUrl extends OzoneMediaUrl {
 		if (video.file) avaliableRessourceId.push(video.file)
 		if (video.derivedFiles) avaliableRessourceId = avaliableRessourceId.concat(video.derivedFiles)
 
-		const fileApi = getDefaultClient().itemClient<OzoneType.File>('file')
+		const fileApi = this._client.itemClient<OzoneType.File>('file')
 		const avaliableRessource = await fileApi.findAllByIds(avaliableRessourceId)
 
 		const videoFileTypes = await this._getVideoFileType()
