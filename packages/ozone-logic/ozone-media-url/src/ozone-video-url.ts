@@ -1,5 +1,5 @@
 /**
- * Created by hubert on 21/06/17.
+ * Created by hubert on 13/03/20.
  */
 import * as OzoneType from 'ozone-type'
 import { OzoneFormat } from 'ozone-config'
@@ -31,12 +31,12 @@ export class OzoneVideoUrl extends OzoneMediaUrl {
 		}
 
 		const video = this.video
-		let avaliableRessourceId = []
-		if (video.file) avaliableRessourceId.push(video.file)
-		if (video.derivedFiles) avaliableRessourceId = avaliableRessourceId.concat(video.derivedFiles)
+		const availableResourceIds = []
+		if (video.file) availableResourceIds.push(video.file)
+		if (video.derivedFiles) availableResourceIds.push(...video.derivedFiles)
 
 		const fileApi = getDefaultClient().itemClient<OzoneType.File>('file')
-		const avaliableRessource = await fileApi.findAllByIds(avaliableRessourceId)
+		const avaliableRessource = await fileApi.findAllByIds(availableResourceIds)
 
 		const videoFileTypes = await this._getVideoFileType()
 

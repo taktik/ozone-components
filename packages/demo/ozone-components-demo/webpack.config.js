@@ -131,7 +131,7 @@ module.exports = {
         compress: true,
         overlay: true,
         port: 9000,
-		https: true,
+        https: true,
         setup: setupServerMockup,
     }
 };
