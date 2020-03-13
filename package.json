@@ -37,7 +37,6 @@
 		"copy-webpack-plugin": "4.6.0",
 		"css-loader": "0.28.11",
 		"file-loader": "1.1.11",
-		"generator-polymer-typescript": "0.2.3",
 		"gulp": "3.9.1",
 		"gulp-clean": " 0.4.0",
 		"gulp-typescript": "5.0.1",

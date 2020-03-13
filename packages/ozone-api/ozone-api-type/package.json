@@ -16,8 +16,8 @@
     "url": "https://github.com/taktik/ozone-components/packages/ozone-api/ozone-api-type"
   },
   "scripts": {
-	"prepublish": "npm run build",
-	"build": "npm run tslint && npm run compile",
+	"prepublish": "npm run compile",
+	"build": "npm run compile",
 	"compile": "../../../node_modules/.bin/tsc",
 	"doc": "../../../node_modules/.bin/typedoc --excludeExternals --out  doc/ src/"
   },

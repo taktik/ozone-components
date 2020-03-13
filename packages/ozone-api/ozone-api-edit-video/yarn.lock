@@ -6,15 +6,3 @@ hls-parser@0.1.8:
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/hls-parser/-/hls-parser-0.1.8.tgz#19cc841bd4ed22cb0290eec1ddea8234e843168c"
   integrity sha512-29HX6ce+2kZGQkotVAexfOToQLagRHw+STyJ0w0w5HBueUhKbUBkywyfSVut5SCbwt2+IiC6DFkuSwMg2Dr8HQ==
-
-log4javascript@^1.4.15:
-  version "1.4.15"
-  resolved "https://registry.yarnpkg.com/log4javascript/-/log4javascript-1.4.15.tgz#85ac62e946b024c6b256216084e10601d5630604"
-  integrity sha1-haxi6UawJMayViFghOEGAdVjBgQ=
-
-typescript-http-client@^0.10.1:
-  version "0.10.1"
-  resolved "https://registry.yarnpkg.com/typescript-http-client/-/typescript-http-client-0.10.1.tgz#a21283ba23f183e2d7f03143fc15845aef40ccea"
-  integrity sha512-lbmJ2VBcDBbHPmLXuhMiJatoIg+n66dzyqHUOd4GPJhwvPysTqF+QCCy+TMWtIKb7IQrKfWaKRQQ276fLFM8fg==
-  dependencies:
-    log4javascript "^1.4.15"
