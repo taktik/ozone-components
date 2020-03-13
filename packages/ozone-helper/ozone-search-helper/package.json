@@ -9,17 +9,16 @@
     "type": "git",
     "url": "https://github.com/taktik/ozone-components/packages/ozone-helper/ozone-search-helper"
   },
-  "main": "dist/src/ozone-search-helper.js",
-  "types": "dist/src/ozone-search-helper.d.ts",
+  "main": "dist/ozone-search-helper.js",
+  "types": "dist/ozone-search-helper.d.ts",
   "scripts": {
-    "prepublish": "npm run build",
-    "bower": "bower install",
-    "build": "../../../node_modules/.bin/tsc",
-    "doc": "../../../node_modules/.bin/typedoc --excludeExternals --out  doc/ src/",
-    "test": "../../../node_modules/.bin/wct --skip-plugin=local --configFile wct.conf.js",
-    "test:persist": "../../../node_modules/.bin/wct --skip-plugin=headless -p --configFile wct.conf.js",
-    "build:test:watch": "../../../node_modules/.bin/webpack --config webpack.test.js --watch",
-    "pretest": "../../../node_modules/.bin/webpack --config webpack.test.js"
+	"prepublish": "npm run build",
+	"build": "npm run tslint && npm run compile",
+	"compile": "../../../node_modules/.bin/tsc",
+	"tslint": "../../../node_modules/.bin/tslint  --project tsconfig.json",
+	"test:debug": "../../../node_modules/.bin/karma start",
+	"test": "../../../node_modules/.bin/karma start  --single-run",
+	"doc": "../../../node_modules/.bin/typedoc --excludeExternals --out  doc/ src/"
   },
   "author": "hj@taktik",
   "license": "ISC",
