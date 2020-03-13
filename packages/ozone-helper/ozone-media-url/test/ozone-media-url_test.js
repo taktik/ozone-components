@@ -51,10 +51,8 @@ describe('tool OzoneMediaUrl', function () {
 
             const element = new OzoneMediaUrl('00000000-046c-7fc4-0000-000000006028', config);
             element._getVideoFileType = sinon.stub().withArgs().returns([{id:'fileType', identifier:'org.taktik.filetype.flowr.video'}]);
-            element.getVideoUrl().then((url)=>{
-                expect(url).to.equal('/ozone/view/24616/org.taktik.filetype.flowr.video/index.m3u8');
-                done();
-            });
+            element.getVideoUrl().to.equal('/ozone/view/24616/org.taktik.filetype.flowr.video/index.m3u8');
+            done();
         });
     });
     describe('getVideoUrlMp4', function () {
