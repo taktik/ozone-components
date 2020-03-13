@@ -21,7 +21,6 @@
 				"named": "never",
 				"asyncArrow": "always"
 			}
-		],
-		"deprecation" : false
+		]
 	}
 }

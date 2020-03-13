@@ -243,5 +243,6 @@ function OzoneApiTypeGenerator(){
 /**
  * return OzoneApiType singleton
  * @type {()=>OzoneApiItem}
+ * @deprecated
  */
 export const getOzoneApiType = OzoneApiTypeGenerator();

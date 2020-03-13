@@ -2,7 +2,7 @@ import {OzoneAPIRequest} from 'ozone-api-request'
 
 /**
  * Structure that should verify the config.ozone.json file.
- * @deprecated
+ * deprecated
  */
 
 export interface ConfigFile {
@@ -10,7 +10,7 @@ export interface ConfigFile {
 }
 
 /**
- * @deprecated
+ * deprecated
  */
 export interface ConfigType {
     type: string,
@@ -59,7 +59,7 @@ ozoneAPIRequest.url = configUrl;
 ozoneAPIRequest.method = 'GET';
 
 /**
- * @deprecated
+ * deprecated
  */
 export class OzoneConfig {
     private static configPromise: Promise<ConfigType> | null = null;

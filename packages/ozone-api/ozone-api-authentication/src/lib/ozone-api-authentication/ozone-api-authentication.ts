@@ -5,7 +5,7 @@ import * as Config from 'ozone-config'
  * OzoneApiAuthentication class to manage Authentication API
  * Low level wrapper around ozone login, logout and authentication api
  * It use OzoneAPIRequest to perform ajax request. Report to OzoneAPIRequest documentation for fire events.
- * @deprecated
+ * --deprecated--
  * ### Usage
  *
  * ```javascript

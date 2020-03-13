@@ -19,7 +19,7 @@ export type OzoneAPIRequestOption = {
  *
  * * *ozone-api-request-unauthorized* Fired when server return 403 unauthorized.
  * Event detail contains the XMLHttpRequest.
- * @deprecated
+ * deprecated
  *
  * ### Usage
  *
