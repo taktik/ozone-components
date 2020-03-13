@@ -53,7 +53,7 @@ export class OzoneApiEditVideo {
 
 	private async mediaUrlFactory(video: OzoneType.FromOzone<OzoneType.Video>): Promise<OzoneVideoUrl> {
 		if (video.id && this._ozoneMediaUrlCollection.has(video.id)) {
-			return this._ozoneMediaUrlCollection.get(video.id)!
+			return this._ozoneMediaUrlCollection.get(video.id)
 		} else {
 			const ozoneMediaUrl = new OzoneVideoUrl(video, getDefaultClient())
 			this._ozoneMediaUrlCollection.set(video.id, ozoneMediaUrl)
