@@ -3,7 +3,7 @@ import 'polymer/polymer-element.html'
 
 import './ozone-collection.html'
 
-import { customElement, property, observe, jsElement } from 'taktik-polymer-typescript'
+import { customElement, property, observe } from 'taktik-polymer-typescript'
 import { Item, FromOzone } from 'ozone-type'
 import { SearchGenerator, OzoneApiItem, lockRequest, StatefulOzone } from 'ozone-api-item'
 import { SearchQuery } from 'ozone-search-helper'

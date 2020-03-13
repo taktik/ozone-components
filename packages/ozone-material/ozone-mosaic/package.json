@@ -6,7 +6,7 @@
 	"types": "dist/index.d.ts",
 	"scripts": {
 		"bower": "bower install",
-		"build": "gulp clean && gulp build",
+		"build": "gulp build",
 		"clean": "gulp clean",
 		"prepublish": "npm run build",
 		"start": "../../../node_modules/.bin/webpack --config webpack.config.js",

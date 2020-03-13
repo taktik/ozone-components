@@ -8,7 +8,7 @@
 	"scripts": {
 		"test": "npm run tslint",
 		"bower": "bower install",
-		"build": "gulp clean && gulp build",
+		"build": "gulp build",
 		"clean": "gulp clean",
 		"prepublish": "npm run build",
 		"tslint": "../../../node_modules/.bin/tslint  --project tsconfig.json",

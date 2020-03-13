@@ -5,7 +5,7 @@ const gulp = require ('gulp');
 const clean = require('gulp-clean');
 const ts = require('gulp-typescript');
 const merge = require('merge2');
-
+const fs = require("fs");
 
 /**
  * gulp ts
@@ -36,18 +36,21 @@ gulp.task('copy', function() {
 });
 
 /**
- * gulp build
- * Generate a npm ready package in dist directory
- **/
-gulp.task('build', ['ts', 'copy']);
-
-/**
  * gulp clean
  * Clean build directory
  */
-gulp.task('clean', function() {
-    return gulp.src(['./dist'] )
-        .pipe(clean());
+gulp.task('clean', function(done) {
+	if (fs.existsSync('./dist')){
+		return gulp.src(['./dist'] )
+			.pipe(clean({allowEmpty : true}));
+	}
+	done()
 });
 
-gulp.task('default', ['build']);
+/**
+ * gulp build
+ * Generate a npm ready package in dist directory
+ **/
+gulp.task('build', gulp.series('clean', 'ts', 'copy'));
+
+gulp.task('default', gulp.series('build'));

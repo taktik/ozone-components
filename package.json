@@ -37,8 +37,7 @@
 		"copy-webpack-plugin": "4.6.0",
 		"css-loader": "0.28.11",
 		"file-loader": "1.1.11",
-		"gulp": "3.9.1",
-		"gulp-clean": " 0.4.0",
+		"gulp": "4.0.2",
 		"gulp-typescript": "5.0.1",
 		"html-includer-webpack-plugin": "1.0.0-beta2",
 		"html-webpack-plugin": "3.2.0",
@@ -77,6 +76,7 @@
 	},
 	"dependencies": {
 		"clappr-markers-plugin": "https://github.com/hubjac1/clappr-markers-plugin.git",
+		"gulp-clean": "^0.4.0",
 		"helpful-decorators": "2.0.6",
 		"typescript-http-client": "0.10.1",
 		"typescript-state-machine": "0.9.4"
