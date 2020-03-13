@@ -96,6 +96,9 @@ export class OzoneMediaUrl {
 	 * @return {string}
 	 */
 	getVideoUrlMp4(): string {
-		return this.getVideoUrl(FlowrVideoEnum.mp4)
+		const format = FlowrVideoEnum.mp4
+		return this
+			._buildViewUrl([this.getNumericId(),
+				format])
 	}
 }
