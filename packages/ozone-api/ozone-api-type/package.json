@@ -1,6 +1,7 @@
 {
   "name": "ozone-api-type",
   "version": "5.3.0",
+	"private": true,
   "publishConfig": {
     "access": "public"
   },
@@ -15,15 +16,10 @@
     "url": "https://github.com/taktik/ozone-components/packages/ozone-api/ozone-api-type"
   },
   "scripts": {
-    "prepublish": "npm run tsc",
-    "bower": "bower install",
-    "tsc": "../../../node_modules/.bin/tsc",
-    "test": "../../../node_modules/.bin/wct --skip-plugin=local --configFile wct.conf.js",
-    "test:persist": "../../../node_modules/.bin/wct --skip-plugin=headless -p --configFile wct.conf.js",
-    "build:watch": "../../../node_modules/.bin/webpack --config webpack.test.js --watch",
-    "build": "../../../node_modules/.bin/webpack --config webpack.test.js",
-    "pretest": "npm run build",
-    "doc": "../../../node_modules/.bin/typedoc --excludeExternals --out  doc/ src/"
+	"prepublish": "npm run build",
+	"build": "npm run tslint && npm run compile",
+	"compile": "../../../node_modules/.bin/tsc",
+	"doc": "../../../node_modules/.bin/typedoc --excludeExternals --out  doc/ src/"
   },
   "keywords": [],
   "author": "",

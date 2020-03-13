@@ -120,7 +120,7 @@ export class OzoneApiEditVideo {
 			const fileType = await this.getFileType(fileTypeIdentifier)
 
 			const query = new SearchQuery()
-			query.termQuery('fileType', fileType.id as string)
+			query.termQuery('fileType', fileType.id)
 				.and.idsQuery(originalVideo.derivedFiles)
 
 			const fileItemClient = getDefaultClient().itemClient<OzoneType.File>('file')
@@ -168,7 +168,7 @@ export class OzoneApiEditVideo {
 			const newFolder: Partial<OzoneType.File> = {
 				type: 'file',
 				uti: 'public.folder',
-				fileType: originalFileType.id as string,
+				fileType: originalFileType.id,
 				subFiles: newSubFile
 
 			}
@@ -183,8 +183,8 @@ export class OzoneApiEditVideo {
 		newFolder: OzoneType.File
 	): Promise<OzoneType.Video> {
 
-		const newVideo: Partial<OzoneType.Video> = JSON.parse(JSON.stringify(originalVideo)) as OzoneType.Video // deep copy
-		const now = (new Date()).toISOString() as OzoneType.Date
+		const newVideo: Partial<OzoneType.Video> = JSON.parse(JSON.stringify(originalVideo)) // deep copy
+		const now = (new Date()).toISOString()
 
 		delete newVideo.id
 		delete newVideo.derivedFiles

@@ -12,10 +12,11 @@
     "url": "https://github.com/taktik/ozone-components/packages/ozone-api/ozone-api-item"
   },
   "scripts": {
-    "prepublish": "npm run tsc",
-    "bower": "bower install",
-    "tsc": "../../../node_modules/.bin/tsc",
-    "test": "npm run tsc",
+    "prepublish": "npm run build",
+	"build": "npm run tslint && npm run compile",
+	"tslint": "../../../node_modules/.bin/tslint  --project tsconfig.json",
+    "compile": "../../../node_modules/.bin/tsc",
+    "test": "npm run build",
     "doc": "../../../node_modules/.bin/typedoc --excludeExternals --out  doc/ src/"
   },
   "keywords": [],
