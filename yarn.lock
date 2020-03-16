@@ -1650,12 +1650,12 @@
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.2.10.tgz#1122da40faabb81795580dc9f06c1e71e2ebbbe4"
   integrity sha512-TlWWgb21+0LdkuFqEqfmy7NEgfB/7Jjux15fWQAh3P93gbmXuwTM/vxEdzW89APIcI2BgKR48yjeAkdeH+4qvQ==
 
-"@types/chai@4.2.5":
-  version "4.2.5"
-  resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.2.5.tgz#f8da153ebbe30babb0adc9a528b9ad32be3175a2"
-  integrity sha512-YvbLiIc0DbbhiANrfVObdkLEHJksQZVq0Uvfg550SRAKVYaEJy+V70j65BVe2WNp6E3HtKsUczeijHFCjba3og==
+"@types/chalk@0.4.28":
+  version "0.4.28"
+  resolved "https://registry.yarnpkg.com/@types/chalk/-/chalk-0.4.28.tgz#9d1e634fa1d18393e2068a8bc07843d22b1ed6a1"
+  integrity sha1-nR5jT6HRg5PiBoqLwHhD0ise1qE=
 
-"@types/chalk@^0.4.28", "@types/chalk@^0.4.30":
+"@types/chalk@^0.4.30":
   version "0.4.31"
   resolved "https://registry.yarnpkg.com/@types/chalk/-/chalk-0.4.31.tgz#a31d74241a6b1edbb973cf36d97a2896834a51f9"
   integrity sha1-ox10JBprHtu5c8822XooloNKUfk=
@@ -1751,6 +1751,13 @@
     "@types/node" "*"
     "@types/range-parser" "*"
 
+"@types/express-serve-static-core@4.0.*":
+  version "4.0.57"
+  resolved "https://registry.yarnpkg.com/@types/express-serve-static-core/-/express-serve-static-core-4.0.57.tgz#3cd8ab4b11d5ecd70393bada7fc1c480491537dd"
+  integrity sha512-QLAHjdLwEICm3thVbXSKRoisjfgMVI4xJH/HU8F385BR2HI7PmM6ax4ELXf8Du6sLmSpySXMYaI+xc//oQ/IFw==
+  dependencies:
+    "@types/node" "*"
+
 "@types/express@*", "@types/express@^4.0.30", "@types/express@^4.0.33", "@types/express@^4.0.36":
   version "4.17.3"
   resolved "https://registry.yarnpkg.com/@types/express/-/express-4.17.3.tgz#38e4458ce2067873b09a73908df488870c303bd9"
@@ -1759,6 +1766,19 @@
     "@types/body-parser" "*"
     "@types/express-serve-static-core" "*"
     "@types/serve-static" "*"
+
+"@types/express@4.0.30":
+  version "4.0.30"
+  resolved "https://registry.yarnpkg.com/@types/express/-/express-4.0.30.tgz#09014ceae4e738a55ffad6884d7bcb8bf14c6713"
+  integrity sha1-CQFM6uTnOKVf+taITXvLi/FMZxM=
+  dependencies:
+    "@types/express-serve-static-core" "4.0.*"
+    "@types/serve-static" "1.7.*"
+
+"@types/freeport@1.0.19":
+  version "1.0.19"
+  resolved "https://registry.yarnpkg.com/@types/freeport/-/freeport-1.0.19.tgz#abeb890980d4af7116fe104ad739670c2ad4d6e3"
+  integrity sha1-q+uJCYDUr3EW/hBK1zlnDCrU1uM=
 
 "@types/freeport@^1.0.19":
   version "1.0.21"
@@ -1804,7 +1824,7 @@
   resolved "https://registry.yarnpkg.com/@types/is-windows/-/is-windows-0.2.0.tgz#6f24ee48731d31168ea510610d6dd15e5fc9c6ff"
   integrity sha1-byTuSHMdMRaOpRBhDW3RXl/Jxv8=
 
-"@types/launchpad@^0.6.0":
+"@types/launchpad@0.6.0", "@types/launchpad@^0.6.0":
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/@types/launchpad/-/launchpad-0.6.0.tgz#37296109b7f277f6e6c5fd7e0c0706bc918fbb51"
   integrity sha1-NylhCbfyd/bmxf1+DAcGvJGPu1E=
@@ -1854,12 +1874,17 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-13.9.1.tgz#96f606f8cd67fb018847d9b61e93997dabdefc72"
   integrity sha512-E6M6N0blf/jiZx8Q3nb0vNaswQeEyn0XlupO+xN6DtJ6r6IT4nXrTry7zhIfYvFCl3/8Cu6WIysmUBKiqV0bqQ==
 
+"@types/node@6.0.31":
+  version "6.0.31"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-6.0.31.tgz#7d769d232b98fb2477fe610dcac1e8475c9820a3"
+  integrity sha1-fXadIyuY+yR3/mENysHoR1yYIKM=
+
 "@types/node@^4.0.30", "@types/node@^4.2.3":
   version "4.9.4"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-4.9.4.tgz#75ef91733afaa856b01e12da6ecf48aa9d5e221f"
   integrity sha512-nKoiCZ87x6+fs26bNHjy07AQt6f46nFEitGH0P9JmWbY6tEyum6LLfLf7SIsKFh4DnBWsyUM2gYhaQAt+aA0Sw==
 
-"@types/node@^6.0.0", "@types/node@^6.0.31", "@types/node@^6.0.77":
+"@types/node@^6.0.0", "@types/node@^6.0.77":
   version "6.14.9"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-6.14.9.tgz#733583e21ef0eab85a9737dfafbaa66345a92ef0"
   integrity sha512-leP/gxHunuazPdZaCvsCefPQxinqUDsCxCR5xaDUrY2MkYxQRFZZwU5e7GojyYsGB7QVtCi7iVEl/hoFXQYc+w==
@@ -1937,6 +1962,14 @@
     "@types/express-serve-static-core" "*"
     "@types/mime" "*"
 
+"@types/serve-static@1.7.*":
+  version "1.7.32"
+  resolved "https://registry.yarnpkg.com/@types/serve-static/-/serve-static-1.7.32.tgz#0f6732e4dab0813771dd8fc8fe14940f34728b4c"
+  integrity sha512-WpI0g7M1FiOmJ/a97Qrjafq2I938tjAZ3hZr9O7sXyA6oUhH3bqUNZIt7r1KZg8TQAKxcvxt6JjQ5XuLfIBFvg==
+  dependencies:
+    "@types/express-serve-static-core" "*"
+    "@types/mime" "*"
+
 "@types/sinon@7.5.1":
   version "7.5.1"
   resolved "https://registry.yarnpkg.com/@types/sinon/-/sinon-7.5.1.tgz#d27b81af0d1cfe1f9b24eebe7a24f74ae40f5b7c"
@@ -2004,7 +2037,12 @@
   dependencies:
     "@types/node" "*"
 
-"@types/which@^1.0.27", "@types/which@^1.3.1":
+"@types/which@1.0.27":
+  version "1.0.27"
+  resolved "https://registry.yarnpkg.com/@types/which/-/which-1.0.27.tgz#602e5f20ddf2ebd104ba891f84594ef5afc670f1"
+  integrity sha1-YC5fIN3y69EEuokfhFlO9a/GcPE=
+
+"@types/which@^1.3.1":
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/@types/which/-/which-1.3.2.tgz#9c246fc0c93ded311c8512df2891fb41f6227fdf"
   integrity sha512-8oDqyLC7eD4HM307boe2QWKyuzdzWBj56xI/imSl2cpL+U3tCMaTAkMJ4ee5JBZ/FsOJlvRGeIShiZDAl1qERA==
@@ -10245,7 +10283,7 @@ node-sass@4.13.0:
     stdout-stream "^1.4.0"
     "true-case-path" "^1.0.2"
 
-nodegit-promise@~4.0.0:
+nodegit-promise@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/nodegit-promise/-/nodegit-promise-4.0.0.tgz#5722b184f2df7327161064a791d2e842c9167b34"
   integrity sha1-VyKxhPLfcycWEGSnkdLoQskWezQ=
@@ -11883,13 +11921,13 @@ promise-retry@^1.1.1:
     err-code "^1.0.0"
     retry "^0.10.0"
 
-promisify-node@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/promisify-node/-/promisify-node-0.4.0.tgz#32803874ec411784e4786c339902a87a179a469c"
-  integrity sha1-MoA4dOxBF4TkeGwzmQKoeheaRpw=
+promisify-node@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/promisify-node/-/promisify-node-0.5.0.tgz#b7115a9d5cd241e939c96e260acda24938d25720"
+  integrity sha512-GR2E4qgCoKFTprhULqP2OP3bl8kHo16XtnqtkHH6be7tPW1yL6rXd15nl3oV2sLTFv1+j6tqoF69VVpFtJ/j+A==
   dependencies:
-    nodegit-promise "~4.0.0"
-    object-assign "^4.0.1"
+    nodegit-promise "^4.0.0"
+    object-assign "^4.1.1"
 
 promzard@^0.3.0:
   version "0.3.0"
@@ -15019,22 +15057,21 @@ wbuf@^1.1.0, wbuf@^1.7.2, wbuf@^1.7.3:
   dependencies:
     minimalistic-assert "^1.0.0"
 
-wct-headless@2.2.2:
+"wct-headless@https://github.com/hubjac1/wct-headless.git#build":
   version "2.2.2"
-  resolved "https://registry.yarnpkg.com/wct-headless/-/wct-headless-2.2.2.tgz#13626f0fda0dcc79d071760e287d97ac46a1ce9b"
-  integrity sha512-amfeJ/wd2TpfLdw1k/DgJ0trzAFWzNVimMGChl4q4C3X/dqef24UqwXgvpSNkOqh6WndA3VWq1ixpRcSj/Y5JQ==
+  resolved "https://github.com/hubjac1/wct-headless.git#b50f3564314eb3b69d92fa051cda40b422ccf6fd"
   dependencies:
-    "@types/chalk" "^0.4.28"
-    "@types/express" "^4.0.30"
-    "@types/freeport" "^1.0.19"
-    "@types/launchpad" "^0.6.0"
-    "@types/node" "^6.0.31"
-    "@types/which" "^1.0.27"
+    "@types/chalk" "0.4.28"
+    "@types/express" "4.0.30"
+    "@types/freeport" "1.0.19"
+    "@types/launchpad" "0.6.0"
+    "@types/node" "6.0.31"
+    "@types/which" "1.0.27"
     chalk "^1.1.1"
     cleankill "^2.0.0"
     freeport "^1.0.4"
     launchpad "^0.6.0"
-    promisify-node "^0.4.0"
+    promisify-node "^0.5.0"
     selenium-standalone "^6.7.0"
     which "^1.0.8"
 
@@ -15091,6 +15128,19 @@ wcwidth@^1.0.0:
   integrity sha1-8LDc+RW8X/FSivrbLA4XtTLaL+g=
   dependencies:
     defaults "^1.0.3"
+
+wd@1.11.4:
+  version "1.11.4"
+  resolved "https://registry.yarnpkg.com/wd/-/wd-1.11.4.tgz#911fa3025d29688212e4abc07452039918468b1f"
+  integrity sha512-FHL+ofdCoU2FGvDFser8rXI4GFwwcyAaUuvddtdctig2X0zVVT6p7FAXf7nS0z7wTwXtEuZXX7MrnVTvFPqJTQ==
+  dependencies:
+    archiver "^3.0.0"
+    async "^2.0.0"
+    lodash "^4.0.0"
+    mkdirp "^0.5.1"
+    q "^1.5.1"
+    request "2.88.0"
+    vargs "^0.1.0"
 
 wd@^1.2.0:
   version "1.12.1"

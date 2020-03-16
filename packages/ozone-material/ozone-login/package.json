@@ -21,6 +21,7 @@
 		"ozone-default-client": "^5.3.2",
 		"ozone-type": "^5.3.0",
 		"ozone-typescript-client": "^5.3.2",
-		"taktik-polymer-typescript": "^5.3.0"
+		"taktik-polymer-typescript": "^5.3.0",
+		"ozone-api-request": "^5.3.0"
 	}
 }

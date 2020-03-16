@@ -17,7 +17,6 @@
 	},
 	"devDependencies": {
 		"@babel/preset-env": "7.7.4",
-		"@types/chai": "4.2.5",
 		"@types/core-js": "2.5.2",
 		"@types/lodash": "4.14.149",
 		"@types/mocha": "2.2.48",
@@ -67,8 +66,8 @@
 		"typescript": "3.7.2",
 		"typescript-eslint-parser": "22.0.0",
 		"url-loader": "1.1.2",
-		"wct-headless": "2.2.2",
 		"wct-istanbul": "0.12.4",
+		"wd": "1.11.4",
 		"web-component-tester": "6.9.2",
 		"webpack": "4.41.2",
 		"webpack-cli": "3.3.10",
@@ -79,6 +78,7 @@
 		"gulp-clean": "^0.4.0",
 		"helpful-decorators": "2.0.6",
 		"typescript-http-client": "0.10.1",
-		"typescript-state-machine": "0.9.4"
+		"typescript-state-machine": "0.9.4",
+		"wct-headless": "https://github.com/hubjac1/wct-headless.git#build"
 	}
 }
