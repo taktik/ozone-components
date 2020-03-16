@@ -15129,20 +15129,7 @@ wcwidth@^1.0.0:
   dependencies:
     defaults "^1.0.3"
 
-wd@1.11.4:
-  version "1.11.4"
-  resolved "https://registry.yarnpkg.com/wd/-/wd-1.11.4.tgz#911fa3025d29688212e4abc07452039918468b1f"
-  integrity sha512-FHL+ofdCoU2FGvDFser8rXI4GFwwcyAaUuvddtdctig2X0zVVT6p7FAXf7nS0z7wTwXtEuZXX7MrnVTvFPqJTQ==
-  dependencies:
-    archiver "^3.0.0"
-    async "^2.0.0"
-    lodash "^4.0.0"
-    mkdirp "^0.5.1"
-    q "^1.5.1"
-    request "2.88.0"
-    vargs "^0.1.0"
-
-wd@^1.2.0:
+wd@1.12.1, wd@^1.2.0:
   version "1.12.1"
   resolved "https://registry.yarnpkg.com/wd/-/wd-1.12.1.tgz#067eb3674db00eeb9e506701f9314657c44d5a89"
   integrity sha512-O99X8OnOgkqfmsPyLIRzG9LmZ+rjmdGFBCyhGpnsSL4MB4xzHoeWmSVcumDiQ5QqPZcwGkszTgeJvjk2VjtiNw==

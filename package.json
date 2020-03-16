@@ -67,7 +67,7 @@
 		"typescript-eslint-parser": "22.0.0",
 		"url-loader": "1.1.2",
 		"wct-istanbul": "0.12.4",
-		"wd": "1.11.4",
+		"wd": "1.12.1",
 		"web-component-tester": "6.9.2",
 		"webpack": "4.41.2",
 		"webpack-cli": "3.3.10",
