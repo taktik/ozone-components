@@ -13,7 +13,7 @@ export class OzonePreviewSize {
 }
 
 /**
- * JavaScript class to convert media ID to URL
+ * class to convert media ID to URL
  */
 export class OzoneMediaUrl {
 

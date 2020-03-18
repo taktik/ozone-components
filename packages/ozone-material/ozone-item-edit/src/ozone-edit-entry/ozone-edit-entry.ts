@@ -1,13 +1,12 @@
 
+import 'polymer/polymer-element.html'
+import 'paper-input/paper-input.html'
+import './ozone-edit-entry.html'
 
-import "polymer/polymer-element.html";
-import "paper-input/paper-input.html";
-import "./ozone-edit-entry.html";
+import { customElement, property, observe } from 'taktik-polymer-typescript'
+import { LocalizedString } from 'ozone-type'
 
-import {customElement, property, observe} from 'taktik-polymer-typescript'
-import {LocalizedString} from 'ozone-type'
-
-export interface PaperInputBehavior extends PolymerElement{
+export interface PaperInputBehavior extends PolymerElement {
 
 }
 /**
@@ -25,112 +24,122 @@ export interface PaperInputBehavior extends PolymerElement{
 @customElement('ozone-edit-entry')
 export class OzoneEditEntry extends Polymer.Element {
 
-    /**
-     * ozone type of the entry
-     */
-    @property({
-        type: String,
-    })
-    type?: string;
+	/**
+	 * ozone type of the entry
+	 */
+	@property({
+		type: String
+	})
+	type?: string
 
-    /**
-     * value of the field
-     * @notify
-     */
-    @property({
-        type: Object,
-        notify: true
-    })
-    value: any;
+	/**
+	 * value of the field
+	 * @notify
+	 */
+	@property({
+		type: Object,
+		notify: true
+	})
+	value: any
 
-    /**
-     * name of the field
-     */
-    @property()
-    name?: LocalizedString;
+	/**
+	 * name of the field
+	 */
+	@property()
+	name?: LocalizedString
 
-    /**
-     * computed label of the field
-     * @readonly
-     */
-    @property({
-        type: String,
-        computed: "toLabel(name, language)"
-    })
-    label?: string;
+	/**
+	 * computed label of the field
+	 * @readonly
+	 */
+	@property({
+		type: String,
+		computed: 'toLabel(name, language)'
+	})
+	label?: string
 
-    /**
-     * language to use in LocalizedName
-     */
-    @property({
-        type: String,
-    })
-    language?: string;
+	/**
+	 * language to use in LocalizedName
+	 */
+	@property({
+		type: String
+	})
+	language?: string
 
+	/**
+	 * Set to true to disable this input.
+	 * @value false
+	 */
+	@property({
+		type: Boolean
+	})
+	disabled: boolean = false
 
-    /**
-     * Set to true to disable this input.
-     * @value false
-     */
-    @property({
-        type: Boolean
-    })
-    disabled: boolean = false;
+	/**
+	 * if the value is modify, is value will change to true.
+	 * @value false
+	 * @notify
+	 */
+	@property({
+		type: Boolean,
+		notify: true
+	})
+	isModify: boolean = false
 
-    /**
-     * if the value is modify, is value will change to true.
-     * @value false
-     * @notify
-     */
-    @property({
-        type: Boolean,
-        notify: true
-    })
-    isModify:boolean = false;
+	/**
+	 * Returns true if the value is invalid.
+	 */
+	@property({
+		type: Boolean,
+		notify: true
+	})
+	invalid: boolean = false
 
-    /**
-     * Returns true if the value is invalid.
-     */
-    @property({
-        type: Boolean,
-        notify: true
-    })
-    invalid:boolean = false;
+	$: {
+		input: PolymerElement
+	} | any
 
-    $: {
-        input: PolymerElement
-    }| any;
+	/**
+	 * @private
+	 */
+	toLabel(name: LocalizedString, language: string) {
+		if (name && name.strings && language) return name.strings[language]
+	}
 
-    toLabel(name: LocalizedString, language: string){
-        if(name && name.strings && language) return name.strings[language];
-    }
+	/**
+	 * Returns a reference to the input element.
+	 */
+	get inputElement() {
+		return this.$.input
+	}
 
-    /**
-     * Returns a reference to the input element.
-     */
-    get inputElement() {
-        return this.$.input;
-    }
+	connectedCallback () {
+		super.connectedCallback()
+		setTimeout(() => { this.registerChangeListener() }, 0)
+	}
 
-    connectedCallback (){
-        super.connectedCallback ();
-        setTimeout(()=>{this.registerChangeListener()}, 0)
-    }
+	/**
+	 * @private
+	 */
+	registerChangeListener () {
+		this.inputElement.addEventListener('value-changed', (event: Event) => {
+			this.changeListenerCallback(event)
+		})
+	}
 
-    registerChangeListener (){
-        this.inputElement.addEventListener('value-changed', (event: Event) => {
-            this.changeListenerCallback(event)
-        })
-    }
+	/**
+	 * @private
+	 */
+	changeListenerCallback(event: Event) {
+		this.set('isModify', true)
+	}
 
-    changeListenerCallback(event: Event){
-        this.set('isModify', true);
-    }
-
-    @observe('invalid')
-    invalidChange(event: CustomEvent){
-        this.dispatchEvent(new CustomEvent('invalid-changed', {detail: this.invalid}))
-    }
+	/**
+	 * @private
+	 */
+	@observe('invalid')
+	invalidChange(event: CustomEvent) {
+		this.dispatchEvent(new CustomEvent('invalid-changed', { detail: this.invalid }))
+	}
 
 }
-

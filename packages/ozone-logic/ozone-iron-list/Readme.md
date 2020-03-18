@@ -6,7 +6,7 @@ Implementation of an iron-list to display an ozone search result with lazy loadi
 
 ## documentation
 
- <ozone-iron-list> is an iron-list composed of an ozone-connection.
+ ozone-iron-list extend polymer iron-list composed with an ozone-connection.
 
  ```html
          <div >

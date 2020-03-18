@@ -2,8 +2,8 @@
 
 # ozone-components
 
-Ozone-components is a library of Polymer and JavaScript modules that should facilitate development of web front-end for Ozone.
-Elements are available in JavaScript and typeScript.
+Ozone-components is a library of Polymer and TypeScript modules that should facilitate development of web front-end for Ozone.
+Elements are available with TypeScript type definition.
 
 Elements are split in 5 categories:
 - ozone-api: Provide low level interface to Ozone server.
@@ -12,10 +12,7 @@ Elements are split in 5 categories:
 - ozone-logic: provide helper class for Ozone operation in side a web browser
 - [ozone-typescript-client](packages/ozone-typescript-client): typescript module that manage connection and communication to ozone v3 API.
 
-
-## Demo
-
-See demo application [demo](demo.html).
+![ozone-components](modules/docs-ressources/ozone-components.png)
 
 ## Modules
 
@@ -42,7 +39,7 @@ See demo application [demo](demo.html).
 - ozone-material (Browser only)
   - [ozone-video-player](packages/ozone-material/ozone-video-player) WebComponent that play video from Ozone.
   - [ozone-free-text-search](packages/ozone-material/ozone-free-text-search) WebComponent that play video from Ozone.
-  - [ozone-upload](packages/ozone-material/ozone-upload) Configurable WebComponent to upload files on Ozone. Based on `vaadin-upload`.
+  - [ozone-upload](packages/ozone-material/ozone-upload) Configurable WebComponent to upload media files on Ozone. Based on `vaadin-upload`.
   - [ozone-item-preview](packages/ozone-material/ozone-item-preview)  Webcomponent based on Polymer to preview an Ozone item.
   - [ozone-item-edit](packages/ozone-material/ozone-item-edit) This package contains several WebComponents based on Polymer to edit an Ozone item.
   - [ozone-mosaic](packages/ozone-material/ozone-mosaic) Webcomponent to display mosaic of Ozone preview.
@@ -102,5 +99,5 @@ We use Lerna to publish ozone-components packages.
 At first, make sure to set up correctly your project. (see setup section)
 
 ```bash
-$ yarn run lerna:publish
+$ npx lerna ...
 ```

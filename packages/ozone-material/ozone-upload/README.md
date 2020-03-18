@@ -1,7 +1,7 @@
 [![NPM version][npm-image]][npm-url]
-# \<ozone-upload\>
+# ozone-upload
 
-Configurable webComponent to upload files on ozone. Based on vaadin-upload.
+Configurable webComponent to upload media files on ozone. Based on vaadin-upload.
 
 ## install
 

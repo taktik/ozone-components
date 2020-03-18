@@ -7,16 +7,6 @@ import Request = httpclient.Request
 import * as HLS from 'hls-parser'
 import { OzoneVideoUrl } from 'ozone-media-url'
 
-export type Blob = {
-	creationDate: string,
-	hashMd5: string,
-	id: OzoneType.UUID,
-	size: number,
-	status: string,
-	storageUnitId: OzoneType.UUID
-
-}
-
 export declare class VideoArea {
 	time: number
 	duration: number
@@ -197,6 +187,11 @@ export class OzoneApiEditVideo {
 		return videoApi.save(newVideo)
 	}
 
+	/**
+	 * Create a new ozone video from a subset of an original.
+	 * @param originalVideo
+	 * @param chunks
+	 */
 	public async createSubVideo(
 		originalVideo: OzoneType.FromOzone<OzoneType.Video>,
 		chunks: Array<ConcatArray<string>>

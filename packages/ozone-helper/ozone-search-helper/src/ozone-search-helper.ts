@@ -14,7 +14,7 @@ export type BasicOzoneType = string | boolean | number
  * ```javaScript
  *   let searchQuery = new SearchQuery();
  *   searchQuery.quicksearch('');
- *   const searchGenerator = ozoneItemApi.search(searchQuery);
+ *   const searchGenerator = itemClient.search(searchQuery.searchRequest);
  * ```
  *
  * Search query can be chain.
@@ -31,7 +31,7 @@ export type BasicOzoneType = string | boolean | number
  *
  *   searchQuery.quicksearch('').and;
  *
- *   const searchGenerator = ozoneItemApi.search(searchQuery);
+ *   const searchGenerator = itemClient.search(searchQuery.searchRequest);
  *
  *  * Example:
  * ```javaScript
@@ -43,7 +43,7 @@ export type BasicOzoneType = string | boolean | number
  *         .quicksearch('hello')
  *         .termQuery('myField','aText');
  *
- *   const searchGenerator = ozoneItemApi.search(searchQuery);
+ *   const searchGenerator = itemClient.search(searchQuery.searchRequest);
  * ```
  */
 export class SearchQuery {
@@ -55,6 +55,7 @@ export class SearchQuery {
 
 	/**
 	 * Set collection to search on.
+	 * @deprecated
 	 * @param {string} collection
 	 * @return {SearchQuery} this to be chained
 	 */
@@ -62,6 +63,10 @@ export class SearchQuery {
 		this._collection = collection
 		return this
 	}
+
+	/**
+	 * @deprecated
+	 */
 	get collection(): string | undefined {
 		return this._collection
 	}

@@ -9,23 +9,49 @@ ozone type, Extracted from swagger
 $ npm install ozone-type
 ```
 
-## update ozone typings
+## Update all ozone typings
 
-This is a two-step process. First generate code using swagger-codegen:
-```
-swagger-codegen generate -i swagger.json -l typescript-angular2   -o ozone
-```
-
-Then generate Ozone Item classes using oz. For example:
+Generate Ozone Item classes using oz. For example:
 ```
 oz -u taktik -s https://test.flowr.cloud/ozone -p <password> generate --package "" --target typescript -o ./ozone-components/packages/ozone-helper/ozone-type/ozone/model
 ```
-
-
-tsc
+Then commit
 git add ozone/model/*
 
+## Add one type
 
+Add a file in ozone/model
+````typeScript
+// import base type
+import { OzoneType, Item, UUID } from 'ozone-type'
+
+/**
+ * MyNewType is a new ozone object
+ */
+OzoneType('my.new.type') // decorate to set type by default
+export class MyNewType extends Item { // All the dynamic typed ozone object extend Item
+
+	anAttribute?: UUID
+	aLocalizedAttr?: {[key: string]: string}
+	/**
+	 * Recopy constructor
+	 * @param src
+	 */
+	constructor(src: MyNewType) {
+		super(src)
+		this.anAttribute = src.anAttribute
+		this.aLocalizedAttr = src.aLocalizedAttr
+	}
+
+	// Use static method for helpers. So that new is not mandatory.
+	static getAttrIn(src: MyNewType, language: string): string | undefined {
+		src.aLocalizedAttr = src.aLocalizedAttr || {}
+		return src.aLocalizedAttr[language]
+	}
+}
+````
+
+Then add export statment in ozone/model/models.ts
 
 [npm-image]: https://badge.fury.io/js/ozone-type.svg
 [npm-url]: https://npmjs.org/package/ozone-type

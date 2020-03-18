@@ -1,7 +1,15 @@
 [![NPM version][npm-image]][npm-url]
 
-# \<ozone-config\>
+# ozone-config
 
+## OzoneFormat
+
+Expose Ozone media format and priority.
+You can use webpack alias to overwrite this package in you project.
+
+## OzoneConfig
+
+!! WARNING !! this class is deprecated. !!
 Expose ozone API configuration.
 Configuration is loaded from ./conf.ozone.json
 
@@ -19,7 +27,7 @@ Import from source
 
 
 Using es6 import
-```javaSript
+```javaScript
 import * as Config from 'ozone-config';
 const configPromise = Config.OzoneConfig.get();
 

@@ -567,5 +567,3 @@ export * from './VideoRawSearchResult';
 export * from './VideoSearchResult';
 export * from './VirtualHost';
 export * from './WildcardQuery';
-
-export type UUID = string

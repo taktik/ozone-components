@@ -1,6 +1,8 @@
 [![NPM version][npm-image]][npm-url]
-# \<ozone-api-item\>
+# ozone-api-item
 
+
+!! WARNING !! this package is deprecated. Please use OzoneClient.ItemClient from ozone-typescript-client. !!
 
 `ozone-api-item` is low level es6 module to ozone api.
 It provide CRUD operation and search in a given collection.

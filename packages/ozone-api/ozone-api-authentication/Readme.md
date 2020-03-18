@@ -2,6 +2,9 @@
 
 # ozone-api-authentication
 
+!! WARNING !! this package is deprecated. Please use OzoneClient autentication from ozone-typescript-client. !!
+
+
 Low level wrapper around ozone login, logout and authentication api
 
 ## install

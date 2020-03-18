@@ -3,7 +3,8 @@
 
 
 `ozone-default-client` create a default instance on an ozone client using session credential.
-
+This client aime to be used in a browser and it's used by the ozone-material.
+It's possible to overwrite this package with a webpack alias.
 
 ## Install
 

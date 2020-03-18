@@ -1,8 +1,14 @@
 [![NPM version][npm-image]][npm-url]
 
-# \<ozone-video-player\>
+# ozone-video-player
 
-Customisable Ozone video player. Package in a webComponents and written in typeScript
+Customisable Ozone video player. Package in a webComponents and written in typeScript.
+Features:
+*  Play video from an url
+*  Play ozone Video item
+*  Control video (OSD) play/pause, sound, full screen 
+*  Display control for ozone subtitles
+*  Add and controls markers on the video (used for video montage)
 
 # usage
 
@@ -42,8 +48,6 @@ For usage in typeScript use option `"moduleResolution": "node"`
 
 ## API
 
-*Compete documentation ca be generated with `npm run doc`*
-
 Most important parameters.
 
 ### Attribute
@@ -63,6 +67,20 @@ Attribute are javaScript properties accessible from the dom.
 
 > video: Video
 > OzoneVideo to play.
+
+* markers
+>    markers: Array<MarkerOnVideo> 
+>    Array of markers on video
+
+* subtitlesAvailable
+> subtitlesAvailable: Array<string>
+> List of subtitles languages available
+
+* subtitleSelected
+> subtitleSelected: string
+> selected subtitle language
+
+
 
 ### Properties
 
@@ -87,18 +105,27 @@ Only accesible for JavaScript
 > Load a video from an url.
 
 
+### Styling
+ 
+The following custom css mixin properties are available for styling:
+ 
+Custom property | Description | Default
+----------------|-------------|----------
+`--marker-bar-background` | Background color of the marker's bar | `rgba(29,38,43,0.52)`
+`--resizer-color` | Background color of the resizer | `rgba(29,38,43,0.9)`
+`--resizer-handle-color` | Background color of the resizer's handle | `rgba(255,255,255,0.2)`
+`--marker-bar` | Mixin applied to the marker's bar| {}
+`--resizer` | Mixin applied to the marker's bar| {}
+`--moving-tooltip-background-color` | Background color of the moving tooltip | `rgba(29,38,43,0.9)`
+`--moving-tooltip-text-color` | Text color of the moving tooltip | `white`
+`--moving-tooltip-mixin` | Mixin applied to the marker's bar| {}
+`--subtiltes-color` | Color of the subtitles | `#fffb00`
+`--subtitles-font-size` | Font size of the subtiltes | `16px`
+`--subtitles-weight` | Font weight of the subtitles | `bold`
+`--subtitles-font-family` | Font family of the subtitles | `'Roboto'`
+`--subtitles` | Mixin applied to the subtitles and the subtitles' container | {}
+
 # Contribution guide
-
-## Install the Polymer-CLI
-
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your element locally.
-
-## Install Dependency
-
-```
-$ npm install
-$ bower install
-```
 
 ## Build your package
 

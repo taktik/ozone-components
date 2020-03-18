@@ -4,6 +4,11 @@
 
 `ozone-typescript-client` is a typescript module that manage connection and communication to ozone v3 API.
 
+## State machine
+
+![client State machine](docs-ressources/clientState.png)
+
+
 ## Interface
 
 ```typescript
@@ -167,5 +172,5 @@ const credentials = new UserCredentials('ozoneUser', 'ozonePassword')
 $ npm install --save ozone-typescript-client
 ```
 
-[npm-image]: https://badge.fury.io/js/ozone-typescript-client
+[npm-image]: https://badge.fury.io/js/ozone-typescript-client.svg
 [npm-url]: https://npmjs.org/package/ozone-typescript-client

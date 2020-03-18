@@ -1,4 +1,5 @@
 lerna-debug.log
+doc/
 .idea/
 lerna.sh
 **/dist/
