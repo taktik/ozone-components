@@ -4,7 +4,7 @@ import 'polymer/polymer-element.html'
 import './ozone-collection.html'
 
 import { customElement, property, observe } from 'taktik-polymer-typescript'
-import { Item, FromOzone } from 'ozone-type'
+import { Item, FromOzone, UUID } from 'ozone-type'
 import { SearchGenerator, OzoneApiItem, lockRequest, StatefulOzone } from 'ozone-api-item'
 import { SearchQuery } from 'ozone-search-helper'
 import { OzoneClient } from 'ozone-typescript-client'
@@ -165,11 +165,11 @@ export class OzoneCollection<T extends Item = Item> extends Polymer.Element impl
 	/**
 	 * find one item in ozone collection.
 	 * The item found is added in the items array.
-	 * @param id {uuid} id of the item to get.
+	 * @param id {UUID} id of the item to get.
 	 * @return {Promise<FromOzone<T>>} promise resolve with the item or null (if not found).
 	 */
 	@lockRequest()
-	findOne(id: uuid): Promise<T | null> {
+	findOne(id: UUID): Promise<T | null> {
 		try {
 			this.isDefined(id)
 
@@ -219,10 +219,10 @@ export class OzoneCollection<T extends Item = Item> extends Polymer.Element impl
 
 	/**
 	 * get index of an id in items
-	 * @param id {uuid} id of the item
+	 * @param id {UUID} id of the item
 	 * @return {number} index of the item in items. -1 when not found.
 	 */
-	getIndexById(id?: uuid): number {
+	getIndexById(id?: UUID): number {
 		let index = -1
 		if (id) {
 			index = this.items.findIndex(item => item.id === id)
@@ -332,12 +332,12 @@ export class OzoneCollection<T extends Item = Item> extends Polymer.Element impl
 
 	/**
 	 * Delete from ozone a list of item.
-	 * @param ids {Array<uuid>} list of id to delete from ozone.
+	 * @param ids {Array<UUID>} list of id to delete from ozone.
 	 * @param reflect {boolean} reflect change from ozone in items list
 	 * @return {any}
 	 */
 	@lockRequest()
-	async deleteItems(ids: Array<uuid>, reflect: boolean= true): Promise<void> {
+	async deleteItems(ids: Array<UUID>, reflect: boolean= true): Promise<void> {
 		try {
 			this.isDefined(ids)
 			this._verifySource()
@@ -358,12 +358,12 @@ export class OzoneCollection<T extends Item = Item> extends Polymer.Element impl
 
 	/**
 	 * delete one item from ozone.
-	 * @param id {uuid} id to delete
+	 * @param id {UUID} id to delete
 	 * @param reflect {boolean} reflect change from ozone in items list
 	 * @return {any}
 	 */
 	@lockRequest()
-	deleteOne(id: uuid, reflect: boolean= true): Promise<void> {
+	deleteOne(id: UUID, reflect: boolean= true): Promise<void> {
 		try {
 			this.isDefined(id)
 			this._verifySource()
@@ -387,7 +387,7 @@ export class OzoneCollection<T extends Item = Item> extends Polymer.Element impl
 		return this.items
 	}
 
-	private _removeOne (id: uuid) {
+	private _removeOne (id: UUID) {
 		const index = this.getIndexById(id)
 		if (index > -1) {
 			this.splice('items', index, 1)
