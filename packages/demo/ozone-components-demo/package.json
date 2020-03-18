@@ -43,6 +43,7 @@
 		"ozone-typescript-client": "^5.3.2",
 		"ozone-upload": "^5.3.2",
 		"ozone-video-player": "^5.3.2",
+		"taktik-polymer-typescript": "^5.3.0",
 		"url": "0.11.0",
 		"uuid": "3.3.2"
 	}

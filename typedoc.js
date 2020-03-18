@@ -1,6 +1,6 @@
 module.exports = {
 	mode: 'modules',
-	out: 'doc',
+	out: 'demo/doc',
 	exclude: [
 		'**/node_modules/**',
 		'**/test/**',

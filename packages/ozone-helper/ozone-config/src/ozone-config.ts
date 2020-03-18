@@ -67,7 +67,13 @@ export class OzoneConfig {
 		if (!OzoneConfig.configPromise) {
 			OzoneConfig.configPromise = ozoneAPIRequest.sendRequest()
 				.then((res: XMLHttpRequest) => {
-					return res.response.ozoneApi as ConfigType
+					const config: ConfigType = res.response.ozoneApi
+					const urlSearchParams = new URLSearchParams(window.location.search)
+					const serverUrl = urlSearchParams.get('serverURL')
+					if (serverUrl) {
+						config.host = serverUrl
+					}
+					return config
 				})
 				.catch((failRequest: XMLHttpRequest) => {
 					console.error('Unable to find config at ', configUrl)

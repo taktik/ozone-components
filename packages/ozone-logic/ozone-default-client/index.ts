@@ -7,8 +7,10 @@ const sessionCredentials: SessionCredentials = new SessionCredentials()
 
 export function getDefaultClient(): OzoneClient.OzoneClient {
 	if (defaultClient === undefined) {
+		const urlSearchParams = new URLSearchParams(window.location.search)
+		const ozoneUrl: string = urlSearchParams.get('serverURL') || ''
 		const config: OzoneClient.ClientConfiguration = {
-			ozoneURL: 'ozone',
+			ozoneURL: `${ozoneUrl}/ozone`,
 			ozoneCredentials: sessionCredentials
 		}
 		defaultClient = OzoneClient.newOzoneClient(config)
