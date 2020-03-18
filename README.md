@@ -51,6 +51,51 @@ This project contains a set of npm library that can be installed individually.
 There are aimed to be builded with webpack.
 See the [demo project](demo.html) for webpack configuration example.
 
+## usage
+
+Install package from npmjs.com with `npm` or `yarn`.
+
+All the components are generated in ES6 and esnext modules. **Your project should support ES6/esnext.**
+
+### usage in frontend
+**Use webpack to transpile in older JS !!**
+
+
+babel.config.js babel config in **js** is require to transpile node_modules.
+
+webpack.config.js
+```javascript
+{
+  test: /\.js$/,
+  use: {
+     loader: 'babel-loader',
+  },
+  exclude: /node_modules\/(?!.*(ozone|helpful-decorators).*)/,
+},
+```
+### usage in node.js
+**A. Import esnext modules !!**
+
+Option 1: Using ESM
+```javascript    
+require = require("esm")(module /*, options*/ );
+```
+Option 2: Using Babel like in frontend
+
+**B. Polyfill**
+```javascript
+const XMLHttpRequest = require( 'xhr2-cookies').XMLHttpRequest;
+global.XMLHttpRequest = XMLHttpRequest;
+global.window = {};
+global.window.console = console;
+global.window.setTimeout = setTimeout;
+global.window.setInterval = setInterval;
+global.window.clearTimeout = clearTimeout;
+global.Document = function(){};
+```
+
+
+
 ## Contribute
 
 Any contribution and comment are welcomed.
