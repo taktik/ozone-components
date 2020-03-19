@@ -13,6 +13,8 @@
 		"demo": "lerna run --scope ozone-components-demo demo",
 		"build:demo": "lerna run --scope ozone-components-demo build",
 		"doc": "./scripts/generateDoc.sh",
+		"publish_doc": "./scripts/publishDoc.sh",
+		"doc:publish": "npm run doc && npm run publish_doc",
 		"tsc": "tsc"
 	},
 	"devDependencies": {

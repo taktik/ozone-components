@@ -144,5 +144,10 @@ We use Lerna to publish ozone-components packages.
 At first, make sure to set up correctly your project. (see setup section)
 
 ```bash
-$ npx lerna ...
+$ npm run lerna:publish
+```
+
+Then publish the documentation on gcloud
+```bash
+$ npm run doc:publish
 ```
