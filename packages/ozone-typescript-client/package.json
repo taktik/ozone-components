@@ -20,8 +20,7 @@
 		"compile": "../../node_modules/.bin/tsc",
 		"tslint": "../../node_modules/.bin/tslint  --project tsconfig.json",
 		"test:debug": "../../node_modules/.bin/karma start",
-		"test": "../../node_modules/.bin/karma start  --single-run",
-		"doc": " ../../node_modules/.bin/typedoc --out doc --entryPoint src/index.ts --tsconfig tsconfig.json"
+		"test": "../../node_modules/.bin/karma start  --single-run"
 	},
 	"homepage": "https://github.com/taktik/ozone-typescript-client#readme",
 	"dependencies": {
