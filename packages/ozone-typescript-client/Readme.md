@@ -144,8 +144,8 @@ export interface OzoneClient extends StateMachine<ClientState> {
 
 ## Usage
 
-
-```javaScript
+### Initialization example:
+```typescript
 import { OzoneClient } from 'ozone-typescript-client'
 import UserCredentials = OzoneClient.UserCredentials
 import OzoneCredentials = OzoneClient.OzoneCredentials
@@ -162,9 +162,74 @@ const credentials = new UserCredentials('ozoneUser', 'ozonePassword')
 		client = newOzoneClient(config)
 		await client.start()
 }
-
 ```
 
+### Using API client example:
+```typescript
+import { OzoneClient } from 'ozone-typescript-client'
+import { Video, toPatch } from 'ozone-type'
+
+declare function getClient(): OzoneClient.OzoneClient
+
+const videoClient = getClient().itemClient<Video>('video')
+const myOriginalVideo = await videoClient.findOne('uuid-yyyy-zzz')
+const videoToUpdate = toPatch(myOriginalVideo)
+videoToUpdate.name = 'a new name'
+const updatedVideo = await videoClient.save(videoToUpdate)
+```
+
+### login application example
+```typescript
+import { once } from 'lodash'
+import { OzoneClient } from 'ozone-typescript-client'
+import UserCredentials = OzoneClient.UserCredentials
+import ClientStates = OzoneClient.states
+import { getDefaultClient } from 'ozone-default-client'
+
+export class PageLoginDefault extends Polymer.Element {
+  /* ... */
+
+  ready(): void {
+     super.ready()
+     const defaultClient = getDefaultClient()
+     defaultClient.onEnterState(ClientStates.STOPPED,() => {
+        this.set('isConnected', false)
+     })
+     defaultClient.onEnterState(ClientStates.AUTHENTICATED,() => {
+        this.set('isConnected', true)
+     })
+     if (defaultClient.authInfo) {
+        this.set('isConnected', true) // client is already logged
+     }
+  }
+
+  public async submitForm(e: Event): Promise<void> {
+        /* ... */
+     const updateMessagesOnError = once(() => {
+        this.set('isConnected', false)
+        const err = defaultClient.lastFailedLogin
+        if (err && err.status === 400) {
+           this.set('errorMessage', this.localized.msgEmptyCredentials)
+        } else if (err && err.status === 403) {
+           this.set('errorMessage', this.localized.msgInvalidCredentials)
+        } else {
+           this.set('errorMessage', this.localized.msgUnknownError)
+        }
+     })
+
+     const defaultClient = getDefaultClient()
+     defaultClient.onEnterState(ClientStates.AUTHENTICATION_ERROR, updateMessagesOnError)
+     const userCredentials: UserCredentials = new UserCredentials(this.username, this.password)
+     defaultClient.updateCredentials(userCredentials)
+     try {
+           // start if needed
+        await defaultClient.start()
+     } catch (err) {
+           // error are handle inside the client state machine
+     }
+  }
+}
+```
 
 ## Install
 
