@@ -1,7 +1,7 @@
 #/bin/bash
 bucket_name=taktik-flowr-doc/ozone-components
 version=`grep version lerna.json | sed -e 's/"version"://' | sed -e 's/"//g' | sed -e 's/[[:space:]]//g'`
-cloud_path=$bucket_name/$version/demo
+cloud_path=$bucket_name/$version
 gs_path=gs://$cloud_path
 echo publish documentation for version: $version to $gs_path
 gsutil -m cp -r -J demo $gs_path
