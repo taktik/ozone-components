@@ -15,7 +15,7 @@ Search query can be chained.
 Example:
 ```javaScript
   let searchQuery = new SearchQuery();
-  // ((type == 'aTypeor' or contains 'hello') and 'myField' == 'aText)
+  // ((type == 'aType' or contains 'hello') and 'myField' == 'aText)
   // Order by 'creationDate'
   searchQuery
      .typeQuery('aType')
