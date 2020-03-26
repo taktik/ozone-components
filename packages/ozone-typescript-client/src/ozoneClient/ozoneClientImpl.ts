@@ -1,6 +1,7 @@
 import { fsm } from 'typescript-state-machine'
 import ListenerRegistration = fsm.ListenerRegistration
 import { httpclient } from 'typescript-http-client'
+import SockJS from 'sockjs-client'
 import Response = httpclient.Response
 import Request = httpclient.Request
 import InstalledFilter = httpclient.InstalledFilter
@@ -31,7 +32,6 @@ import { TaskClient } from '../taskClient/taskClient'
 import { TaskClientImpl } from '../taskClient/taskClientImpl'
 import { ImportExportClient } from '../importExportClient/importExportClient'
 import { ImportExportClientImpl } from '../importExportClient/importExportClientImpl'
-import SockJS from 'sockjs-client'
 
 const MAX_REAUTH_DELAY: number = 30000
 const INITIAL_REAUTH_DELAY: number = 1000
