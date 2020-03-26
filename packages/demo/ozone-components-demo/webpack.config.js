@@ -104,8 +104,8 @@ module.exports = {
             to: 'lerna.json',
         }]),
         new CopyWebpackPlugin([{
-            from: path.resolve(__dirname, '../../../README.md'),
-            to: 'README.md',
+            from: path.resolve(__dirname, '../../../demo/version_history.txt'),
+            to: 'version_history.txt',
         }]),
         new CopyWebpackPlugin([{
             from: '../../ozone-*/*/doc/**',

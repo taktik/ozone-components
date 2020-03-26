@@ -79,6 +79,9 @@
             ozone-login-form[is-connected]{
                 display: none;
             }
+            #version {
+                padding-left: 20px
+            }
         </style>
 
 
@@ -155,6 +158,13 @@
             </div>
             <div id="doc">
                 <iframe id="doc" src="doc/index.html" style="overflow:hidden;height:100%;width:100%" height="100%" width="100%"></iframe>
+            </div>
+            <div id="version">
+                <template is="dom-repeat" items="{{versions}}">
+                    <p>
+                        <a href="{{item.link}}">{{item.version}}</a>
+                    </p>
+                </template>
             </div>
         </iron-pages>
     </template>
