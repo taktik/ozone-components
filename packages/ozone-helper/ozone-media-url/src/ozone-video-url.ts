@@ -39,12 +39,12 @@ export class OzoneVideoUrl extends OzoneMediaUrl {
 		if (video.derivedFiles) availableResourceIds.push(...video.derivedFiles)
 
 		const fileApi = this._client.itemClient<OzoneType.File>('file')
-		const avaliableRessource = await fileApi.findAllByIds(availableResourceIds)
+		const availableRessources = await fileApi.findAllByIds(availableResourceIds)
 
 		const videoFileTypes = await this._getVideoFileType()
 
 		for (let format of OzoneFormat.priority.video) {
-			const ressourceToUse = avaliableRessource.find((ressource) => {
+			const ressourceToUse = availableRessources.find((ressource) => {
 
 				const fileType = videoFileTypes.find((videoFileType) => {
 					if (videoFileType && videoFileType.id) {

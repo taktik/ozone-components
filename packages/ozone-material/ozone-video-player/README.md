@@ -69,8 +69,8 @@ Attribute are javaScript properties accessible from the dom.
 > OzoneVideo to play.
 
 * markers
->    markers: Array<MarkerOnVideo> 
->    Array of markers on video
+> markers: Array<MarkerOnVideo> 
+> Array of markers on video
 
 * subtitlesAvailable
 > subtitlesAvailable: Array<string>

@@ -5,7 +5,7 @@ const gulp = require ('gulp');
 const clean = require('gulp-clean');
 const ts = require('gulp-typescript');
 const merge = require('merge2');
-const fs = require("fs");
+const fs = require('fs');
 
 /**
  * gulp ts
