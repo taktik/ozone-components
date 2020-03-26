@@ -132,7 +132,6 @@ export interface OzoneClient extends StateMachine<ClientState> {
 	/*
         Insert the current Ozone session ID in the given URL ("/dsid=...).
         This call throws an error if there is no session available.
-        Throws an error if there is no session available.
         The given string may or may not contain the host part.
         Example input strings :
         "/rest/v3/blob"
