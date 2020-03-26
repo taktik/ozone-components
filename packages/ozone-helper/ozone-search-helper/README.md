@@ -31,7 +31,7 @@ Example:
 Example:
 ```javaScript
   let searchQuery = new SearchQuery();
-  // type == 'aTypeor' or contains 'hello' or 'myField' == 'aText'
+  // type == 'aType' or contains 'hello' or 'myField' == 'aText'
   searchQuery
      .typeQuery('aType')
      .or
