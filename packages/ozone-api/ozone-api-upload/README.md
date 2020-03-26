@@ -1,6 +1,6 @@
 [![NPM version][npm-image]][npm-url]
 
-# \<ozone-api-upload\>
+# ozone-api-upload
 
 UploadFileRequest is a JavaScrip class that can be use as an XMLHttpRequest to upload media using ozone v2 upload chanel.
 It mask the complex series of AJAX call to one XMLHttpRequest like request.

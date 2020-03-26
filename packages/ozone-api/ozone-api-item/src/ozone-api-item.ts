@@ -149,15 +149,17 @@ export class OzoneApiItem<T = Item> {
 	 * Submit ozone search query
 	 */
 	async search (search: SearchQuery): Promise<SearchGenerator<T>> {
-		if (search.collection) {
-			this.on(search.collection)
+		const collection = (search as any).collection // collection is deprecated
+		if (collection) {
+			this.on(collection)
 		}
 		const itemClient = getDefaultClient().itemClient<T>(this.collection)
 		return new SearchGenerator(itemClient.searchGenerator(search.searchRequest))
 	}
 	async queryDelete (search: SearchQuery): Promise<UUID[]> {
-		if (search.collection) {
-			this.on(search.collection)
+		const collection = (search as any).collection  // collection is deprecated
+		if (collection) {
+			this.on(collection)
 		}
 		const itemClient = getDefaultClient().itemClient<T>(this.collection)
 		if (!search.searchRequest.query) {

@@ -15,6 +15,7 @@ export type TypeDescriptorCollection = Map<string, Promise<TypeDescriptor>>
  *
  * By default it create a instance of OzoneApiType in the dom.
  * You can retrieve the default ItemApi with *getOzoneApiType*
+ * @deprecated
  *
  *  * Example in html
  * ```html
@@ -242,5 +243,6 @@ function OzoneApiTypeGenerator(){
 /**
  * return OzoneApiType singleton
  * @type {()=>OzoneApiItem}
+ * @deprecated
  */
 export const getOzoneApiType = OzoneApiTypeGenerator();

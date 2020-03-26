@@ -1,32 +1,22 @@
 [![NPM version][npm-image]][npm-url]
 
-# \<taktik-polymer-typeScript\>
+# taktik-polymer-typeScript
 
+!! WARNING !! Unmaintained project.
 
-Module providing development facilities for ozone polymer type script modules.
+Module providing development facilities for ozone polymer V2 typescript modules.
 
+## Decorators
 
-
+* **@customElement(tagname: string)** Class decorator that defines a custom element with name `tagname`
+* **@property(options?: PropertyOptions)** Property decorator factory that defines this as a Polymer property.
+* **@observe(...targets: string[])** Method decorator  that causes the decorated method to be called when a property changes. `targets` is either a single property name, or a list of property names.
 
 ## install & configure this module in an other a typeScript project
-
-
-- step 1: install dependency
 
 > Install you dependency
 > npm install --save taktik-polymer-typescript
 
-- step 2: use node module resolution in tsconfig.json
-```json
-{
-    "compilerOptions":{
-        "moduleResolution": "node"
-    }
-}
-```
-
-
-- step 3: import where you need
 ```typescript
 import {customElement} from 'taktik-polymer-typescript' // Import elements
 ```

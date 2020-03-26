@@ -1,7 +1,7 @@
 [![NPM version][npm-image]][npm-url]
 #  ozone-item-edit
 
-This package contains several Webcomponents based on polymer to edit an ozone item.
+This package contains several Webcomponents based on polymer V2 to edit an ozone item.
 
 ## sub-components
 
@@ -24,13 +24,55 @@ ozone-localized-string: display ozone localized string
  $ npm install --save ozone-item-edit
  ```
 
+## ozone-item-edit
 
+### usage
+
+ ```html
+<ozone-item-edit item-data={{item}} invalid="{{invalid}}">  </ozone-item-edit>
+```
+### attributes
+
+**itemData**: GenericItem item to display.
+**invalid**: boolean true if the value is invalid.
+
+### methods
+
+**getUpdatedData**: get the item with its modified fields.
+
+### Events:
+
+**value-changed**: Trigger when a value has changed
+ 
+ 
+ 
+## ozone-edit-xxx
+
+### attributes
+
+**type**: string ozone type of the entry
+**value**: string value of the field
+**name**: LocalizedString name of the field
+**language**: string language to use in LocalizedName
+**disabled**: boolean Set to true to disable this input.
+**isModify**: boolean if the value is modify, is value will change to true.
+**invalid**: boolean true if the value is invalid
+**inputElement**: Returns a reference to the input element.
+
+### events
+
+ **value-changed**: Triggered when a value has changed
+ **invalid-changed**: Triggered when invalid attribute has changed
+
+ 
+ 
+ 
 [npm-image]: https://badge.fury.io/js/ozone-item-edit.svg
 [npm-url]: https://npmjs.org/package/ozone-item-edit
 
-## command
 
-`npm install`: install project dependency.
+
+## command
 
 `npm run tsc`: run typeScript compiler.
 
@@ -41,5 +83,3 @@ ozone-localized-string: display ozone localized string
 `npm run build:watch` bundle test files with webpack and watch on changes.
 
 `npm run test:persist` bundle test files with webpack and watch on changes.
-
-`npm run doc` generate project documentation with typedoc.

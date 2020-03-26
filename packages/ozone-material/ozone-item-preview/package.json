@@ -6,7 +6,7 @@
   "description": "",
   "scripts": {
     "bower": "bower install",
-    "build": "gulp clean && gulp build",
+    "build": "gulp build",
     "clean": "gulp clean",
     "prepublish": "npm run build",
     "start": "webpack --config webpack.config.js",
@@ -27,6 +27,8 @@
     "ozone-media-url": "^5.3.2",
     "ozone-search-helper": "^5.3.2",
     "ozone-type": "^5.3.0",
-    "ozone-typescript-client": "^5.3.2"
+    "ozone-typescript-client": "^5.3.2",
+	"ozone-api-request": "^5.3.0",
+	"taktik-polymer-typescript": "^5.3.0"
   }
 }

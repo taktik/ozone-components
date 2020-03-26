@@ -1,9 +1,9 @@
 [![NPM version][npm-image]][npm-url]
 
-# \<ozone-api-type\>
+# ozone-api-type
 
-This package is now deprecated, it has been replaced by [ozone-typescript-client](../../ozone-typescript-client)
-
+!! WARNING !! This package is now deprecated, it has been replaced by [ozone-typescript-client](../../ozone-typescript-client)
+OzoneClient.TypeClient
 
 
  `ozone-api-type` is low level typescript module to ozone type.

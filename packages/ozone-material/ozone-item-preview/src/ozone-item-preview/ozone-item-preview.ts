@@ -19,7 +19,7 @@ import { getDefaultClient } from 'ozone-default-client'
  *
  * Example in html:
  * ```html
- * <ozone-item-preview itemData=[[item]]></ozone-item-preview>
+ * <ozone-item-preview itemData={{item}}></ozone-item-preview>
  * ```
  *
  * ### Events

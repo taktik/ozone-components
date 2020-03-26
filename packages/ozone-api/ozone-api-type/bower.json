@@ -1,9 +1,0 @@
-{
-  "name": "ozone-api-type",
-  "main": "ozone-api-type.html",
-  "dependencies": {
-  },
-  "devDependencies": {
-    "web-component-tester": "Polymer/web-component-tester#^6.0.0"
-  }
-}

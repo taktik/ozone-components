@@ -7,6 +7,16 @@
 <ozone-mosaic item-data={{item}}>  </ozone-mosaic>
 ```
 
+### methods
+
+ * **searchInItems(searchString?:string)** trigger quickSearch in the collection
+ * **requestSearch()** start a new search base on attribute -searchString-.
+ * **customSearchQuery(requestQuery: SearchRequest)** perform a custom search.
+ * **search(searchRequest: SearchQuery)** start search query
+ * **saveSelectedItem(updatedData?:Item):Promise<Item>** Save given item.
+ * **clear()** empty collection
+
+
 ### Events
 
  *results-found* Fired when results are found by the API.
@@ -39,7 +49,7 @@
 
 `npm run test:persist` bundle test files with webpack and watch on changes.
 
-`npm run doc` generate project documentation with typedoc.
+`npm run demo` start demo app.
 
 
 [npm-image]: https://badge.fury.io/js/ozone-mosaic.svg

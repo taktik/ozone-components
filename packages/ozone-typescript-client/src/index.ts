@@ -8,6 +8,7 @@ import * as permissionClient from './permissionClient/permissionClient'
 import * as typeClient from './typeClient/typeClient'
 import * as taskClient from './taskClient/taskClient'
 import * as importExportClient from './importExportClient/importExportClient'
+import * as fileTypeClient from './filetypeClient/filetypeClient'
 import { OzoneClientImpl } from './ozoneClient/ozoneClientImpl'
 
 export namespace OzoneClient {
@@ -39,6 +40,10 @@ export namespace OzoneClient {
 	export import TaskHandlerOption = taskClient.TaskHandlerOption
 
 	export import ImportExportClient = importExportClient.ImportExportClient
+
+	export import FileTypeClient = fileTypeClient.FileTypeClient
+
+	export import FileTypeCache = fileTypeClient.FileTypeCache
 
 	/*
 		Factory method

@@ -1,0 +1,33 @@
+{
+  "name": "ozone-media-url",
+  "version": "5.3.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "description": "Ozone helper to build ozone media url",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/taktik/ozone-components/packages/ozone-logic/ozone-media-url"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+	"prepublish": "npm run build",
+	"build": "npm run tslint && npm run compile",
+	"compile": "../../../node_modules/.bin/tsc",
+	"tslint": "../../../node_modules/.bin/tslint  --project tsconfig.json",
+	"test:debug": "../../../node_modules/.bin/karma start",
+	"test": "../../../node_modules/.bin/karma start  --single-run",
+    "doc": "../../../node_modules/.bin/typedoc --excludeExternals --out  doc/ src/"
+  },
+  "author": "hj@taktik",
+  "license": "ISC",
+  "devDependencies": {
+    "ozone-type": "^5.3.0"
+  },
+  "dependencies": {
+    "ozone-config": "^5.3.0",
+	"ozone-api-request": "^5.3.0",
+	"ozone-typescript-client": "^5.3.2"
+  }
+}

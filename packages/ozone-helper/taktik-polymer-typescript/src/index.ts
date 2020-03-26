@@ -1,17 +1,15 @@
-/**
- * A TypeScript class decorator that defines a custom element with name
- * `tagname` and the decorated class.
- */
+
 import 'reflect-metadata'
 import '../type/shadow'
 import '../type/polymer'
-import '../type/iron-ajax'
-import '../type/missing'
 declare interface ProjectWindow extends Window {
 	[index: string]: any
 }
 declare var window: ProjectWindow
-
+/**
+ * A TypeScript class decorator that defines a custom element with name
+ * `tagname` and the decorated class.
+ */
 export function customElement(tagname: string) {
 	return (clazz: any) => {
 		clazz.is = tagname
