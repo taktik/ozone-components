@@ -11,7 +11,7 @@ Helper to build ozone-search query
   const searchGenerator = itemClient.search(searchQuery.searchRequest);
 ```
 
-Search query can be chain.
+Search query can be chained.
 Example:
 ```javaScript
   let searchQuery = new SearchQuery();
@@ -52,4 +52,3 @@ $ npm install ozone-search-helper
 
 [npm-image]: https://badge.fury.io/js/ozone-search-helper.svg
 [npm-url]: https://npmjs.org/package/ozone-search-helper
-
