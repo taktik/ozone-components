@@ -31,6 +31,7 @@ import { TaskClient } from '../taskClient/taskClient'
 import { TaskClientImpl } from '../taskClient/taskClientImpl'
 import { ImportExportClient } from '../importExportClient/importExportClient'
 import { ImportExportClientImpl } from '../importExportClient/importExportClientImpl'
+import SockJS from 'sockjs-client'
 
 const MAX_REAUTH_DELAY: number = 30000
 const INITIAL_REAUTH_DELAY: number = 1000
@@ -299,7 +300,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 		return new Promise<void>((resolve, reject) => {
 			/* FIXME AB Something is wrong here. The promise resolve or reject method should always be called but it is not the case */
 			const query = '?ozoneSessionId=' + this.authInfo!.sessionId
-			const ws = new WebSocket(this._config.webSocketsURL + query)
+			const ws = new SockJS(this._config.webSocketsURL + query)
 			this._ws = ws
 			ws.onerror = ev => {
 				if (this._ws === ws) {
