@@ -38,7 +38,7 @@ ozone-localized-string: display ozone localized string
 
 ### methods
 
-**getUpdatedData**: get the item with it's modifies fields.
+**getUpdatedData**: get the item with its modified fields.
 
 ### Events:
 
