@@ -1,9 +1,0 @@
-language: node_js
-node_js:
-  - '7'
-addons:
-  ssh_known_hosts:
-  - git.taktik.be
-
-before_script:
-  - npm install -g gulp-cli bower

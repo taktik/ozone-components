@@ -31,6 +31,8 @@ import { TaskClient } from '../taskClient/taskClient'
 import { TaskClientImpl } from '../taskClient/taskClientImpl'
 import { ImportExportClient } from '../importExportClient/importExportClient'
 import { ImportExportClientImpl } from '../importExportClient/importExportClientImpl'
+import { FiletypeClientImpl } from '../filetypeClient/filetypeClientImpl'
+import { FileTypeClient } from '../filetypeClient/filetypeClient'
 
 const MAX_REAUTH_DELAY: number = 30000
 const INITIAL_REAUTH_DELAY: number = 1000
@@ -90,6 +92,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 		this._typeClient = new TypeClientImpl(this, this._config.ozoneURL)
 		this._taskClient = new TaskClientImpl(this, this._config.ozoneURL)
 		this._importExportClient = new ImportExportClientImpl(this, this._config.ozoneURL)
+		this._filetypeClient = new FiletypeClientImpl(this, this._config.ozoneURL)
 	}
 
 	get config(): ClientConfiguration {
@@ -645,6 +648,10 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 	private _importExportClient: ImportExportClient
 	importExportClient(): ImportExportClient {
 		return this._importExportClient
+	}
+	private _filetypeClient: FileTypeClient
+	fileTypeClient(): FileTypeClient {
+		return this._filetypeClient
 	}
 
 	insertSessionIdInURL(url: string): string {

@@ -16,7 +16,7 @@
   },
   "scripts": {
     "tsc": "tsc",
-    "build": "gulp clean && gulp build",
+    "build": "gulp build",
     "clean": "gulp clean",
     "start": "../../../node_modules/.bin/webpack --config webpack.config.js",
     "bower": "bower install",

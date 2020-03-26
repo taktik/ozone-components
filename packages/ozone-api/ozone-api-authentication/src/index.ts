@@ -1,1 +1,1 @@
-import "./lib/ozone-api-authentication/ozone-api-authentication"
+export * from './lib/ozone-api-authentication/ozone-api-authentication'

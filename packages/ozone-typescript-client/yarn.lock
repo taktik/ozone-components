@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-helpful-decorators@^2.0.4:
+helpful-decorators@2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/helpful-decorators/-/helpful-decorators-2.0.4.tgz#d130428f3c0d9ac64897b6ce9f6b45e9adb8865b"
   integrity sha512-8+LNKPz0LCQ7t0BUcg87gWvjCpoL2AfFdk+l6NIbuG5BnA7BlPF9MbH3j2VMxhRyDG12IH2RYe/399QpUr7hdA==
@@ -38,19 +38,19 @@ lodash.throttle@4.1.1:
   resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
   integrity sha1-wj6RtxAkKscMN/HhzaknTMOb8vQ=
 
-log4javascript@^1.4.15:
+log4javascript@1.4.15, log4javascript@^1.4.15:
   version "1.4.15"
   resolved "https://registry.yarnpkg.com/log4javascript/-/log4javascript-1.4.15.tgz#85ac62e946b024c6b256216084e10601d5630604"
   integrity sha1-haxi6UawJMayViFghOEGAdVjBgQ=
 
-typescript-http-client@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/typescript-http-client/-/typescript-http-client-0.10.0.tgz#7b6b4922d1dfbbf44d0658a4ed79b75619da049d"
-  integrity sha512-MzQRxbA9izSNRKWW6HU5SoIaPRcgHSnSemUzVf0z6UNn8miKu+/7Ji9CsOORBD+vqrqNM7cjFtAvxSg38SBSsQ==
+typescript-http-client@0.10.1:
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/typescript-http-client/-/typescript-http-client-0.10.1.tgz#a21283ba23f183e2d7f03143fc15845aef40ccea"
+  integrity sha512-lbmJ2VBcDBbHPmLXuhMiJatoIg+n66dzyqHUOd4GPJhwvPysTqF+QCCy+TMWtIKb7IQrKfWaKRQQ276fLFM8fg==
   dependencies:
     log4javascript "^1.4.15"
 
-typescript-state-machine@^0.9.3:
+typescript-state-machine@0.9.3:
   version "0.9.3"
   resolved "https://registry.yarnpkg.com/typescript-state-machine/-/typescript-state-machine-0.9.3.tgz#841fc7a33d78ad7bf60b4999a6053d72da77c9a9"
   integrity sha512-Vrtp1W2YwY96t2Xk/m7JarG02UJwjvZ6liePkjTXtJ/lKUx1HMEHWlchOiBf2j3qkHktyN4NenxMLYbujxjzqg==

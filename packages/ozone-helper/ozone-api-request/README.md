@@ -1,6 +1,7 @@
 [![NPM version][npm-image]][npm-url]
-# \<ozone-api-request\>
+# ozone-api-request
 
+!! WARNING !! this package is deprecated. Please use OzoneClient.call from ozone-typescript-client. !!
 
 OzoneAPIRequest is a light wrapper over XMLHttpRequest to manager AJAX request to Ozone.
 

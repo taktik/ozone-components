@@ -102,6 +102,17 @@ class OzoneComponentsDemo extends Polymer.Element {
 				console.error(e)
 			}
 		})
+		fetch('../version_history.txt')
+			.then(r => r.text())
+			.then(r => r.split('\n'))
+			.then(versions => {
+				this.set('versions', versions.map(version => (
+					{
+						version,
+						link: `../${version}/index.html`
+					}
+				)))
+			})
     }
 
     async _saveFile(fileData) {

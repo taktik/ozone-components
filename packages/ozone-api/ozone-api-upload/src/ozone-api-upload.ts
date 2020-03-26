@@ -1,6 +1,5 @@
 import { OzoneConfig } from 'ozone-config'
 import { OzoneAPIRequest } from 'ozone-api-request'
-import { v4 as uuid } from 'uuid'
 import { getDefaultClient } from 'ozone-default-client'
 
 export interface UploadSessionResult {

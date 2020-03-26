@@ -12,7 +12,6 @@ module.exports = {
     // Tell Webpack which file kicks off our app.
     entry: {
         "index": path.resolve(__dirname, modulePath, 'index.js'),
-        "doc": path.resolve(__dirname, modulePath, 'documentation/documentation.js'),
 },
     // Tell Weback to output our bundle to ./dist/bundle.js
     output: {
@@ -89,12 +88,6 @@ module.exports = {
             template: path.resolve(__dirname, modulePath, 'index.ejs'),
             chunks: ['index']
         }),
-        new HtmlWebpackPlugin({
-            inject: false,
-            filename: 'documentation.html',
-            template: path.resolve(__dirname, modulePath, 'doc.ejs'),
-            chunks: ['doc']
-        }),
         // This plugin will copy files over to ‘./dist’ without transforming them.
         // That's important because the custom-elements-es5-adapter.js MUST
         // remain in ES2015. We’ll talk about this a bit later :)
@@ -111,8 +104,8 @@ module.exports = {
             to: 'lerna.json',
         }]),
         new CopyWebpackPlugin([{
-            from: path.resolve(__dirname, '../../../README.md'),
-            to: 'README.md',
+            from: path.resolve(__dirname, 'config/version_history.txt'),
+            to: 'version_history.txt',
         }]),
         new CopyWebpackPlugin([{
             from: '../../ozone-*/*/doc/**',
@@ -131,6 +124,7 @@ module.exports = {
         compress: true,
         overlay: true,
         port: 9000,
+        https: true,
         setup: setupServerMockup,
     }
 };

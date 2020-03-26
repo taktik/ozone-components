@@ -4,7 +4,7 @@ import './ozone-localized-string/ozone-localized-string'
 
 import './ozone-item-edit.html'
 import { customElement, property, observe } from 'taktik-polymer-typescript'
-import { Item, FieldDescriptor, GenericItem, FieldsPermissionUtility } from 'ozone-type'
+import { Item, FieldDescriptor, GenericItem, FieldsPermissionUtility, Patch } from 'ozone-type'
 import { getDefaultClient } from 'ozone-default-client'
 
 import './ozone-edit-entry/ozone-edit-entry'
@@ -30,6 +30,9 @@ class TruePermission extends FieldsPermissionUtility {
  * ```html
  *  <ozone-item-edit item-data={{item}}>  </ozone-item-edit>
  * ```
+ *
+ * Events:
+ *     value-changed: Trigger when a value has changed
  */
 @customElement('ozone-item-edit')
 export class OzoneItemEdit extends Polymer.Element {
@@ -55,6 +58,9 @@ export class OzoneItemEdit extends Polymer.Element {
 
 	static editEntryClass = 'editEntry'
 
+	/**
+	 * @private
+	 */
 	@observe('itemData')
 	async dataChange(data?: Item) {
 
@@ -126,7 +132,10 @@ export class OzoneItemEdit extends Polymer.Element {
 
 			editableItem.inputElement.addEventListener('value-changed', () => {
 				this.dispatchEvent(new CustomEvent('value-changed',
-					{ bubbles: true }))
+					{
+						detail: this.getUpdatedData(),
+						bubbles: true
+					}))
 			})
 		}
 	}
@@ -163,7 +172,7 @@ export class OzoneItemEdit extends Polymer.Element {
 	 * get the item with it's modifies fields.
 	 * @return {Item}
 	 */
-	getUpdatedData(): Item {
+	getUpdatedData(): Patch<Item> {
 		if (!this.itemData) {
 			throw new Error()
 		}
@@ -178,7 +187,7 @@ export class OzoneItemEdit extends Polymer.Element {
 				updatedItem[entry.id] = entry.value
 			}
 		}
-		return updatedItem as Item
+		return updatedItem
 	}
 
 	updateInvalidValue() {

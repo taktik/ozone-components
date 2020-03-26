@@ -1,6 +1,7 @@
 
 # ozone-login
 
+!! WARNING !! Deprecated package.
 Polymer webComponents for Login / logout to Ozone
 
 ## install

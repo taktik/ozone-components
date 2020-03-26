@@ -19,7 +19,7 @@ export type OzoneAPIRequestOption = {
  *
  * * *ozone-api-request-unauthorized* Fired when server return 403 unauthorized.
  * Event detail contains the XMLHttpRequest.
- *
+ * deprecated
  *
  * ### Usage
  *
@@ -56,7 +56,7 @@ export type OzoneAPIRequestOption = {
  * ozoneAPIRequest.method = 'GET';
  * ozoneAPIRequest.sendRequest();
  * ```
- * 
+ *
  * * Modify request before send
  * ```typeScript
  * const ozoneAPIRequest = new OzoneAPIRequest();
@@ -174,7 +174,7 @@ export class OzoneAPIRequest{
     createXMLHttpRequest(withHeader: boolean = true): XMLHttpRequest{
         const xmlhttp = new XMLHttpRequest();
         xmlhttp.withCredentials = true;
-        
+
         xmlhttp.open(this.method, this.url, true);
         xmlhttp.responseType = this.responseType;
         if(withHeader) {

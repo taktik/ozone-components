@@ -3,7 +3,7 @@ import "paper-item/paper-item.html";
 import "paper-button/paper-button.html";
 import "iron-flex-layout/iron-flex-layout.html";
 import './video-edit-panel.html';
-import { Item } from 'ozone-type';
+import { Video, FromOzone } from 'ozone-type';
 import 'ozone-api-edit-video';
 import { OzoneApiEditVideo } from 'ozone-api-edit-video';
 import 'ozone-video-player';
@@ -31,13 +31,13 @@ export declare class VideoEditPanel extends Polymer.Element {
     /**
      * Item to edit
      */
-    selectedItem: Item;
+    selectedItem: FromOzone<Video>;
     markersJson: string;
     markers: object;
     private _videoEditor?;
-    readonly videoEditor: OzoneApiEditVideo;
+    get videoEditor(): OzoneApiEditVideo;
     subtitles: Array<string>;
-    static readonly properties: {
+    static get properties(): {
         selectedItem: {
             type: ObjectConstructor;
         };
@@ -64,10 +64,10 @@ export declare class VideoEditPanel extends Polymer.Element {
             observer: string;
         };
     };
-    static readonly observers: string[];
-    private markersChange(markers);
-    private _closePanel();
-    private _save();
+    static get observers(): string[];
+    private markersChange;
+    private _closePanel;
+    private _save;
     ready(): void;
-    private hiddenChange(hidden?);
+    private hiddenChange;
 }

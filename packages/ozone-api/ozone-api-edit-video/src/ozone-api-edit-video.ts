@@ -1,23 +1,11 @@
-
-import { OzoneMediaUrl } from 'ozone-media-url'
 import * as OzoneType from 'ozone-type'
-import { OzoneApiItem } from 'ozone-api-item'
 import { SearchQuery } from 'ozone-search-helper'
-import { OzoneAPIRequest } from 'ozone-api-request'
 import { getDefaultClient } from 'ozone-default-client'
 import { OzoneFormat } from 'ozone-config'
-
+import { httpclient } from 'typescript-http-client'
+import Request = httpclient.Request
 import * as HLS from 'hls-parser'
-
-export type Blob = {
-	creationDate: string,
-	hashMd5: string,
-	id: OzoneType.UUID,
-	size: number,
-	status: string,
-	storageUnitId: OzoneType.UUID
-
-}
+import { OzoneVideoUrl } from 'ozone-media-url'
 
 export declare class VideoArea {
 	time: number
@@ -51,13 +39,13 @@ export declare type VideoMarker = Array<VideoArea>
  */
 export class OzoneApiEditVideo {
 
-	private _ozoneMediaUrlCollection: Map<string, OzoneMediaUrl> = new Map()
+	private _ozoneMediaUrlCollection = new Map<string, OzoneVideoUrl>()
 
-	private async mediaUrlFactory(video: OzoneType.FromOzone<OzoneType.Video>): Promise<OzoneMediaUrl> {
+	private async mediaUrlFactory(video: OzoneType.FromOzone<OzoneType.Video>): Promise<OzoneVideoUrl> {
 		if (video.id && this._ozoneMediaUrlCollection.has(video.id)) {
-			return this._ozoneMediaUrlCollection.get(video.id) as OzoneMediaUrl
+			return this._ozoneMediaUrlCollection.get(video.id)!
 		} else {
-			const ozoneMediaUrl = new OzoneMediaUrl(video.id, getDefaultClient().config.ozoneURL)
+			const ozoneMediaUrl = new OzoneVideoUrl(video, getDefaultClient())
 			this._ozoneMediaUrlCollection.set(video.id, ozoneMediaUrl)
 			return ozoneMediaUrl
 		}
@@ -69,11 +57,13 @@ export class OzoneApiEditVideo {
 	): Promise<string> {
 		const chunksListFlatten: Array<string> = Array<string>().concat.apply([],chunksList)
 		const mediaUrl = await this.mediaUrlFactory(originalVideo)
-		const url = await mediaUrl.getVideoUrl()
-		const request = new OzoneAPIRequest()
+		const url = await mediaUrl.getPreferredVideoUrl()
+
+		const request = new Request(url)
+			.setMethod('GET')
 		request.responseType = 'text'
-		request.url = url
-		const data = (await request.sendRequest()).response
+
+		const data = await getDefaultClient().call<String>(request)
 		const playList = HLS.parse(data.toString())
 		playList.segments = playList.segments.filter((segment) => {
 			const chunkToKeep = chunksListFlatten.find((v) => v === segment.uri)
@@ -93,15 +83,8 @@ export class OzoneApiEditVideo {
 	}
 
 	private async _savePlayList(playList: string): Promise<OzoneType.Blob> {
-
-		const url = `${getDefaultClient().config.ozoneURL}/rest/v3/blob`
-
-		const request = new OzoneAPIRequest()
-		request.method = 'PUT'
-		request.url = url
-		request.body = playList
-		return (await request.sendRequest()).response
-
+		const blobClient = getDefaultClient().blobClient()
+		return blobClient.create(playList)
 	}
 
 	private async _createBlobFile(playListBlob: OzoneType.Blob): Promise<OzoneType.File> {
@@ -111,14 +94,8 @@ export class OzoneApiEditVideo {
 			uti: 'unofficial.m3uu-playlist',
 			type: 'file'
 		}
-		const ozoneApi = new OzoneApiItem<OzoneType.File>()
-		const file = await ozoneApi.on('file').create(blobFile)
-		if (file) {
-			return file
-		} else {
-			throw new Error('Unable to create file')
-		}
-
+		const fileItemClient = getDefaultClient().itemClient<OzoneType.File>('file')
+		return fileItemClient.save(blobFile)
 	}
 	private async getVideoFile(
 		originalVideo: OzoneType.FromOzone<OzoneType.Video>
@@ -126,22 +103,20 @@ export class OzoneApiEditVideo {
 
 		if (originalVideo.derivedFiles) {
 			const mediaUrl = await this.mediaUrlFactory(originalVideo)
-			const fileTypeIdentifier = await mediaUrl.getPreferedVideoFormat()
+			const fileTypeIdentifier = await mediaUrl.getPreferredVideoFormat()
 			if (typeof fileTypeIdentifier !== 'string') {
 				throw new Error('No video files found')
 			}
 			const fileType = await this.getFileType(fileTypeIdentifier)
 
 			const query = new SearchQuery()
-			query.termQuery('fileType', fileType.id as string)
+			query.termQuery('fileType', fileType.id)
 				.and.idsQuery(originalVideo.derivedFiles)
 
-			const ozoneApi = new OzoneApiItem<OzoneType.File>()
-			const searchGen = await ozoneApi.on('file').search(query)
-			const searchResult = await searchGen.next()
+			const fileItemClient = getDefaultClient().itemClient<OzoneType.File>('file')
+			const searchResult = await fileItemClient.search(query.searchRequest)
 			if (searchResult && searchResult.results) {
-				const originalHLSFile = searchResult.results[0]
-				const file = await ozoneApi.on('file').getOne(originalHLSFile.id)
+				const file = searchResult.results[0]
 				if (file) {
 					return file
 				}
@@ -160,14 +135,10 @@ export class OzoneApiEditVideo {
 		if (OzoneFormat.type[type]) {
 			identifier = OzoneFormat.type[type]
 		}
-		const url = `${getDefaultClient().config.ozoneURL}/rest/v3/filetype/identifier/${identifier}`
-		// No senses to do this work by chance on flowr
-		// should be the format of the video under edition
-
-		const request = new OzoneAPIRequest()
-		request.url = url
-
-		return ((await request.sendRequest()).response) as OzoneType.FileType
+		const fileTypeCache = await getDefaultClient().fileTypeClient().getFileTypeCache()
+		const file = fileTypeCache.findByIdentifier(identifier)
+		if (file) return file
+		throw Error('identifier not found')
 	}
 	private async _createFolder(playListFile: OzoneType.File,
 								originalVideoFile: OzoneType.File,
@@ -187,15 +158,12 @@ export class OzoneApiEditVideo {
 			const newFolder: Partial<OzoneType.File> = {
 				type: 'file',
 				uti: 'public.folder',
-				fileType: originalFileType.id as string,
+				fileType: originalFileType.id,
 				subFiles: newSubFile
 
 			}
-			const ozoneApi = new OzoneApiItem<OzoneType.File>()
-			const folder = await ozoneApi.on('file').create(newFolder)
-			if (folder) {
-				return folder
-			}
+			const fileApi = getDefaultClient().itemClient<OzoneType.File>('file')
+			return fileApi.save(newFolder)
 		}
 		throw new Error('Video file has no subFile')
 
@@ -205,8 +173,8 @@ export class OzoneApiEditVideo {
 		newFolder: OzoneType.File
 	): Promise<OzoneType.Video> {
 
-		const newVideo: Partial<OzoneType.Video> = JSON.parse(JSON.stringify(originalVideo)) as OzoneType.Video // deep copy
-		const now = (new Date()).toISOString() as OzoneType.Date
+		const newVideo: Partial<OzoneType.Video> = JSON.parse(JSON.stringify(originalVideo)) // deep copy
+		const now = (new Date()).toISOString()
 
 		delete newVideo.id
 		delete newVideo.derivedFiles
@@ -215,13 +183,15 @@ export class OzoneApiEditVideo {
 		newVideo.creationDate = now
 		newVideo.modificationDate = now
 		newVideo.previewDate = now
-		const ozoneApi = new OzoneApiItem<OzoneType.Video>()
-		const result = (await ozoneApi.on('video').create(newVideo))
-		if (result) {
-			return result
-		} else throw new Error('Unable to create Video')
+		const videoApi = getDefaultClient().itemClient<OzoneType.Video>('video')
+		return videoApi.save(newVideo)
 	}
 
+	/**
+	 * Create a new ozone video from a subset of an original.
+	 * @param originalVideo
+	 * @param chunks
+	 */
 	public async createSubVideo(
 		originalVideo: OzoneType.FromOzone<OzoneType.Video>,
 		chunks: Array<ConcatArray<string>>
@@ -243,7 +213,7 @@ export class OzoneApiEditVideo {
 		// console.log('OriginalVideoFile', OriginalVideoFile)
 
 		const mediaUrl = await this.mediaUrlFactory(originalVideo)
-		const originaFileTypeIdentifier = await mediaUrl.getPreferedVideoFormat()
+		const originaFileTypeIdentifier = await mediaUrl.getPreferredVideoFormat()
 		if (typeof originaFileTypeIdentifier !== 'string') {
 			throw new Error('No video files found')
 		}

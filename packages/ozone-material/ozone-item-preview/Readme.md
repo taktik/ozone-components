@@ -2,11 +2,11 @@
 #  ozone-item-preview
 
 
-`ozone-item-preview` is hight level polymer module to display preview information an ozone item.
+`ozone-item-preview` is hight level polymer module to display preview information of an ozone item.
 
 Example in html:
 ```html
-<ozone-item-preview itemData=[[item]]></ozone-item-preview>
+<ozone-item-preview itemData={{item}}></ozone-item-preview>
 ```
 
 ### Events
@@ -23,7 +23,7 @@ Example in html:
 
 Example in html:
 ```html
-<ozone-item-action itemData=[[item]]></ozone-item-action>
+<ozone-item-action itemData={{item}}></ozone-item-action>
 ```
 
 ### Events
