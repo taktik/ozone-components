@@ -27,8 +27,7 @@ export class OzoneMediaUrl {
 	 * @return {number}
 	 */
 	getNumericId(): number {
-		// tslint:disable-next-line:radix
-		return parseInt('0x' + this.id.split('-')[4])
+		return parseInt(this.id.split('-')[4], 16)
 	}
 	private _buildBaseUrl(...action: Array<string | number>): string {
 		return `${this.ozoneHost}${action.join('/')}`
