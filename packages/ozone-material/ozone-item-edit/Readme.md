@@ -61,7 +61,7 @@ ozone-localized-string: display ozone localized string
 
 ### events
 
- **value-changed**: Trigger when a value has changed
+ **value-changed**: Triggered when a value has changed
  **invalid-changed**: Triggered when invalid attribute has changed
 
  
