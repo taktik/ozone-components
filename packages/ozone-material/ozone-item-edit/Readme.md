@@ -53,7 +53,7 @@ ozone-localized-string: display ozone localized string
 **type**: string ozone type of the entry
 **value**: string value of the field
 **name**: LocalizedString name of the field
-**language**: string anguage to use in LocalizedName
+**language**: string language to use in LocalizedName
 **disabled**: boolean Set to true to disable this input.
 **isModify**: boolean if the value is modify, is value will change to true.
 **invalid**: boolean true if the value is invalid
