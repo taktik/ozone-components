@@ -1,6 +1,7 @@
 lerna-debug.log
 doc/
 demo/
+!packages/demo/
 .idea/
 lerna.sh
 **/dist/
