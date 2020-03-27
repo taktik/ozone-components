@@ -12,5 +12,6 @@ else
     echo "DEMO not included $DEMO_PATH does not exist"
     echo "try yarn run build before"
 fi
+cp lerna.json demo
 
 
