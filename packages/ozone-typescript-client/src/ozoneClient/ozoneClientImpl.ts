@@ -1,6 +1,7 @@
 import { fsm } from 'typescript-state-machine'
 import ListenerRegistration = fsm.ListenerRegistration
 import { httpclient } from 'typescript-http-client'
+import SockJS from 'sockjs-client'
 import Response = httpclient.Response
 import Request = httpclient.Request
 import InstalledFilter = httpclient.InstalledFilter
@@ -301,8 +302,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 		this.log.info(`Connecting to ${this._config.webSocketsURL}`)
 		return new Promise<void>((resolve, reject) => {
 			/* FIXME AB Something is wrong here. The promise resolve or reject method should always be called but it is not the case */
-			const query = '?ozoneSessionId=' + this.authInfo!.sessionId
-			const ws = new WebSocket(this._config.webSocketsURL + query)
+			const ws = new SockJS(`${this._config.webSocketsURL}?ozoneSessionId=${this.authInfo!.sessionId}`)
 			this._ws = ws
 			ws.onerror = ev => {
 				if (this._ws === ws) {

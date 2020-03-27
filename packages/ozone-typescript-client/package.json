@@ -28,7 +28,11 @@
 		"log4javascript": "1.4.15",
 		"ozone-search-helper": "^5.3.2",
 		"ozone-type": "^5.3.0",
+		"sockjs-client": "1.4.0",
 		"typescript-http-client": "0.10.1",
 		"typescript-state-machine": "0.9.3"
+	},
+	"devDependencies": {
+		"@types/sockjs-client": "^1.1.1"
 	}
 }
