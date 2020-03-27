@@ -1,6 +1,6 @@
 {
   "name": "ozone-api-item",
-  "version": "5.3.2",
+  "version": "5.4.0",
   "publishConfig": {
     "access": "public"
   },
@@ -13,8 +13,8 @@
   },
   "scripts": {
     "prepublish": "npm run build",
-	"build": "npm run tslint && npm run compile",
-	"tslint": "../../../node_modules/.bin/tslint  --project tsconfig.json",
+    "build": "npm run tslint && npm run compile",
+    "tslint": "../../../node_modules/.bin/tslint  --project tsconfig.json",
     "compile": "../../../node_modules/.bin/tsc",
     "test": "npm run build",
     "doc": "../../../node_modules/.bin/typedoc --excludeExternals --out  doc/ src/"
@@ -23,12 +23,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ozone-default-client": "^5.3.2",
-    "ozone-search-helper": "^5.3.2",
-    "ozone-typescript-client": "^5.3.2",
+    "ozone-default-client": "^5.4.0",
+    "ozone-search-helper": "^5.4.0",
+    "ozone-typescript-client": "^5.4.0",
     "uuid": "3.3.2"
   },
   "devDependencies": {
-    "ozone-type": "^5.3.0"
+    "ozone-type": "^5.4.0"
   }
 }
