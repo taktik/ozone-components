@@ -79,7 +79,7 @@ lodash.throttle@4.1.1:
   resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
   integrity sha1-wj6RtxAkKscMN/HhzaknTMOb8vQ=
 
-log4javascript@1.4.15, log4javascript@^1.4.15:
+log4javascript@1.4.15:
   version "1.4.15"
   resolved "https://registry.yarnpkg.com/log4javascript/-/log4javascript-1.4.15.tgz#85ac62e946b024c6b256216084e10601d5630604"
   integrity sha1-haxi6UawJMayViFghOEGAdVjBgQ=
@@ -96,16 +96,6 @@ original@^1.0.0:
   dependencies:
     url-parse "^1.4.3"
 
-ozone-search-helper@^5.3.2:
-  version "5.3.2"
-  resolved "https://registry.yarnpkg.com/ozone-search-helper/-/ozone-search-helper-5.3.2.tgz#ea4caafdaf7bc9ebb0030181a29911389d8bd53e"
-  integrity sha512-W8H0C5zr4vwmT/Ph3Qrm3/2GkkxIXt8KYizsp5+95Ycfy77LA0jLoGQH8OwWr0d+0eHcV3GU1cBrkrpEgoXMSw==
-
-ozone-type@^5.3.0:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/ozone-type/-/ozone-type-5.3.0.tgz#d53d607c39f158e5f005e6337ac3dd5bfe836a94"
-  integrity sha512-wvZFIuuEjVpX/GGnS6vLGojLz128Ls6mjfUB5wY234qQZIv0s8KM0keNrtNnDaBItsam7n4Ds1MnvfRdXnxDcA==
-
 querystringify@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-2.1.1.tgz#60e5a5fd64a7f8bfa4d2ab2ed6fdf4c85bad154e"
@@ -121,7 +111,7 @@ safe-buffer@>=5.1.0:
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.2.0.tgz#b74daec49b1148f88c64b68d49b1e815c1f2f519"
   integrity sha512-fZEwUGbVl7kouZs1jCdMLdt95hdIv0ZeHg6L7qPeciMZhZ+/gdesW4wgTARkrFWEpspjEATAzUGPG8N2jJiwbg==
 
-sockjs-client@^1.4.0:
+sockjs-client@1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/sockjs-client/-/sockjs-client-1.4.0.tgz#c9f2568e19c8fd8173b4997ea3420e0bb306c7d5"
   integrity sha512-5zaLyO8/nri5cua0VtOrFXBPK1jbL4+1cebT/mmKA1E1ZXOvJrII75bPu0l0k843G/+iAbhEqzyKr0w/eCCj7g==
@@ -132,20 +122,6 @@ sockjs-client@^1.4.0:
     inherits "^2.0.3"
     json3 "^3.3.2"
     url-parse "^1.4.3"
-
-typescript-http-client@0.10.1:
-  version "0.10.1"
-  resolved "https://registry.yarnpkg.com/typescript-http-client/-/typescript-http-client-0.10.1.tgz#a21283ba23f183e2d7f03143fc15845aef40ccea"
-  integrity sha512-lbmJ2VBcDBbHPmLXuhMiJatoIg+n66dzyqHUOd4GPJhwvPysTqF+QCCy+TMWtIKb7IQrKfWaKRQQ276fLFM8fg==
-  dependencies:
-    log4javascript "^1.4.15"
-
-typescript-state-machine@0.9.3:
-  version "0.9.3"
-  resolved "https://registry.yarnpkg.com/typescript-state-machine/-/typescript-state-machine-0.9.3.tgz#841fc7a33d78ad7bf60b4999a6053d72da77c9a9"
-  integrity sha512-Vrtp1W2YwY96t2Xk/m7JarG02UJwjvZ6liePkjTXtJ/lKUx1HMEHWlchOiBf2j3qkHktyN4NenxMLYbujxjzqg==
-  dependencies:
-    log4javascript "^1.4.15"
 
 url-parse@^1.4.3:
   version "1.4.7"

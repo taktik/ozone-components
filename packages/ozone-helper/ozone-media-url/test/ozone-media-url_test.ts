@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { OzoneMediaUrl, OzonePreviewSize } from '../src/ozone-media-url'
-import { FlowrVideoEnum } from 'ozone-config/dist/ozone-format'
+import { FlowrVideoEnum } from 'ozone-config'
 
 describe('tool OzoneMediaUrl', function() {
 	let config = '/ozone'

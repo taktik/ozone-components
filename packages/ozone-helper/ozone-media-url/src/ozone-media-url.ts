@@ -2,9 +2,10 @@
  * Created by hubert on 21/06/17.
  */
 import * as OzoneType from 'ozone-type'
-import { FlowrImageEnum, FlowrVideoEnum } from 'ozone-config/dist/ozone-format'
+import { FlowrImageEnum, FlowrVideoEnum } from 'ozone-config'
 import { OzoneClient } from 'ozone-typescript-client'
 import { httpclient } from 'typescript-http-client'
+import Request = httpclient.Request
 
 export type SizeEnum = Number
 
@@ -78,7 +79,7 @@ export class OzoneMediaUrl {
 			metadata: false
 		}
 
-		const request = new httpclient.Request(url, { method: 'POST', body })
+		const request = new Request(url, { method: 'POST', body })
 		const response = await client.call<{downloadUrl: string}>(request)
 
 		return this._buildBaseUrl('', response.downloadUrl)
