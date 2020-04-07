@@ -3,6 +3,8 @@
  */
 import * as OzoneType from 'ozone-type'
 import { FlowrImageEnum, FlowrVideoEnum } from 'ozone-config'
+import { OzoneClient } from 'ozone-typescript-client'
+import { httpclient } from 'typescript-http-client'
 
 export type SizeEnum = Number
 
@@ -56,6 +58,31 @@ export class OzoneMediaUrl {
 		return this.getVideoUrl(FlowrVideoEnum.original)
 	}
 
+	/**
+	 * return url where to upload the media.
+	 * @return {Promise<string>}
+	 */
+	async getMediaUploadUrl(client: OzoneClient.OzoneClient): Promise<string> {
+
+		const numericId = this.getNumericId()
+		const url = this._buildBaseUrl('/rest/v2/media/download/request')
+		const body = {
+			fileAssignedToBatch: false,
+			fileTypeIdentifiers: ['org.taktik.filetype.original'],
+			mediaSet: {
+				includedMediaIds: [numericId],
+				includedMediaQueries: [],
+				simpleSelection: true,
+				singletonSelection: true
+			},
+			metadata: false
+		}
+
+		const request = new httpclient.Request(url, { method: 'POST', body })
+		const response = await client.call<{downloadUrl: string}>(request)
+
+		return this._buildBaseUrl('', response.downloadUrl)
+	}
 	/**
 	 * return url to png preview
 	 * @param {SizeEnum} size
