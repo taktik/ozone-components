@@ -1,0 +1,13 @@
+{
+	"lerna": "2.9.0",
+	"npmClient": "yarn",
+	"packages": [
+		"packages/*",
+		"packages/demo/*",
+		"packages/ozone-api/*",
+		"packages/ozone-helper/*",
+		"packages/ozone-logic/*",
+		"packages/ozone-material/*"
+	],
+	"version": "5.4.0"
+}
