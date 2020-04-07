@@ -2,7 +2,7 @@
  * Created by hubert on 21/06/17.
  */
 import * as OzoneType from 'ozone-type'
-import { FlowrImageEnum, FlowrVideoEnum } from 'ozone-config'
+import { FlowrImageEnum, FlowrVideoEnum } from 'ozone-config/dist/ozone-format'
 import { OzoneClient } from 'ozone-typescript-client'
 import { httpclient } from 'typescript-http-client'
 
