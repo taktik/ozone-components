@@ -1,14 +1,19 @@
 import 'polymer/polymer-element.html'
 import './ozone-video-player.html'
-import { customElement, property } from 'taktik-polymer-typescript'
+import { customElement, property, observe } from 'taktik-polymer-typescript'
 import { getDefaultClient } from 'ozone-default-client'
 import * as Clappr from 'Clappr'
 import * as ClapprMarkersPlugin from 'clappr-markers-plugin'
 import * as ClapprSubtitle from './Clappr-Subtitle'
 import { ClapprMarkerFactory, MarkerOnVideo } from './clappr-marker'
 import { OzoneVideoUrl, OzoneMediaUrl, OzonePreviewSize, SizeEnum } from 'ozone-media-url'
-import { Video, FromOzone } from 'ozone-type'
+import { Video, FromOzone, TimestampedItem } from 'ozone-type'
 import { WCMediaControl } from './MediaControl'
+
+export interface IPlayerDimension {
+	width?: string
+	height?: string
+}
 /**
  * `<ozone-video-player>`
  *
@@ -79,6 +84,10 @@ export class OzoneVideoPlayer extends Polymer.Element {
 	 */
 	@property({ type: String, observer: 'subtitleSelectedChange' })
 	public subtitleSelected?: string
+
+	@property({ type: Object, observer: '_playerDimensionsChanged' })
+	playerDimensions: IPlayerDimension = {
+	}
 
 	/**
 	 * default parameters apply to Clapper Player
@@ -311,5 +320,19 @@ export class OzoneVideoPlayer extends Polymer.Element {
 				})
 		}
 		return null
+	}
+
+	_refreshContent() {
+		if (this.video) {
+			this.loadOzoneVideo(this.video)
+		} else if (this.videoUrl) {
+			this.loadVideoUrl(this.videoUrl)
+		}
+	}
+
+	_playerDimensionsChanged(playerDimensions: IPlayerDimension) {
+		this.defaultClapprParameters.height = playerDimensions.height || this.defaultClapprParameters.height
+		this.defaultClapprParameters.width = playerDimensions.width || this.defaultClapprParameters.width
+		this._refreshContent()
 	}
 }

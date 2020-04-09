@@ -1,10 +1,9 @@
 import 'polymer/polymer-element.html'
 import './demo-app.html'
-import { customElement, property } from 'taktik-polymer-typescript'
-import { OzoneVideoPlayer } from '../ozone-video-player'
+import { customElement, property, observe } from 'taktik-polymer-typescript'
+import { OzoneVideoPlayer, IPlayerDimension } from '../ozone-video-player'
 import { MarkerOnVideo } from '../clappr-marker'
 import { Video, FromOzone } from 'ozone-type'
-
 @customElement('demo-app')
 class DemoApp extends Polymer.Element {
 
@@ -14,6 +13,9 @@ class DemoApp extends Polymer.Element {
 		clear: Element,
 		loadUrl: Element,
 		loadOzoneSub: Element
+		resize: HTMLElement
+		width: HTMLInputElement
+		height: HTMLInputElement
 	} | undefined
 
 	@property()
@@ -31,6 +33,9 @@ class DemoApp extends Polymer.Element {
 	@property()
 	subtitles?: Array<string>
 
+	@property({ type: Object })
+	playerDimensions?: IPlayerDimension
+
 	ready() {
 		super.ready()
 		if (!this.$) {
@@ -40,6 +45,7 @@ class DemoApp extends Polymer.Element {
 		this.$.clear.addEventListener('click', e => this._clearMarkers())
 		this.$.loadUrl.addEventListener('click', e => this._loadUrl())
 		this.$.loadOzoneSub.addEventListener('click', e => this._loadOzoneVideo())
+		this.$.resize.addEventListener('click', e => this._resize())
 	}
 
 	_addMarker() {
@@ -71,4 +77,11 @@ class DemoApp extends Polymer.Element {
 		this.$.mediaPlayer.loadOzoneVideo(video)
 	}
 
+	_resize() {
+		const playerDim: IPlayerDimension = {
+			width: this.$?.width.value,
+			height: this.$?.height.value
+		}
+		this.set('playerDimensions', playerDim)
+	}
 }
