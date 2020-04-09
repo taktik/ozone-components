@@ -111,19 +111,22 @@
                     box-shadow: inset 0 0 0 60px rgba(88,81,133,.2);
                 }
             }
-
-
+            .playerComponent {
+                width: 100%;
+                height: 100%;
+            }
         </style>
         <div class="container">
-
-            <ozone-video-player
-                    id="mediaPlayer"
-                    video-url="[[videoUrl]]"
-                    hidden="[[!display]]"
-                    markers="{{markers}}"
-                    subtitles-available="{{subtitles}}"
-                    player-dimensions="{{playerDimensions}}"
-                    subtitle-selected="{{subtitleSelect}}">NO editor</ozone-video-player>
+            <div class="playerComponent">
+                <ozone-video-player
+                id="mediaPlayer"
+                video-url="[[videoUrl]]"
+                hidden="[[!display]]"
+                markers="{{markers}}"
+                subtitles-available="{{subtitles}}"
+                subtitle-selected="{{subtitleSelect}}">NO editor</ozone-video-player>
+            </div>
+           
 
             <!--Subtitles languages
             <select id="selectType" value="{{subtitleSelect::input}}">
@@ -136,9 +139,6 @@
             <button id="addMarker">Add marker</button>
             <button id="clear" class="secondary">clear all markers</button>
             <p>[[markersJson]]</p>
-            <input id="width" class="input" type="text" placeholder="Width" name="width">
-            <input id="height" class="input" type="text" placeholder="Height" name="height">
-            <button id="resize">Resize</button>
             <h4>Load video</h4>
             <button id="loadUrl" class="deactivated"> load a video from url</button>
             <button id="loadOzoneSub"  class="secondary"> load a video with subtitle</button>

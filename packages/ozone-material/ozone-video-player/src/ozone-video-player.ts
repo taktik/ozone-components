@@ -10,10 +10,6 @@ import { OzoneVideoUrl, OzoneMediaUrl, OzonePreviewSize, SizeEnum } from 'ozone-
 import { Video, FromOzone } from 'ozone-type'
 import { WCMediaControl } from './MediaControl'
 
-export interface IPlayerDimension {
-	width?: string
-	height?: string
-}
 /**
  * `<ozone-video-player>`
  *
@@ -85,8 +81,10 @@ export class OzoneVideoPlayer extends Polymer.Element {
 	@property({ type: String, observer: 'subtitleSelectedChange' })
 	public subtitleSelected?: string
 
-	@property({ type: Object, observer: '_playerDimensionsChanged' })
-	playerDimensions: IPlayerDimension = {
+	ready(): void {
+		super.ready()
+		this._onResize()
+		window.addEventListener('resize', this._onResize.bind(this))
 	}
 
 	/**
@@ -322,17 +320,9 @@ export class OzoneVideoPlayer extends Polymer.Element {
 		return null
 	}
 
-	_refreshContent() {
-		if (this.video) {
-			this.loadOzoneVideo(this.video)
-		} else if (this.videoUrl) {
-			this.loadVideoUrl(this.videoUrl)
-		}
-	}
-
-	_playerDimensionsChanged(playerDimensions: IPlayerDimension) {
-		this.defaultClapprParameters.height = playerDimensions.height || this.defaultClapprParameters.height
-		this.defaultClapprParameters.width = playerDimensions.width || this.defaultClapprParameters.width
-		this._refreshContent()
+	private _onResize() {
+		const height = this.parentElement!.clientHeight
+		const width = this.parentElement!.clientWidth
+		this.player?.resize({ height, width })
 	}
 }
