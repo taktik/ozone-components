@@ -7,7 +7,7 @@ import * as ClapprMarkersPlugin from 'clappr-markers-plugin'
 import * as ClapprSubtitle from './Clappr-Subtitle'
 import { ClapprMarkerFactory, MarkerOnVideo } from './clappr-marker'
 import { OzoneVideoUrl, OzoneMediaUrl, OzonePreviewSize, SizeEnum } from 'ozone-media-url'
-import { Video, FromOzone, TimestampedItem } from 'ozone-type'
+import { Video, FromOzone } from 'ozone-type'
 import { WCMediaControl } from './MediaControl'
 
 export interface IPlayerDimension {
