@@ -13,6 +13,9 @@ class DemoApp extends Polymer.Element {
 		clear: Element,
 		loadUrl: Element,
 		loadOzoneSub: Element
+		resize: HTMLElement
+		width: HTMLInputElement
+		height: HTMLInputElement
 	} | undefined
 
 	@property()
@@ -30,6 +33,12 @@ class DemoApp extends Polymer.Element {
 	@property()
 	subtitles?: Array<string>
 
+	@property({ type: String, notify: true })
+	width?: string
+
+	@property({ type: String, notify: true })
+	height?: string
+
 	ready() {
 		super.ready()
 		if (!this.$) {
@@ -39,6 +48,7 @@ class DemoApp extends Polymer.Element {
 		this.$.clear.addEventListener('click', e => this._clearMarkers())
 		this.$.loadUrl.addEventListener('click', e => this._loadUrl())
 		this.$.loadOzoneSub.addEventListener('click', e => this._loadOzoneVideo())
+		this.$.resize.addEventListener('click', e => this._resize())
 	}
 
 	_addMarker() {
@@ -70,4 +80,12 @@ class DemoApp extends Polymer.Element {
 		this.$.mediaPlayer.loadOzoneVideo(video)
 	}
 
+	_resize() {
+		const width = this.$?.width.value
+		const height = this.$?.height.value
+		if (width && height) {
+			this.set('width', width)
+			this.set('height', height)
+		}
+	}
 }

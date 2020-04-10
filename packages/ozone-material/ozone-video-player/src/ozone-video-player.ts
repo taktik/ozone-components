@@ -81,10 +81,16 @@ export class OzoneVideoPlayer extends Polymer.Element {
 	@property({ type: String, observer: 'subtitleSelectedChange' })
 	public subtitleSelected?: string
 
+	@property({ type: String, observer: 'onResize' })
+	width?: string
+
+	@property({ type: String, observer: 'onResize' })
+	height?: string
+
 	ready(): void {
 		super.ready()
-		this._onResize()
-		window.addEventListener('resize', this._onResize.bind(this))
+		this.onResize()
+		window.addEventListener('resize', this.onResize.bind(this))
 	}
 
 	/**
@@ -320,9 +326,21 @@ export class OzoneVideoPlayer extends Polymer.Element {
 		return null
 	}
 
-	private _onResize() {
-		const height = this.parentElement!.clientHeight
-		const width = this.parentElement!.clientWidth
+	private onResize() {
+		let height = this.parentElement!.clientHeight
+		let width = this.parentElement!.clientWidth
+		if (this.height) {
+			height = parseInt(this.height, 10)
+			if (this.height.includes('%')) {
+				height = this.parentElement!.clientHeight * height / 100
+			}
+		}
+		if (this.width) {
+			width = parseInt(this.width, 10)
+			if (this.width.includes('%')) {
+				width = this.parentElement!.clientWidth * width / 100
+			}
+		}
 		this.player?.resize({ height, width })
 	}
 }
