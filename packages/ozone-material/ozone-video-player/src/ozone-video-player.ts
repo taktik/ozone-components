@@ -1,6 +1,6 @@
 import 'polymer/polymer-element.html'
 import './ozone-video-player.html'
-import { customElement, property } from 'taktik-polymer-typescript'
+import { customElement, property, observe } from 'taktik-polymer-typescript'
 import { getDefaultClient } from 'ozone-default-client'
 import * as Clappr from 'Clappr'
 import * as ClapprMarkersPlugin from 'clappr-markers-plugin'
@@ -9,6 +9,7 @@ import { ClapprMarkerFactory, MarkerOnVideo } from './clappr-marker'
 import { OzoneVideoUrl, OzoneMediaUrl, OzonePreviewSize, SizeEnum } from 'ozone-media-url'
 import { Video, FromOzone } from 'ozone-type'
 import { WCMediaControl } from './MediaControl'
+
 /**
  * `<ozone-video-player>`
  *
@@ -79,6 +80,18 @@ export class OzoneVideoPlayer extends Polymer.Element {
 	 */
 	@property({ type: String, observer: 'subtitleSelectedChange' })
 	public subtitleSelected?: string
+
+	@property({ type: String, observer: 'onResize' })
+	width?: string
+
+	@property({ type: String, observer: 'onResize' })
+	height?: string
+
+	ready(): void {
+		super.ready()
+		this.onResize()
+		window.addEventListener('resize', this.onResize.bind(this))
+	}
 
 	/**
 	 * default parameters apply to Clapper Player
@@ -311,5 +324,23 @@ export class OzoneVideoPlayer extends Polymer.Element {
 				})
 		}
 		return null
+	}
+
+	private onResize() {
+		let height = this.parentElement!.clientHeight
+		let width = this.parentElement!.clientWidth
+		if (this.height) {
+			height = parseInt(this.height, 10)
+			if (this.height.includes('%')) {
+				height = this.parentElement!.clientHeight * height / 100
+			}
+		}
+		if (this.width) {
+			width = parseInt(this.width, 10)
+			if (this.width.includes('%')) {
+				width = this.parentElement!.clientWidth * width / 100
+			}
+		}
+		this.player?.resize({ height, width })
 	}
 }
