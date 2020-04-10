@@ -20,7 +20,7 @@ export class Player {
 
 	isPlaying(): void
 
-	resize(param: {[key: string]: any}): void
+	resize(param: { width: string | number, height: string | number }): void
 
 	on(event: string, action: {(): void}): void
 
