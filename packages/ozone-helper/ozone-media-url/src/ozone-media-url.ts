@@ -34,8 +34,9 @@ export class OzoneMediaUrl {
 	}
 
 	getNumericId(): number {
-		return parseInt(this.id.split('-')[4], 16)
+		return OzoneMediaUrl.convertToNumericID(this.id)
 	}
+
 	private static _buildBaseUrl(ozoneHost: string, ...action: Array<string | number>): string {
 		return `${ozoneHost}${action.join('/')}`
 	}
