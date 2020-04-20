@@ -1,6 +1,6 @@
 {
 	"name": "ozone-video-player",
-	"version": "5.4.2",
+	"version": "5.4.3",
 	"publishConfig": {
 		"access": "public"
 	},
@@ -39,7 +39,7 @@
 		"ozone-api-item": "^5.4.1",
 		"ozone-api-request": "^5.4.0",
 		"ozone-default-client": "^5.4.1",
-		"ozone-media-url": "^5.4.1",
+		"ozone-media-url": "^5.4.3",
 		"ozone-search-helper": "^5.4.0",
 		"ozone-type": "^5.4.0",
 		"ozone-typescript-client": "^5.4.1",
