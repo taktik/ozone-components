@@ -1,6 +1,6 @@
 {
   "name": "ozone-api-authentication",
-  "version": "5.4.0",
+  "version": "5.4.4",
   "publishConfig": {
     "access": "public"
   },
@@ -28,6 +28,6 @@
   },
   "devDependencies": {
     "ozone-type": "^5.4.0",
-    "taktik-polymer-typescript": "^5.4.0"
+    "taktik-polymer-typescript": "^5.4.4"
   }
 }
