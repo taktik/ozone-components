@@ -83,7 +83,7 @@ declare class PolymerPropertyEffects extends HTMLElement {
   linkPaths(to: string, from: string): void;
   unlinkPaths(path: string): void;
   notifySplices(path: string, splices: any[]): void;
-  get(path: string|(string|number)[], root: any): any;
+  get(path: string|(string|number)[], root?: any): any;
   set(path: string|(string|number)[], value: any): void;
   push(path: string, ...items: any[]): any;
   pop(path: string): any;
