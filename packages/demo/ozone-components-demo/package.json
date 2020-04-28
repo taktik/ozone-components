@@ -1,6 +1,6 @@
 {
 	"name": "ozone-components-demo",
-	"version": "5.4.4",
+	"version": "5.4.5",
 	"description": "",
 	"main": "gulpfile.js",
 	"directories": {
@@ -43,7 +43,7 @@
 		"ozone-type": "^5.4.0",
 		"ozone-typescript-client": "^5.4.1",
 		"ozone-upload": "^5.4.4",
-		"ozone-video-player": "^5.4.4",
+		"ozone-video-player": "^5.4.5",
 		"taktik-polymer-typescript": "^5.4.4",
 		"url": "0.11.0",
 		"uuid": "3.3.2"
