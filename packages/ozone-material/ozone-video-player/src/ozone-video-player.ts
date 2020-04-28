@@ -245,6 +245,7 @@ export class OzoneVideoPlayer extends Polymer.Element {
 			this.$.player.appendChild(playerElement)
 		}
 		this.player.attachTo(playerElement)
+		this.onResize()
 	}
 
 	private visibilityChange() {
@@ -327,8 +328,8 @@ export class OzoneVideoPlayer extends Polymer.Element {
 	}
 
 	private onResize() {
-		let height = this.parentElement!.clientHeight
-		let width = this.parentElement!.clientWidth
+		let height = this.parentElement?.clientHeight
+		let width = this.parentElement?.clientWidth
 		if (this.height) {
 			height = parseInt(this.height, 10)
 			if (this.height.includes('%')) {
@@ -341,6 +342,8 @@ export class OzoneVideoPlayer extends Polymer.Element {
 				width = this.parentElement!.clientWidth * width / 100
 			}
 		}
-		this.player?.resize({ height, width })
+		if (height && width) {
+			this.player?.resize({ height, width })
+		}
 	}
 }
