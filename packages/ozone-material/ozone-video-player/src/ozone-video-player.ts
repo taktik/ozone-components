@@ -211,7 +211,6 @@ export class OzoneVideoPlayer extends Polymer.Element {
 			}, clapprConfig)
 			param.subtitle.list = this._subtitles
 			this.createPlayer(param)
-			this.onResize()
 		}
 	}
 
