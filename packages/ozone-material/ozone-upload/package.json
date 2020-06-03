@@ -1,6 +1,6 @@
 {
   "name": "ozone-upload",
-  "version": "5.4.4",
+  "version": "5.4.6",
   "publishConfig": {
     "access": "public"
   },
@@ -34,7 +34,7 @@
     "ozone-api-upload": "^5.4.1",
     "ozone-config": "^5.4.0",
     "ozone-type": "^5.4.0",
-    "taktik-polymer-typescript": "^5.4.4",
+    "taktik-polymer-typescript": "^5.4.6",
     "uuid": "3.3.2"
   }
 }

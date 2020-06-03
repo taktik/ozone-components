@@ -1,6 +1,6 @@
 {
 	"name": "ozone-video-player",
-	"version": "5.4.5",
+	"version": "5.4.6",
 	"publishConfig": {
 		"access": "public"
 	},
@@ -31,7 +31,7 @@
 	"license": "ISC",
 	"devDependencies": {
 		"@polymer/polymer": "2.6.1",
-		"taktik-polymer-typescript": "^5.4.4"
+		"taktik-polymer-typescript": "^5.4.6"
 	},
 	"dependencies": {
 		"clappr": "0.2.98",
