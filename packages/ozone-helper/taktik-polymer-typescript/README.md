@@ -2,7 +2,7 @@
 
 # taktik-polymer-typeScript
 
-!! WARNING !! Unmaintained project.
+!! WARNING !! Unmaintained project
 
 Module providing development facilities for ozone polymer V2 typescript modules.
 
