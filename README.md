@@ -141,7 +141,7 @@ yarn run doc
 ### Publish
 
 We use Lerna to publish ozone-components packages. 
-At first, make sure to set up correctly your project. (see setup section)
+At first, make sure to set up correctly your project. (see #setup section)
 
 ```bash
 npm run lerna:publish
