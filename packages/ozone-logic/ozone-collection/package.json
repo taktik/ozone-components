@@ -1,6 +1,6 @@
 {
   "name": "ozone-collection",
-  "version": "5.4.6",
+  "version": "5.4.7",
   "publishConfig": {
     "access": "public"
   },
@@ -37,6 +37,6 @@
     "ozone-default-client": "^5.4.1",
     "ozone-search-helper": "^5.4.0",
     "ozone-typescript-client": "^5.4.1",
-    "taktik-polymer-typescript": "^5.4.6"
+    "taktik-polymer-typescript": "^5.4.7"
   }
 }
