@@ -1,6 +1,6 @@
 {
   "name": "ozone-upload",
-  "version": "5.4.7",
+  "version": "5.4.8",
   "publishConfig": {
     "access": "public"
   },
@@ -31,7 +31,7 @@
   "license": "ISC",
   "dependencies": {
     "ozone-api-request": "^5.4.0",
-    "ozone-api-upload": "^5.4.1",
+    "ozone-api-upload": "^5.4.8",
     "ozone-config": "^5.4.0",
     "ozone-type": "^5.4.0",
     "taktik-polymer-typescript": "^5.4.7",

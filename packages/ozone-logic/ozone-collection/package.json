@@ -1,6 +1,6 @@
 {
   "name": "ozone-collection",
-  "version": "5.4.7",
+  "version": "5.4.8",
   "publishConfig": {
     "access": "public"
   },
@@ -33,10 +33,10 @@
     "ozone-type": "^5.4.0"
   },
   "dependencies": {
-    "ozone-api-item": "^5.4.1",
-    "ozone-default-client": "^5.4.1",
+    "ozone-api-item": "^5.4.8",
+    "ozone-default-client": "^5.4.8",
     "ozone-search-helper": "^5.4.0",
-    "ozone-typescript-client": "^5.4.1",
+    "ozone-typescript-client": "^5.4.8",
     "taktik-polymer-typescript": "^5.4.7"
   }
 }
