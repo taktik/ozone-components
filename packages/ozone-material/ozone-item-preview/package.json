@@ -1,6 +1,6 @@
 {
   "name": "ozone-item-preview",
-  "version": "5.4.8",
+  "version": "5.4.9",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "description": "",
@@ -21,14 +21,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ozone-api-item": "^5.4.8",
-    "ozone-api-request": "^5.4.0",
-    "ozone-config": "^5.4.0",
-    "ozone-default-client": "^5.4.8",
-    "ozone-media-url": "^5.4.8",
-    "ozone-search-helper": "^5.4.0",
-    "ozone-type": "^5.4.0",
-    "ozone-typescript-client": "^5.4.8",
-    "taktik-polymer-typescript": "^5.4.7"
+    "ozone-api-item": "^5.4.9",
+    "ozone-api-request": "^5.4.9",
+    "ozone-config": "^5.4.9",
+    "ozone-default-client": "^5.4.9",
+    "ozone-media-url": "^5.4.9",
+    "ozone-search-helper": "^5.4.9",
+    "ozone-type": "^5.4.9",
+    "ozone-typescript-client": "^5.4.9",
+    "taktik-polymer-typescript": "^5.4.9"
   }
 }
