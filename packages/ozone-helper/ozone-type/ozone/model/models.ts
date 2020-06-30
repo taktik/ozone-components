@@ -302,6 +302,7 @@ export * from './FlowrMediaplayIdsSearchResult';
 export * from './FlowrMediaplayQueryUpdate';
 export * from './FlowrMediaplayRawSearchResult';
 export * from './FlowrMediaplaySearchResult';
+export * from './FlowrPackage';
 export * from './FlowrVod';
 export * from './Flowrconfig';
 export * from './FlowrconfigIdsSearchResult';
