@@ -1,7 +1,7 @@
 /**
  * Created by hubert on 21/06/17.
  */
-import * as OzoneType from 'ozone-type'
+import { UUID } from 'ozone-type'
 import { FlowrImageEnum, FlowrVideoEnum } from 'ozone-config'
 import { OzoneClient } from 'ozone-typescript-client'
 import { httpclient } from 'typescript-http-client'
@@ -20,8 +20,8 @@ export class OzonePreviewSize {
  */
 export class OzoneMediaUrl {
 
-	id: OzoneType.UUID
-	constructor(id: OzoneType.UUID, private ozoneHost: string) {
+	id: UUID
+	constructor(id: UUID, private ozoneHost: string) {
 		this.id = id
 	}
 
@@ -29,11 +29,16 @@ export class OzoneMediaUrl {
 	 * Convert uuid to ozone v2 numeric id
 	 * @return {number}
 	 */
-	getNumericId(): number {
-		return parseInt(this.id.split('-')[4], 16)
+	static convertToNumericID(id: UUID): number {
+		return parseInt(id.split('-')[4], 16)
 	}
-	private _buildBaseUrl(...action: Array<string | number>): string {
-		return `${this.ozoneHost}${action.join('/')}`
+
+	getNumericId(): number {
+		return OzoneMediaUrl.convertToNumericID(this.id)
+	}
+
+	private static _buildBaseUrl(ozoneHost: string, ...action: Array<string | number>): string {
+		return `${ozoneHost}${action.join('/')}`
 	}
 	private _buildViewUrl(action: Array<string | number>): string {
 		return `${this.ozoneHost}/view/${action.join('/')}`
@@ -63,15 +68,17 @@ export class OzoneMediaUrl {
 	 * return url where to upload the media.
 	 * @return {Promise<string>}
 	 */
-	async getMediaUploadUrl(client: OzoneClient.OzoneClient): Promise<string> {
-
-		const numericId = this.getNumericId()
-		const url = this._buildBaseUrl('/rest/v2/media/download/request')
+	static async getMediaUploadUrl(
+		ids: Array<UUID>, client: OzoneClient.OzoneClient
+	): Promise<string> {
+		const ozoneHost = client.config.ozoneURL
+		const numericIds: Array<number> = ids.map(OzoneMediaUrl.convertToNumericID)
+		const url = OzoneMediaUrl._buildBaseUrl(ozoneHost, '/rest/v2/media/download/request')
 		const body = {
 			fileAssignedToBatch: false,
 			fileTypeIdentifiers: ['org.taktik.filetype.original'],
 			mediaSet: {
-				includedMediaIds: [numericId],
+				includedMediaIds: numericIds,
 				includedMediaQueries: [],
 				simpleSelection: true,
 				singletonSelection: true
@@ -82,7 +89,7 @@ export class OzoneMediaUrl {
 		const request = new Request(url, { method: 'POST', body })
 		const response = await client.call<{downloadUrl: string}>(request)
 
-		return this._buildBaseUrl('', response.downloadUrl)
+		return OzoneMediaUrl._buildBaseUrl(ozoneHost, '', response.downloadUrl)
 	}
 	/**
 	 * return url to png preview

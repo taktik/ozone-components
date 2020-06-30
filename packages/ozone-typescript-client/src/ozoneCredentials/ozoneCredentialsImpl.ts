@@ -13,7 +13,7 @@ export class SessionCredentials implements OzoneCredentials {
 				withCredentials: true
 			})
 		let authInfo = await (httpClient.call<AuthInfo>(request))
-		if (!authInfo['principalId']) {
+		if (authInfo && !authInfo['principalId']) {
 			// The session is invalid
 			throw new Response<AuthInfo>(request, 403, 'Invalid session', {}, authInfo)
 		}
@@ -106,7 +106,11 @@ export class OzoneLoginCredentials extends SessionCredentials {
 
 	async authenticate(ozoneURL: string): Promise<AuthInfo> {
 		try {
-			return await super.authenticate(ozoneURL)
+			const authInfo = await super.authenticate(ozoneURL)
+			if (!authInfo) {
+				this.redirectToLoginPage(ozoneURL)
+			}
+			return authInfo
 		} catch (e) {
 			if (e.status === 403) {
 				this.redirectToLoginPage(ozoneURL)

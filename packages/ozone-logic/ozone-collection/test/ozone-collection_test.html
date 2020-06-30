@@ -411,7 +411,7 @@
                                 resolve()
                             }, time_ms)
                         });
-                        await waitFunc(5)
+                        await waitFunc(20)
                         expect(element.items).to.deep.equal(['second*item1', 'second*item2']);
 
                     })
