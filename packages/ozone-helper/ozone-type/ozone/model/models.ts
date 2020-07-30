@@ -108,7 +108,7 @@ export * from './DeviceMessageAlertIdsSearchResult';
 export * from './DeviceMessageAlertQueryUpdate';
 export * from './DeviceMessageAlertRawSearchResult';
 export * from './DeviceMessageAlertSearchResult';
-export * from './DeviceMessageClearCache';
+export * from './DeviceMessageClearTemp';
 export * from './DeviceMessageClearStorage';
 export * from './DeviceMessageEmail';
 export * from './DeviceMessageEmailIdsSearchResult';
