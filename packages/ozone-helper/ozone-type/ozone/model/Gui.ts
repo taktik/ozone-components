@@ -15,6 +15,7 @@ export class Gui extends Item implements RestrictedContent, FlowrPackageable {
 	parent?: UUID
 	restricted?: boolean
 	tags?: string[]
+	cannotBreakInheritance?: boolean
 
 	constructor(src: Gui) {
 		super(src)
@@ -28,5 +29,6 @@ export class Gui extends Item implements RestrictedContent, FlowrPackageable {
 		this.parent = src.parent
 		this.restricted = src.restricted
 		this.tags = src.tags
+		this.cannotBreakInheritance = src.cannotBreakInheritance
 	}
 }
