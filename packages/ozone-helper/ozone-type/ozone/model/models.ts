@@ -204,6 +204,7 @@ export * from './DeviceMessageUpdateIdsSearchResult';
 export * from './DeviceMessageUpdateQueryUpdate';
 export * from './DeviceMessageUpdateRawSearchResult';
 export * from './DeviceMessageUpdateSearchResult';
+export * from './DeviceMessageWarning';
 export * from './DistributionSummary';
 export * from './DistributionSummaryIdsSearchResult';
 export * from './DistributionSummaryQueryUpdate';
