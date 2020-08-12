@@ -29,6 +29,7 @@ export class DeviceInfo extends Item implements Principal {
 	serialNumber?: string
 	status?: string
 	subLocation?: string
+	publicIpAddress?: string
 
 	constructor(src: DeviceInfo) {
 		super(src)
@@ -56,5 +57,6 @@ export class DeviceInfo extends Item implements Principal {
 		this.serialNumber = src.serialNumber
 		this.status = src.status
 		this.subLocation = src.subLocation
+		this.publicIpAddress = src.publicIpAddress
 	}
 }
