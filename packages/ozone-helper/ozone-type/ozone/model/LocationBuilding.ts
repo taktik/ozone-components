@@ -7,8 +7,6 @@ export default class LocationBuilding extends Item {
 	warningButtonText: string
 	zones: string
 
-
-
 	constructor(src: LocationBuilding) {
 		super(src)
 		this.position = src.position

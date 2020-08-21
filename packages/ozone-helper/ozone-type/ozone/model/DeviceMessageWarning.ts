@@ -1,15 +1,15 @@
 import { DeviceMessage } from './DeviceMessage'
 import {OzoneType, UUID} from './Item'
 
-export const WARNING_STATES = Object.freeze( {
-	OFF: 0,
-	ON: 1,
-	TEST: -1
-})
+export enum WARNING_STATES {
+	OFF = "off",
+	ON = "on",
+	TEST = "test"
+}
 
 @OzoneType('device.message.warning')
 export class DeviceMessageWarning extends DeviceMessage {
-	state: Number
+	state: WARNING_STATES
 	building: UUID
 
 	constructor(src:DeviceMessageWarning) {
