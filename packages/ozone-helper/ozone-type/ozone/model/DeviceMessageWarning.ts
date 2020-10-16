@@ -2,9 +2,9 @@ import { DeviceMessage } from './DeviceMessage'
 import {OzoneType, UUID} from './Item'
 
 export enum WARNING_STATES {
-	OFF = "off",
-	ON = "on",
-	TEST = "test"
+	OFF = "OFF",
+	ON = "ON",
+	TEST = "TEST"
 }
 
 @OzoneType('device.message.warning')
