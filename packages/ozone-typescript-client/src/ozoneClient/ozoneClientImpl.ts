@@ -570,10 +570,8 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 	private dispatchMessage(message: DeviceMessage) {
 		if (message.type) {
 			OzoneClientImpl.invokeMessageListeners(message, this._messageListeners[message.type])
-			OzoneClientImpl.invokeMessageListeners(message, this._messageListeners['*'])
-		} else {
-			throw Error('Can not dispatch message of undefined type')
 		}
+		OzoneClientImpl.invokeMessageListeners(message, this._messageListeners['*'])
 	}
 
 	private setupTransitionListeners() {
