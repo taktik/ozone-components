@@ -1,11 +1,22 @@
 import {Item, OzoneType} from "./Item";
+import {LocationBuilding} from "./LocationBuilding";
+import {FlowrWarningParsable} from "./FlowrWarningParsable";
 
 @OzoneType('flowr.location.site')
-export default class LocationSite extends Item {
+export class LocationSite extends Item implements FlowrWarningParsable {
 	shortName: string
-
+	buildings?: LocationBuilding[]
 	constructor(src: LocationSite) {
 		super(src)
 		this.shortName = src.shortName
+		this.buildings = src.buildings
+	}
+}
+
+export class PersistedLocationSite extends LocationSite {
+	id: string
+	constructor(src:PersistedLocationSite) {
+		super(src);
+		this.id = src.id
 	}
 }
