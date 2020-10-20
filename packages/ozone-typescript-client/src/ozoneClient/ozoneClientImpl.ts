@@ -661,6 +661,10 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 		}
 		return `${this.config.ozoneURL}/dsid=${this.authInfo.sessionId}${url.substring(this.config.ozoneURL.length)}`
 	}
+
+	addCustomFilter(filter: Filter<any, any>, name: string): void {
+		this._httpClient.addFilter(filter, name)
+	}
 }
 
 /*
