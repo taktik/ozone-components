@@ -165,4 +165,10 @@ export interface OzoneClient extends StateMachine<ClientState> {
         "https://taktik.io/rest/v2/media/view/org.taktik.filetype.original/123"
     */
 	insertSessionIdInURL(url: string): string
+
+	/**
+	 * Add a custom filter
+	 * @param filter to add
+	 */
+	addCustomFilter(filter: httpclient.Filter<any, any>, name: string): void
 }
