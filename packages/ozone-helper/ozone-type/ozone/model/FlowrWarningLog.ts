@@ -1,7 +1,7 @@
-import { Instant, Item, OzoneType, UUID } from './Item'
-import { isLocationBuilding, LocationBuilding } from './LocationBuilding'
-import { PersistedFlowrWarningOperator } from './FlowrWarningOperator'
-import { isLocationSite, LocationSite } from './LocationSite'
+import {Instant, Item, OzoneType, UUID} from './Item'
+import {isLocationBuilding, LocationBuilding} from './LocationBuilding'
+import {PersistedFlowrWarningOperator} from './FlowrWarningOperator'
+import {isLocationSite, LocationSite} from './LocationSite'
 
 export enum LOG_ACTION {
 	LOGIN = 'LOGIN',
@@ -16,6 +16,7 @@ class BareFlowrWarningLog extends Item {
 	date: Instant
 	action: LOG_ACTION
 	targetType?: string
+
 	constructor(src: BareFlowrWarningLog) {
 		super(src)
 		this.date = src.date
@@ -28,6 +29,7 @@ class BareFlowrWarningLog extends Item {
 export class FlowrWarningLog extends BareFlowrWarningLog {
 	operator: UUID
 	target?: UUID
+
 	constructor(src: FlowrWarningLog) {
 		super(src)
 		this.operator = src.operator
@@ -59,5 +61,7 @@ export const isFlowrWarningLog = (object: any): object is FlowrWarningLog => {
 }
 
 export const isHydratedFlowrWarningLog = (object: any): object is HydratedFlowrWarningLog => {
-	return isFlowrWarningLog(object) && (object.target === undefined || typeof (object.target) === 'object')
+	return isFlowrWarningLog(object) &&
+		(object.target === undefined || typeof (object.target) === 'object') &&
+		object.id !== undefined
 }
