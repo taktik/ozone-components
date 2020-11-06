@@ -1,6 +1,6 @@
 import { Instant, Item, OzoneType, UUID } from './Item'
 import { isLocationBuilding, LocationBuilding } from './LocationBuilding'
-import { FlowrWarningOperator } from './FlowrWarningOperator'
+import { PersistedFlowrWarningOperator } from './FlowrWarningOperator'
 import { isLocationSite, LocationSite } from './LocationSite'
 
 export enum LOG_ACTION {
@@ -12,52 +12,47 @@ export enum LOG_ACTION {
 	WARNING_TEST = 'WARNING_TEST'
 }
 
-@OzoneType('flowr.warning.log')
-export class FlowrWarningLog extends Item {
-
+class BareFlowrWarningLog extends Item {
 	date: Instant
-	operator: UUID
 	action: LOG_ACTION
-	targetType?: String
-	target?: UUID
-
-	constructor(src: FlowrWarningLog) {
+	constructor(src: BareFlowrWarningLog) {
 		super(src)
 		this.date = src.date
-		this.operator = src.operator
 		this.action = src.action
+	}
+}
+
+@OzoneType('flowr.warning.log')
+export class FlowrWarningLog extends BareFlowrWarningLog {
+	operator: UUID
+	targetType?: string
+	target?: UUID
+	constructor(src: FlowrWarningLog) {
+		super(src)
+		this.operator = src.operator
 		this.targetType = src.targetType
 		this.target = src.target
 	}
 }
 
-export class HydratedFlowrWarningLog {
+export class HydratedFlowrWarningLog extends BareFlowrWarningLog {
 	id: UUID
-	type: string
-	date: Instant
-	operator: FlowrWarningOperator
-	action: LOG_ACTION
-	targetType?: String
+	operator: PersistedFlowrWarningOperator
+	targetType?: string
 	target?: LocationBuilding | LocationSite
 
-	constructor(src: any) { // can't type HydratedFlowrWarningLog else src has to have getTargetToString function
-		this.type = 'flowr.warning.log'
+	constructor(src: any) {
+		super(src)
 		this.id = src.id
-		this.date = src.date
 		this.operator = src.operator
-		this.action = src.action
 		this.targetType = src.targetType
 		this.target = src.target
 	}
 
 	getTargetToString() {
 		if (!this.target) return
-		if (isLocationSite(this.target)) {
-			return this.target.name
-		} else if (isLocationBuilding(this.target)) {
-			return this.target.warningButtonText
-		}
-		return
+		if (isLocationSite(this.target)) return this.target.name
+		if (isLocationBuilding(this.target)) return this.target.warningButtonText
 	}
 }
 
@@ -66,5 +61,5 @@ export const isFlowrWarningLog = (object: any): object is FlowrWarningLog => {
 }
 
 export const isHydratedFlowrWarningLog = (object: any): object is HydratedFlowrWarningLog => {
-	return object.type === 'flowr.warning.log' && (object.target === undefined || typeof (object.target) === 'object')
+	return isFlowrWarningLog(object) && (object.target === undefined || typeof (object.target) === 'object')
 }
