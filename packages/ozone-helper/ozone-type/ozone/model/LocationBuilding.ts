@@ -1,7 +1,7 @@
-import {Item, OzoneType, UUID} from "./Item";
-import {DeviceInfo} from "./DeviceInfo";
-import {FlowrWarningParsable} from "./FlowrWarningParsable";
-import {WARNING_STATES} from "./DeviceMessageWarning";
+import { Item, OzoneType, UUID } from './Item'
+import { DeviceInfo } from './DeviceInfo'
+import { FlowrWarningParsable } from './FlowrWarningParsable'
+import { WARNING_STATES } from './DeviceMessageWarning'
 
 @OzoneType('flowr.location.building')
 export class LocationBuilding extends Item implements FlowrWarningParsable {
@@ -24,8 +24,12 @@ export class LocationBuilding extends Item implements FlowrWarningParsable {
 
 export class PersistedLocationBuilding extends LocationBuilding {
 	id: string
-	constructor(src:PersistedLocationBuilding) {
-		super(src);
+	constructor(src: PersistedLocationBuilding) {
+		super(src)
 		this.id = src.id
 	}
+}
+
+export const isLocationBuilding = (object: any): object is LocationBuilding => {
+	return object.type === 'flowr.location.building'
 }
