@@ -15,22 +15,22 @@ export enum LOG_ACTION {
 class BareFlowrWarningLog extends Item {
 	date: Instant
 	action: LOG_ACTION
+	targetType?: string
 	constructor(src: BareFlowrWarningLog) {
 		super(src)
 		this.date = src.date
 		this.action = src.action
+		this.targetType = src.targetType
 	}
 }
 
 @OzoneType('flowr.warning.log')
 export class FlowrWarningLog extends BareFlowrWarningLog {
 	operator: UUID
-	targetType?: string
 	target?: UUID
 	constructor(src: FlowrWarningLog) {
 		super(src)
 		this.operator = src.operator
-		this.targetType = src.targetType
 		this.target = src.target
 	}
 }
@@ -38,14 +38,12 @@ export class FlowrWarningLog extends BareFlowrWarningLog {
 export class HydratedFlowrWarningLog extends BareFlowrWarningLog {
 	id: UUID
 	operator: PersistedFlowrWarningOperator
-	targetType?: string
 	target?: LocationBuilding | LocationSite
 
 	constructor(src: any) {
 		super(src)
 		this.id = src.id
 		this.operator = src.operator
-		this.targetType = src.targetType
 		this.target = src.target
 	}
 
