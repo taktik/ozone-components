@@ -1,6 +1,7 @@
-import {UUID} from "./Item";
+import { UUID } from './Item'
 
 export class FlowrWarningParsable {
-	[key:string]: any
+	// We tried. Good luck.
+	[key: string]: any
 	id?: UUID
 }
