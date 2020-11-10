@@ -1,7 +1,7 @@
-import {Instant, Item, OzoneType, UUID} from './Item'
-import {isLocationBuilding, LocationBuilding} from './LocationBuilding'
-import {PersistedFlowrWarningOperator} from './FlowrWarningOperator'
-import {isLocationSite, LocationSite} from './LocationSite'
+import { Instant, Item, OzoneType, UUID } from './Item'
+import { isLocationBuilding, LocationBuilding } from './LocationBuilding'
+import { PersistedFlowrWarningOperator } from './FlowrWarningOperator'
+import { isLocationSite, LocationSite } from './LocationSite'
 
 export enum LOG_ACTION {
 	LOGIN = 'LOGIN',
@@ -47,9 +47,10 @@ export class HydratedFlowrWarningLog extends BareFlowrWarningLog {
 		this.id = src.id
 		this.operator = src.operator
 		this.target = src.target
+		this.type = src.type
 	}
 
-	getTargetToString() {
+	getTargetToString(): string | undefined {
 		if (!this.target) return
 		if (isLocationSite(this.target)) return this.target.name
 		if (isLocationBuilding(this.target)) return this.target.warningButtonText
@@ -61,7 +62,7 @@ export const isFlowrWarningLog = (object: any): object is FlowrWarningLog => {
 }
 
 export const isHydratedFlowrWarningLog = (object: any): object is HydratedFlowrWarningLog => {
-	return isFlowrWarningLog(object) &&
-		(object.target === undefined || typeof (object.target) === 'object') &&
-		object.id !== undefined
+	return !!(object.type === 'flowr.warning.log' &&
+		object.id &&
+		(!object.target || isLocationBuilding(object.target) || isLocationSite(object.target)))
 }
