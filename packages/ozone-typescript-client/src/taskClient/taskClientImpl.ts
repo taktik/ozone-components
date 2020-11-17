@@ -11,6 +11,7 @@ export class TaskClientImpl implements TaskClient {
 		return new TaskHandlerImpl<T>(taskId, this.client, this.baseUrl, options || {})
 	}
 }
+const waitingTime = 1000 // ms
 
 export class TaskHandlerImpl<T = any> implements TaskHandler {
 
@@ -113,7 +114,7 @@ export class TaskHandlerImpl<T = any> implements TaskHandler {
 	}
 
 	private async _awaitTask(taskId: string): Promise<GroupExecution> {
-		const url = `${this.baseUrl}/rest/v3/task/wait/${taskId}/120`
+		const url = `${this.baseUrl}/rest/v3/task/wait/${taskId}/${waitingTime}`
 		const request = new Request(url)
 			.setMethod('GET')
 		return this.client.call<GroupExecution>(request)
