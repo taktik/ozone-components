@@ -98,15 +98,7 @@ export class OzoneAPIRequest {
 		}
 	}
 
-	private _url: string = ''
-
-	get url(): string {
-		return this._url
-	}
-
-	set url(url: string) {
-		this._url = url
-	}
+	public url: string = ''
 
 	private _method: string = 'GET'
 
