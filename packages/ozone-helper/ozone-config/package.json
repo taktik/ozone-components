@@ -1,6 +1,6 @@
 {
   "name": "ozone-config",
-  "version": "5.4.20",
+  "version": "5.4.21",
   "publishConfig": {
     "access": "public"
   },
@@ -26,6 +26,6 @@
     "ozone-type": "^5.4.20"
   },
   "dependencies": {
-    "ozone-api-request": "^5.4.20"
+    "ozone-api-request": "^5.4.21"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "ozone-api-authentication",
-  "version": "5.4.20",
+  "version": "5.4.21",
   "publishConfig": {
     "access": "public"
   },
@@ -23,8 +23,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ozone-api-request": "^5.4.20",
-    "ozone-config": "^5.4.20"
+    "ozone-api-request": "^5.4.21",
+    "ozone-config": "^5.4.21"
   },
   "devDependencies": {
     "ozone-type": "^5.4.20",
