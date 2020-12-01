@@ -9,7 +9,8 @@ export enum LOG_ACTION {
 	SWITCH_SITE = 'SWITCH_SITE',
 	WARNING_ON = 'WARNING_ON',
 	WARNING_OFF = 'WARNING_OFF',
-	WARNING_TEST = 'WARNING_TEST'
+	TEST_ON = 'TEST_ON',
+	TEST_OFF = 'TEST_OFF'
 }
 
 class BareFlowrWarningLog extends Item {
