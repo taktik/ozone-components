@@ -1,6 +1,6 @@
 {
   "name": "ozone-media-url",
-  "version": "5.4.21",
+  "version": "5.4.22",
   "publishConfig": {
     "access": "public"
   },
@@ -23,11 +23,11 @@
   "author": "hj@taktik",
   "license": "ISC",
   "devDependencies": {
-    "ozone-type": "^5.4.20"
+    "ozone-type": "^5.4.22"
   },
   "dependencies": {
-    "ozone-api-request": "^5.4.21",
-    "ozone-config": "^5.4.21",
-    "ozone-typescript-client": "^5.4.21"
+    "ozone-api-request": "^5.4.22",
+    "ozone-config": "^5.4.22",
+    "ozone-typescript-client": "^5.4.22"
   }
 }

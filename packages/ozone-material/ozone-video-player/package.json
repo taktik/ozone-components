@@ -1,6 +1,6 @@
 {
 	"name": "ozone-video-player",
-	"version": "5.4.21",
+	"version": "5.4.22",
 	"publishConfig": {
 		"access": "public"
 	},
@@ -31,18 +31,18 @@
 	"license": "ISC",
 	"devDependencies": {
 		"@polymer/polymer": "2.6.1",
-		"taktik-polymer-typescript": "^5.4.20"
+		"taktik-polymer-typescript": "^5.4.22"
 	},
 	"dependencies": {
 		"clappr": "0.2.98",
 		"clappr-markers-plugin": "git+https://github.com/hubjac1/clappr-markers-plugin.git",
-		"ozone-api-item": "^5.4.21",
-		"ozone-api-request": "^5.4.21",
-		"ozone-default-client": "^5.4.21",
-		"ozone-media-url": "^5.4.21",
-		"ozone-search-helper": "^5.4.20",
-		"ozone-type": "^5.4.20",
-		"ozone-typescript-client": "^5.4.21",
+		"ozone-api-item": "^5.4.22",
+		"ozone-api-request": "^5.4.22",
+		"ozone-default-client": "^5.4.22",
+		"ozone-media-url": "^5.4.22",
+		"ozone-search-helper": "^5.4.22",
+		"ozone-type": "^5.4.22",
+		"ozone-typescript-client": "^5.4.22",
 		"uuid": "3.3.2"
 	}
 }
