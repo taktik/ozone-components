@@ -10,13 +10,13 @@ export enum WARNING_STATES {
 @OzoneType('device.message.warning')
 export class DeviceMessageWarning extends DeviceMessage {
 	state: WARNING_STATES
-	building: UUID
-	wokenUp?: boolean
+	locationZone: UUID
+	wakeUpDevice?: boolean
 
 	constructor(src: DeviceMessageWarning) {
 		super(src)
 		this.state = src.state
-		this.building = src.building
-		this.wokenUp = src.wokenUp
+		this.locationZone = src.locationZone
+		this.wakeUpDevice = src.wakeUpDevice
 	}
 }

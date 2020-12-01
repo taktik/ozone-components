@@ -1,15 +1,15 @@
 import { Item, OzoneType } from './Item'
-import { LocationBuilding } from './LocationBuilding'
+import { LocationZone } from './LocationZone'
 import { FlowrWarningParsable } from './FlowrWarningParsable'
 
 @OzoneType('flowr.location.site')
 export class LocationSite extends Item implements FlowrWarningParsable {
 	shortName: string
-	buildings?: LocationBuilding[]
+	locationZones?: LocationZone[]
 	constructor(src: LocationSite) {
 		super(src)
 		this.shortName = src.shortName
-		this.buildings = src.buildings
+		this.locationZones = src.locationZones
 	}
 }
 

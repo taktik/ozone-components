@@ -30,7 +30,7 @@ export class DeviceInfo extends Item implements Principal {
 	status?: string
 	subLocation?: string
 	publicIpAddress?: string
-	building?: UUID
+	locationZone?: UUID
 
 	constructor(src: DeviceInfo) {
 		super(src)
@@ -59,6 +59,6 @@ export class DeviceInfo extends Item implements Principal {
 		this.status = src.status
 		this.subLocation = src.subLocation
 		this.publicIpAddress = src.publicIpAddress
-		this.building = src.building
+		this.locationZone = src.locationZone
 	}
 }
