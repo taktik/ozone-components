@@ -11,12 +11,12 @@ export enum WARNING_STATES {
 export class DeviceMessageWarning extends DeviceMessage {
 	state: WARNING_STATES
 	locationZone: UUID
-	wokenUp?: boolean
+	wakeUpDevice?: boolean
 
 	constructor(src: DeviceMessageWarning) {
 		super(src)
 		this.state = src.state
 		this.locationZone = src.locationZone
-		this.wokenUp = src.wokenUp
+		this.wakeUpDevice = src.wakeUpDevice
 	}
 }
