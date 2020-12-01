@@ -1,6 +1,7 @@
 import { OzoneConfig } from 'ozone-config'
 import { OzoneAPIRequest } from 'ozone-api-request'
 import { getDefaultClient } from 'ozone-default-client'
+import { UUID } from 'ozone-type'
 
 export interface UploadSessionResult {
 	file: FormData
@@ -282,20 +283,10 @@ export class UploadFileRequest implements XMLHttpRequestLike {
 
 		request.onreadystatechange = this.notifyOnError()
 
-		// TODO understand need of folderId??
-		// tslint:disable-next-line:radix
-		const numericId = parseInt('0x' + folderId.split('-')[4])
 		const config = await OzoneConfig.get()
 		const body = {
 			mediaUploadChannelIdentifier: config.uploadChannel,
-			autoCommit: false,
-			mediaMetadatas: [{
-				'type': {
-					'type': 'PROPERTY',
-					'identifier': 'org.taktik.metadata.folderId'
-				},
-				'valueObject': numericId.toString()
-			}]
+			autoCommit: false
 		}
 		request.body = JSON.stringify(body)
 		return request.sendRequest()
