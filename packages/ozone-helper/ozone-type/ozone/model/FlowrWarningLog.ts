@@ -1,5 +1,5 @@
 import { Instant, Item, OzoneType, UUID } from './Item'
-import { isLocationBuilding, LocationBuilding } from './LocationBuilding'
+import { isLocationZone, LocationZone } from './LocationZone'
 import { PersistedFlowrWarningOperator } from './FlowrWarningOperator'
 import { isLocationSite, LocationSite } from './LocationSite'
 
@@ -41,7 +41,7 @@ export class FlowrWarningLog extends BareFlowrWarningLog {
 export class HydratedFlowrWarningLog extends BareFlowrWarningLog {
 	id: UUID
 	operator: PersistedFlowrWarningOperator
-	target?: LocationBuilding | LocationSite
+	target?: LocationZone | LocationSite
 
 	constructor(src: any) {
 		super(src)
@@ -54,7 +54,7 @@ export class HydratedFlowrWarningLog extends BareFlowrWarningLog {
 	getTargetToString(): string | undefined {
 		if (!this.target) return
 		if (isLocationSite(this.target)) return this.target.name
-		if (isLocationBuilding(this.target)) return this.target.warningButtonText
+		if (isLocationZone(this.target)) return this.target.buttonText
 	}
 }
 
@@ -65,5 +65,5 @@ export const isFlowrWarningLog = (object: any): object is FlowrWarningLog => {
 export const isHydratedFlowrWarningLog = (object: any): object is HydratedFlowrWarningLog => {
 	return !!(object.type === 'flowr.warning.log' &&
 		object.id &&
-		(!object.target || isLocationBuilding(object.target) || isLocationSite(object.target)))
+		(!object.target || isLocationZone(object.target) || isLocationSite(object.target)))
 }
