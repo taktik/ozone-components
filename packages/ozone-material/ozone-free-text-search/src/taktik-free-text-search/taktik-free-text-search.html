@@ -56,7 +56,12 @@ Custom property | Description | Default
 `--taktik-input-color` | css mixin for the color of the input | `{--paper-input-container-focus-color: #2C2958;}`
 `--taktik-listBox` | css mixin for the list box style | `{}`
 `--taktik-search-disable` | css mixin when search is disable | `{}`
-
+`--input-bg-color` | css variable for the input background color | default: hsl(210, 31%, 95%);
+`--input-font-size` | css variable defining the input's fontsize| default: 14px;
+`--input-color` | css variable defining the input's color | default : hsl(212, 20%, 15%);
+`--label-color` | css variable defining label color | hsl(210, 14%, 44%);
+`--input-border-color` | css variable defining the border-color of the input | hsl(205, 93%, 93%);
+`--label-focus-color` | css variable defining the focused label color | hsl(205, 93%, 93%);
 
 
 @demo elements/taktik-material/taktik-free-text-search/demo.html
@@ -103,9 +108,94 @@ Custom property | Description | Default
         vertical-align: bottom;
         @apply --paper-input-container-shared-input-style;
       }
+      :host {
+        --input-bg-color: hsl(210, 31%, 95%);
+        --input-font-size: 14px;
+        --input-color: hsl(212, 20%, 15%);
+        --label-color: hsl(210, 14%, 44%);
+        --input-border-color: hsl(205, 93%, 93%);
+        --label-focus-color: hsl(205, 96%, 45%);
+      }
+
       .paperInputContainer{
-        --paper-input-container-focus-color: #2C2958;
+        --paper-input-container-input: {
+          height: 28px;
+          width: 100%;
+          border-radius: 4px 0 0 4px;
+          box-sizing: border-box;
+          padding: 2px 8px;
+          background: var(--input-bg-color);
+          font-size: var(--input-font-size);
+          color: var(--input-color);
+        };
+        padding: 0;
+        position: relative;
+        --paper-input-container-underline: {
+          display: none;
+        };
+        --paper-input-container-underline-focus: {
+          display: none;
+        };
+        --paper-input-container-underline-disabled: {
+          display: none;
+        };
+        --paper-input-container: {
+          padding: 0;
+        };
+        --paper-input-container-focus-color: var(--label-focus-color);
+        --paper-input-container-label: {
+          font-size: var(--input-font-size);
+          display: flex;
+          align-items: center;
+          height: 100%;
+          padding-left: 8px;
+          box-sizing: border-box;
+          z-index: 2;
+          color: var(--label-color);
+        };
+        --paper-input-suffix: {
+          height: 28px;
+          background: var(--input-bg-color);
+          border-radius: 0 4px 4px 0;
+          box-sizing: border-box;
+          padding: 0 8px 0 0;
+          font-size: var(--input-font-size);
+          color: var(--input-color);
+        };
+        --paper-input-prefix: {
+          height: 28px;
+          background: var(--input-bg-color);
+          border-radius: 4px 0 0 4px;
+          box-sizing: border-box;
+          padding: 2px 0 2px 8px;
+          font-size: var(--input-font-size);
+          color: var(--input-color);
+        };
         @apply --taktik-input-color;
+      }
+      .paperInputContainer:not([readonly]):hover:before {
+        box-shadow: 0 0 0 3px var(--input-border-color);
+        position: absolute;
+        top: 20px;
+        left: 0;
+        height: calc(100% - 22px);
+        width: 100%;
+        content: '';
+        display: block;
+        border-radius: 4px;
+      }
+
+      .paperInputContainer:not([readonly]):focus:before,
+      .paperInputContainer:not([readonly]):focus-within:before {
+        box-shadow: 0 0 0 1px hsla(205, 92%, 53%, 0.74), 0 0 0 3px hsla(205, 92%, 53%, 0.74);
+        position: absolute;
+        top: 20px;
+        left: 0;
+        height: calc(100% - 22px);
+        width: 100%;
+        content: '';
+        display: block;
+        border-radius: 4px;
       }
       :host .container{
         margin:auto;
@@ -124,12 +214,20 @@ Custom property | Description | Default
           margin:0 1%;
         }
       }
-      .clear{
-        padding: 12px;
-        color: rgba(0, 0, 0, .54);
-      }
       .hidden{
         display: none;
+      }
+
+      .icon-btn {
+        border-radius: 50%;
+        padding: 4px;
+        height: 28px;
+        width: 28px;
+        min-width: 28px;
+        min-height: 28px;
+        transform-origin: center center;
+        transition: all .24s ease-in;
+        color: var(--input-color);
       }
     </style>
 
@@ -141,8 +239,8 @@ Custom property | Description | Default
           <input  autofocus id="searchInput" value="{{searchValue::input}}" disabled$="{{disabled}}">
         </iron-input>
         <div slot="suffix">
-          <paper-icon-button id="clear" class="clear" icon="clear" on-tap="_clear" disabled$="{{disabled}}"></paper-icon-button>
-          <paper-icon-button id="iconSearch" icon="[[iconSearch]]" on-tap="fireTaktikSearch"  disabled$="{{disabled}}"></paper-icon-button>
+          <paper-icon-button id="clear" class="clear icon-btn" icon="clear" on-tap="_clear" disabled$="{{disabled}}"></paper-icon-button>
+          <paper-icon-button id="iconSearch" class="icon-btn" icon="[[iconSearch]]" on-tap="fireTaktikSearch"  disabled$="{{disabled}}"></paper-icon-button>
         </div>
       </paper-input-container>
 
