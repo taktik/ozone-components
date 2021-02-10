@@ -70,6 +70,9 @@ export class TaktikFreeTextSearch extends Polymer.Element {
     })
     _isInputFocus: boolean = false
 
+	@property({ type: String })
+	label = 'Search'
+
     $:{
         clear: HTMLElement
     } | any;
