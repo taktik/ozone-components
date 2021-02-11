@@ -21,6 +21,7 @@ import './taktik-free-text-search.html'
 @customElement( 'taktik-free-text-search')
 export class TaktikFreeTextSearch extends Polymer.Element {
 
+	
 
     /**
      * Value of the search query
