@@ -22,7 +22,6 @@ import './taktik-free-text-search.html'
 export class TaktikFreeTextSearch extends Polymer.Element {
 
 	
-
     /**
      * Value of the search query
      */
