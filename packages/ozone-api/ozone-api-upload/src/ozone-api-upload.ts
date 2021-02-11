@@ -1,7 +1,6 @@
 import { OzoneConfig } from 'ozone-config'
 import { OzoneAPIRequest } from 'ozone-api-request'
 import { getDefaultClient } from 'ozone-default-client'
-import { UUID } from 'ozone-type'
 
 export interface UploadSessionResult {
 	file: FormData
@@ -16,12 +15,15 @@ export interface UploadIdResult extends UploadSessionResult {
 export interface UploadFileId {
 	uploadFileId: string
 }
+
 export interface UploadEndResult extends UploadIdResult, UploadFileId {
 }
+
 export interface TaskResult {
 	mediaId: string
 	asyncTasksGroupId?: string
 }
+
 export interface TaskExecutions {
 	completed?: boolean // API v3
 	isComplete?: boolean // API v2
@@ -29,6 +31,7 @@ export interface TaskExecutions {
 	stepsDone: number,
 	taskResult?: TaskResult
 }
+
 export interface WaitResponse {
 	groupId: string,
 	hasErrors: boolean,
@@ -94,8 +97,10 @@ export class UploadFileRequest implements XMLHttpRequestLike {
 	/**
 	 * XMLHttpRequest.onreadystatechange event handler
 	 */
-	// tslint:disable-next-line:no-empty
-	onreadystatechange?: { (): void } = () => {}
+		// tslint:disable-next-line:no-empty
+	onreadystatechange?: { (): void } = () => {
+	}
+
 	private callOneadystatechange() {
 		if (typeof (this.onreadystatechange) === 'function') {
 			this.onreadystatechange()
@@ -115,10 +120,12 @@ export class UploadFileRequest implements XMLHttpRequestLike {
 	get readyState(): number {
 		return this._internalReadyState
 	}
+
 	private set _readyState(readyState: number) {
 		this._internalReadyState = readyState
 		this.callOneadystatechange()
 	}
+
 	private _internalReadyState: number = 0
 
 	/**
@@ -233,29 +240,29 @@ export class UploadFileRequest implements XMLHttpRequestLike {
 	 * @param {string} folderId
 	 * @return {Promise<string | void>}
 	 */
-	uploadFile(file: FormData, folderId: string = '0'): Promise<string | null> {
+	uploadFile(file: FormData, folderId: string = '0'): Promise<TaskResult | null> {
 
 		return this._startUploadSession(file, folderId)
 			.then((result) => this._getUploadId(result))
 			.then((result) => this._performUpload(result))
 			.then((result) => this._endUploadSession(result))
-			.then((result) => this._waitForTask(result))
-			.then((mediaId?: string) => {
-				if (!mediaId) {
+			.then((result) => this._waitForTask(result.uploadFileId))
+			.then((result) => {
+				if (!result?.mediaId) {
 					throw Error('No media define in Ozone')
 				}
 				this.status = 200
 				this._readyState = 4
 
-				this._mediaId = mediaId
+				this._mediaId = result.mediaId
 
 				if (this.eventTarget) {
 					this.eventTarget.dispatchEvent(
-					new CustomEvent('ozone-upload-completed',
-						{ bubbles: true, detail: { mediaId } })
-				)
+						new CustomEvent('ozone-upload-completed',
+							{ bubbles: true, detail: { mediaId: result.mediaId } })
+					)
 				}
-				return mediaId
+				return result
 			}).catch((error: Error) => {
 				this.status = 555
 				this._readyState = 4
@@ -277,7 +284,7 @@ export class UploadFileRequest implements XMLHttpRequestLike {
 	}
 
 	async _startUploadSession(file: FormData, folderId: string): Promise<UploadSessionResult> {
-		const request = this. _createRequest()
+		const request = this._createRequest()
 		request.url = await this._buildUrl('uploadStart')
 		request.method = 'POST'
 
@@ -299,25 +306,25 @@ export class UploadFileRequest implements XMLHttpRequestLike {
 			})
 	}
 
-	async _getUploadId(data: UploadSessionResult): Promise < UploadIdResult > {
-		const request = this. _createRequest()
+	async _getUploadId(data: UploadSessionResult): Promise<UploadIdResult> {
+		const request = this._createRequest()
 		request.url = await this._buildUrl('uploadId', data.sessionId)
 		request.method = 'GET'
 
 		request.onreadystatechange = this.notifyOnError()
 
 		return request.sendRequest()
-				.then((xhr: XMLHttpRequest) => {
-					const response = xhr.response
-					const resultInfo: UploadIdResult = data as UploadIdResult
-					resultInfo.uploadId = response.result
-					resultInfo.folderId = response.folderId
-					return resultInfo
-				})
+			.then((xhr: XMLHttpRequest) => {
+				const response = xhr.response
+				const resultInfo: UploadIdResult = data as UploadIdResult
+				resultInfo.uploadId = response.result
+				resultInfo.folderId = response.folderId
+				return resultInfo
+			})
 	}
 
-	async _performUpload(data: UploadIdResult): Promise < UploadIdResult > {
-		const request = this. _createRequest()
+	async _performUpload(data: UploadIdResult): Promise<UploadIdResult> {
+		const request = this._createRequest()
 		request.url = await this._buildUrl('upload', data.uploadId)
 		request.method = 'POST'
 
@@ -327,13 +334,13 @@ export class UploadFileRequest implements XMLHttpRequestLike {
 
 		request.body = data.file
 		return request.sendRequest(xhr)
-				.then(() => {
-					return data
-				})
+			.then(() => {
+				return data
+			})
 	}
 
-	async _endUploadSession(data: UploadIdResult): Promise < UploadEndResult > {
-		const request = this. _createRequest()
+	async _endUploadSession(data: UploadIdResult): Promise<UploadEndResult> {
+		const request = this._createRequest()
 		request.url = await this._buildUrl('uploadComplete', data.sessionId)
 		request.method = 'POST'
 
@@ -350,16 +357,16 @@ export class UploadFileRequest implements XMLHttpRequestLike {
 		request.body = JSON.stringify(info)
 
 		return request.sendRequest()
-				.then((xhr: XMLHttpRequest) => {
-					const response: UploadEndResult = data as UploadEndResult
-					response.uploadFileId = xhr.response.file
-					return response
-				})
+			.then((xhr: XMLHttpRequest) => {
+				const response: UploadEndResult = data as UploadEndResult
+				response.uploadFileId = xhr.response.file
+				return response
+			})
 	}
-	async _waitForTask(uploadEndResult: UploadFileId): Promise < string | undefined > {
+
+	_waitForTask(taskId: string): Promise<TaskResult | undefined> {
 		const taskClient = getDefaultClient().taskClient()
-		const taskHandler = taskClient.waitForTask<TaskResult>(uploadEndResult.uploadFileId)
-		const result = await taskHandler.waitResult
-		return result && result.mediaId
+		const taskHandler = taskClient.waitForTask<TaskResult>(taskId, { skipWaitingOnSubTask: true })
+		return taskHandler.waitResult
 	}
 }
