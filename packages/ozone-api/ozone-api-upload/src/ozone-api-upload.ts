@@ -1,7 +1,8 @@
 import { OzoneConfig } from 'ozone-config'
 import { OzoneAPIRequest } from 'ozone-api-request'
 import { getDefaultClient } from 'ozone-default-client'
-import { TaskHandlerOption } from '../../../ozone-typescript-client/src/taskClient/taskClient'
+import { OzoneClient } from 'ozone-typescript-client'
+import TaskHandlerOption = OzoneClient.TaskHandlerOption
 
 export interface UploadSessionResult {
 	file: FormData
