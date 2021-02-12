@@ -1,6 +1,7 @@
 import { OzoneConfig } from 'ozone-config'
 import { OzoneAPIRequest } from 'ozone-api-request'
 import { getDefaultClient } from 'ozone-default-client'
+import { TaskHandlerOption } from '../../../ozone-typescript-client/src/taskClient/taskClient'
 
 export interface UploadSessionResult {
 	file: FormData
@@ -238,15 +239,16 @@ export class UploadFileRequest implements XMLHttpRequestLike {
 	 * alias to send method.
 	 * @param {FormData} file
 	 * @param {string} folderId
+	 * @param options TaskHandlerOption
 	 * @return {Promise<string | void>}
 	 */
-	uploadFile(file: FormData, folderId: string = '0'): Promise<TaskResult | null> {
+	uploadFile(file: FormData, folderId: string = '0', options: TaskHandlerOption = {}): Promise<TaskResult | null> {
 
 		return this._startUploadSession(file, folderId)
 			.then((result) => this._getUploadId(result))
 			.then((result) => this._performUpload(result))
 			.then((result) => this._endUploadSession(result))
-			.then((result) => this._waitForTask(result.uploadFileId))
+			.then((result) => this._waitForTask(result.uploadFileId, options))
 			.then((result) => {
 				if (!result?.mediaId) {
 					throw Error('No media define in Ozone')
@@ -364,9 +366,9 @@ export class UploadFileRequest implements XMLHttpRequestLike {
 			})
 	}
 
-	_waitForTask(taskId: string): Promise<TaskResult | undefined> {
+	_waitForTask(taskId: string, options: TaskHandlerOption): Promise<TaskResult | undefined> {
 		const taskClient = getDefaultClient().taskClient()
-		const taskHandler = taskClient.waitForTask<TaskResult>(taskId, { skipWaitingOnSubTask: true })
+		const taskHandler = taskClient.waitForTask<TaskResult>(taskId, options)
 		return taskHandler.waitResult
 	}
 }
