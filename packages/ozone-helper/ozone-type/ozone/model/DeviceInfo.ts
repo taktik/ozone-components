@@ -31,6 +31,7 @@ export class DeviceInfo extends Item implements Principal {
 	subLocation?: string
 	publicIpAddress?: string
 	locationZone?: UUID
+	flowrConnectTvUser?: UUID
 
 	constructor(src: DeviceInfo) {
 		super(src)
@@ -60,5 +61,6 @@ export class DeviceInfo extends Item implements Principal {
 		this.subLocation = src.subLocation
 		this.publicIpAddress = src.publicIpAddress
 		this.locationZone = src.locationZone
+		this.flowrConnectTvUser = src.flowrConnectTvUser
 	}
 }
