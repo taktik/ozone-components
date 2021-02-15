@@ -1,6 +1,6 @@
 {
 	"name": "ozone-api-upload",
-	"version": "5.4.22",
+	"version": "5.4.26",
 	"publishConfig": {
 		"access": "public"
 	},
@@ -26,8 +26,8 @@
 	"dependencies": {
 		"ozone-api-request": "^5.4.22",
 		"ozone-config": "^5.4.22",
-		"ozone-default-client": "^5.4.22",
-		"ozone-typescript-client": "^5.4.22"
+		"ozone-default-client": "^5.4.26",
+		"ozone-typescript-client": "^5.4.26"
 	},
 	"repository": "https://github.com/taktik/ozone-components/packages/ozone-api/ozone-api-upload"
 }
