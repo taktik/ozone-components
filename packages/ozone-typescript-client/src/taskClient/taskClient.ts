@@ -1,7 +1,7 @@
-import { UUID, TaskExecution, GroupExecution } from 'ozone-type'
+import { UUID, TaskExecution } from 'ozone-type'
 
 export interface TaskClient {
-	waitForTask<T>(taskId: UUID): TaskHandler<T>
+	waitForTask<T>(taskId: UUID, options?: TaskHandlerOption): TaskHandler<T>
 }
 
 export interface TaskHandlerOption {
