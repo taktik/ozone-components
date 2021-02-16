@@ -1,6 +1,6 @@
 {
   "name": "ozone-api-edit-video",
-  "version": "5.4.26",
+  "version": "5.4.27",
   "publishConfig": {
     "access": "public"
   },
@@ -30,15 +30,15 @@
   "homepage": "https://github.com/taktik/ozone-components/packages/ozone-api/ozone-api-edit-video#readme",
   "dependencies": {
     "hls-parser": "0.1.8",
-    "ozone-config": "^5.4.22",
-    "ozone-default-client": "^5.4.26",
-    "ozone-media-url": "^5.4.26",
-    "ozone-search-helper": "^5.4.22",
-    "ozone-typescript-client": "^5.4.26"
+    "ozone-config": "^5.4.27",
+    "ozone-default-client": "^5.4.27",
+    "ozone-media-url": "^5.4.27",
+    "ozone-search-helper": "^5.4.27",
+    "ozone-typescript-client": "^5.4.27"
   },
   "main": "dist/ozone-api-edit-video.js",
   "types": "dist/ozone-api-edit-video.d.ts",
   "devDependencies": {
-    "ozone-type": "^5.4.22"
+    "ozone-type": "^5.4.27"
   }
 }

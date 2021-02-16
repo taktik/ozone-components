@@ -1,6 +1,6 @@
 {
   "name": "ozone-type",
-  "version": "5.4.22",
+  "version": "5.4.27",
   "publishConfig": {
     "access": "public"
   },

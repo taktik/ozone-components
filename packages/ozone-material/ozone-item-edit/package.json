@@ -1,6 +1,6 @@
 {
   "name": "ozone-item-edit",
-  "version": "5.4.26",
+  "version": "5.4.27",
   "publishConfig": {
     "access": "public"
   },
@@ -30,15 +30,15 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "ozone-type": "^5.4.22",
-    "ozone-typescript-client": "^5.4.26",
-    "taktik-polymer-typescript": "^5.4.22"
+    "ozone-type": "^5.4.27",
+    "ozone-typescript-client": "^5.4.27",
+    "taktik-polymer-typescript": "^5.4.27"
   },
   "dependencies": {
-    "ozone-api-item": "^5.4.26",
-    "ozone-api-request": "^5.4.22",
-    "ozone-config": "^5.4.22",
-    "ozone-default-client": "^5.4.26",
-    "ozone-search-helper": "^5.4.22"
+    "ozone-api-item": "^5.4.27",
+    "ozone-api-request": "^5.4.27",
+    "ozone-config": "^5.4.27",
+    "ozone-default-client": "^5.4.27",
+    "ozone-search-helper": "^5.4.27"
   }
 }
