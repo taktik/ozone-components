@@ -5,6 +5,7 @@
 	"license": "ISC",
 	"description": "JavaScript modules for Ozone",
 	"scripts": {
+		"setup": "yarn && yarn bower && yarn bootstrap && yarn build",
 		"bootstrap": "lerna bootstrap --ignore-scripts",
 		"build": "lerna run prepublish",
 		"bower": "lerna run bower",
@@ -15,6 +16,7 @@
 		"doc": "./scripts/generateDoc.sh",
 		"publish_doc": "./scripts/publishDoc.sh",
 		"doc:publish": "npm run doc && npm run publish_doc",
+		"clean": "find . -name node_modules -exec rm -rf {} \\;",
 		"tsc": "tsc"
 	},
 	"devDependencies": {

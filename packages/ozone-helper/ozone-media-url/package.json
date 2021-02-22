@@ -28,6 +28,7 @@
   "dependencies": {
     "ozone-api-request": "^5.4.28",
     "ozone-config": "^5.4.28",
-    "ozone-typescript-client": "^5.4.28"
+    "ozone-typescript-client": "^5.4.28",
+	  "typescript-http-client": "0.10.1"
   }
 }

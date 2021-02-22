@@ -9386,9 +9386,9 @@ log-symbols@2.2.0:
     chalk "^2.0.1"
 
 log4javascript@^1.4.15:
-  version "1.4.15"
-  resolved "https://registry.yarnpkg.com/log4javascript/-/log4javascript-1.4.15.tgz#85ac62e946b024c6b256216084e10601d5630604"
-  integrity sha1-haxi6UawJMayViFghOEGAdVjBgQ=
+  version "1.4.16"
+  resolved "https://registry.yarnpkg.com/log4javascript/-/log4javascript-1.4.16.tgz#cc6cbcf11fca537a19783df246a1d581b3ab3054"
+  integrity sha512-LaKmdz/+Ix/np+LNrh0hi3dapZUzQ80EGQ6AqnHja5YZVLQ/++rjJbABJ96IICHDsnlsn7hGx1hfMIuUt0vjog==
 
 log4js@^4.0.0:
   version "4.5.1"

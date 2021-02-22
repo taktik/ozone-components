@@ -112,16 +112,18 @@ You are also more than welcomed to suggest fixes through pull requests.
 ### Set up
 
 ```bash
- yarn install
- yarn run bower
- yarn run bootstrap
- yarn run build
+ yarn setup
+```
+
+### Clear node_modules folders
+```bash
+ yarn clean
 ```
 
 ### Viewing demo Application
 
 ```bash
-yarn run demo
+yarn demo
 ```
 
 Open a browser in http://localhost:9000
@@ -129,13 +131,13 @@ Open a browser in http://localhost:9000
 ### Running Tests
 
 ```
-yarn run test
+yarn test
 ```
 
 ### Generate documentation
 
 ```bash
-yarn run doc
+yarn doc
 ```
 
 ### Publish
@@ -144,10 +146,10 @@ We use Lerna to publish ozone-components packages.
 At first, make sure to set up correctly your project. (see #setup section)
 
 ```bash
-npm run lerna:publish
+yarn lerna:publish
 ```
 
 Then publish the documentation on gcloud
 ```bash
-npm run doc:publish
+yarn doc:publish
 ```
