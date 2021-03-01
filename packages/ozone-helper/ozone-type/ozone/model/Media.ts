@@ -48,6 +48,8 @@ export class Media extends Item implements TagsCustom, FlowrMedia, RestrictedCon
 	validFrom?: Instant
 	validUntil?: Instant
 	width?: number
+	flowrConnectTvUser?: UUID
+	flowrConnectAppUser?: UUID
 
 	constructor(src: Media) {
 		super(src)
@@ -91,5 +93,7 @@ export class Media extends Item implements TagsCustom, FlowrMedia, RestrictedCon
 		this.validFrom = src.validFrom
 		this.validUntil = src.validUntil
 		this.width = src.width
+		this.flowrConnectTvUser = src.flowrConnectTvUser
+		this.flowrConnectAppUser = src.flowrConnectAppUser
 	}
 }
