@@ -1,6 +1,6 @@
 {
 	"name": "ozone-mosaic",
-	"version": "5.4.31",
+	"version": "5.4.32",
 	"description": "",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
@@ -21,17 +21,17 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"ozone-api-item": "^5.4.31",
+		"ozone-api-item": "^5.4.32",
 		"ozone-api-request": "^5.4.30",
-		"ozone-collection": "^5.4.31",
+		"ozone-collection": "^5.4.32",
 		"ozone-config": "^5.4.30",
-		"ozone-default-client": "^5.4.31",
-		"ozone-iron-list": "^5.4.31",
-		"ozone-item-preview": "^5.4.31",
-		"ozone-media-url": "^5.4.31",
+		"ozone-default-client": "^5.4.32",
+		"ozone-iron-list": "^5.4.32",
+		"ozone-item-preview": "^5.4.32",
+		"ozone-media-url": "^5.4.32",
 		"ozone-search-helper": "^5.4.30",
 		"ozone-type": "^5.4.30",
-		"ozone-typescript-client": "^5.4.31",
+		"ozone-typescript-client": "^5.4.32",
 		"taktik-polymer-typescript": "^5.4.30"
 	}
 }
