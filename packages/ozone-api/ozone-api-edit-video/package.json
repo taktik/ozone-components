@@ -1,6 +1,6 @@
 {
   "name": "ozone-api-edit-video",
-  "version": "5.4.30",
+  "version": "5.4.31",
   "publishConfig": {
     "access": "public"
   },
@@ -31,10 +31,10 @@
   "dependencies": {
     "hls-parser": "0.1.8",
     "ozone-config": "^5.4.30",
-    "ozone-default-client": "^5.4.30",
-    "ozone-media-url": "^5.4.30",
+    "ozone-default-client": "^5.4.31",
+    "ozone-media-url": "^5.4.31",
     "ozone-search-helper": "^5.4.30",
-    "ozone-typescript-client": "^5.4.30",
+    "ozone-typescript-client": "^5.4.31",
     "typescript-http-client": "0.10.1"
   },
   "main": "dist/ozone-api-edit-video.js",
