@@ -11,8 +11,8 @@
  */
 
 export interface FlowrConnectAppUserIdsSearchResult { 
-    id?: number;
-    total?: number;
-    size?: number;
-    results?: Array<string>;
+    id?: number
+    total?: number
+    size?: number
+    results?: Array<string>
 }
