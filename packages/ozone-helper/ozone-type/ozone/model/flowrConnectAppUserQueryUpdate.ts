@@ -9,7 +9,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { FlowrConnectAppUser } from './flowrConnectAppUser';
+import { FlowrConnectAppUser } from './FlowrConnectAppUser';
 import { Query } from './query';
 
 export interface FlowrConnectAppUserQueryUpdate { 

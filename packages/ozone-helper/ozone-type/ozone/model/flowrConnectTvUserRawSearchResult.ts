@@ -11,8 +11,8 @@
  */
 
 export interface FlowrConnectTvUserRawSearchResult { 
-    id?: number;
-    total?: number;
-    size?: number;
-    results?: Array<any>;
+    id?: number
+    total?: number
+    size?: number
+    results?: Array<any>
 }
