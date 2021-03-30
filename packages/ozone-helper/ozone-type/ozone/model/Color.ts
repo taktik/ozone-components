@@ -3,11 +3,11 @@ import { Item, OzoneType } from './Item'
 @OzoneType('flowr.color')
 export class FlowrColor extends Item {
 	name: string = '__customColorKey'
-	color: string
+	value: string
 
 	constructor(src: FlowrColor) {
 		super(src)
-		this.name = src.name
-		this.color = src.color
+		this.name = src.name ?? '__customColorKey'
+		this.value = src.value
 	}
 }
