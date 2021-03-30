@@ -12,7 +12,6 @@ export class ChannelScene extends Item {
 	startTime?: string
 	stopTime?: string
 	recurrence?: ChannelSceneRecurrence
-
 	constructor(src: ChannelScene) {
 		super(src)
 		this.gui = src.gui
