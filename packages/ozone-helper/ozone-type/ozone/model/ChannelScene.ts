@@ -6,7 +6,7 @@ import { FlowrColor } from './Color'
 export class ChannelScene extends Item {
 	gui?: UUID
 	uuid?: UUID
-	color?: FlowrColor | string
+	color?: FlowrColor
 	startDate?: number
 	stopDate?: number
 	startTime?: string

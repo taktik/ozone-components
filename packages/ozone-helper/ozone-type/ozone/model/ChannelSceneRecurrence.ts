@@ -7,7 +7,7 @@ export class ChannelSceneRecurrence extends Item {
 	weekDays?: Array<number>
 	months?: Array<number>
 	days?: Array<number>
-	color?: FlowrColor | string
+	color?: FlowrColor
 
 	constructor(src: ChannelSceneRecurrence) {
 		super(src)
