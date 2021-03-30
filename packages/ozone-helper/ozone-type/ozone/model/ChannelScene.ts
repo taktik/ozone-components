@@ -1,13 +1,14 @@
 import { Item, OzoneType, UUID } from './Item'
 import { ChannelSceneRecurrence } from './ChannelSceneRecurrence'
+import { FlowrColor } from './Color'
 
 @OzoneType('flowr.channel.scene')
 export class ChannelScene extends Item {
 	gui?: UUID
 	uuid?: UUID
-	color?: string
-	startDate?: Number
-	stopDate?: Number
+	color?: FlowrColor | string
+	startDate?: number
+	stopDate?: number
 	startTime?: string
 	stopTime?: string
 	recurrence?: ChannelSceneRecurrence

@@ -1,12 +1,13 @@
 import { Item, OzoneType } from './Item'
+import { FlowrColor } from './Color'
 
 @OzoneType('flowr.channel.scene.recurrence')
 export class ChannelSceneRecurrence extends Item {
 	mode?: string
-	weekDays?: Array<Number>
-	months?: Array<Number>
-	days?: Array<Number>
-	color?: String
+	weekDays?: Array<number>
+	months?: Array<number>
+	days?: Array<number>
+	color?: FlowrColor | string
 
 	constructor(src: ChannelSceneRecurrence) {
 		super(src)
