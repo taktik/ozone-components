@@ -27,7 +27,11 @@ export class Channel extends Item implements RestrictedContent, FlowrLogoitem, F
 	output?: ChannelOutput
 	packages?: UUID[]
 	restricted?: boolean
+	/**
+	 * @deprecated use scenesList instead
+	 */
 	scenes?: string[]
+	scenesList?: UUID[]
 	storage?: string
 	transcoderEnabled?: boolean
 	tvGuideNames?: string[]
@@ -56,6 +60,7 @@ export class Channel extends Item implements RestrictedContent, FlowrLogoitem, F
 		this.packages = src.packages
 		this.restricted = src.restricted
 		this.scenes = src.scenes
+		this.scenesList = src.scenesList
 		this.storage = src.storage
 		this.transcoderEnabled = src.transcoderEnabled
 		this.tvGuideNames = src.tvGuideNames

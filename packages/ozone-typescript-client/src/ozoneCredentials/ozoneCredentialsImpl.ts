@@ -53,7 +53,16 @@ export class ItemCredentials implements OzoneCredentials {
 	}
 
 	authenticate(ozoneURL: string): Promise<AuthInfo> {
-		return Promise.reject('Not implemented')
+		const httpClient = newHttpClient()
+		const request = new Request(`${ozoneURL}/rest/v3/authentication/login/item`)
+			.set({
+				method: 'POST',
+				body: {
+					itemId: this.itemId,
+					secret: this.secret
+				}
+			})
+		return (httpClient.call(request))
 	}
 }
 

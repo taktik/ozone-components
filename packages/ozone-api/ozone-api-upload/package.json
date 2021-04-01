@@ -1,32 +1,33 @@
 {
-  "name": "ozone-api-upload",
-  "version": "5.4.22",
-  "publishConfig": {
-    "access": "public"
-  },
-  "description": "UploadFileRequest is a JavaScrip class that can be use as an XMLHttpRequest to upload media using ozone v2 upload chanel.",
-  "main": "dist/ozone-api-upload.js",
-  "types": "dist/ozone-api-upload.d.ts",
-  "directories": {
-    "test": "test"
-  },
-  "scripts": {
-    "build": "../../../node_modules/.bin/tsc",
-    "prepublish": "../../../node_modules/.bin/tsc",
-    "tslint": "../../../node_modules/.bin/tslint  --project tsconfig.json",
-    "test": "npm run tslint && npm run build",
-    "doc": "../../../node_modules/.bin/typedoc --excludeExternals --out  doc/ src/"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "ozone-type": "^5.4.22"
-  },
-  "dependencies": {
-    "ozone-api-request": "^5.4.22",
-    "ozone-config": "^5.4.22",
-    "ozone-default-client": "^5.4.22"
-  },
-  "repository": "https://github.com/taktik/ozone-components/packages/ozone-api/ozone-api-upload"
+	"name": "ozone-api-upload",
+	"version": "5.4.47",
+	"publishConfig": {
+		"access": "public"
+	},
+	"description": "UploadFileRequest is a JavaScrip class that can be use as an XMLHttpRequest to upload media using ozone v2 upload chanel.",
+	"main": "dist/ozone-api-upload.js",
+	"types": "dist/ozone-api-upload.d.ts",
+	"directories": {
+		"test": "test"
+	},
+	"scripts": {
+		"build": "../../../node_modules/.bin/tsc",
+		"prepublish": "../../../node_modules/.bin/tsc",
+		"tslint": "../../../node_modules/.bin/tslint  --project tsconfig.json",
+		"test": "npm run tslint && npm run build",
+		"doc": "../../../node_modules/.bin/typedoc --excludeExternals --out  doc/ src/"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"ozone-type": "^5.4.47"
+	},
+	"dependencies": {
+		"ozone-api-request": "^5.4.47",
+		"ozone-config": "^5.4.47",
+		"ozone-default-client": "^5.4.47",
+		"ozone-typescript-client": "^5.4.47"
+	},
+	"repository": "https://github.com/taktik/ozone-components/packages/ozone-api/ozone-api-upload"
 }
