@@ -7,11 +7,12 @@ export class ChannelScene extends Item {
 	gui?: UUID
 	uuid?: UUID
 	color?: FlowrColor
-	startDate?: number
+	startDate: number
 	stopDate?: number
-	startTime?: string
-	stopTime?: string
-	recurrence?: ChannelSceneRecurrence
+	startTime: string
+	stopTime: string
+	recurrence: ChannelSceneRecurrence
+
 	constructor(src: ChannelScene) {
 		super(src)
 		this.gui = src.gui
