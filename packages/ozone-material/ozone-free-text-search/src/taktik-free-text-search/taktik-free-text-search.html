@@ -102,11 +102,11 @@ Custom property | Description | Default
         max-width: 100%;
         background: transparent;
         border: none;
-        color: var(--paper-input-container-input-color, var(--primary-text-color));
         -webkit-appearance: none;
         text-align: inherit;
         vertical-align: bottom;
         @apply --paper-input-container-shared-input-style;
+        color: var(--input-color);
       }
       :host {
         --input-bg-color: hsl(210, 31%, 95%);
@@ -152,12 +152,6 @@ Custom property | Description | Default
           box-sizing: border-box;
           z-index: 2;
           color: var(--label-color);
-        };
-        --paper-input: {
-          color: var(--input-color);
-        };
-        --paper-input-container-input: {
-          color: var(--input-color);
         };
         --paper-input-suffix: {
           height: 28px;
