@@ -6,6 +6,7 @@ Ozone-components is a library of Polymer and TypeScript modules that should faci
 Elements are available with TypeScript type definition.
 
 Elements are split in 5 categories:
+
 - ozone-api: Provide low level interface to Ozone server.
 - ozone-material: provide paper material design to display specific Ozone content. (Based on Polymer V2)
 - ozone-helper: provide generic class helper.
@@ -17,6 +18,7 @@ Elements are split in 5 categories:
 ## Modules
 
 - ozone-helper:
+
   - [ozone-type](packages/ozone-helper/ozone-type) Declaration of Ozone type.
   - [ozone-config](packages/ozone-helper/ozone-config) Expose Ozone API configuration. Configuration is loaded from `./conf.ozone.json`.
   - [ozone-search-helper](packages/ozone-helper/ozone-search-helper) Helper for Ozone search queries.
@@ -32,6 +34,7 @@ Elements are split in 5 categories:
   - [ozone-api-edit-video](packages/ozone-api/ozone-api-edit-video) ES6 module written in TypeScript to save selected video chunks.
   - [ozone-api-item](packages/ozone-api/ozone-api-item) (DEPRECATED) Low level ES6 module to Ozone API. It provide CRUD operation and search in a given collection.
 - ozone-logic (Browser only)
+
   - [ozone-collection](packages/ozone-logic/ozone-collection) Generic Polymer `web-component` to manage collection of Ozone items.
   - [ozone-iron-list](packages/ozone-logic/ozone-iron-list) Implementation of an `iron-list` to display an Ozone search result with lazy loading.
   - [ozone-default-client](packages/ozone-helper/ozone-default-client) Provide an OzoneClient with current SessionCredentials.
@@ -40,10 +43,9 @@ Elements are split in 5 categories:
   - [ozone-video-player](packages/ozone-material/ozone-video-player) WebComponent that play video from Ozone.
   - [ozone-free-text-search](packages/ozone-material/ozone-free-text-search) WebComponent that play video from Ozone.
   - [ozone-upload](packages/ozone-material/ozone-upload) Configurable WebComponent to upload media files on Ozone. Based on `vaadin-upload`.
-  - [ozone-item-preview](packages/ozone-material/ozone-item-preview)  Webcomponent based on Polymer to preview an Ozone item.
+  - [ozone-item-preview](packages/ozone-material/ozone-item-preview) Webcomponent based on Polymer to preview an Ozone item.
   - [ozone-item-edit](packages/ozone-material/ozone-item-edit) This package contains several WebComponents based on Polymer to edit an Ozone item.
   - [ozone-mosaic](packages/ozone-material/ozone-mosaic) Webcomponent to display mosaic of Ozone preview.
-
 
 ## Get started
 
@@ -58,12 +60,13 @@ Install package from npmjs.com with `npm` or `yarn`.
 All the components are generated in ES6 and esnext modules. **Your project should support ES6/esnext.**
 
 ### usage in frontend
-**Use webpack to transpile in older JS !!**
 
+**Use webpack to transpile in older JS !!**
 
 babel.config.js babel config in **js** is require to transpile node_modules.
 
 webpack.config.js
+
 ```javascript
 {
   test: /\.js$/,
@@ -73,28 +76,31 @@ webpack.config.js
   exclude: /node_modules\/(?!.*(ozone|helpful-decorators).*)/,
 },
 ```
+
 ### usage in node.js
+
 **A. Import esnext modules !!**
 
 Option 1: Using ESM
-```javascript    
-require = require("esm")(module /*, options*/ );
+
+```javascript
+require = require("esm")(module /*, options*/);
 ```
+
 Option 2: Using Babel like in frontend
 
 **B. Polyfill**
+
 ```javascript
-const XMLHttpRequest = require( 'xhr2-cookies').XMLHttpRequest;
+const XMLHttpRequest = require("xhr2-cookies").XMLHttpRequest;
 global.XMLHttpRequest = XMLHttpRequest;
 global.window = {};
 global.window.console = console;
 global.window.setTimeout = setTimeout;
 global.window.setInterval = setInterval;
 global.window.clearTimeout = clearTimeout;
-global.Document = function(){};
+global.Document = function () {};
 ```
-
-
 
 ## Contribute
 
@@ -103,7 +109,6 @@ Any contribution and comment are welcomed.
 Do not hesitate to report issues and ask questions in previously reported issues.
 
 You are also more than welcomed to suggest fixes through pull requests.
-
 
 ### A Lerna project
 
@@ -116,8 +121,9 @@ You are also more than welcomed to suggest fixes through pull requests.
 ```
 
 ### Clear node_modules folders
+
 ```bash
- yarn clean
+  yarn clean
 ```
 
 ### Viewing demo Application
@@ -142,7 +148,7 @@ yarn doc
 
 ### Publish
 
-We use Lerna to publish ozone-components packages. 
+We use Lerna to publish ozone-components packages.
 At first, make sure to set up correctly your project. (see #setup section)
 
 ```bash
@@ -150,6 +156,7 @@ yarn lerna:publish
 ```
 
 Then publish the documentation on gcloud
+
 ```bash
 yarn doc:publish
 ```
