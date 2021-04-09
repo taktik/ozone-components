@@ -1,6 +1,6 @@
 {
 	"name": "ozone-typescript-client",
-	"version": "5.4.47",
+	"version": "5.4.50",
 	"description": "",
 	"main": "dist/src/index.js",
 	"types": "dist/src/index.d.ts",
@@ -26,8 +26,8 @@
 	"dependencies": {
 		"helpful-decorators": "2.0.4",
 		"log4javascript": "1.4.15",
-		"ozone-search-helper": "^5.4.47",
-		"ozone-type": "^5.4.47",
+		"ozone-search-helper": "^5.4.50",
+		"ozone-type": "^5.4.50",
 		"sockjs-client": "1.4.0",
 		"typescript-http-client": "0.10.1",
 		"typescript-state-machine": "0.9.5"
