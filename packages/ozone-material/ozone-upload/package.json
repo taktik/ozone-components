@@ -1,6 +1,6 @@
 {
   "name": "ozone-upload",
-  "version": "5.4.51",
+  "version": "5.4.52",
   "publishConfig": {
     "access": "public"
   },
@@ -30,11 +30,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ozone-api-request": "^5.4.51",
-    "ozone-api-upload": "^5.4.51",
-    "ozone-config": "^5.4.51",
-    "ozone-type": "^5.4.51",
-    "taktik-polymer-typescript": "^5.4.51",
+    "ozone-api-request": "^5.4.52",
+    "ozone-api-upload": "^5.4.52",
+    "ozone-config": "^5.4.52",
+    "ozone-type": "^5.4.52",
+    "taktik-polymer-typescript": "^5.4.52",
     "uuid": "3.3.2"
   }
 }
