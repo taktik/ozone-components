@@ -12,6 +12,4 @@ export class SipCall extends Call {
 	}
 }
 
-export function isSipCall(call: Call): call is SipCall {
-	return !!(call as SipCall).sipExtensionId
-}
+export const isSipCall = (call: Call): call is SipCall => call.type === 'sip.call'
