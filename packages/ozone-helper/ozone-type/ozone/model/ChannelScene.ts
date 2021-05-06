@@ -4,7 +4,8 @@ import { FlowrColor } from './Color'
 
 @OzoneType('flowr.channel.scene')
 export class ChannelScene extends Item {
-	guiId?: UUID
+	guiId: UUID
+	guiUuid: UUID
 	uuid?: UUID
 	color?: FlowrColor
 	startDate: number
@@ -16,6 +17,7 @@ export class ChannelScene extends Item {
 	constructor(src: ChannelScene) {
 		super(src)
 		this.guiId = src.guiId
+		this.guiUuid = src.guiUuid
 		this.uuid = src.uuid
 		this.color = src.color
 		this.startDate = src.startDate
