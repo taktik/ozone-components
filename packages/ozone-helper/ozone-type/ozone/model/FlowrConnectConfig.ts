@@ -4,7 +4,7 @@ import { Item, OzoneType } from './Item'
 
 @OzoneType('flowr.connect.config')
 export class FlowrConnectConfig extends Item {
-	videoConfHost: string
+	videoConfHost?: string
 	storageUnit: string
 	inputChannels: string[]
 	quotas: FlowrConnectConfigQuotas
