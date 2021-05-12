@@ -8,6 +8,7 @@ export class FlowrConnectTvUser extends Item {
 
 	constructor(src: FlowrConnectTvUser) {
 		super(src)
+		this.code = src.code
 		this.lastActivityTimestampMs = src.lastActivityTimestampMs
 		this.linkedTV = src.linkedTV
 	}
