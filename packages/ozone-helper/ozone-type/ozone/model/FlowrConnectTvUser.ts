@@ -2,6 +2,7 @@ import { Item, OzoneType } from './Item'
 
 @OzoneType('flowr.connect.tv.user')
 export class FlowrConnectTvUser extends Item {
+	code?: string
 	lastActivityTimestampMs?: string
 	linkedTV?: string
 
