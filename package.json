@@ -6,6 +6,7 @@
 	"description": "JavaScript modules for Ozone",
 	"scripts": {
 		"setup": "yarn && yarn bower && yarn bootstrap && yarn build",
+		"setup:deps": "yarn && yarn bootstrap",
 		"bootstrap": "lerna bootstrap --ignore-scripts",
 		"build": "lerna run prepublish",
 		"bower": "lerna run bower",
