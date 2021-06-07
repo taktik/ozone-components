@@ -164,11 +164,11 @@ yarn doc:publish
 ### Using yarn/npm link to use an ozone-components package in a localhost admin/frontend
 
 If you need to make changes inside an ozone-components package, and you want to test it in a local front/admin
-you can use `yarn link` to reflect the changes make to the package to the front/admin  :
+you can use `yarn link` to reflect the changes made to the package to the front/admin  :
 
 * In the ozone-component package you want to change, at the root of the package : `yarn link`
 * In the project you want to use that package (flowr-admin / flowr-frontend), at the root : `yarn link "package_name"`
-* When finished, use `yarn unlink` in the ozone-component package root (or in flowr use the setup command to override the packages files)
+* When finished, use `yarn unlink` in the ozone-component package root (Or in flowr, use the `npm run setup` command to override the packages files)
 
 Example for "ozone-iron-list"
 * In `ozone-components/packages/ozone-logic/ozone-iron-list` use `yarn link`
@@ -182,7 +182,8 @@ Types of property 'some_property_name' are incompatible.
 Types have separate declarations of a private property 'some_property_name'.
 ```
 
-It means there is a conflict in the package which should be used. [There is a solution](https://github.com/Microsoft/typescript/issues/6496#issuecomment-384786222)
+It means there is a conflict in the package source files which should be used. [There is a solution](https://github.com/Microsoft/typescript/issues/6496#issuecomment-384786222)
+detailed here :
 
 In the project that will use the ozone-component (admin/front), in the `tsconfig.json` add the lines (inside the `compilerOptions` object) :
 ```
