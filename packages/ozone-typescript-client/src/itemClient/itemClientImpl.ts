@@ -16,14 +16,14 @@ export class ItemClientImpl<T extends Item> implements ItemClient<T> {
 		return results.total || 0
 	}
 
-	deleteById(id: UUID, permanent?: boolean): Promise<UUID | null> {
-		const request = new Request(`${this.baseUrl}/rest/v3/items/${this.typeIdentifier}/${id}`)
+	deleteById(id: UUID, permanent = false): Promise<UUID | null> {
+		const request = new Request(`${this.baseUrl}/rest/v3/items/${this.typeIdentifier}/${id}${permanent ? 'permanent=true' : ''}`)
 			.setMethod('DELETE')
 		return this.client.call<UUID>(request).catch(returnNullOn404)
 	}
 
-	deleteByIds(ids: UUID[], permanent?: boolean): Promise<UUID[]> {
-		const request = new Request(`${this.baseUrl}/rest/v3/items/${this.typeIdentifier}/bulkDelete`)
+	deleteByIds(ids: UUID[], permanent = false): Promise<UUID[]> {
+		const request = new Request(`${this.baseUrl}/rest/v3/items/${this.typeIdentifier}/bulkDelete${permanent ? 'permanent=true' : ''}`)
 			.setMethod('POST')
 			.setBody(ids)
 		return this.client.call<UUID[]>(request)
