@@ -1,5 +1,6 @@
-import { DeviceMessage } from './DeviceMessage'
+import { UUID } from 'ozone-type/ozone/model/Item'
 
+import { DeviceMessage } from './DeviceMessage'
 import { OzoneType } from './Item'
 
 export enum Level {
@@ -13,12 +14,18 @@ export enum Level {
 	OFF
 }
 
+interface IParams {
+	postingId?: UUID
+	ttl?: number
+	level: Level
+}
+
 @OzoneType('device.message.setloglevel')
 export class DeviceMessageSetLogLevel extends DeviceMessage {
-	level: Level
+	level: string // must be a string to send it to the backend
 
-	constructor(src: DeviceMessageSetLogLevel) {
+	constructor(src: IParams) {
 		super(src)
-		this.level = src.level
+		this.level = Level[src.level]
 	}
 }
