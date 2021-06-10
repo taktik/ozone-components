@@ -1,6 +1,6 @@
 {
   "name": "ozone-iron-list",
-  "version": "5.5.4",
+  "version": "5.5.5",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,16 +21,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ozone-api-item": "^5.5.4",
-    "ozone-api-request": "^5.5.4",
-    "ozone-collection": "^5.5.4",
-    "ozone-config": "^5.5.4",
-    "ozone-default-client": "^5.5.4",
-    "ozone-item-preview": "^5.5.4",
-    "ozone-media-url": "^5.5.4",
-    "ozone-search-helper": "^5.5.4",
-    "ozone-type": "^5.5.4",
-    "ozone-typescript-client": "^5.5.4",
-    "taktik-polymer-typescript": "^5.5.4"
+    "ozone-api-item": "^5.5.5",
+    "ozone-api-request": "^5.5.5",
+    "ozone-collection": "^5.5.5",
+    "ozone-config": "^5.5.5",
+    "ozone-default-client": "^5.5.5",
+    "ozone-item-preview": "^5.5.5",
+    "ozone-media-url": "^5.5.5",
+    "ozone-search-helper": "^5.5.5",
+    "ozone-type": "^5.5.5",
+    "ozone-typescript-client": "^5.5.5",
+    "taktik-polymer-typescript": "^5.5.5"
   }
 }
