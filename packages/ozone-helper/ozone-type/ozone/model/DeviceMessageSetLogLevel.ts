@@ -27,5 +27,5 @@ export class DeviceMessageSetLogLevel extends DeviceMessage {
 	constructor(src: IParams) {
 		super(src)
 		this.level = Level[src.level]
-	} 
+	}
 }
