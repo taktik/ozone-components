@@ -1,6 +1,6 @@
 {
   "name": "ozone-search-helper",
-  "version": "5.5.7",
+  "version": "5.5.10",
   "publishConfig": {
     "access": "public"
   },
@@ -23,6 +23,6 @@
   "author": "hj@taktik",
   "license": "ISC",
   "devDependencies": {
-    "ozone-type": "^5.5.7"
+    "ozone-type": "^5.5.10"
   }
 }
