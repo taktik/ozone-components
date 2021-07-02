@@ -21,6 +21,6 @@ export class BlobClientImpl implements BlobClient {
 	}
 
 	async getDownloadableUrl(id: UUID, fileName: string): Promise<string> {
-		return `${this.baseUrl}/rest/v3/blob/${id}/${fileName}`
+		return `${this.baseUrl}/rest/v3/blob/${id}/${encodeURIComponent(fileName)}`
 	}
 }
