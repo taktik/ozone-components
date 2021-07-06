@@ -40,4 +40,6 @@ export interface TypeCache {
 	 * Force a refresh of the cache
 	 */
 	refresh(): Promise<TypeCache>
+
+	getAllCachedTypeIdentifiers(): string[]
 }
