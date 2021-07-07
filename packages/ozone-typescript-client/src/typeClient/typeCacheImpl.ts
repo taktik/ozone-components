@@ -73,6 +73,10 @@ export class TypeCacheImpl implements TypeCache {
 		return this._cache.has(identifier)
 	}
 
+	getAllCachedTypeIdentifiers(): string[] {
+		return Array.from(this._cache.keys())
+	}
+
 	async refresh(): Promise<TypeCache> {
 		const typeDescriptors = await this._typeClient.findAll()
 		this.updateCache(typeDescriptors)
