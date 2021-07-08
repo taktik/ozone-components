@@ -1,6 +1,6 @@
 {
 	"name": "ozone-default-client",
-	"version": "5.7.0",
+	"version": "5.7.1",
 	"description": "",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
@@ -19,6 +19,6 @@
 	},
 	"homepage": "https://github.com/taktik/ozone-components#readme",
 	"dependencies": {
-		"ozone-typescript-client": "^5.7.0"
+		"ozone-typescript-client": "^5.7.1"
 	}
 }
