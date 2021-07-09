@@ -8,7 +8,6 @@ export class Subscription extends Item {
 	endDate?: Instant
 	isActive?: boolean
 	startDate?: Instant
-	activeHistory?: UUID[]
 
 	constructor(src: Subscription) {
 		super(src)
@@ -18,6 +17,5 @@ export class Subscription extends Item {
 		this.endDate = src.endDate
 		this.isActive = src.isActive
 		this.startDate = src.startDate
-		this.activeHistory = src.activeHistory
 	}
 }
