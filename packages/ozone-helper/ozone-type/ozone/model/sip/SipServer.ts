@@ -7,13 +7,8 @@ export class SipServer extends Item implements Principal {
 	plainSecret: string
 	port: number
 	extensionsPrefix?: string
-	lastModificationDate?: string
-	trunkDomain: string
-	trunkPort?: number
-	trunkUsername?: string
-	trunkPassword?: string
-	trunkDirection: SipTrunkDirection
 	roles?: any[]
+	trunk?: SipTrunk | null
 
 	constructor(src: SipServer) {
 		super(src)
@@ -22,12 +17,7 @@ export class SipServer extends Item implements Principal {
 		this.plainSecret = src.plainSecret
 		this.port = src.port
 		this.extensionsPrefix = src.extensionsPrefix
-		this.lastModificationDate = src.lastModificationDate
-		this.trunkDomain = src.trunkDomain
-		this.trunkPort = src.trunkPort
-		this.trunkUsername = src.trunkUsername
-		this.trunkPassword = src.trunkPassword
-		this.trunkDirection = src.trunkDirection
+		this.trunk = src.trunk
 		this.roles = src.roles
 	}
 }
@@ -35,4 +25,12 @@ export class SipServer extends Item implements Principal {
 export enum SipTrunkDirection {
 	INCOMING = 'INCOMING',
 	OUTGOING = 'OUTGOING'
+}
+
+export interface SipTrunk {
+	direction: SipTrunkDirection
+	domain: string
+	port: number
+	authUsername?: string
+	authPassword?: string
 }
