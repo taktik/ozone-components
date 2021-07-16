@@ -3,6 +3,7 @@ import { OzoneAPIRequest } from 'ozone-api-request'
 import { getDefaultClient } from 'ozone-default-client'
 import { OzoneClient } from 'ozone-typescript-client'
 import TaskHandlerOption = OzoneClient.TaskHandlerOption
+import { Blob as OzoneBlob } from 'ozone-type'
 
 export interface UploadSessionResult {
 	file: FormData
@@ -74,17 +75,18 @@ export interface XMLHttpRequestLike {
  * example:
  * ```javaScript
  *  import {UploadFileRequest} from 'ozone-api-upload'
- *  const uploader = new UploadFileRequest();
- *  uploader.open();
- *  const formData = new FormData();
- *  formData.append(file.formDataName, file, file.name);
- *  uploader.send(formData);
+ *  const uploader = new UploadFileRequest()
+ *  uploader.open()
+ *  const formData = new FormData()
+ *  formData.append(file.formDataName, file, file.name)
+ *  uploader.send(formData)
  * ```
  *
  * ### Events
  * * *ozone-upload-completed*: *CustomEvent*
  *    Fired when upload is complete with detail: {mediaId: uuid}
  *
+ * @deprecated use UploadFileRequestV3 instead
  */
 export class UploadFileRequest implements XMLHttpRequestLike {
 
@@ -371,5 +373,326 @@ export class UploadFileRequest implements XMLHttpRequestLike {
 		const taskClient = getDefaultClient().taskClient()
 		const taskHandler = taskClient.waitForTask<TaskResult>(taskId, options)
 		return taskHandler.waitResult
+	}
+}
+
+interface IFlowrAdmin {
+	config: {
+		ozoneApi: {
+			blob: string
+		}
+	}
+	getSessionId: () => string,
+}
+
+// V3 upload
+interface IChunk {
+	start: number
+	end: number
+	blob: Blob
+	isUploaded: boolean
+}
+
+export class UploadFileRequestV3 {
+	private readonly app: any
+	private readonly chunkSize: number
+
+	public events: {
+		uploadStart?: (file: File) => void
+		uploadProgress?: (progress: number) => void
+		uploadFinish?: (...args: any) => void
+		uploadError?: (uploadHelperId: string, error: string) => void
+	} = {}
+
+	public readonly id: string
+	public uploadHelperId?: string
+
+	private file?: File
+	private chunksToUpload: IChunk[] = []
+	private currentChunk?: IChunk
+	private ozoneBlobId?: string
+	private fetchController: AbortController
+	private isAborted: boolean
+	private isPaused: boolean
+
+	constructor(app: any, chunkSize?: number) {
+		this.id = this.generateId()
+		this.app = app
+		this.chunkSize = chunkSize ?? (1024 * 1024)
+		this.fetchController = new AbortController()
+		this.isAborted = false
+		this.isPaused = false
+	}
+
+	generateId(): string {
+		return 'uploader_' + Math.random().toString(36).substr(2, 9)
+	}
+
+	async uploadFile(file: File): Promise<any> {
+		try {
+			this.file = file
+			this.chunksToUpload = this.chunkify(file)
+			await this.processFileUpload()
+		} catch (e) {
+			console.error(e)
+		}
+	}
+
+	notifyUploadError(error: string) {
+		if (this.uploadHelperId) {
+			this.events?.uploadError?.(this.uploadHelperId, error)
+		}
+
+		console.error(error)
+	}
+
+	notifyUploadStart() {
+		if (this.file) {
+			this.events?.uploadStart?.(this.file)
+		}
+	}
+
+	notifyUploadProgress() {
+		const totalChunks = this.chunksToUpload.length
+		const uploadedChunk = this.chunksToUpload.filter(c => c.isUploaded).length
+
+		return this.events?.uploadProgress?.((uploadedChunk / totalChunks) * 100)
+	}
+
+	async processFileUpload(): Promise<void> {
+		try {
+			const isLastChunkUploaded = await this.processChunkUpload()
+
+			if (isLastChunkUploaded) {
+				await this.finalizeOzoneBlob()
+			}
+		} catch (e) {
+			console.error(e)
+		}
+	}
+
+	async processChunkUpload(): Promise<boolean> {
+		try {
+			if (this.isAborted || this.isPaused) {
+				return false
+			}
+
+			const nextChunkData = this.getNextChunkData()
+			let appendResult
+
+			if (nextChunkData) {
+				const { index, chunk } = nextChunkData
+
+				if (index === 0) {
+					const ozoneBlob = await this.createOzoneBlob(chunk)
+					this.ozoneBlobId = ozoneBlob?.id
+				}
+
+				if (index !== 0) {
+					appendResult = await this.appendOzoneBlob(index, chunk)
+				}
+
+				if (index === 0 || (index !== 0 && appendResult)) {
+					this.markChunkAsUploaded(index)
+					this.notifyUploadProgress()
+				} else {
+					console.log('Chunk not uploaded correctly: ', index, appendResult, chunk)
+					const currentChunkIndex = this.chunksToUpload.findIndex(chunk => (
+						chunk.start === this.currentChunk?.start
+					)) ?? 0
+
+					if (currentChunkIndex > 0) {
+						this.currentChunk = this.chunksToUpload[currentChunkIndex - 1]
+					}
+				}
+
+				return await this.processChunkUpload()
+			}
+
+			return true
+		} catch (e) {
+			this.notifyUploadError(e.message)
+			return false
+		}
+	}
+
+	async createOzoneBlob(chunk: IChunk): Promise<OzoneBlob | undefined> {
+		try {
+			const sessionId = await this.app.getSessionId()
+
+			const url = `${this.app.config.ozoneApi.blob}?partial=true&storageUnit=00000000-4416-827f-0000-000000000065`
+			this.notifyUploadStart()
+
+			const response = await fetch(url, {
+				method: 'PUT',
+				body: chunk.blob,
+				headers: {
+					'Ozone-Session-Id': sessionId
+				}
+			})
+
+			return await response.json() as OzoneBlob
+		} catch (e) {
+			this.notifyUploadError(e.message)
+		}
+	}
+
+	async appendOzoneBlob(index: number, chunk: IChunk): Promise<OzoneBlob | undefined> {
+		try {
+			console.log(`Uploading chunk ${index}: `, chunk)
+			const sessionId = await this.app.getSessionId()
+			const url = `${this.app.config.ozoneApi.blob}/${this.ozoneBlobId}`
+
+			const response = await fetch(url, {
+				method: 'PUT',
+				body: chunk.blob,
+				headers: {
+					'Ozone-Session-Id': sessionId
+				},
+				signal: this.fetchController.signal
+			})
+
+			return await response.json() as OzoneBlob
+		} catch (e) {
+			if (e instanceof DOMException && e.name === 'AbortError') {
+				console.warn('Upload aborted')
+			} else {
+				this.notifyUploadError(e.message)
+			}
+		}
+	}
+
+	async finalizeOzoneBlob() {
+		// All the chunks are uploaded, lock the blob
+		try {
+			const sessionId = await this.app.getSessionId()
+
+			return fetch(`${this.app.config.ozoneApi.blob}/${this.ozoneBlobId}`, {
+				method: 'POST',
+				headers: {
+					'Ozone-Session-Id': sessionId
+				}
+			})
+		} catch (e) {
+			this.notifyUploadError(e.message)
+		}
+	}
+
+	/**
+	 * When pausing the upload, the request can have been partially executed and so, the blob can have been uploaded
+	 * partially. This method re-fetch the whole blob and re-chunkify the file depending on the size that has been
+	 * uploaded
+	 */
+	/*async regenerateChunksToUpload(): Promise<void> {
+		try {
+			if (!this.file) return
+
+			const sessionId = await this.app.getSessionId()
+
+			const blobRequest = await fetch(`${this.app.config.ozoneApi.blob}/${this.ozoneBlobId}`, {
+				method: 'GET',
+				headers: {
+					'Ozone-Session-Id': sessionId
+				}
+			})
+
+			const blob = await blobRequest.json()
+			const uploadedSize = blob.size
+			const fileChunksOfUploadedSize = this.chunkify(this.file, uploadedSize).map(chunk => chunk.blob)
+			const partialFile = new File(fileChunksOfUploadedSize.slice(1), this.file.name, {
+				type: this.file.type
+			})
+
+			this.currentChunk = undefined
+			this.chunksToUpload = this.chunkify(partialFile)
+		} catch (e) {
+			console.error(e)
+		}
+	}*/
+
+	getNextChunkData(): { index: number, chunk: IChunk } | null {
+		const currentChunkIndex = this.currentChunk
+			? this.chunksToUpload.findIndex((chunk => chunk.start === this.currentChunk?.start))
+			: -1
+
+		const nextChunkIndex = currentChunkIndex + 1
+
+		if (nextChunkIndex > this.chunksToUpload.length - 1) {
+			return null
+		}
+
+		this.currentChunk = this.chunksToUpload[nextChunkIndex]
+
+		return { index: nextChunkIndex, chunk: this.currentChunk }
+	}
+
+	markChunkAsUploaded(index: number): IChunk {
+		this.chunksToUpload[index].isUploaded = true
+		return this.chunksToUpload[index]
+	}
+
+	chunkify (file: File, chunkSize: number = this.chunkSize) {
+		let chunks: IChunk[] = []
+		let chunksCount = Math.ceil(file.size / chunkSize)
+		let chunkedSize = 0
+
+		Array.from(Array(chunksCount)).forEach(() => {
+			const chunkEnd = Math.min(chunkedSize + chunkSize, file.size)
+			const chunk = file.slice(chunkedSize, chunkEnd, file.type)
+
+			chunks = [
+				...chunks,
+				{
+					start: chunkedSize,
+					end: chunkEnd,
+					blob: chunk,
+					isUploaded: false
+				}
+			]
+
+			chunkedSize += chunkSize
+
+			if (chunkedSize > file.size) {
+				chunkedSize = file.size
+			}
+		})
+
+		return chunks
+	}
+
+	abort(isInPauseContext: boolean = false): void {
+		this.fetchController.abort()
+
+		if (!isInPauseContext) {
+			this.isAborted = true
+
+			this.app.getSessionId().then((sessionId: string) => {
+				fetch(`${this.app.config.ozoneApi.blob}/${this.ozoneBlobId}`, {
+					method: 'DELETE',
+					headers: {
+						'Ozone-Session-Id': sessionId
+					}
+				}).catch(e => console.error('Could not delete blob', e))
+			})
+		}
+	}
+
+	pause(): void {
+		this.abort(true)
+		this.isPaused = true
+	}
+
+	resume(): void {
+		this.isPaused = false
+		this.fetchController = new AbortController()
+		this.processFileUpload().catch(e => console.error(e))
+
+		/*this.regenerateChunksToUpload().then(() => {
+			this.processFileUpload().catch(e => console.error(e))
+		})*/
+	}
+
+	retry(): void {
+		throw new Error('not implemented')
 	}
 }
