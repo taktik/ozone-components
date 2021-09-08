@@ -18,6 +18,7 @@ export class Channel extends Item implements RestrictedContent, FlowrLogoitem, F
 	highlightLogo?: UUID
 	horizontalRes?: number
 	input?: ChannelInput
+	isEncrypted?: boolean
 	keywords?: string[]
 	languageIndexes?: string[]
 	languages?: string[]
