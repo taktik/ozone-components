@@ -64,6 +64,7 @@ export class Channel extends Item implements RestrictedContent, FlowrLogoitem, F
 		this.scenesList = src.scenesList
 		this.storage = src.storage
 		this.transcoderEnabled = src.transcoderEnabled
+		this.isEncrypted = src.isEncrypted
 		this.tvGuideNames = src.tvGuideNames
 		this.validFrom = src.validFrom
 		this.validUntil = src.validUntil
