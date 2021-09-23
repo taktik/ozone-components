@@ -106,7 +106,7 @@ export class OzoneCollection<T extends Item = Item> extends Polymer.Element impl
 	async quickSearch(searchString: string, size?: number): Promise<Array<FromOzone<T>>> {
 		size = size || 10
 		let searchQuery = new SearchQuery()
-		searchQuery.size = size
+		searchQuery.setSize(size)
 		searchQuery.quicksearch(searchString)
 		return this.search(searchQuery)
 	}
