@@ -44,9 +44,6 @@ export type BasicOzoneType = string | boolean | number
  * ```
  */
 export class SearchQuery {
-	private size = 10
-	private offset = 0
-
 	_searchRequest: SearchRequest = {
 		size: 10
 	}
@@ -108,7 +105,6 @@ export class SearchQuery {
 	 * @return {SearchQuery} this
 	 */
 	setSize(size: number): SearchQuery {
-		this.size = size
 		this._searchRequest.size = size
 		return this
 	}
@@ -119,7 +115,6 @@ export class SearchQuery {
 	 * @return {SearchQuery} this
 	 */
 	setOffset(offset: number): SearchQuery {
-		this.offset = offset
 		this._searchRequest.offset = offset
 		return this
 	}
@@ -255,7 +250,7 @@ export class SearchQuery {
 	}
 	/**
 	 * Search inside a tenant
-	 * @param {mode} mode
+	 * @param {ModeType} mode
 	 * @param {string} tenantId
 	 * @return {SearchQuery}
 	 */
@@ -275,7 +270,7 @@ export class SearchQuery {
 	 * @return {SearchQuery}
 	 */
 	suggestion(searchString: string, lastTerm: string = '', size?: number) {
-		const suggestSize = size || this.size
+		const suggestSize = size || this._searchRequest.size
 
 		this._searchRequest.aggregations = [{
 			'$type': 'TermsAggregation',
