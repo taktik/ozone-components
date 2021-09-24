@@ -1,7 +1,7 @@
 /**
  * Created by hubert on 8/06/17.
  */
-import {SearchRequest, TermsAggregation, ExistsQuery, WildcardQuery, QueryStringQuery, TermQuery, ModeType, TermsQuery, TenantQuery, TypeQuery, Query, BoolQuery, Sort, IdsQuery, AggregationItem, RegexpQuery, RangeQuery} from 'ozone-type'
+import { SearchRequest, TermsAggregation, ExistsQuery, WildcardQuery, QueryStringQuery, TermQuery, ModeType, TermsQuery, TenantQuery, TypeQuery, Query, BoolQuery, Sort, IdsQuery, RegexpQuery, RangeQuery } from 'ozone-type'
 export type BoolQueryName = 'mustClauses' | 'shouldClauses' | 'mustNotClauses'
 export type BasicOzoneType = string | boolean | number
 
