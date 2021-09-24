@@ -66,7 +66,7 @@ describe('OzoneClient', () => {
 			it('should iterate on all the results', async () => {
 				const itemApi = client.itemClient('collection')
 				const searchQuery = new SearchQuery()
-				searchQuery.termQuery('foo', 'bar').size = 2
+				searchQuery.termQuery('foo', 'bar').setSize(2)
 				server.autoRespond = true
 				let expectedResponseIndex = 0
 
@@ -79,7 +79,7 @@ describe('OzoneClient', () => {
 				const itemApi = client.itemClient('collection')
 				const searchQuery = new SearchQuery()
 				const pageSize = 2
-				searchQuery.termQuery('foo', 'bar').size = pageSize
+				searchQuery.termQuery('foo', 'bar').setSize(pageSize)
 
 				const searchGen: any = itemApi.searchGenerator(searchQuery.searchRequest)
 				const res1Promise = searchGen.next()

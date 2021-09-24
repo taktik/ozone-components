@@ -1,10 +1,7 @@
 /**
  * Created by hubert on 8/06/17.
  */
-import {Item, SearchRequest, ItemSearchResult, TermsAggregation, Aggregation,
-	ExistsQuery,FromOzone,
-	WildcardQuery, QueryStringQuery, TermQuery, ModeType, TermsQuery, TenantQuery, TypeQuery, Query, BoolQuery, Sort, IdsQuery, AggregationItem, RegexpQuery, RangeQuery} from 'ozone-type'
-
+import { SearchRequest, TermsAggregation, ExistsQuery, WildcardQuery, QueryStringQuery, TermQuery, ModeType, TermsQuery, TenantQuery, TypeQuery, Query, BoolQuery, Sort, IdsQuery, RegexpQuery, RangeQuery } from 'ozone-type'
 export type BoolQueryName = 'mustClauses' | 'shouldClauses' | 'mustNotClauses'
 export type BasicOzoneType = string | boolean | number
 
@@ -77,11 +74,6 @@ export class SearchQuery {
 	 */
 	get searchRequest (): SearchRequest { return this._searchRequest }
 
-	get size(): number { return this._searchRequest.size || 0 }
-	set size(size: number) { this._searchRequest.size = size }
-	get offset(): number { return this._searchRequest.offset || 0 }
-	set offset(size: number) { this._searchRequest.offset = size }
-
 	/**
 	 * create boolQuery mustClauses.
 	 * @return {SearchQuery}
@@ -113,7 +105,7 @@ export class SearchQuery {
 	 * @return {SearchQuery} this
 	 */
 	setSize(size: number): SearchQuery {
-		this.size = size
+		this._searchRequest.size = size
 		return this
 	}
 	/**
@@ -123,7 +115,7 @@ export class SearchQuery {
 	 * @return {SearchQuery} this
 	 */
 	setOffset(offset: number): SearchQuery {
-		this.offset = offset
+		this._searchRequest.offset = offset
 		return this
 	}
 
@@ -258,7 +250,7 @@ export class SearchQuery {
 	}
 	/**
 	 * Search inside a tenant
-	 * @param {Mode} mode
+	 * @param {ModeType} mode
 	 * @param {string} tenantId
 	 * @return {SearchQuery}
 	 */
@@ -278,7 +270,7 @@ export class SearchQuery {
 	 * @return {SearchQuery}
 	 */
 	suggestion(searchString: string, lastTerm: string = '', size?: number) {
-		const suggestSize = size || this.size
+		const suggestSize = size || this._searchRequest.size
 
 		this._searchRequest.aggregations = [{
 			'$type': 'TermsAggregation',
