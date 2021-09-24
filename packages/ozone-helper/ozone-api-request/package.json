@@ -1,6 +1,6 @@
 {
   "name": "ozone-api-request",
-  "version": "5.9.2",
+  "version": "6.0.0",
   "publishConfig": {
     "access": "public"
   },
@@ -20,6 +20,6 @@
   "author": "hj@taktik",
   "license": "ISC",
   "devDependencies": {
-    "ozone-type": "^5.9.2"
+    "ozone-type": "^6.0.0"
   }
 }
