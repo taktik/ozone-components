@@ -7,6 +7,7 @@ export class Recording extends Item {
 	start: Instant
 	stop: Instant
 	video?: UUID
+	state: 'READY' | 'EXCEEDING_QUOTA' | 'RECORDING' | 'PROCESSING' | 'GARBAGE_COLLECTED' | 'PENDING'
 
 	constructor(src: Recording) {
 		super(src)
@@ -15,5 +16,6 @@ export class Recording extends Item {
 		this.start = src.start
 		this.stop = src.stop
 		this.video = src.video
+		this.state = src.state
 	}
 }
