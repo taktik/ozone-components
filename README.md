@@ -49,13 +49,13 @@ Elements are split in 5 categories:
 
 ## Get started
 
-This project contains a set of npm library that can be installed individually.
-There are aimed to be builded with webpack.
+This project contains a set of npm libraries that can be installed individually.
+They are aimed to be built with webpack.
 See the [demo project](demo.html) for webpack configuration example.
 
 ## usage
 
-Install package from npmjs.com with `npm` or `yarn`.
+Install package from npmjs.com with `yarn`.
 
 All the components are generated in ES6 and esnext modules. **Your project should support ES6/esnext.**
 
