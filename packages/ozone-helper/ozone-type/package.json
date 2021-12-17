@@ -17,5 +17,6 @@
     "url": "https://github.com/taktik/ozone-components/packages/ozone-helper/ozone-type"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "sideEffects": false
 }
