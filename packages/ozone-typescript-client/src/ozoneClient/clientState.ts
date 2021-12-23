@@ -1,6 +1,4 @@
-import { fsm } from 'typescript-state-machine'
-import State = fsm.State
-import Transitions = fsm.Transitions
+import { State, Transitions } from 'typescript-state-machine'
 
 export class ClientState extends State {
 }

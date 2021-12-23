@@ -11,6 +11,38 @@ clappr@0.2.87:
   resolved "https://registry.yarnpkg.com/clappr/-/clappr-0.2.87.tgz#4a305f2ad1ee595793d0906447725424bbba68b0"
   integrity sha512-EBK3TFmXQLk00q0k0g+7fwdG61Vzf/iUkOijulbp/jTrThHGDqP6W4KgIi2Rvd/Cj6jRsg4E2SdsY111XJGlYw==
 
+debug@^3.2.5:
+  version "3.2.7"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-3.2.7.tgz#72580b7e9145fb39b6676f9c5e5fb100b934179a"
+  integrity sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==
+  dependencies:
+    ms "^2.1.1"
+
+eventsource@^1.0.7:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/eventsource/-/eventsource-1.1.0.tgz#00e8ca7c92109e94b0ddf32dac677d841028cfaf"
+  integrity sha512-VSJjT5oCNrFvCS6igjzPAt5hBzQ2qPBFIbJ03zLI9SE0mxwZpMw6BfJrbFHm1a141AavMEB8JHmBhWAd66PfCg==
+  dependencies:
+    original "^1.0.0"
+
+faye-websocket@~0.11.1:
+  version "0.11.4"
+  resolved "https://registry.yarnpkg.com/faye-websocket/-/faye-websocket-0.11.4.tgz#7f0d9275cfdd86a1c963dc8b65fcc451edcbb1da"
+  integrity sha512-CzbClwlXAuiRQAlUyfqPgvPoNKTckTPGfwZV4ZdAhVcP2lh9KUxJg2b5GkE7XbjKQ3YJnQ9z6D9ntLAlB+tP8g==
+  dependencies:
+    websocket-driver ">=0.5.1"
+
+helpful-decorators@2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/helpful-decorators/-/helpful-decorators-2.0.4.tgz#d130428f3c0d9ac64897b6ce9f6b45e9adb8865b"
+  integrity sha512-8+LNKPz0LCQ7t0BUcg87gWvjCpoL2AfFdk+l6NIbuG5BnA7BlPF9MbH3j2VMxhRyDG12IH2RYe/399QpUr7hdA==
+  dependencies:
+    lodash.debounce "4.0.8"
+    lodash.delay "4.1.1"
+    lodash.memoize "4.1.2"
+    lodash.once "4.1.1"
+    lodash.throttle "4.1.1"
+
 helpful-decorators@^2.0.4:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/helpful-decorators/-/helpful-decorators-2.0.6.tgz#029e7740b85959bf7d2db90d0414188c5aa54564"
@@ -34,6 +66,21 @@ hls.js@0.9.1:
   dependencies:
     string.prototype.endswith "^0.2.0"
     url-toolkit "^2.1.2"
+
+http-parser-js@>=0.5.1:
+  version "0.5.5"
+  resolved "https://registry.yarnpkg.com/http-parser-js/-/http-parser-js-0.5.5.tgz#d7c30d5d3c90d865b4a2e870181f9d6f22ac7ac5"
+  integrity sha512-x+JVEkO2PoM8qqpbPbOL3cqHPwerep7OwzK7Ay+sMQjKzaKCqWvjoXm5tqMP9tXWWTnTzAjIhXg+J99XYuPhPA==
+
+inherits@^2.0.3:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c"
+  integrity sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
+
+json3@^3.3.2:
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/json3/-/json3-3.3.3.tgz#7fc10e375fc5ae42c4705a5cc0aa6f62be305b81"
+  integrity sha512-c7/8mbUsKigAbLkD5B010BK4D9LZm7A1pNItkEwiUZRpIN66exu/e7YQWysGun+TRKaJp8MhemM+VkfWv42aCA==
 
 lodash.debounce@4.0.8:
   version "4.0.8"
@@ -60,6 +107,51 @@ lodash.throttle@4.1.1:
   resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
   integrity sha1-wj6RtxAkKscMN/HhzaknTMOb8vQ=
 
+log4javascript@1.4.15:
+  version "1.4.15"
+  resolved "https://registry.yarnpkg.com/log4javascript/-/log4javascript-1.4.15.tgz#85ac62e946b024c6b256216084e10601d5630604"
+  integrity sha1-haxi6UawJMayViFghOEGAdVjBgQ=
+
+log4javascript@^1.4.15:
+  version "1.4.16"
+  resolved "https://registry.yarnpkg.com/log4javascript/-/log4javascript-1.4.16.tgz#cc6cbcf11fca537a19783df246a1d581b3ab3054"
+  integrity sha512-LaKmdz/+Ix/np+LNrh0hi3dapZUzQ80EGQ6AqnHja5YZVLQ/++rjJbABJ96IICHDsnlsn7hGx1hfMIuUt0vjog==
+
+ms@^2.1.1:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.3.tgz#574c8138ce1d2b5861f0b44579dbadd60c6615b2"
+  integrity sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==
+
+original@^1.0.0:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/original/-/original-1.0.2.tgz#e442a61cffe1c5fd20a65f3261c26663b303f25f"
+  integrity sha512-hyBVl6iqqUOJ8FqRe+l/gS8H+kKYjrEndd5Pm1MfBtsEKA038HkkdbAl/72EAXGyonD/PFsvmVG+EvcIpliMBg==
+  dependencies:
+    url-parse "^1.4.3"
+
+ozone-search-helper@^6.0.3:
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/ozone-search-helper/-/ozone-search-helper-6.0.3.tgz#ca9415db80a9eee19230ca1db3baf6e4fb19cd5a"
+  integrity sha512-zGQfv9oUpGuBPCcxkgpjWrnxL1Ubrqm6dTg+h34R+EhiuCNSqnOta3n2pXkQVmVDe/xJW3e28xGdo9VOd5ui9Q==
+
+ozone-type@^6.0.3:
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/ozone-type/-/ozone-type-6.0.3.tgz#c66c98a6f537d9ba8000d78dd76620a4be7e0689"
+  integrity sha512-c9fzasFyWG1h/S55tXivZCXvUlQMo8q94B4i/VcWIDwY2rx24Ri0wq3zbYavfKtbzFRVqbUpnrRzV+s/vxGNaQ==
+
+ozone-typescript-client@^6.0.3:
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/ozone-typescript-client/-/ozone-typescript-client-6.0.3.tgz#edc9de0267e64eba6329ee7ad83d95458644219c"
+  integrity sha512-juqZ7p+d77MfZ7Nt0aqZbcG4rYyaJWyiA6k549ioe4ASn/yUNmrXbcIapsf0QkRaphetPAS8N6UtDSFbX+N8CQ==
+  dependencies:
+    helpful-decorators "2.0.4"
+    log4javascript "1.4.15"
+    ozone-search-helper "^6.0.3"
+    ozone-type "^6.0.3"
+    sockjs-client "1.4.0"
+    typescript-http-client "0.10.1"
+    typescript-state-machine "0.9.5"
+
 punycode@1.3.2:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.3.2.tgz#9653a036fb7c1ee42342f2325cceefea3926c48d"
@@ -70,10 +162,59 @@ querystring@0.2.0:
   resolved "https://registry.yarnpkg.com/querystring/-/querystring-0.2.0.tgz#b209849203bb25df820da756e747005878521620"
   integrity sha1-sgmEkgO7Jd+CDadW50cAWHhSFiA=
 
+querystringify@^2.1.1:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-2.2.0.tgz#3345941b4153cb9d082d8eee4cda2016a9aef7f6"
+  integrity sha512-FIqgj2EUvTa7R50u0rGsyTftzjYmv/a3hO345bZNrqabNqjtgiDMgmo4mkUjd+nzU5oF3dClKqFIPUKybUyqoQ==
+
+requires-port@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
+  integrity sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=
+
+safe-buffer@>=5.1.0:
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.2.1.tgz#1eaf9fa9bdb1fdd4ec75f58f9cdb4e6b7827eec6"
+  integrity sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==
+
+sockjs-client@1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/sockjs-client/-/sockjs-client-1.4.0.tgz#c9f2568e19c8fd8173b4997ea3420e0bb306c7d5"
+  integrity sha512-5zaLyO8/nri5cua0VtOrFXBPK1jbL4+1cebT/mmKA1E1ZXOvJrII75bPu0l0k843G/+iAbhEqzyKr0w/eCCj7g==
+  dependencies:
+    debug "^3.2.5"
+    eventsource "^1.0.7"
+    faye-websocket "~0.11.1"
+    inherits "^2.0.3"
+    json3 "^3.3.2"
+    url-parse "^1.4.3"
+
 string.prototype.endswith@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/string.prototype.endswith/-/string.prototype.endswith-0.2.0.tgz#a19c20dee51a98777e9a47e10f09be393b9bba75"
   integrity sha1-oZwg3uUamHd+mkfhDwm+OTubunU=
+
+typescript-http-client@0.10.1:
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/typescript-http-client/-/typescript-http-client-0.10.1.tgz#a21283ba23f183e2d7f03143fc15845aef40ccea"
+  integrity sha512-lbmJ2VBcDBbHPmLXuhMiJatoIg+n66dzyqHUOd4GPJhwvPysTqF+QCCy+TMWtIKb7IQrKfWaKRQQ276fLFM8fg==
+  dependencies:
+    log4javascript "^1.4.15"
+
+typescript-state-machine@0.9.5:
+  version "0.9.5"
+  resolved "https://registry.yarnpkg.com/typescript-state-machine/-/typescript-state-machine-0.9.5.tgz#7e9e7193d50aadc16dab66a3b5eea78444db863c"
+  integrity sha512-W3AfzZcJsV1WlxoxofWda6uCNY9wyV9Hf7qq/+0Rwb+HPe/NuJiQTJDm/HWQckeOLpUP9U/FD0aCcGajAH3XqQ==
+  dependencies:
+    log4javascript "^1.4.15"
+
+url-parse@^1.4.3:
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/url-parse/-/url-parse-1.5.3.tgz#71c1303d38fb6639ade183c2992c8cc0686df862"
+  integrity sha512-IIORyIQD9rvj0A4CLWsHkBBJuNqWpFQe224b6j9t/ABmquIS0qDU2pY6kl6AuOrL5OkCXHMCFNe1jBcuAggjvQ==
+  dependencies:
+    querystringify "^2.1.1"
+    requires-port "^1.0.0"
 
 url-toolkit@^2.1.2:
   version "2.1.6"
@@ -92,3 +233,17 @@ uuid@3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
   integrity sha512-yXJmeNaw3DnnKAOKJE51sL/ZaYfWJRl1pK9dr19YFCu0ObS231AB1/LbqTKRAQ5kw8A90rA6fr4riOUpTZvQZA==
+
+websocket-driver@>=0.5.1:
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/websocket-driver/-/websocket-driver-0.7.4.tgz#89ad5295bbf64b480abcba31e4953aca706f5760"
+  integrity sha512-b17KeDIQVjvb0ssuSDF2cYXSg2iztliJ4B9WdsuB6J952qCPKmnVq4DyW5motImXHDC1cBT/1UezrJVsKw5zjg==
+  dependencies:
+    http-parser-js ">=0.5.1"
+    safe-buffer ">=5.1.0"
+    websocket-extensions ">=0.1.1"
+
+websocket-extensions@>=0.1.1:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/websocket-extensions/-/websocket-extensions-0.1.4.tgz#7f8473bc839dfd87608adb95d7eb075211578a42"
+  integrity sha512-OqedPIGOfsDlo31UNwYbCFMSaO9m9G/0faIHj5/dZFDMFqPTcx6UwqyOy3COEaEOg/9VsGIpdqn62W5KhoKSpg==

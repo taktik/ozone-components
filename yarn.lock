@@ -14534,13 +14534,6 @@ typescript-http-client@0.10.1:
   dependencies:
     log4javascript "^1.4.15"
 
-typescript-state-machine@0.9.4:
-  version "0.9.4"
-  resolved "https://registry.yarnpkg.com/typescript-state-machine/-/typescript-state-machine-0.9.4.tgz#e1997c1f1d9cfc37195178cc1de63b10148724f7"
-  integrity sha512-jWfsNyvVo6qR1VhIWgs25QaT0bX2YdELOhoE11uQBCsYyds1YknIsx9400JShzD5GZDTM9fnoJcRMwPyKr0qtw==
-  dependencies:
-    log4javascript "^1.4.15"
-
 typescript@3.7.2:
   version "3.7.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.2.tgz#27e489b95fa5909445e9fef5ee48d81697ad18fb"

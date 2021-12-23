@@ -2,9 +2,7 @@
     Main interface for the Ozone Client
     This class manage connection and communication to ozone
 */
-import { fsm } from 'typescript-state-machine'
-import StateMachine = fsm.StateMachine
-import ListenerRegistration = fsm.ListenerRegistration
+import { StateMachine, ListenerRegistration } from 'typescript-state-machine'
 import { httpclient } from 'typescript-http-client'
 import Response = httpclient.Response
 import Request = httpclient.Request

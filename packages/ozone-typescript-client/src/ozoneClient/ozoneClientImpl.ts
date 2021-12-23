@@ -1,5 +1,4 @@
-import { fsm } from 'typescript-state-machine'
-import ListenerRegistration = fsm.ListenerRegistration
+import { AssumeStateIsNot, AssumeStateIs, StateMachineImpl, ListenerRegistration } from 'typescript-state-machine'
 import { httpclient } from 'typescript-http-client'
 import SockJS from 'sockjs-client'
 import Response = httpclient.Response
@@ -19,9 +18,6 @@ import { PermissionClientImpl } from '../permissionClient/permissionClientImpl'
 import { TypeClientImpl } from '../typeClient/typeClientImpl'
 import { Cache } from '../cache/cache'
 import { OzoneClient, OzoneCredentials, AuthInfo, ClientConfiguration } from './ozoneClient'
-import AssumeStateIsNot = fsm.AssumeStateIsNot
-import AssumeStateIs = fsm.AssumeStateIs
-import StateMachineImpl = fsm.StateMachineImpl
 import HttpClient = httpclient.HttpClient
 import newHttpClient = httpclient.newHttpClient
 import FilterCollection = httpclient.FilterCollection
@@ -224,22 +220,25 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 		this.destroyWs()
 		try {
 			this._authInfo = undefined
-			this.log.debug('Authenticating')
-			this.log.debug(`this.config.ozoneURL ${this.config.ozoneURL}`)
+			this.log?.debug('Authenticating')
+			this.log?.debug(`this.config.ozoneURL ${this.config.ozoneURL}`)
 			this._authInfo = await this.config.ozoneCredentials!.authenticate(this.config.ozoneURL)
-			this.log.debug(`Authenticated with authInfo : ${JSON.stringify(this._authInfo)}`)
+			this.log?.debug(`Authenticated with authInfo : ${JSON.stringify(this._authInfo)}`)
 			this._lastFailedLogin = undefined
 			this._lastSessionCheck = Date.now()
 			this.setState(states.AUTHENTICATED)
 		} catch (e) {
-			// TODO AB What if e is not a Response?
-			const response = e as Response<AuthInfo>
-			this.log.debug(`Authentication error : code ${response.status}`)
-			this._lastFailedLogin = e
-			if (response.status >= 400 && response.status < 500) {
-				// Invalid credentials
-				this.setState(states.AUTHENTICATION_ERROR)
+			if (e instanceof Response) {
+				this.log?.debug(`Authentication error : code ${e.status}`)
+				this._lastFailedLogin = e
+				if (e.status >= 400 && e.status < 500) {
+					// Invalid credentials
+					this.setState(states.AUTHENTICATION_ERROR)
+				} else {
+					this.setState(states.NETWORK_OR_SERVER_ERROR)
+				}
 			} else {
+				this.log?.warn('Authentication error', e)
 				this.setState(states.NETWORK_OR_SERVER_ERROR)
 			}
 		}
@@ -247,7 +246,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 	// Attempt a single Ozone logout
 	@AssumeStateIs(states.STOPPING)
 	private async logout() {
-		this.log.debug('stopping')
+		this.log?.debug('stopping')
 		// Destroy any existing WS
 		this.destroyWs()
 		try {
@@ -261,14 +260,17 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 			this._authInfo = undefined
 			this.setState(states.STOPPED)
 		} catch (e) {
-			// TODO AB What if e is not a Response?
-			const response = e as Response<AuthInfo>
-			this.log.debug(`Authentication error : code ${response.status}`)
-			this._lastFailedLogin = e
-			if (response.status >= 400 && response.status < 500) {
-				// Invalid credentials
-				this.setState(states.STOPPED)
+			if (e instanceof Response) {
+				this.log?.debug(`Logout error : code ${e.status}`)
+				this._lastFailedLogin = e
+				if (e.status >= 400 && e.status < 500) {
+					// Invalid credentials
+					this.setState(states.STOPPED)
+				} else {
+					this.setState(states.NETWORK_OR_SERVER_ERROR)
+				}
 			} else {
+				this.log?.warn('Logout error', e)
 				this.setState(states.NETWORK_OR_SERVER_ERROR)
 			}
 		}
@@ -299,7 +301,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 	connect(): Promise<void> {
 		// Destroy any existing WS
 		this.destroyWs()
-		this.log.info(`Connecting to ${this._config.webSocketsURL}`)
+		this.log?.info(`Connecting to ${this._config.webSocketsURL}`)
 		return new Promise<void>((resolve, reject) => {
 			/* FIXME AB Something is wrong here. The promise resolve or reject method should always be called but it is not the case */
 			const ws = new SockJS(`${this._config.webSocketsURL}?ozoneSessionId=${this.authInfo!.sessionId}`)
@@ -343,7 +345,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 			ws.onopen = () => {
 				let mustResolve = this._state === states.WS_CONNECTING
 				try {
-					this.log.info(`Connected to ${this._config.webSocketsURL}`)
+					this.log?.info(`Connected to ${this._config.webSocketsURL}`)
 					this.setState(states.WS_CONNECTED)
 				} catch (e) {
 					mustResolve = false
@@ -424,7 +426,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 						this.setState(states.AUTHENTICATING)
 					}
 				} catch (e) {
-					this.log.info('login failed : ' + e)
+					this.log?.info('login failed : ' + e)
 				}
 			})(), this.nextReAuthRetryInterval())
 	}
@@ -449,7 +451,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 	private installWSPingKeepAlive() {
 		if (this._wsKeepAliveTimer) {
 			// should not happen
-			this.log.warn('wsKeepAliveTimer defined when it should not be')
+			this.log?.warn('wsKeepAliveTimer defined when it should not be')
 			clearTimeout(this._wsKeepAliveTimer)
 		}
 		this._lastReceivedPong = Date.now()
@@ -474,7 +476,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 		// --> Problem. We close the socket and trigger onClose()
 		if (this._lastSentPing !== 0 && (this._lastSentPing - this._lastReceivedPong) > 20000) {
 			if (this._ws.readyState === this._ws.CONNECTING || this._ws.readyState === this._ws.OPEN) {
-				this.log.warn('Ping timeout, closing connection')
+				this.log?.warn('Ping timeout, closing connection')
 				OzoneClientImpl.terminateWSConnectionForcefully(this._ws)
 			}
 		} else {
