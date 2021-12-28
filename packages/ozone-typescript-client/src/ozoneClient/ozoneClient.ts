@@ -2,6 +2,7 @@
     Main interface for the Ozone Client
     This class manage connection and communication to ozone
 */
+import type { Logger } from 'generic-logger-typings'
 import { StateMachine, ListenerRegistration } from 'typescript-state-machine'
 import type { Filter, InstalledFilter, Request, Response } from 'typescript-http-client'
 import { DeviceMessage, Item } from 'ozone-type'
@@ -166,4 +167,10 @@ export interface OzoneClient extends StateMachine<ClientState> {
 	 * @param filter to add
 	 */
 	addCustomFilter(filter: Filter<any, any>, name: string): void
+
+	/**
+	 * Provide external logger to client
+	 * @param logger The logger to use
+	 */
+	setLogger(logger: Logger): void
 }

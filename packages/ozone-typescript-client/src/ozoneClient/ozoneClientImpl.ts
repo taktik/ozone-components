@@ -62,7 +62,6 @@ interface MessageListeners {
 export interface OzoneClientInternals extends OzoneClient {
 	/* Allow state change */
 	setState(newState: ClientState): void
-
 }
 
 export class OzoneClientImpl extends StateMachineImpl<ClientState> implements OzoneClientInternals {
@@ -79,6 +78,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 	protected static log?: Logger
 
 	setLogger(logger: Logger): void {
+		super.setLogger(logger)
 		OzoneClientImpl.log = logger
 		setLogger(logger)
 	}
@@ -200,7 +200,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 				this._ws && this._ws.send(JSON.stringify({ '$type': 'Ack', postingId }))
 			}
 		} catch (err) {
-			OzoneClientImpl.log?.warn(err, 'error in WS message acknowledge')
+			this.log?.warn(err, 'error in WS message acknowledge')
 		}
 
 		return shouldProcess
@@ -227,16 +227,16 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 		this.destroyWs()
 		try {
 			this._authInfo = undefined
-			OzoneClientImpl.log?.debug('Authenticating')
-			OzoneClientImpl.log?.debug(`this.config.ozoneURL ${this.config.ozoneURL}`)
+			this.log?.debug('Authenticating')
+			this.log?.debug(`this.config.ozoneURL ${this.config.ozoneURL}`)
 			this._authInfo = await this.config.ozoneCredentials!.authenticate(this.config.ozoneURL)
-			OzoneClientImpl.log?.debug(`Authenticated with authInfo : ${JSON.stringify(this._authInfo)}`)
+			this.log?.debug(`Authenticated with authInfo : ${JSON.stringify(this._authInfo)}`)
 			this._lastFailedLogin = undefined
 			this._lastSessionCheck = Date.now()
 			this.setState(states.AUTHENTICATED)
 		} catch (e) {
 			if (e instanceof Response) {
-				OzoneClientImpl.log?.debug(`Authentication error : code ${e.status}`)
+				this.log?.debug(`Authentication error : code ${e.status}`)
 				this._lastFailedLogin = e
 				if (e.status >= 400 && e.status < 500) {
 					// Invalid credentials
@@ -245,7 +245,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 					this.setState(states.NETWORK_OR_SERVER_ERROR)
 				}
 			} else {
-				OzoneClientImpl.log?.warn('Authentication error', e)
+				this.log?.warn('Authentication error', e)
 				this.setState(states.NETWORK_OR_SERVER_ERROR)
 			}
 		}
@@ -253,7 +253,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 	// Attempt a single Ozone logout
 	@AssumeStateIs(states.STOPPING)
 	private async logout() {
-		OzoneClientImpl.log?.debug('stopping')
+		this.log?.debug('stopping')
 		// Destroy any existing WS
 		this.destroyWs()
 		try {
@@ -268,7 +268,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 			this.setState(states.STOPPED)
 		} catch (e) {
 			if (e instanceof Response) {
-				OzoneClientImpl.log?.debug(`Logout error : code ${e.status}`)
+				this.log?.debug(`Logout error : code ${e.status}`)
 				this._lastFailedLogin = e
 				if (e.status >= 400 && e.status < 500) {
 					// Invalid credentials
@@ -277,7 +277,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 					this.setState(states.NETWORK_OR_SERVER_ERROR)
 				}
 			} else {
-				OzoneClientImpl.log?.warn('Logout error', e)
+				this.log?.warn('Logout error', e)
 				this.setState(states.NETWORK_OR_SERVER_ERROR)
 			}
 		}
@@ -308,7 +308,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 	connect(): Promise<void> {
 		// Destroy any existing WS
 		this.destroyWs()
-		OzoneClientImpl.log?.info(`Connecting to ${this._config.webSocketsURL}`)
+		this.log?.info(`Connecting to ${this._config.webSocketsURL}`)
 		return new Promise<void>((resolve, reject) => {
 			/* FIXME AB Something is wrong here. The promise resolve or reject method should always be called but it is not the case */
 			const ws = new SockJS(`${this._config.webSocketsURL}?ozoneSessionId=${this.authInfo!.sessionId}`)
@@ -352,7 +352,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 			ws.onopen = () => {
 				let mustResolve = this._state === states.WS_CONNECTING
 				try {
-					OzoneClientImpl.log?.info(`Connected to ${this._config.webSocketsURL}`)
+					this.log?.info(`Connected to ${this._config.webSocketsURL}`)
 					this.setState(states.WS_CONNECTED)
 				} catch (e) {
 					mustResolve = false
@@ -433,7 +433,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 						this.setState(states.AUTHENTICATING)
 					}
 				} catch (e) {
-					OzoneClientImpl.log?.info('login failed : ' + e)
+					this.log?.info('login failed : ' + e)
 				}
 			})(), this.nextReAuthRetryInterval())
 	}
@@ -458,7 +458,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 	private installWSPingKeepAlive() {
 		if (this._wsKeepAliveTimer) {
 			// should not happen
-			OzoneClientImpl.log?.warn('wsKeepAliveTimer defined when it should not be')
+			this.log?.warn('wsKeepAliveTimer defined when it should not be')
 			clearTimeout(this._wsKeepAliveTimer)
 		}
 		this._lastReceivedPong = Date.now()
@@ -483,7 +483,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 		// --> Problem. We close the socket and trigger onClose()
 		if (this._lastSentPing !== 0 && (this._lastSentPing - this._lastReceivedPong) > 20000) {
 			if (this._ws.readyState === this._ws.CONNECTING || this._ws.readyState === this._ws.OPEN) {
-				OzoneClientImpl.log?.warn('Ping timeout, closing connection')
+				this.log?.warn('Ping timeout, closing connection')
 				OzoneClientImpl.terminateWSConnectionForcefully(this._ws)
 			}
 		} else {
