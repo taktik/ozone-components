@@ -2,8 +2,7 @@ import * as OzoneType from 'ozone-type'
 import { SearchQuery } from 'ozone-search-helper'
 import { getDefaultClient } from 'ozone-default-client'
 import { OzoneFormat } from 'ozone-config'
-import { httpclient } from 'typescript-http-client'
-import Request = httpclient.Request
+import { Request } from 'typescript-http-client'
 import * as HLS from 'hls-parser'
 import { OzoneVideoUrl } from 'ozone-media-url'
 

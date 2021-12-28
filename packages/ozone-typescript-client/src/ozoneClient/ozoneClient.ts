@@ -3,10 +3,7 @@
     This class manage connection and communication to ozone
 */
 import { StateMachine, ListenerRegistration } from 'typescript-state-machine'
-import { httpclient } from 'typescript-http-client'
-import Response = httpclient.Response
-import Request = httpclient.Request
-import InstalledFilter = httpclient.InstalledFilter
+import type { Filter, InstalledFilter, Request, Response } from 'typescript-http-client'
 import { DeviceMessage, Item } from 'ozone-type'
 import { ClientState } from './clientState'
 import { ItemClient } from '../itemClient/itemClient'
@@ -168,5 +165,5 @@ export interface OzoneClient extends StateMachine<ClientState> {
 	 * Add a custom filter
 	 * @param filter to add
 	 */
-	addCustomFilter(filter: httpclient.Filter<any, any>, name: string): void
+	addCustomFilter(filter: Filter<any, any>, name: string): void
 }

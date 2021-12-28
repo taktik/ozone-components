@@ -1,8 +1,7 @@
 import { Blob, UUID } from 'ozone-type'
 import { BlobClient } from './blobClient'
 import { OzoneClient } from '../ozoneClient/ozoneClient'
-import { httpclient } from 'typescript-http-client'
-import Request = httpclient.Request
+import { Request } from 'typescript-http-client'
 
 export class BlobClientImpl implements BlobClient {
 	constructor(private client: OzoneClient, private baseUrl: string) {}

@@ -7108,6 +7108,11 @@ gaze@^1.0.0:
   dependencies:
     globule "^1.0.0"
 
+generic-logger-typings@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/generic-logger-typings/-/generic-logger-typings-1.0.0.tgz#4336ba198bc4c3e5293736e1f89bd647a691cb55"
+  integrity sha512-UvlcsBEa7J+KGOuCdtIPG9VSoktVxUFgUXYr/oNkWODI1ERYLGCiDfVB9tZBeHNxaIyzFX94vofcyoCaQ8UG1A==
+
 genfun@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/genfun/-/genfun-5.0.0.tgz#9dd9710a06900a5c4a5bf57aca5da4e52fe76537"
@@ -9384,11 +9389,6 @@ log-symbols@2.2.0:
   integrity sha512-VeIAFslyIerEJLXHziedo2basKbMKtTw3vfn5IzG0XTjhAVEJyNHnL2p7vc+wBDSdQuUpNw3M2u6xb9QsAY5Eg==
   dependencies:
     chalk "^2.0.1"
-
-log4javascript@^1.4.15:
-  version "1.4.16"
-  resolved "https://registry.yarnpkg.com/log4javascript/-/log4javascript-1.4.16.tgz#cc6cbcf11fca537a19783df246a1d581b3ab3054"
-  integrity sha512-LaKmdz/+Ix/np+LNrh0hi3dapZUzQ80EGQ6AqnHja5YZVLQ/++rjJbABJ96IICHDsnlsn7hGx1hfMIuUt0vjog==
 
 log4js@^4.0.0:
   version "4.5.1"
@@ -14527,22 +14527,29 @@ typescript-estree@18.0.0:
     lodash.unescape "4.0.1"
     semver "5.5.0"
 
-typescript-http-client@0.10.1:
-  version "0.10.1"
-  resolved "https://registry.yarnpkg.com/typescript-http-client/-/typescript-http-client-0.10.1.tgz#a21283ba23f183e2d7f03143fc15845aef40ccea"
-  integrity sha512-lbmJ2VBcDBbHPmLXuhMiJatoIg+n66dzyqHUOd4GPJhwvPysTqF+QCCy+TMWtIKb7IQrKfWaKRQQ276fLFM8fg==
+typescript-http-client@0.10.4:
+  version "0.10.4"
+  resolved "https://registry.yarnpkg.com/typescript-http-client/-/typescript-http-client-0.10.4.tgz#83c88f390ce9a015f788656571253b37a17f6220"
+  integrity sha512-0c42/4DVB5Ar6jD/1rXiebYQDsGQZSTdCXdZShy+v+d78nl/83aR4eeGnjDJyhyXxJeGnk5GykKpeRA5zWg4RA==
   dependencies:
-    log4javascript "^1.4.15"
+    generic-logger-typings "1.0.0"
 
-typescript@3.7.2:
-  version "3.7.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.2.tgz#27e489b95fa5909445e9fef5ee48d81697ad18fb"
-  integrity sha512-ml7V7JfiN2Xwvcer+XAf2csGO1bPBdRbFCkYBczNZggrBZ9c7G3riSUeJmqEU5uOtXNPMhE3n+R4FA/3YOAWOQ==
+typescript-state-machine@0.9.8:
+  version "0.9.8"
+  resolved "https://registry.yarnpkg.com/typescript-state-machine/-/typescript-state-machine-0.9.8.tgz#c368cfba5eca304d32c9378aab9d2584646f159c"
+  integrity sha512-Cb0WL7kgEWcRO9HzvYUQumcGwAzzkTJabLi3XRp6OLnAXsdFc9txd2rIA1rAUCB4sOL5NM8kWxwAH6QWPNZbPg==
+  dependencies:
+    generic-logger-typings "1.0.0"
 
 typescript@3.7.x:
   version "3.7.5"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.5.tgz#0692e21f65fd4108b9330238aac11dd2e177a1ae"
   integrity sha512-/P5lkRXkWHNAbcJIiHPfRoKqyd7bsyCma1hZNUGfn20qm64T6ZBlrzprymeu918H+mB/0rIg2gGK/BXkhhYgBw==
+
+typescript@4.5.4:
+  version "4.5.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.5.4.tgz#a17d3a0263bf5c8723b9c52f43c5084edf13c2e8"
+  integrity sha512-VgYs2A2QIRuGphtzFV7aQJduJ2gyfTljngLzjpfW9FoYZF6xuw1W0vW9ghCKLfcWrCFxK81CSGRAvS1pn4fIUg==
 
 typical@^2.6.0, typical@^2.6.1:
   version "2.6.1"

@@ -1,9 +1,8 @@
-import { httpclient } from 'typescript-http-client'
+import { Request } from 'typescript-http-client'
 import { once } from 'helpful-decorators'
 import { TypeDescriptor, FieldDescriptor, UUID } from 'ozone-type'
 import { TypeClient } from './typeClient'
 import { OzoneClient } from '../ozoneClient/ozoneClient'
-import Request = httpclient.Request
 import { TypeCacheImpl } from './typeCacheImpl'
 import { returnNullOn404 } from '../utility/utility'
 import { TypeCache } from './typeCache'

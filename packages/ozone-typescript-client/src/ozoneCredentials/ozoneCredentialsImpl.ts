@@ -1,7 +1,4 @@
-import { httpclient } from 'typescript-http-client'
-import Response = httpclient.Response
-import Request = httpclient.Request
-import newHttpClient = httpclient.newHttpClient
+import { Response, Request, newHttpClient } from 'typescript-http-client'
 import { AuthInfo, OzoneCredentials } from '../ozoneClient/ozoneClient'
 
 export class SessionCredentials implements OzoneCredentials {
@@ -121,7 +118,7 @@ export class OzoneLoginCredentials extends SessionCredentials {
 			}
 			return authInfo
 		} catch (e) {
-			if (e.status === 403) {
+			if ((e as Response<unknown>).status === 403) {
 				this.redirectToLoginPage(ozoneURL)
 			}
 			throw e

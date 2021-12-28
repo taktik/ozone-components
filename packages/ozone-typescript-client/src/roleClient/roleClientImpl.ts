@@ -1,6 +1,5 @@
 import { Role, UUID, Grants } from 'ozone-type'
-import { httpclient } from 'typescript-http-client'
-import Request = httpclient.Request
+import { Request } from 'typescript-http-client'
 import { RoleClient } from './roleClient'
 import { OzoneClient } from '../ozoneClient/ozoneClient'
 import { returnNullOn404 } from '../utility/utility'

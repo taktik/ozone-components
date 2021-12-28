@@ -25,12 +25,12 @@
 	"homepage": "https://github.com/taktik/ozone-typescript-client#readme",
 	"dependencies": {
 		"helpful-decorators": "2.0.4",
-		"log4javascript": "1.4.15",
 		"ozone-search-helper": "^6.0.3",
 		"ozone-type": "^6.0.3",
 		"sockjs-client": "1.4.0",
-		"typescript-http-client": "0.10.1",
-		"typescript-state-machine": "0.9.6"
+		"typescript-http-client": "0.10.4",
+		"typescript-state-machine": "0.9.8",
+		"generic-logger-typings": "1.0.0"
 	},
 	"devDependencies": {
 		"@types/sockjs-client": "^1.1.1"

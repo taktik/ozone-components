@@ -124,7 +124,7 @@ export class MediaControl{
 	startSeekDrag(e?: MouseEvent): void
 	stopDrag(e?: MouseEvent): void
 
-	events: {[key: string]: string}
+	get events(): {[key: string]: string}
 
 }
 	export function template(template: string): string

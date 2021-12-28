@@ -4,8 +4,7 @@
 import { UUID } from 'ozone-type'
 import { FlowrImageEnum, FlowrVideoEnum } from 'ozone-config'
 import { OzoneClient } from 'ozone-typescript-client'
-import { httpclient } from 'typescript-http-client'
-import Request = httpclient.Request
+import { Request } from 'typescript-http-client'
 
 export type SizeEnum = Number
 

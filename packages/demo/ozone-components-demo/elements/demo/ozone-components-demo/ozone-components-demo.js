@@ -19,7 +19,7 @@ import {OzoneApiItem} from 'ozone-api-item';
 import { getDefaultClient } from 'ozone-default-client'
 
 import {SearchQuery} from "ozone-search-helper";
-import { OzoneClient } from 'ozone-typescript-client'
+
 /**
  * @customElement
  * @polymer

@@ -1,9 +1,8 @@
 import { FromOzone, Item, Query, SearchRequest, UUID, State as MetaState, Patch } from 'ozone-type'
 import { ItemClient, SearchResults, SearchIterator } from './itemClient'
 import { OzoneClient } from '../ozoneClient/ozoneClient'
-import { httpclient } from 'typescript-http-client'
-import Request = httpclient.Request
-import { returnNullOn404, deepCopy } from '../utility/utility'
+import { Request, Response } from 'typescript-http-client'
+import { returnNullOn404 } from '../utility/utility'
 
 export class ItemClientImpl<T extends Item> implements ItemClient<T> {
 	constructor(private client: OzoneClient, private baseUrl: string, private typeIdentifier: string) {}
@@ -33,7 +32,7 @@ export class ItemClientImpl<T extends Item> implements ItemClient<T> {
 		const results = await this.search({
 			size: 10_000
 		})
-		return results.results || []
+		return results?.results ?? []
 	}
 
 	findAllByIds(ids: UUID[]): Promise<FromOzone<T>[]> {
@@ -128,11 +127,13 @@ class SearchIteratorImpl<T> implements SearchIterator<T> {
 				.setBody(searchRequest)
 			return this.client.call<SearchResults<FromOzone<T>>>(this.currentRequest)
 		} catch (err) {
-			if (err.request && err.request.isAborted) {
-				throw Error('search aborted')
-			} else {
-				throw err
+			if (err instanceof Response) {
+				if (err.request && err.request.isAborted) {
+					throw Error('search aborted')
+				}
 			}
+
+			throw err
 		}
 	}
 
@@ -147,7 +148,10 @@ class SearchIteratorImpl<T> implements SearchIterator<T> {
 				return { value: response, done }
 			}
 		} catch (err) {
-			if (! (err.request && err.request.isAborted)) {
+			if (
+				!(err instanceof Response)
+				|| !err.request?.isAborted
+			) {
 				throw err
 			}
 		}

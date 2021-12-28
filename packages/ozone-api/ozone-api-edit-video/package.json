@@ -35,7 +35,7 @@
     "ozone-media-url": "^6.0.4",
     "ozone-search-helper": "^6.0.3",
     "ozone-typescript-client": "^6.0.4",
-    "typescript-http-client": "0.10.1"
+    "typescript-http-client": "0.10.4"
   },
   "main": "dist/ozone-api-edit-video.js",
   "types": "dist/ozone-api-edit-video.d.ts",

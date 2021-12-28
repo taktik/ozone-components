@@ -50,7 +50,7 @@ export class OzoneEditJsonEntry extends OzoneEditEntry {
 				this.set('invalid', false)
 			}
 		} catch (e) {
-			this.$.input.errorMessage = e.message
+			this.$.input.errorMessage = (e as Error).message
 			this.set('invalid', true)
 		}
 	}

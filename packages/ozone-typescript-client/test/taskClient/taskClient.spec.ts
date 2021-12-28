@@ -1,5 +1,5 @@
-import { assert, expect } from 'chai'
-import sinon, { SinonFakeServer, SinonSpy } from 'sinon'
+import { expect } from 'chai'
+import sinon, { SinonFakeServer } from 'sinon'
 import { OzoneClient } from './../../src/index'
 import UserCredentials = OzoneClient.UserCredentials
 import ClientConfiguration = OzoneClient.ClientConfiguration
@@ -194,7 +194,7 @@ describe('OzoneClient', () => {
 						await handler.waitResult
 						expect(true).to.equal(false, 'wait result should not resolve')
 					} catch (error) {
-						expect(error.message).to.equal('An error occurs')
+						expect((error as Error).message).to.equal('An error occurs')
 					}
 				})
 			})

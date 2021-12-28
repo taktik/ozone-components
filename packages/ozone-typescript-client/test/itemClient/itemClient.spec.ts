@@ -1,13 +1,10 @@
-import { assert, expect } from 'chai'
-import { TypeDescriptor, FieldDescriptor } from 'ozone-type'
-import sinon, { SinonFakeServer, SinonSpy } from 'sinon'
+import { expect } from 'chai'
+import sinon, { SinonFakeServer } from 'sinon'
 import { SearchQuery } from 'ozone-search-helper'
 import { OzoneClient } from './../../src/index'
 import UserCredentials = OzoneClient.UserCredentials
 import ClientConfiguration = OzoneClient.ClientConfiguration
 import newOzoneClient = OzoneClient.newOzoneClient
-import { httpclient } from 'typescript-http-client'
-import Response = httpclient.Response
 
 describe('OzoneClient', () => {
 	let client: OzoneClient.OzoneClient

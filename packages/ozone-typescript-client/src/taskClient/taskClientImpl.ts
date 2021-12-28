@@ -1,8 +1,7 @@
 import { UUID, TaskExecution, GroupExecution } from 'ozone-type'
 import { TaskClient, TaskHandler, TaskHandlerOption } from './taskClient'
 import { OzoneClient } from '../ozoneClient/ozoneClient'
-import { httpclient } from 'typescript-http-client'
-import Request = httpclient.Request
+import { Request } from 'typescript-http-client'
 
 export class TaskClientImpl implements TaskClient {
 	constructor(private client: OzoneClient, private baseUrl: string) {}

@@ -1,8 +1,7 @@
-import { httpclient } from 'typescript-http-client'
+import { Request } from 'typescript-http-client'
 import { once } from 'helpful-decorators'
 import { FileType, UUID } from 'ozone-type'
 import { OzoneClient } from '../ozoneClient/ozoneClient'
-import Request = httpclient.Request
 import { returnNullOn404 } from '../utility/utility'
 import { FileTypeCache, FileTypeClient } from './filetypeClient'
 

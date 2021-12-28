@@ -6,8 +6,7 @@ import { FiletypeCacheImpl } from './../../src/filetypeClient/filetypeClientImpl
 import UserCredentials = OzoneClient.UserCredentials
 import ClientConfiguration = OzoneClient.ClientConfiguration
 import newOzoneClient = OzoneClient.newOzoneClient
-import { httpclient } from 'typescript-http-client'
-import Response = httpclient.Response
+import { Response } from 'typescript-http-client'
 
 describe('OzoneClient', () => {
 	const wait = (timeMs: number) => new Promise(resolve => setTimeout(resolve, timeMs))
@@ -80,7 +79,7 @@ describe('OzoneClient', () => {
 				assert.isTrue(false, 'previous line should throw an error')
 			} catch (response) {
 				assert.instanceOf(response, Response)
-				assert.equal(response.status, 500)
+				assert.equal((response as Response<unknown>).status, 500)
 			}
 		})
 	})

@@ -1,6 +1,5 @@
 import { ExportSpec, UUID, ImportSpec } from 'ozone-type'
-import { httpclient } from 'typescript-http-client'
-import Request = httpclient.Request
+import { Request } from 'typescript-http-client'
 
 export interface ArchiveType {
 	archiveId: UUID,

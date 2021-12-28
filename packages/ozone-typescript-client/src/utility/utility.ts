@@ -1,5 +1,4 @@
-import { httpclient } from 'typescript-http-client'
-import Response = httpclient.Response
+import { Response } from 'typescript-http-client'
 
 export function returnNullOn404<T>(response: Response<T>) {
 	if (response.status === 404) {
