@@ -84,11 +84,10 @@ export interface OzoneClient extends StateMachine<ClientState> {
     */
 	updateCredentials(ozoneCredentials: OzoneCredentials): void
 
-
 	/**
 	 * Retrieve the principal this client has authenticated with
 	 * @throws if client is not authenticated
-	*/
+	 */
 	currentPrincipal(): Promise<AuthenticatedPrincipal>
 
 	/*
