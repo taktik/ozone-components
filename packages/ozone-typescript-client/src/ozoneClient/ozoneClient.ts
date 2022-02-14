@@ -5,7 +5,7 @@
 import type { Logger } from 'generic-logger-typings'
 import { StateMachine, ListenerRegistration } from 'typescript-state-machine'
 import type { Filter, InstalledFilter, Request, Response } from 'typescript-http-client'
-import { DeviceMessage, Item } from 'ozone-type'
+import { DeviceMessage, Item, Principal, User, UUID } from 'ozone-type'
 import { ClientState } from './clientState'
 import { ItemClient } from '../itemClient/itemClient'
 import { BlobClient } from '../blobClient/blobClient'
@@ -33,6 +33,8 @@ export interface ClientConfiguration {
 export interface OzoneCredentials {
 	authenticate(ozoneURL: string): Promise<AuthInfo>
 }
+
+export type AuthenticatedPrincipal = ((User & { tenantId: UUID }) | (Principal & { tenant: UUID })) & { id: UUID }
 
 export interface OzoneClient extends StateMachine<ClientState> {
 
@@ -81,6 +83,13 @@ export interface OzoneClient extends StateMachine<ClientState> {
         The client will attempt to login automatically.
     */
 	updateCredentials(ozoneCredentials: OzoneCredentials): void
+
+
+	/**
+	 * Retrieve the principal this client has authenticated with
+	 * @throws if client is not authenticated
+	*/
+	currentPrincipal(): Promise<AuthenticatedPrincipal>
 
 	/*
         Stop the client. To be called once

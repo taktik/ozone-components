@@ -25,7 +25,7 @@ import { RoleClientImpl } from '../roleClient/roleClientImpl'
 import { PermissionClientImpl } from '../permissionClient/permissionClientImpl'
 import { TypeClientImpl } from '../typeClient/typeClientImpl'
 import { Cache } from '../cache/cache'
-import { OzoneClient, OzoneCredentials, AuthInfo, ClientConfiguration } from './ozoneClient'
+import { OzoneClient, OzoneCredentials, AuthInfo, ClientConfiguration, AuthenticatedPrincipal } from './ozoneClient'
 import { TaskClient } from '../taskClient/taskClient'
 import { TaskClientImpl } from '../taskClient/taskClientImpl'
 import { ImportExportClient } from '../importExportClient/importExportClient'
@@ -159,6 +159,18 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 		} else if (this.inOneOfStates([states.WS_CONNECTED, states.WS_CONNECTING])) {
 			OzoneClientImpl.terminateWSConnectionForcefully(this._ws!)
 		}
+	}
+
+	currentPrincipal(): Promise<AuthenticatedPrincipal> {
+		if (!this.isAuthenticated) {
+			throw Error('Cannot retrieve principal: client is not authenticated.')
+		}
+		const request = new Request(`${this.config.ozoneURL}/rest/v3/authentication/current/principal`)
+			.set({
+				method: 'GET',
+				withCredentials: true
+			})
+		return this.call(request)
 	}
 
 	async stop(): Promise<void> {
