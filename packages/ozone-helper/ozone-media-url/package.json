@@ -1,6 +1,6 @@
 {
   "name": "ozone-media-url",
-  "version": "6.1.0",
+  "version": "6.1.1",
   "publishConfig": {
     "access": "public"
   },
@@ -28,7 +28,7 @@
   "dependencies": {
     "ozone-api-request": "^6.0.3",
     "ozone-config": "^6.0.3",
-    "ozone-typescript-client": "^6.1.0",
+    "ozone-typescript-client": "^6.1.1",
     "typescript-http-client": "0.10.4"
   }
 }
