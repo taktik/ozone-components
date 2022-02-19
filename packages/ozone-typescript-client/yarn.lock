@@ -96,10 +96,20 @@ original@^1.0.0:
   dependencies:
     url-parse "^1.4.3"
 
+ozone-search-helper@^6.0.3:
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/ozone-search-helper/-/ozone-search-helper-6.0.3.tgz#ca9415db80a9eee19230ca1db3baf6e4fb19cd5a"
+  integrity sha512-zGQfv9oUpGuBPCcxkgpjWrnxL1Ubrqm6dTg+h34R+EhiuCNSqnOta3n2pXkQVmVDe/xJW3e28xGdo9VOd5ui9Q==
+
+ozone-type@^6.0.3:
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/ozone-type/-/ozone-type-6.0.3.tgz#c66c98a6f537d9ba8000d78dd76620a4be7e0689"
+  integrity sha512-c9fzasFyWG1h/S55tXivZCXvUlQMo8q94B4i/VcWIDwY2rx24Ri0wq3zbYavfKtbzFRVqbUpnrRzV+s/vxGNaQ==
+
 querystringify@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-2.1.1.tgz#60e5a5fd64a7f8bfa4d2ab2ed6fdf4c85bad154e"
-  integrity sha512-w7fLxIRCRT7U8Qu53jQnJyPkYZIaR4n5151KMfcJlO/A9397Wxb1amJvROTK6TOnp7PfoAmg/qXiNHI+08jRfA==
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-2.2.0.tgz#3345941b4153cb9d082d8eee4cda2016a9aef7f6"
+  integrity sha512-FIqgj2EUvTa7R50u0rGsyTftzjYmv/a3hO345bZNrqabNqjtgiDMgmo4mkUjd+nzU5oF3dClKqFIPUKybUyqoQ==
 
 requires-port@^1.0.0:
   version "1.0.0"
@@ -138,9 +148,9 @@ typescript-state-machine@0.9.8:
     generic-logger-typings "1.0.0"
 
 url-parse@^1.4.3:
-  version "1.4.7"
-  resolved "https://registry.yarnpkg.com/url-parse/-/url-parse-1.4.7.tgz#a8a83535e8c00a316e403a5db4ac1b9b853ae278"
-  integrity sha512-d3uaVyzDB9tQoSXFvuSUNFibTd9zxd2bkVrDRvF5TmvWWQwqE4lgYJ5m+x1DbecWkw+LK4RNl2CU1hHuOKPVlg==
+  version "1.5.7"
+  resolved "https://registry.yarnpkg.com/url-parse/-/url-parse-1.5.7.tgz#00780f60dbdae90181f51ed85fb24109422c932a"
+  integrity sha512-HxWkieX+STA38EDk7CE9MEryFeHCKzgagxlGvsdS7WBImq9Mk+PGwiT56w82WI3aicwJA8REp42Cxo98c8FZMA==
   dependencies:
     querystringify "^2.1.1"
     requires-port "^1.0.0"
