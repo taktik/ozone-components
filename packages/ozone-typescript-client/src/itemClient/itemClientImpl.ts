@@ -1,5 +1,5 @@
 import { FromOzone, Item, Query, SearchRequest, UUID, State as MetaState, Patch } from 'ozone-type'
-import { ItemClient, SearchResults, SearchIterator } from './itemClient'
+import { ItemClient, SearchResults, SearchIterator, SearchIdsResults } from './itemClient'
 import { OzoneClient } from '../ozoneClient/ozoneClient'
 import { httpclient } from 'typescript-http-client'
 import Request = httpclient.Request
@@ -78,6 +78,13 @@ export class ItemClientImpl<T extends Item> implements ItemClient<T> {
 		return this.client.call<SearchResults<FromOzone<T>>>(request)
 	}
 
+	searchIds(searchRequest: SearchRequest): Promise<SearchIdsResults> {
+		const request = new Request(`${this.baseUrl}/rest/v3/items/${this.typeIdentifier}/searchIds`)
+			.setMethod('POST')
+			.setBody(searchRequest)
+		return this.client.call<SearchIdsResults>(request)
+	}
+
 	searchGenerator (searchRequest: SearchRequest): SearchIterator<T> {
 		return new SearchIteratorImpl<T>(this.client, this.baseUrl, this.typeIdentifier, searchRequest)
 	}
@@ -104,8 +111,9 @@ export class ItemClientImpl<T extends Item> implements ItemClient<T> {
 		return savedItems
 	}
 
-	async queryDelete (searchQuery: Query): Promise<UUID[]> {
-		const request = new Request(`${this.baseUrl}/rest/v3/items/${this.typeIdentifier}/queryDelete`)
+	async queryDelete (searchQuery: Query, permanent = false): Promise<UUID[]> {
+		const url = `${this.baseUrl}/rest/v3/items/${this.typeIdentifier}/queryDelete${permanent ? '?permanent=true' : ''}`
+		const request = new Request(url)
 			.setMethod('POST')
 			.setBody(searchQuery)
 		return this.client.call<UUID[]>(request)
@@ -128,7 +136,7 @@ class SearchIteratorImpl<T> implements SearchIterator<T> {
 				.setBody(searchRequest)
 			return this.client.call<SearchResults<FromOzone<T>>>(this.currentRequest)
 		} catch (err) {
-			if (err.request && err.request.isAborted) {
+			if (err.request?.isAborted) {
 				throw Error('search aborted')
 			} else {
 				throw err
@@ -147,7 +155,7 @@ class SearchIteratorImpl<T> implements SearchIterator<T> {
 				return { value: response, done }
 			}
 		} catch (err) {
-			if (! (err.request && err.request.isAborted)) {
+			if (! (err.request?.isAborted)) {
 				throw err
 			}
 		}

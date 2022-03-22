@@ -135,10 +135,10 @@ typescript-http-client@0.10.1:
   dependencies:
     log4javascript "^1.4.15"
 
-typescript-state-machine@0.9.6:
-  version "0.9.6"
-  resolved "https://registry.yarnpkg.com/typescript-state-machine/-/typescript-state-machine-0.9.6.tgz#b287cd1dae52b8e6fd8e903cb045a1ff3ebc7d59"
-  integrity sha512-6C52QSZJ/+G2ODs4G2+aiD6k8wkDY/fpCEuzZhxAodsPzlYXOnd5qkZ5bY8sUtvBAvPawxcfYCtf8XyBUo/D5w==
+typescript-state-machine@0.9.7:
+  version "0.9.7"
+  resolved "https://registry.yarnpkg.com/typescript-state-machine/-/typescript-state-machine-0.9.7.tgz#0f6822b2b51cff4a0bc683dd084b100622a20ebf"
+  integrity sha512-R066IIHvilHFH2tZFn0pN4mx9MIzIgLauu3E7I/HA9S619uaKAWnrKpi2s/GJXpNMB8PVeGgb3hlUWmbRXjh6Q==
 
 url-parse@^1.4.3:
   version "1.4.7"

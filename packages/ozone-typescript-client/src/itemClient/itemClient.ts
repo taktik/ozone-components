@@ -1,6 +1,6 @@
 import { FromOzone, Item, Query, SearchRequest, UUID, Patch, AggregationItem } from 'ozone-type'
 
-export interface SearchResults<T extends Item> {
+interface ISearchResulsts<T> {
 	id?: number
 
 	total?: number
@@ -8,9 +8,13 @@ export interface SearchResults<T extends Item> {
 	size?: number
 
 	results?: T[],
+}
 
+export interface SearchResults<T extends Item> extends ISearchResulsts<T> {
 	aggregations?: Array<AggregationItem>
 }
+
+export type SearchIdsResults = ISearchResulsts<UUID>
 
 export interface ItemClient<T extends Item> {
 	save(item: Patch<T>): Promise<FromOzone<T>>
@@ -29,6 +33,8 @@ export interface ItemClient<T extends Item> {
 
 	search(searchRequest: SearchRequest): Promise<SearchResults<FromOzone<T>>>
 
+	searchIds(searchRequest: SearchRequest): Promise<SearchIdsResults>
+
 	count(query?: Query): Promise<number>
 
 	deleteById(id: UUID, permanent?: boolean): Promise<UUID | null>
@@ -37,7 +43,7 @@ export interface ItemClient<T extends Item> {
 
 	searchGenerator (searchRequest: SearchRequest): SearchIterator<T>
 
-	queryDelete (searchQuery: Query): Promise<UUID[]>
+	queryDelete (searchQuery: Query, permanent?: boolean): Promise<UUID[]>
 }
 export interface SearchIterator<T> extends AsyncIterableIterator<SearchResults<FromOzone<T>>> {
 
