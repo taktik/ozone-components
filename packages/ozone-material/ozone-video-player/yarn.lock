@@ -7,16 +7,16 @@
   resolved "https://registry.yarnpkg.com/@polymer/polymer/-/polymer-2.6.1.tgz#d233d0676cd634057a673fd8c2e62100d3b5a4e6"
   integrity sha512-XBzaKlSZ094i8zfkOgczn08Gk4TWPLtGh3leANGIKLuzboid4totBt2RkBgHjRl8DgY6Up3+Jm+3lHz6W8QA+g==
 
-"clappr-markers-plugin@git+https://github.com/hubjac1/clappr-markers-plugin.git":
-  version "0.6.1"
-  resolved "git+https://github.com/hubjac1/clappr-markers-plugin.git#a0ab52002b365de05b104005b7eac7808a3c0478"
+"clappr-markers-plugin@git+https://github.com/taktik/clappr-markers-plugin.git":
+  version "0.6.2"
+  resolved "git+https://github.com/taktik/clappr-markers-plugin.git#c4bf9d1e14c65fb0081778d892734630eb598301"
 
-clappr@0.2.98:
-  version "0.2.98"
-  resolved "https://registry.yarnpkg.com/clappr/-/clappr-0.2.98.tgz#45901c762c9e549b41ebf6bd4be8132f8f8db4b0"
-  integrity sha512-3ZeJ+KL2YHyHLN5jXAP2CAX3pJQUjhL6YXyRwE9zHdA9FSO7VbMfnUCoJif2YNsPANz08tmBjUZplERtBVUuOA==
+clappr@0.3.13:
+  version "0.3.13"
+  resolved "https://registry.yarnpkg.com/clappr/-/clappr-0.3.13.tgz#e2eacc37cb85024b7f73c0e0fcb4de52d0f15d7f"
+  integrity sha512-cAtGhtSAYIavKqVQb/wX5pB9twb/W7gFUGBaGHy6dbpUqCtCmtH0Eu05rNSwtbaREWgSTUJyEMTgaNSZ/62KlQ==
 
-uuid@3.3.2:
-  version "3.3.2"
-  resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
-  integrity sha512-yXJmeNaw3DnnKAOKJE51sL/ZaYfWJRl1pK9dr19YFCu0ObS231AB1/LbqTKRAQ5kw8A90rA6fr4riOUpTZvQZA==
+uuid@8.3.2:
+  version "8.3.2"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
+  integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
