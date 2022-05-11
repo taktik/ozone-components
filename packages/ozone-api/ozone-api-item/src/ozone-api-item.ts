@@ -8,7 +8,9 @@ import { Item, ItemSearchResult, UUID, FromOzone, SearchRequest } from 'ozone-ty
 import { SearchQuery } from 'ozone-search-helper'
 import { v4 as uuid } from 'uuid'
 import SearchIterator = OzoneClient.SearchIterator
+import GraphQLSearchIterator = OzoneClient.GraphQLSearchIterator
 import SearchResults = OzoneClient.SearchResults
+import { OperationVariables, TypedDocumentNode } from '@apollo/client/core'
 /**
  * Function decorator decorator to be used to wait until
  * all other decorated function resolve.
@@ -156,6 +158,10 @@ export class OzoneApiItem<T = Item> {
 		const itemClient = getDefaultClient().itemClient<T>(this.collection)
 		return new SearchGenerator(itemClient.searchGenerator(search.searchRequest))
 	}
+	async graphQLSearch<TData, TVariables> (query: TypedDocumentNode<TData, TVariables>, variables ?: TVariables): Promise<GraphQLSearchGenerator<TData>> {
+		const itemClient = getDefaultClient().itemClient<T>(this.collection)
+		return new GraphQLSearchGenerator(itemClient.graphQLSearchGenerator(query, variables))
+	}
 	async queryDelete (search: SearchQuery): Promise<UUID[]> {
 		const collection = (search as any).collection  // collection is deprecated
 		if (collection) {
@@ -195,6 +201,24 @@ export class SearchGenerator<T extends Item = Item> implements StatefulOzone {
 	 */
 	@lockRequest()
 	async next(): Promise<SearchResults<FromOzone<T>>> {
+		const { value } = await this.searchIterator.next()
+		return value
+	}
+	cancelRequest(): void {
+		this.searchIterator.cancel()
+	}
+}
+
+export class GraphQLSearchGenerator<TData = any, TVariables = OperationVariables> implements StatefulOzone {
+	_currentRequest: Promise<any> = Promise.resolve()
+
+	constructor(private searchIterator: GraphQLSearchIterator<TData>) { }
+
+	/**
+	 * load next array of results
+	 */
+	@lockRequest()
+	async next(): Promise<TData> {
 		const { value } = await this.searchIterator.next()
 		return value
 	}

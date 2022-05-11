@@ -150,7 +150,7 @@ export class  WCMediaControl extends Clappr.MediaControl{
         const volumeBar = this.$volumeBarContainer.children('.segmented-bar-element');
         return (volumeBar.indexOf(event.target) + 1) * volumeBar.size();
     }
-    _muted: boolean = false;
+    muted = false;
     _savedVolume: number | undefined;
     get savedVolume(){
         if(!this._savedVolume){
@@ -160,12 +160,6 @@ export class  WCMediaControl extends Clappr.MediaControl{
     }
     set savedVolume(savedVolume: number){
         this._savedVolume = savedVolume
-    }
-    get muted(){
-        return this._muted;
-    }
-    set muted(muted: boolean){
-        this._muted = muted
     }
     toggleMute() {
         this.muted = ! this.muted;

@@ -27,6 +27,8 @@ export namespace OzoneClient {
 
 	export import SearchIterator = itemClient.SearchIterator
 
+	export import GraphQLSearchIterator = itemClient.GraphQLSearchIterator
+
 	export import PermissionClient = permissionClient.PermissionClient
 
 	export import RoleClient = roleClient.RoleClient

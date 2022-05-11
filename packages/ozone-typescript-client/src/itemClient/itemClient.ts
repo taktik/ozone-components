@@ -1,4 +1,5 @@
 import { FromOzone, Item, Query, SearchRequest, UUID, Patch, AggregationItem } from 'ozone-type'
+import { TypedDocumentNode } from '@apollo/client/core'
 
 interface ISearchResulsts<T> {
 	id?: number
@@ -43,9 +44,20 @@ export interface ItemClient<T extends Item> {
 
 	searchGenerator (searchRequest: SearchRequest): SearchIterator<T>
 
+	graphQLSearchGenerator<TData, TVariables>(query: TypedDocumentNode<TData, TVariables>, variables ?: TVariables): GraphQLSearchIterator<TData>
+
 	queryDelete (searchQuery: Query, permanent?: boolean): Promise<UUID[]>
 }
 export interface SearchIterator<T> extends AsyncIterableIterator<SearchResults<FromOzone<T>>> {
+
+	/**
+	 * Cancel ongoing http request
+	 * It will end the generator
+	 */
+	cancel(): void
+}
+
+export interface GraphQLSearchIterator<T = any> extends AsyncIterableIterator<T> {
 
 	/**
 	 * Cancel ongoing http request
