@@ -5,7 +5,8 @@ export default function once<T, U extends (...args: any[]) => T>(fun: U): U {
 		if (executed) {
 			return
 		}
-		fun(...args)
+		const result = fun(...args)
 		executed = true
+		return result
 	}) as U
 }
