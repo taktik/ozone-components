@@ -3,7 +3,6 @@
 	"npmClient": "yarn",
 	"packages": [
 		"packages/*",
-		"packages/demo/*",
 		"packages/ozone-api/*",
 		"packages/ozone-helper/*",
 		"packages/ozone-logic/*",

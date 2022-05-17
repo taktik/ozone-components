@@ -1,5 +1,5 @@
 import { TypeDescriptor, FieldDescriptor, Item } from 'ozone-type'
-import uniqBy from '../../../../utils/uniqBy'
+import uniqBy from 'ozone-components-utils/uniqBy'
 import { TypeCache } from './typeCache'
 import { Cache } from '../cache/cache'
 import { TypeClient } from './typeClient'
