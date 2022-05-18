@@ -1,12 +1,12 @@
 export default function once<T, U extends (...args: any[]) => T>(fun: U): U {
 	let executed = false
+	let firstResult: T
 
 	return ((...args: any[]) => {
-		if (executed) {
-			return
+		if (!executed) {
+			firstResult = fun(...args)
+			executed = true
 		}
-		const result = fun(...args)
-		executed = true
-		return result
+		return firstResult
 	}) as U
 }
