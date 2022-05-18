@@ -1,12 +1,12 @@
 import 'polymer/polymer.html'
 import 'paper-input/paper-input.html'
 import 'paper-button/paper-button.html'
-import { once } from 'lodash'
 import { customElement, property } from 'taktik-polymer-typescript'
 import { OzoneClient } from 'ozone-typescript-client'
 import UserCredentials = OzoneClient.UserCredentials
 import ClientStates = OzoneClient.states
 import { getDefaultClient } from 'ozone-default-client'
+import once from 'ozone-components-utils/once'
 import './ozone-login-form.html'
 
 /**
