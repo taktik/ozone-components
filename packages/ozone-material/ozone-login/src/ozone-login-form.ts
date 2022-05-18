@@ -6,7 +6,7 @@ import { OzoneClient } from 'ozone-typescript-client'
 import UserCredentials = OzoneClient.UserCredentials
 import ClientStates = OzoneClient.states
 import { getDefaultClient } from 'ozone-default-client'
-import once from 'ozone-components-utils/once'
+import once from './once'
 import './ozone-login-form.html'
 
 /**

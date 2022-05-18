@@ -19,7 +19,6 @@
 	"license": "ISC",
 	"dependencies": {
 		"ozone-api-request": "^6.0.3",
-		"ozone-components-utils": "^6.1.4",
 		"ozone-default-client": "^6.1.4",
 		"ozone-type": "^6.0.3",
 		"ozone-typescript-client": "^6.1.4",

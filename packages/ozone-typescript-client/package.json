@@ -15,18 +15,17 @@
 		"url": "https://github.com/taktik/ozone-typescript-client/issues"
 	},
 	"scripts": {
-		"prepublish": "npm run build",
-		"build": "npm run tslint && npm run compile",
-		"compile": "../../node_modules/.bin/tsc",
-		"tslint": "../../node_modules/.bin/tslint  --project tsconfig.json",
-		"test:debug": "../../node_modules/.bin/karma start",
-		"test": "../../node_modules/.bin/karma start  --single-run"
+		"prepublish": "yarn build",
+		"build": "yarn tslint && yarn compile",
+		"compile": "tsc",
+		"tslint": "tslint --project tsconfig.json",
+		"test:debug": "karma start",
+		"test": "karma start --single-run"
 	},
 	"homepage": "https://github.com/taktik/ozone-typescript-client#readme",
 	"dependencies": {
 		"generic-logger-typings": "1.0.0",
 		"helpful-decorators": "2.0.4",
-		"ozone-components-utils": "^6.1.4",
 		"ozone-search-helper": "^6.0.3",
 		"ozone-type": "^6.0.3",
 		"sockjs-client": "1.4.0",
