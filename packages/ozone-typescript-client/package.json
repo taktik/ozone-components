@@ -26,6 +26,7 @@
 	"dependencies": {
 		"helpful-decorators": "2.0.4",
 		"log4javascript": "1.4.15",
+		"ozone-components-utils": "^6.0.5",
 		"ozone-search-helper": "^6.0.3",
 		"ozone-type": "^6.0.3",
 		"sockjs-client": "1.4.0",

@@ -179,11 +179,11 @@ const updatedVideo = await videoClient.save(videoToUpdate)
 
 ### login application example
 ```typescript
-import { once } from 'lodash'
 import { OzoneClient } from 'ozone-typescript-client'
 import UserCredentials = OzoneClient.UserCredentials
 import ClientStates = OzoneClient.states
 import { getDefaultClient } from 'ozone-default-client'
+import once from 'ozone-components-utils/once'
 
 export class PageLoginDefault extends Polymer.Element {
   /* ... */
