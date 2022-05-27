@@ -34,6 +34,8 @@ export interface ItemClient<T extends Item> {
 
 	search(searchRequest: SearchRequest): Promise<SearchResults<FromOzone<T>>>
 
+	graphqlSearch<TData, TVariables>(query: TypedDocumentNode<TData, TVariables>, variables ?: TVariables): Promise<TData>
+
 	searchIds(searchRequest: SearchRequest): Promise<SearchIdsResults>
 
 	count(query?: Query): Promise<number>

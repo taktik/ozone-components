@@ -79,6 +79,12 @@ export class ItemClientImpl<T extends Item> implements ItemClient<T> {
 		return this.client.call<SearchResults<FromOzone<T>>>(request)
 	}
 
+	graphqlSearch<TData = any, TVariables = OperationVariables>(query: TypedDocumentNode<TData, TVariables>, variables ?: TVariables): Promise<TData> {
+		return this.getGraphqlClient().query({
+			query: query, variables: variables
+		}).then(result => result.data)
+	}
+
 	searchIds(searchRequest: SearchRequest): Promise<SearchIdsResults> {
 		const request = new Request(`${this.baseUrl}/rest/v3/items/${this.typeIdentifier}/searchIds`)
 			.setMethod('POST')
@@ -124,6 +130,25 @@ export class ItemClientImpl<T extends Item> implements ItemClient<T> {
 		return this.client.call<UUID[]>(request)
 	}
 
+	private getGraphqlClient(): ApolloClient<NormalizedCacheObject> {
+		const link = new HttpLink({
+			fetch: (uri, options) => {
+				const req = new Request(`${this.baseUrl}/rest/v3/graphql`, { method: options?.method, body: options?.body })
+				return this.client.call<string>(req).then(it => {
+					let obj = {}
+					// @ts-ignore
+					obj.text = () => new Promise(function(resolve, reject) { resolve(JSON.stringify(it)) })
+					return obj as Response
+				})
+			}
+		})
+
+		return new ApolloClient({
+			uri: `${this.baseUrl}/rest/v3/graphql`,
+			cache: new InMemoryCache(),
+			link
+		})
+	}
 }
 
 class SearchIteratorImpl<T> implements SearchIterator<T> {
