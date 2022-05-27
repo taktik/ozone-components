@@ -4,10 +4,13 @@ import { OzoneClient } from '../ozoneClient/ozoneClient'
 import { httpclient } from 'typescript-http-client'
 import Request = httpclient.Request
 import { returnNullOn404 } from '../utility/utility'
-import { ApolloClient, gql, HttpLink, InMemoryCache, NormalizedCacheObject, OperationVariables, TypedDocumentNode } from '@apollo/client/core'
+import { ApolloClient, HttpLink, InMemoryCache, NormalizedCacheObject, OperationVariables, TypedDocumentNode } from '@apollo/client/core'
 
 export class ItemClientImpl<T extends Item> implements ItemClient<T> {
-	constructor(private client: OzoneClient, private baseUrl: string, private typeIdentifier: string) {}
+	constructor(private client: OzoneClient, private baseUrl: string, private typeIdentifier: string) {
+	}
+
+	graphQLClient = this.createGraphQLClient()
 
 	async count(query?: Query): Promise<number> {
 		const results = await this.search({
@@ -80,7 +83,7 @@ export class ItemClientImpl<T extends Item> implements ItemClient<T> {
 	}
 
 	graphQLSearch<TData = any, TVariables = OperationVariables>(query: TypedDocumentNode<TData, TVariables>, variables ?: TVariables): Promise<TData> {
-		return this.getGraphQLClient().query({
+		return this.graphQLClient.query({
 			query: query, variables: variables
 		}).then(result => result.data)
 	}
@@ -97,7 +100,7 @@ export class ItemClientImpl<T extends Item> implements ItemClient<T> {
 	}
 
 	graphQLSearchGenerator<TData = any, TVariables = OperationVariables>(query: TypedDocumentNode<TData, TVariables>, variables ?: TVariables): GraphQLSearchIterator<TData> {
-		return new GraphQLSearchIteratorImpl<TData, TVariables>(this.client, this.baseUrl, query, variables)
+		return new GraphQLSearchIteratorImpl<TData, TVariables>(this.client, this.graphQLClient, this.baseUrl, query, variables)
 	}
 
 	async broadcast(item: T): Promise<FromOzone<T>> {
@@ -130,7 +133,7 @@ export class ItemClientImpl<T extends Item> implements ItemClient<T> {
 		return this.client.call<UUID[]>(request)
 	}
 
-	private getGraphQLClient(): ApolloClient<NormalizedCacheObject> {
+	private createGraphQLClient(): ApolloClient<NormalizedCacheObject> {
 		const link = new HttpLink({
 			fetch: (uri, options) => {
 				const req = new Request(`${this.baseUrl}/rest/v3/graphql`, { method: options?.method, body: options?.body })
@@ -203,50 +206,19 @@ class SearchIteratorImpl<T> implements SearchIterator<T> {
 
 class GraphQLSearchIteratorImpl<TData = any, TVariables = OperationVariables> implements GraphQLSearchIterator<TData> {
 	private hasMoreData: boolean = true
-	private loadingSize: number = 0
 
 	currentRequest?: Request
 
-	constructor(private client: OzoneClient, private baseUrl: string, private query: TypedDocumentNode<TData, TVariables>, private variables ?: TVariables) {}
+	constructor(private client: OzoneClient, private graphQLClient: ApolloClient<NormalizedCacheObject>, private baseUrl: string, private query: TypedDocumentNode<TData, TVariables>, private variables ?: TVariables) {}
 
-	//    query<T = any, TVariables = OperationVariables>(options: QueryOptions<TVariables, T>): Promise<ApolloQueryResult<T>>;
 	private _search(query: TypedDocumentNode<TData, TVariables>, variables ?: TVariables): Promise<TData> {
 		try {
-			const gqlQuery = gql(`
-                query {
-                    flowrPackages {
-                        items {
-							id
-							name
-						}
-                    }
-                }
-			`)
-			this.getGraphQLClient().query({
-				query: gqlQuery
-			}).then(result => console.log(result)).catch(it => `obligatory catch: ${it}`)
-
-			// this.getGraphQLClient().query({
-			// 	query: PackageMediasDocument, variables: { "package": "Valtteri Bottas" }
-			// }).then(result => console.log(result));
-
-			this.getGraphQLClient().query({
-				query: query, variables: variables
-			}).then(result => {
-				console.log(result)
-			}).catch(it => `obligatory catch: ${it}`)
-
-			return this.getGraphQLClient().query({
+			return this.graphQLClient.query({
 				query: query, variables: variables
 			}).then(result => result.data)
-			// if (loading); if (error)...
-			// this.currentRequest = new Request(`${this.baseUrl}/rest/v3/graphql`)
-			// 	.setMethod('POST')
-			// 	.setBody(new GraphQLBody(this.typeIdentifier, searchRequest, selectionSet)) // e.g. selectionSet = 'items { name }'
-			// return this.client.call<FromGraphQL<T>>(this.currentRequest)
 		} catch (err) {
 			if (err.request?.isAborted) {
-				throw Error('search aborted')
+				throw Error('graphQLSearch aborted')
 			} else {
 				throw err
 			}
@@ -256,18 +228,9 @@ class GraphQLSearchIteratorImpl<TData = any, TVariables = OperationVariables> im
 	public async next(forceOffset?: number): Promise<IteratorResult<TData>> {
 		try {
 			if (this.hasMoreData || forceOffset !== undefined) {
-				console.log('TODO')
-				// this.searchRequest.offset = forceOffset !== undefined ? forceOffset : this.loadingSize
+				console.log('Not implemented yet')
 				const response = await this._search(this.query, this.variables)
-				// const data = response.data[`${this.typeIdentifier}s`]
-				// const totalCount: number = data.totalCount
-				// const items: any[] = data.items
-				// const size: number = items.length
-				// this.loadingSize = this.searchRequest.offset + (size || 0)
-				// const done = !this.hasMoreData
-				// this.hasMoreData = this.loadingSize < Number(totalCount || 0)
 				return { value: response, done: true } // done
-				// throw new Error('Not implemented yet')
 			}
 		} catch (err) {
 			if (err.request?.isAborted) {
@@ -285,32 +248,5 @@ class GraphQLSearchIteratorImpl<TData = any, TVariables = OperationVariables> im
 	}
 	[Symbol.asyncIterator]() {
 		return this
-	}
-
-	// TODO SHA: this is duplicated
-	private getGraphQLClient(): ApolloClient<NormalizedCacheObject> {
-		const link = new HttpLink({
-			fetch: (uri, options) => {
-				const uriString: string = typeof uri === 'string' ? uri : uri.url
-				const body: BodyInit | undefined | null = options?.body
-				const method: string | undefined = options?.method
-				// const contentType = ?;
-				const req = new Request('https://graphql.ozone.dev/rest/v3/graphql', { method: method, body: body }) // TODO SHA: options
-				const myResult = this.client.call<string>(req)
-				return myResult.then(it => {
-					let obj = {}
-					const jsonString = JSON.stringify(it)
-					// @ts-ignore
-					obj.text = () => new Promise(function(resolve) { resolve(jsonString) })
-					return obj as Response
-				})
-			}
-		})
-
-		return new ApolloClient({
-			uri: `${this.baseUrl}/rest/v3/graphql`, // `https://graphql.ozone.dev/rest/v3/graphql`,
-			cache: new InMemoryCache(),
-			link
-		})
 	}
 }
