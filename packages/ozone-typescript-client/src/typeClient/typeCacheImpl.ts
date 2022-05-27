@@ -1,5 +1,5 @@
-import uniqBy from 'lodash/uniqBy'
 import { TypeDescriptor, FieldDescriptor, Item } from 'ozone-type'
+import uniqBy from '../utility/uniqBy'
 import { TypeCache } from './typeCache'
 import { Cache } from '../cache/cache'
 import { TypeClient } from './typeClient'
