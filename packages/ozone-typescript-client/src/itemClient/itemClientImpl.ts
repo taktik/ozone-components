@@ -3,7 +3,7 @@ import { ItemClient, SearchResults, SearchIterator, GraphQLSearchIterator, Searc
 import { OzoneClient } from '../ozoneClient/ozoneClient'
 import { httpclient } from 'typescript-http-client'
 import Request = httpclient.Request
-import { returnNullOn404, deepCopy } from '../utility/utility'
+import { returnNullOn404 } from '../utility/utility'
 import { ApolloClient, gql, HttpLink, InMemoryCache, NormalizedCacheObject, OperationVariables, TypedDocumentNode } from '@apollo/client/core'
 
 export class ItemClientImpl<T extends Item> implements ItemClient<T> {
@@ -79,8 +79,8 @@ export class ItemClientImpl<T extends Item> implements ItemClient<T> {
 		return this.client.call<SearchResults<FromOzone<T>>>(request)
 	}
 
-	graphqlSearch<TData = any, TVariables = OperationVariables>(query: TypedDocumentNode<TData, TVariables>, variables ?: TVariables): Promise<TData> {
-		return this.getGraphqlClient().query({
+	graphQLSearch<TData = any, TVariables = OperationVariables>(query: TypedDocumentNode<TData, TVariables>, variables ?: TVariables): Promise<TData> {
+		return this.getGraphQLClient().query({
 			query: query, variables: variables
 		}).then(result => result.data)
 	}
@@ -130,14 +130,14 @@ export class ItemClientImpl<T extends Item> implements ItemClient<T> {
 		return this.client.call<UUID[]>(request)
 	}
 
-	private getGraphqlClient(): ApolloClient<NormalizedCacheObject> {
+	private getGraphQLClient(): ApolloClient<NormalizedCacheObject> {
 		const link = new HttpLink({
 			fetch: (uri, options) => {
 				const req = new Request(`${this.baseUrl}/rest/v3/graphql`, { method: options?.method, body: options?.body })
 				return this.client.call<string>(req).then(it => {
 					let obj = {}
 					// @ts-ignore
-					obj.text = () => new Promise(function(resolve, reject) { resolve(JSON.stringify(it)) })
+					obj.text = () => new Promise(function(resolve) { resolve(JSON.stringify(it)) })
 					return obj as Response
 				})
 			}
@@ -222,21 +222,21 @@ class GraphQLSearchIteratorImpl<TData = any, TVariables = OperationVariables> im
                     }
                 }
 			`)
-			this.getGraphqlClient().query({
+			this.getGraphQLClient().query({
 				query: gqlQuery
 			}).then(result => console.log(result)).catch(it => `obligatory catch: ${it}`)
 
-			// this.getGraphqlClient().query({
+			// this.getGraphQLClient().query({
 			// 	query: PackageMediasDocument, variables: { "package": "Valtteri Bottas" }
 			// }).then(result => console.log(result));
 
-			this.getGraphqlClient().query({
+			this.getGraphQLClient().query({
 				query: query, variables: variables
 			}).then(result => {
 				console.log(result)
 			}).catch(it => `obligatory catch: ${it}`)
 
-			return this.getGraphqlClient().query({
+			return this.getGraphQLClient().query({
 				query: query, variables: variables
 			}).then(result => result.data)
 			// if (loading); if (error)...
@@ -287,7 +287,8 @@ class GraphQLSearchIteratorImpl<TData = any, TVariables = OperationVariables> im
 		return this
 	}
 
-	private getGraphqlClient(): ApolloClient<NormalizedCacheObject> {
+	// TODO SHA: this is duplicated
+	private getGraphQLClient(): ApolloClient<NormalizedCacheObject> {
 		const link = new HttpLink({
 			fetch: (uri, options) => {
 				const uriString: string = typeof uri === 'string' ? uri : uri.url
@@ -300,7 +301,7 @@ class GraphQLSearchIteratorImpl<TData = any, TVariables = OperationVariables> im
 					let obj = {}
 					const jsonString = JSON.stringify(it)
 					// @ts-ignore
-					obj.text = () => new Promise(function(resolve, reject) { resolve(jsonString) })
+					obj.text = () => new Promise(function(resolve) { resolve(jsonString) })
 					return obj as Response
 				})
 			}
