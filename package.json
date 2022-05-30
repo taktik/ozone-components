@@ -82,10 +82,8 @@
 		"webpack-dev-server": "3.9.0"
 	},
 	"dependencies": {
-		"@apollo/client": "^3.6.2",
 		"bower": "^1.8.8",
 		"clappr-markers-plugin": "https://github.com/hubjac1/clappr-markers-plugin.git",
-		"graphql": "^16.4.0",
 		"helpful-decorators": "2.0.6",
 		"typescript-http-client": "0.10.4"
 	}
