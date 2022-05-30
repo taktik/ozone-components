@@ -3,6 +3,7 @@ doc/
 demo/
 !packages/demo/
 .idea/
+*.iml
 lerna.sh
 **/dist/
 **/node_modules/
