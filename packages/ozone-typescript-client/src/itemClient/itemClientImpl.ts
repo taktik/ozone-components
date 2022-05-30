@@ -1,7 +1,7 @@
 import { FromOzone, Item, Query, SearchRequest, UUID, State as MetaState, Patch } from 'ozone-type'
 import { ItemClient, SearchResults, SearchIterator, SearchIdsResults } from './itemClient'
 import { OzoneClient } from '../ozoneClient/ozoneClient'
-import { Request, Response } from 'typescript-http-client'
+import { Request, Response as HttpClientResponse } from 'typescript-http-client'
 import { returnNullOn404 } from '../utility/utility'
 import { ApolloClient, HttpLink, InMemoryCache, NormalizedCacheObject, OperationVariables, TypedDocumentNode } from '@apollo/client/core'
 
@@ -164,7 +164,7 @@ class SearchIteratorImpl<T> implements SearchIterator<T> {
 				.setBody(searchRequest)
 			return this.client.call<SearchResults<FromOzone<T>>>(this.currentRequest)
 		} catch (err) {
-			if (err instanceof Response) {
+			if (err instanceof HttpClientResponse) {
 				if (err.request && err.request.isAborted) {
 					throw Error('search aborted')
 				}
@@ -186,7 +186,7 @@ class SearchIteratorImpl<T> implements SearchIterator<T> {
 			}
 		} catch (err) {
 			if (
-				!(err instanceof Response)
+				!(err instanceof HttpClientResponse)
 				|| !err.request?.isAborted
 			) {
 				throw err
