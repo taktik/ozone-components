@@ -137,9 +137,7 @@ export class ItemClientImpl<T extends Item> implements ItemClient<T> {
 				})
 				return this.client.call<string>(req).then(it => {
 					return {
-						text: () => new Promise(function(resolve) {
-							resolve(JSON.stringify(it))
-						})
+						text: () => Promise.resolve(JSON.stringify(it))
 					} as Response
 				})
 			}
