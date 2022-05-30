@@ -3,9 +3,13 @@ import { ItemClient, SearchResults, SearchIterator, SearchIdsResults } from './i
 import { OzoneClient } from '../ozoneClient/ozoneClient'
 import { Request, Response } from 'typescript-http-client'
 import { returnNullOn404 } from '../utility/utility'
+import { ApolloClient, HttpLink, InMemoryCache, NormalizedCacheObject, OperationVariables, TypedDocumentNode } from '@apollo/client/core'
 
 export class ItemClientImpl<T extends Item> implements ItemClient<T> {
-	constructor(private client: OzoneClient, private baseUrl: string, private typeIdentifier: string) {}
+	constructor(private client: OzoneClient, private baseUrl: string, private typeIdentifier: string) {
+	}
+
+	graphQLClient = this.createGraphQLClient()
 
 	async count(query?: Query): Promise<number> {
 		const results = await this.search({
@@ -77,6 +81,12 @@ export class ItemClientImpl<T extends Item> implements ItemClient<T> {
 		return this.client.call<SearchResults<FromOzone<T>>>(request)
 	}
 
+	graphQLSearch<TData = any, TVariables = OperationVariables>(query: TypedDocumentNode<TData, TVariables>, variables ?: TVariables): Promise<TData> {
+		return this.graphQLClient.query({
+			query: query, variables: variables
+		}).then(result => result.data)
+	}
+
 	searchIds(searchRequest: SearchRequest): Promise<SearchIdsResults> {
 		const request = new Request(`${this.baseUrl}/rest/v3/items/${this.typeIdentifier}/searchIds`)
 			.setMethod('POST')
@@ -118,6 +128,25 @@ export class ItemClientImpl<T extends Item> implements ItemClient<T> {
 		return this.client.call<UUID[]>(request)
 	}
 
+	private createGraphQLClient(): ApolloClient<NormalizedCacheObject> {
+		const link = new HttpLink({
+			fetch: (uri, options) => {
+				const req = new Request(`${this.baseUrl}/rest/v3/graphql`, { method: options?.method, body: options?.body })
+				return this.client.call<string>(req).then(it => {
+					let obj = {}
+					// @ts-ignore
+					obj.text = () => new Promise(function(resolve) { resolve(JSON.stringify(it)) })
+					return obj as Response
+				})
+			}
+		})
+
+		return new ApolloClient({
+			uri: `${this.baseUrl}/rest/v3/graphql`,
+			cache: new InMemoryCache(),
+			link
+		})
+	}
 }
 
 class SearchIteratorImpl<T> implements SearchIterator<T> {
