@@ -83,7 +83,7 @@ export class ItemClientImpl<T extends Item> implements ItemClient<T> {
 
 	graphQLSearch<TData = any, TVariables = OperationVariables>(query: TypedDocumentNode<TData, TVariables>, variables ?: TVariables): Promise<TData> {
 		return this.graphQLClient.query({
-			query: query, variables: variables
+			query, variables
 		}).then(result => result.data)
 	}
 
@@ -131,12 +131,16 @@ export class ItemClientImpl<T extends Item> implements ItemClient<T> {
 	private createGraphQLClient(): ApolloClient<NormalizedCacheObject> {
 		const link = new HttpLink({
 			fetch: (uri, options) => {
-				const req = new Request(`${this.baseUrl}/rest/v3/graphql`, { method: options?.method, body: options?.body })
+				const req = new Request(`${this.baseUrl}/rest/v3/graphql`, {
+					method: options?.method,
+					body: options?.body
+				})
 				return this.client.call<string>(req).then(it => {
-					let obj = {}
-					// @ts-ignore
-					obj.text = () => new Promise(function(resolve) { resolve(JSON.stringify(it)) })
-					return obj as Response
+					return {
+						text: () => new Promise(function(resolve) {
+							resolve(JSON.stringify(it))
+						})
+					} as Response
 				})
 			}
 		})
