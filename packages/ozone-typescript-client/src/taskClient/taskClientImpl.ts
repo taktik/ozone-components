@@ -10,7 +10,7 @@ export class TaskClientImpl implements TaskClient {
 		return new TaskHandlerImpl<T>(taskId, this.client, this.baseUrl, options || {})
 	}
 }
-const waitingTime = 1000 // ms
+const waitingTime = 10000 // ms
 
 export class TaskHandlerImpl<T = any> implements TaskHandler {
 
@@ -20,24 +20,24 @@ export class TaskHandlerImpl<T = any> implements TaskHandler {
 
 	onProgress?: (taskExecution: TaskExecution) => void
 
-	private subTaskinterval?: number
-
 	private pollInterval: number
 
-	private interval?: number
+	private timeout?: number
+
+	private subTimeout?: number
 
 	private rejectPromise?: (reason?: any) => void
 
 	stopWaiting(): void {
-		this._clearPullInterval()
+		this._clearPullTimeout()
 		const stopWaitingErrorMessage = { error: 'Wait for task canceled' }
 		this.executeCallback(this.onError, stopWaitingErrorMessage)
 		this.executeCallback(this.rejectPromise, stopWaitingErrorMessage)
 	}
 
-	_clearPullInterval(): void {
-		clearInterval(this.subTaskinterval)
-		clearInterval(this.interval)
+	_clearPullTimeout(): void {
+		clearTimeout(this.timeout)
+		clearTimeout(this.subTimeout)
 	}
 
 	private executeCallback(callback: ((taskExecution: TaskExecution) => void) | undefined, param: TaskExecution) {
@@ -54,50 +54,60 @@ export class TaskHandlerImpl<T = any> implements TaskHandler {
 
 	private _waitForSubTasks(asyncTasksGroupId: string): Promise<void> {
 		return (new Promise((resolve, reject) => {
-			this.subTaskinterval = window.setInterval(() => {
-				this._awaitTask(asyncTasksGroupId)
-					.then((data: GroupExecution) => {
-						if (data.stepsCount === data.stepsDone) {
-							this._clearPullInterval()
-							resolve()
-						} else if (data.hasErrors) {
-							reject('One of the processing sub tasks as an error')
- }
-					})
-					.catch((error) => {
-						this._clearPullInterval()
-						reject(error)
-					})
-			}, this.pollInterval)
+			const wait = () => {
+				this.subTimeout = window.setTimeout(() => {
+					this._awaitTask(asyncTasksGroupId)
+						.then((data: GroupExecution) => {
+							if (data.stepsCount !== data.stepsDone) {
+								wait()
+							} else if (data.hasErrors) {
+								reject('One of the processing sub tasks as an error')
+							} else if (data.stepsDone === data.stepsCount) {
+								this._clearPullTimeout()
+								resolve()
+							}
+						})
+						.catch((error) => {
+							this._clearPullTimeout()
+							reject(error)
+						})
+				}, this.pollInterval)
+			}
+			wait()
 		}))
 	}
 	private _waitForTask<T>(taskId: string): Promise<T | undefined> {
 		let primaryTaskResult: TaskExecution
 		return (new Promise<TaskExecution>((resolve, reject) => {
 			this.rejectPromise = reject
-			this.interval = window.setInterval(() => {
-				this._awaitTask(taskId)
-					.then((data: GroupExecution) => {
-						if (data && data.taskExecutions) {
-							const taskExecution: TaskExecution = data.taskExecutions[taskId]
-							this.executeCallback(this.onProgress, taskExecution)
-							if (data.hasErrors) {
-								this.executeCallback(this.onError, taskExecution)
-								clearInterval(this.interval)
-								reject(Error(taskExecution.error || 'Error in ozone task'))
+			const wait = () => {
+				this.timeout = window.setTimeout(() => {
+					this._awaitTask(taskId)
+						.then((data: GroupExecution) => {
+							if (data && data.taskExecutions) {
+								const taskExecution: TaskExecution = data.taskExecutions[taskId]
+								this.executeCallback(this.onProgress, taskExecution)
+								if (data.hasErrors) {
+									this.executeCallback(this.onError, taskExecution)
+									clearTimeout(this.timeout)
+									reject(Error(taskExecution.error || 'Error in ozone task'))
 
-							} else if (taskExecution.completed) {
-								this._clearPullInterval()
-								primaryTaskResult = taskExecution
-								resolve(taskExecution)
+								} else if (data.stepsDone === data.stepsCount) {
+									this._clearPullTimeout()
+									primaryTaskResult = taskExecution
+									resolve(taskExecution)
+								} else {
+									wait()
+								}
 							}
-						}
-					})
-					.catch((error) => {
-						clearInterval(this.interval)
-						reject(error)
-					})
-			}, this.pollInterval)
+						})
+						.catch((error) => {
+							clearTimeout(this.timeout)
+							reject(error)
+						})
+				}, this.pollInterval)
+			}
+			wait()
 		}))
 			.then((taskResult: TaskExecution): Promise<void> | undefined => {
 				if (!this.options.skipWaitingOnSubTask
