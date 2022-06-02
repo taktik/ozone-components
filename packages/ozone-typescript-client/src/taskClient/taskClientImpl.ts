@@ -10,7 +10,7 @@ export class TaskClientImpl implements TaskClient {
 		return new TaskHandlerImpl<T>(taskId, this.client, this.baseUrl, options || {})
 	}
 }
-const waitingTime = 1000 // ms
+const waitingTime = 10000 // ms
 
 export class TaskHandlerImpl<T = any> implements TaskHandler {
 
