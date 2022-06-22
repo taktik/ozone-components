@@ -3,13 +3,10 @@ import { ItemClient, SearchResults, SearchIterator, SearchIdsResults } from './i
 import { OzoneClient } from '../ozoneClient/ozoneClient'
 import { Request, Response as HttpClientResponse } from 'typescript-http-client'
 import { returnNullOn404 } from '../utility/utility'
-import { ApolloClient, HttpLink, InMemoryCache, NormalizedCacheObject, OperationVariables, TypedDocumentNode } from '@apollo/client/core'
 
 export class ItemClientImpl<T extends Item> implements ItemClient<T> {
 	constructor(private client: OzoneClient, private baseUrl: string, private typeIdentifier: string) {
 	}
-
-	graphQLClient = this.createGraphQLClient()
 
 	async count(query?: Query): Promise<number> {
 		const results = await this.search({
@@ -81,12 +78,6 @@ export class ItemClientImpl<T extends Item> implements ItemClient<T> {
 		return this.client.call<SearchResults<FromOzone<T>>>(request)
 	}
 
-	graphQLSearch<TData = any, TVariables = OperationVariables>(query: TypedDocumentNode<TData, TVariables>, variables ?: TVariables): Promise<TData> {
-		return this.graphQLClient.query({
-			query, variables
-		}).then(result => result.data)
-	}
-
 	searchIds(searchRequest: SearchRequest): Promise<SearchIdsResults> {
 		const request = new Request(`${this.baseUrl}/rest/v3/items/${this.typeIdentifier}/searchIds`)
 			.setMethod('POST')
@@ -126,28 +117,6 @@ export class ItemClientImpl<T extends Item> implements ItemClient<T> {
 			.setMethod('POST')
 			.setBody(searchQuery)
 		return this.client.call<UUID[]>(request)
-	}
-
-	private createGraphQLClient(): ApolloClient<NormalizedCacheObject> {
-		const link = new HttpLink({
-			fetch: (uri, options) => {
-				const req = new Request(`${this.baseUrl}/rest/v3/graphql`, {
-					method: options?.method,
-					body: options?.body
-				})
-				return this.client.call<string>(req).then(it => {
-					return {
-						text: () => Promise.resolve(JSON.stringify(it))
-					} as Response
-				})
-			}
-		})
-
-		return new ApolloClient({
-			uri: `${this.baseUrl}/rest/v3/graphql`,
-			cache: new InMemoryCache(),
-			link
-		})
 	}
 }
 

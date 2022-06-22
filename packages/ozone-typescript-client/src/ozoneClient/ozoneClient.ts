@@ -15,6 +15,7 @@ import { TypeClient } from '../typeClient/typeClient'
 import { TaskClient } from '../taskClient/taskClient'
 import { ImportExportClient } from '../importExportClient/importExportClient'
 import { FileTypeClient } from '../filetypeClient/filetypeClient'
+import {TypedDocumentNode} from '@apollo/client/core'
 
 export interface AuthInfo {
 	principalClass: string,
@@ -181,4 +182,6 @@ export interface OzoneClient extends StateMachine<ClientState> {
 	 * @param logger The logger to use
 	 */
 	setLogger(logger: Logger): void
+
+	graphQLSearch<TData, TVariables>(query: TypedDocumentNode<TData, TVariables>, variables ?: TVariables): Promise<TData>
 }
