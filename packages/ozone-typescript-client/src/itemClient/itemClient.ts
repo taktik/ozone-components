@@ -1,5 +1,4 @@
 import { FromOzone, Item, Query, SearchRequest, UUID, Patch, AggregationItem } from 'ozone-type'
-import { TypedDocumentNode } from '@apollo/client/core'
 
 interface ISearchResults<T> {
 	id?: number
@@ -33,8 +32,6 @@ export interface ItemClient<T extends Item> {
 	findAllByIds(ids: UUID[]): Promise<FromOzone<T>[]>
 
 	search(searchRequest: SearchRequest): Promise<SearchResults<FromOzone<T>>>
-
-	graphQLSearch<TData, TVariables>(query: TypedDocumentNode<TData, TVariables>, variables ?: TVariables): Promise<TData>
 
 	searchIds(searchRequest: SearchRequest): Promise<SearchIdsResults>
 

@@ -1,7 +1,7 @@
 import type { Logger } from 'generic-logger-typings'
 import { AssumeStateIsNot, AssumeStateIs, StateMachineImpl, ListenerRegistration } from 'typescript-state-machine'
 import {
-	Response,
+	Response as HttpClientResponse,
 	Request,
 	InstalledFilter,
 	HttpClient,
@@ -32,6 +32,14 @@ import { ImportExportClient } from '../importExportClient/importExportClient'
 import { ImportExportClientImpl } from '../importExportClient/importExportClientImpl'
 import { FiletypeClientImpl } from '../filetypeClient/filetypeClientImpl'
 import { FileTypeClient } from '../filetypeClient/filetypeClient'
+import {
+	ApolloClient,
+	HttpLink,
+	InMemoryCache,
+	NormalizedCacheObject,
+	OperationVariables,
+	TypedDocumentNode
+} from '@apollo/client/core'
 
 const MAX_REAUTH_DELAY: number = 30000
 const INITIAL_REAUTH_DELAY: number = 1000
@@ -68,7 +76,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 	private readonly _config: ClientConfiguration
 	private _authInfo?: AuthInfo
 	private _ws?: WebSocket
-	private _lastFailedLogin?: Response<AuthInfo>
+	private _lastFailedLogin?: HttpClientResponse<AuthInfo>
 	private readonly _messageListeners: MessageListeners
 	private _lastSessionCheck: number = 0
 	private _httpClient: HttpClient
@@ -97,6 +105,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 		this._taskClient = new TaskClientImpl(this, this._config.ozoneURL)
 		this._importExportClient = new ImportExportClientImpl(this, this._config.ozoneURL)
 		this._filetypeClient = new FiletypeClientImpl(this, this._config.ozoneURL)
+		this._graphQLClient = this.createGraphQLClient(this, this._config.ozoneURL)
 	}
 
 	get config(): ClientConfiguration {
@@ -107,7 +116,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 		return this._authInfo
 	}
 
-	get lastFailedLogin(): Response<AuthInfo> | undefined {
+	get lastFailedLogin(): HttpClientResponse<AuthInfo> | undefined {
 		return this._lastFailedLogin
 	}
 
@@ -182,7 +191,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 		return this._httpClient.call<T>(call)
 	}
 
-	async callForResponse<T>(call: Request): Promise<Response<T>> {
+	async callForResponse<T>(call: Request): Promise<HttpClientResponse<T>> {
 		return this._httpClient.callForResponse<T>(call)
 	}
 
@@ -247,7 +256,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 			this._lastSessionCheck = Date.now()
 			this.setState(states.AUTHENTICATED)
 		} catch (e) {
-			if (e instanceof Response) {
+			if (e instanceof HttpClientResponse) {
 				this.log?.debug(`Authentication error : code ${e.status}`)
 				this._lastFailedLogin = e
 				if (e.status >= 400 && e.status < 500) {
@@ -279,7 +288,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 			this._authInfo = undefined
 			this.setState(states.STOPPED)
 		} catch (e) {
-			if (e instanceof Response) {
+			if (e instanceof HttpClientResponse) {
 				this.log?.debug(`Logout error : code ${e.status}`)
 				this._lastFailedLogin = e
 				if (e.status >= 400 && e.status < 500) {
@@ -638,6 +647,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 		const baseURL = this._config.ozoneURL
 		return new ItemClientImpl(client, baseURL, typeIdentifier)
 	}
+
 	blobClient(): BlobClient {
 		const client = this
 		const baseURL = this._config.ozoneURL
@@ -672,6 +682,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 	fileTypeClient(): FileTypeClient {
 		return this._filetypeClient
 	}
+	private _graphQLClient: ApolloClient<NormalizedCacheObject>
 
 	insertSessionIdInURL(url: string): string {
 		if (!url.startsWith(this.config.ozoneURL)) {
@@ -686,6 +697,34 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 	addCustomFilter(filter: Filter<any, any>, name: string): void {
 		this._httpClient.addFilter(filter, name)
 	}
+
+	graphQLSearch<TData = any, TVariables = OperationVariables>(query: TypedDocumentNode<TData, TVariables>, variables ?: TVariables): Promise<TData> {
+		return this._graphQLClient.query({
+			query, variables
+		}).then(result => result.data)
+	}
+
+	private createGraphQLClient(client: OzoneClient, baseUrl: string): ApolloClient<NormalizedCacheObject> {
+		const link = new HttpLink({
+			fetch: (uri, options) => {
+				const req = new Request(`${baseUrl}/rest/v3/graphql`, {
+					method: options?.method,
+					body: options?.body
+				})
+				return client.call<string>(req).then(it => {
+					return {
+						text: () => Promise.resolve(JSON.stringify(it))
+					} as Response
+				})
+			}
+		})
+
+		return new ApolloClient({
+			uri: `${baseUrl}/rest/v3/graphql`,
+			cache: new InMemoryCache(),
+			link
+		})
+	}
 }
 
 /*
@@ -698,7 +737,7 @@ class DefaultsOptions implements Filter<any, any> {
 		this.defaultTimeout = defaultTimeout
 	}
 
-	async doFilter(request: Request, filterChain: FilterChain<any>): Promise<Response<any>> {
+	async doFilter(request: Request, filterChain: FilterChain<any>): Promise<HttpClientResponse<any>> {
 		if (!request.timeout) {
 			request.timeout = this.defaultTimeout
 		}
@@ -713,7 +752,7 @@ class DefaultsOptions implements Filter<any, any> {
 class SessionRefreshFilter implements Filter<any, any> {
 	constructor(readonly client: OzoneClientInternals, readonly sessionCheckCallBack: (lastCheck: number) => void) {}
 
-	async doFilter(call: Request, filterChain: FilterChain<any>): Promise<Response<any>> {
+	async doFilter(call: Request, filterChain: FilterChain<any>): Promise<HttpClientResponse<any>> {
 		try {
 			const response = await filterChain.doFilter(call)
 			const principalId = response.headers['ozone-principal-id']
@@ -722,7 +761,7 @@ class SessionRefreshFilter implements Filter<any, any> {
 			}
 			return response
 		} catch (e) {
-			const response = e as Response<any>
+			const response = e as HttpClientResponse<any>
 			// Try to detect if the session needs to be refreshed
 			if (
 				// Only try to re-authenticate if we receive a 401 or 403 status code
@@ -758,7 +797,7 @@ class SessionRefreshFilter implements Filter<any, any> {
 class SessionFilter implements Filter<any, any> {
 	constructor(readonly authProvider: () => AuthInfo | undefined) {}
 
-	async doFilter(call: Request, filterChain: FilterChain<any>): Promise<Response<any>> {
+	async doFilter(call: Request, filterChain: FilterChain<any>): Promise<HttpClientResponse<any>> {
 		const authInfo = this.authProvider()
 		if (authInfo) {
 			call.addHeader('Ozone-Session-Id', authInfo.sessionId)
