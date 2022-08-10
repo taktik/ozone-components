@@ -6,7 +6,7 @@ import { FlowrImageEnum, FlowrVideoEnum } from 'ozone-config'
 import { OzoneClient } from 'ozone-typescript-client'
 import { Request } from 'typescript-http-client'
 
-export type SizeEnum = Number
+export type SizeEnum = number
 
 export class OzonePreviewSize {
 	static Small: SizeEnum = 250
