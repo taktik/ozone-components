@@ -1,9 +1,9 @@
 /**
  * Created by hubert on 8/06/17.
  */
-import { SearchRequest, TermsAggregation, ExistsQuery, WildcardQuery, QueryStringQuery, TermQuery, ModeType, TermsQuery, TenantQuery, TypeQuery, Query, BoolQuery, Sort, IdsQuery, RegexpQuery, RangeQuery } from 'ozone-type'
-export type BoolQueryName = 'mustClauses' | 'shouldClauses' | 'mustNotClauses'
-export type BasicOzoneType = string | boolean | number
+import { SearchRequest, TermsAggregation, Query, BoolQuery, Sort } from 'ozone-type'
+import { existsQuery, idsQuery, quicksearch, rangeQuery, regexpQuery, tenantQuery, termQuery, termsQuery, termsQueryOptions, typeQuery, typeQueryWithSubType, wildcardQuery } from './functions'
+import { BoolQueryName } from './types'
 
 /**
  * Class helper to create searchQuery.
@@ -54,7 +54,7 @@ export class SearchQuery {
 	 * Set collection to search on.
 	 * @deprecated
 	 * @param {string} collection
-	 * @return {SearchQuery} this to be chained
+	 * @return {this} this to be chained
 	 */
 	on(collection: string) {
 		this._collection = collection
@@ -76,35 +76,41 @@ export class SearchQuery {
 
 	/**
 	 * create boolQuery mustClauses.
-	 * @return {SearchQuery}
+	 * @return {this}
 	 */
-	get and(): SearchQuery {
+	get and(): this {
 		return this.boolQuery('mustClauses')
 	}
 
 	/**
 	 * create boolQuery shouldClauses.
-	 * @return {SearchQuery}
+	 * @return {this}
 	 */
-	get or(): SearchQuery {
+	get or(): this {
 		return this.boolQuery('shouldClauses')
 	}
 
 	/**
 	 * create boolQuery mustNotClauses (nand).
-	 * @return {SearchQuery}
+	 * @return {this}
 	 */
-	get not(): SearchQuery {
+	get not(): this {
 		return this.boolQuery('mustNotClauses')
+	}
+
+	private add<Args extends any[]>(fun: (...args: Args) => Query): (...args: Args) => this {
+		return (...args: Args): this => {
+			return this.addQuery(fun(...args))
+		}
 	}
 
 	/**
 	 * set search request size
 	 * Can be chain.
 	 * @param {number} size
-	 * @return {SearchQuery} this
+	 * @return {this} this
 	 */
-	setSize(size: number): SearchQuery {
+	setSize(size: number): this {
 		this._searchRequest.size = size
 		return this
 	}
@@ -112,9 +118,9 @@ export class SearchQuery {
 	 * set search request offsed
 	 * Can be chain.
 	 * @param {number} offset
-	 * @return {SearchQuery} this
+	 * @return {this} this
 	 */
-	setOffset(offset: number): SearchQuery {
+	setOffset(offset: number): this {
 		this._searchRequest.offset = offset
 		return this
 	}
@@ -123,10 +129,9 @@ export class SearchQuery {
 	 * generic boolQuery
 	 * Can be chain.
 	 * @param {string} kind kind of bool query
-	 * @return {SearchQuery}
+	 * @return {this}
 	 */
-	boolQuery(kind: BoolQueryName): SearchQuery {
-
+	boolQuery(kind: BoolQueryName): this {
 		const currentQuery = this._searchRequest.query ? Object.assign({}, this._searchRequest.query) : undefined
 		this._searchRequest.query = {
 			'$type': 'BoolQuery'
@@ -144,122 +149,13 @@ export class SearchQuery {
 	 * Combine query
 	 * @param searchQuery
 	 */
-	combineWith(searchQuery: SearchQuery): SearchQuery {
+	combineWith(searchQuery: SearchQuery): this {
 		if (searchQuery._searchRequest && searchQuery._searchRequest.query) {
 			this.addQuery(searchQuery._searchRequest.query)
 			return this
-		} else {
-			throw Error('No query define in combineWith(searchQuery)')
 		}
-	}
-	/**
-	 * ozone QueryStringQuery
-	 * @param {string} searchString string to search
-	 */
-	quicksearch(searchString: string): SearchQuery {
-		return this.addQuery({
-			'$type': 'QueryStringQuery',
-			field: '_quicksearch',
-			queryString: `${searchString}*`
-		} as QueryStringQuery)
-	}
 
-	/**
-	 * search for a term in a field
-	 * @param {string} field
-	 * @param {string} value
-	 * @param {boolean} ignoreCase
-	 * @return {SearchQuery}
-	 */
-	termQuery(field: string, value: BasicOzoneType, ignoreCase: boolean = false): SearchQuery {
-		return this.addQuery({
-			'$type': 'TermQuery',
-			field: field,
-			value: value,
-			ignoreCase
-		} as TermQuery)
-	}
-
-	termsQuery(field: string, ...values: Array<BasicOzoneType>): SearchQuery {
-		return this.addQuery({
-			'$type': 'TermsQuery',
-			field,
-			values
-		} as TermsQuery)
-	}
-
-	termsQueryOptions(field: string, values: Array<BasicOzoneType>, options: {ignoreCase?: boolean, exactMatch?: boolean} = {}): SearchQuery {
-		return this.addQuery({
-			'$type': 'TermsQuery',
-			field,
-			values,
-			...options
-		} as TermsQuery)
-	}
-
-	/**
-	 * search inside a type.
-	 * Not un subtype
-	 * @param {string} typeIdentifiers
-	 * @return {SearchQuery}
-	 */
-	typeQuery(...typeIdentifiers: Array<string>): SearchQuery {
-		return this.genericTypeQuery(false, ...typeIdentifiers)
-	}
-
-	/**
-	 * search array of ids
-	 * @param {string} ids
-	 * @return {SearchQuery}
-	 */
-	idsQuery(ids: Array<string>): SearchQuery {
-		return this.addQuery({
-			'$type': 'IdsQuery',
-			ids
-		} as IdsQuery)
-	}
-
-	existsQuery(field: string): SearchQuery {
-		return this.addQuery({
-			'$type': 'ExistsQuery',
-			field
-		} as ExistsQuery)
-	}
-
-	/**
-	 * search inside a type and it's subtype
-	 * @param {string} typeIdentifiers
-	 * @return {SearchQuery}
-	 */
-	typeQueryWithSubType(...typeIdentifiers: Array<string>): SearchQuery {
-		return this.genericTypeQuery(true, ...typeIdentifiers)
-	}
-
-	/**
-	 * Search inside a type
-	 * @param {boolean} includeSubTypes
-	 * @param {string} typeIdentifiers
-	 * @return {SearchQuery}
-	 */
-	private genericTypeQuery(includeSubTypes: boolean, ...typeIdentifiers: Array<string>): SearchQuery {
-		return this.addQuery({
-			'$type': 'TypeQuery',
-			typeIdentifiers: typeIdentifiers,
-			includeSubTypes: includeSubTypes
-		} as TypeQuery)
-	}
-	/**
-	 * Search inside a tenant
-	 * @param {ModeType} mode
-	 * @param {string} tenantId
-	 * @return {SearchQuery}
-	 */
-	tenantQuery(mode: ModeType, tenantId: string): SearchQuery {
-		return this.addQuery({
-			'$type': 'TenantQuery',
-			mode: mode,
-			tenantId: tenantId
-		} as TenantQuery)
+		throw Error('No query define in combineWith(searchQuery)')
 	}
 
 	/**
@@ -267,9 +163,9 @@ export class SearchQuery {
 	 * @param {string} searchString
 	 * @param {string?} lastTerm
 	 * @param {number?} size
-	 * @return {SearchQuery}
+	 * @return {this}
 	 */
-	suggestion(searchString: string, lastTerm: string = '', size?: number) {
+	suggestion(searchString: string, lastTerm: string = '', size?: number): this {
 		const suggestSize = size || this._searchRequest.size
 
 		this._searchRequest.aggregations = [{
@@ -288,70 +184,30 @@ export class SearchQuery {
 	 * create a custom searchRequest.
 	 * Can not be chained
 	 * @param {SearchRequest} searchParam
-	 * @return {SearchQuery}
 	 */
 	custom(searchParam: SearchRequest): void {
 		this._searchRequest = searchParam
 	}
 
-	/**
-	 * Search in a range of value
-	 * @param field
-	 * @param param {from?: any, to?: any}
-	 */
-	rangeQuery(field: string, param: {from?: any, to?: any}): SearchQuery {
-		const query: RangeQuery = Object.assign({
-			'$type': 'RangeQuery',
-			field
-		}, param)
+	existsQuery = this.add(existsQuery)
+	idsQuery = this.add(idsQuery)
+	quicksearch = this.add(quicksearch)
+	tenantQuery = this.add(tenantQuery)
+	termQuery = this.add(termQuery)
+	termsQuery = this.add(termsQuery)
+	termsQueryOptions = this.add(termsQueryOptions)
+	typeQuery = this.add(typeQuery)
+	typeQueryWithSubType = this.add(typeQueryWithSubType)
+	rangeQuery = this.add(rangeQuery)
+	regexpQuery = this.add(regexpQuery)
+	wildcardQuery = this.add(wildcardQuery)
 
-		return this.addQuery(query)
-	}
-
-	/**
-	 * Search with a regular expression
-	 * @param field
-	 * @param regexp
-	 * @param ignoreCase
-	 */
-	regexpQuery(field: string, regexp: string, ignoreCase: boolean = false): SearchQuery {
-		const query: RegexpQuery = {
-			'$type': 'RegexpQuery',
-			field,
-			regexp,
-			ignoreCase
-		}
-		return this.addQuery(query)
-	}
-	/**
-	 * Matches documents that have fields matching a wildcard expression (not analyzed).
-	 * Supported wildcards are *, which matches any character sequence (including the empty one), and ?,
-	 * which matches any single character. Note that this query can be slow, as it needs to iterate over many terms.
-	 * In order to prevent extremely slow wildcard queries,
-	 * a wildcard term should not start with one of the wildcards * or ?.
-	 * The wildcard query maps to Lucene WildcardQuery.
-	 * @param field
-	 * @param wildcard
-	 * @param ignoreCase
-	 * @param analyzed
-	 */
-	wildcardQuery(field: string, wildcard: string,ignoreCase?: boolean, analyzed?: boolean): SearchQuery {
-		const query: WildcardQuery = {
-			'$type': 'WildcardQuery',
-			field,
-			wildcard,
-			ignoreCase,
-			analyzed
-		}
-		return this.addQuery(query)
-	}
 	/**
 	 *
 	 * @param {Query} query
-	 * @return {SearchQuery}
+	 * @return {this}
 	 */
-	addQuery(query: Query): SearchQuery {
-
+	addQuery(query: Query): this {
 		if (this._searchRequest.query && this._searchRequest.query.$type === 'BoolQuery') {
 			const currentQuery = (this._searchRequest.query as BoolQuery)
 			if (currentQuery.mustClauses) {
