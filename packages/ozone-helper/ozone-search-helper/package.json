@@ -9,8 +9,8 @@
     "type": "git",
     "url": "https://github.com/taktik/ozone-components/packages/ozone-helper/ozone-search-helper"
   },
-  "main": "dist/ozone-search-helper.js",
-  "types": "dist/ozone-search-helper.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "prepublish": "npm run build",
     "build": "npm run tslint && npm run compile",
