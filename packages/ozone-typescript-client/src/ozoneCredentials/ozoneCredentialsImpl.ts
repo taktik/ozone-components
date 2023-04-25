@@ -40,7 +40,13 @@ export class TokenCredentials implements OzoneCredentials {
 	}
 
 	authenticate(ozoneURL: string): Promise<AuthInfo> {
-		return Promise.reject('Not implemented')
+		const httpClient = newHttpClient()
+		const request = new Request(`${ozoneURL}/rest/v3/authentication/login/token`)
+			.setMethod('POST')
+			.setBody({
+				token: this.token
+			})
+		return httpClient.call<AuthInfo>(request)
 	}
 }
 
