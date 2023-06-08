@@ -45,7 +45,7 @@ export interface ItemClient<T extends Item> {
 
 	queryDelete (searchQuery: Query, permanent?: boolean): Promise<UUID[]>
 }
-export interface SearchIterator<T> extends AsyncIterableIterator<SearchResults<FromOzone<T>>> {
+export interface SearchIterator<T extends Item> extends AsyncIterableIterator<SearchResults<FromOzone<T>>> {
 
 	/**
 	 * Cancel ongoing http request
