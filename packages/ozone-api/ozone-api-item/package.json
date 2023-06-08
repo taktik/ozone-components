@@ -1,6 +1,6 @@
 {
   "name": "ozone-api-item",
-  "version": "6.2.2",
+  "version": "6.2.3",
   "publishConfig": {
     "access": "public"
   },
@@ -23,9 +23,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ozone-default-client": "^6.2.2",
+    "ozone-default-client": "^6.2.3",
     "ozone-search-helper": "^6.1.11",
-    "ozone-typescript-client": "^6.2.2",
+    "ozone-typescript-client": "^6.2.3",
     "uuid": "3.3.2"
   },
   "devDependencies": {
