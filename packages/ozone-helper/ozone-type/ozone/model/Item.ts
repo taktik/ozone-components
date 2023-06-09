@@ -13,10 +13,11 @@ export interface SecurityError extends ItemError {}
 export interface PersistenceError extends ItemError {}
 
 export interface ItemMeta {
-	state: State
-	validity: Validity
-	security: Security
-	persistence: Persistence
+	instanceId?: UUID
+	state?: State
+	validity?: Validity
+	security?: Security
+	persistence?: Persistence
 	validityErrors?: ValidityError[]
 	securityErrors?: SecurityError[]
 	persistenceErrors?: PersistenceError[]
