@@ -24,9 +24,9 @@
 	},
 	"homepage": "https://github.com/taktik/ozone-typescript-client#readme",
 	"dependencies": {
-		"@apollo/client": "^3.6.2",
+		"@apollo/client": "3.6.2",
 		"generic-logger-typings": "1.0.0",
-		"graphql": "^16.4.0",
+		"graphql": "16.4.0",
 		"helpful-decorators": "2.0.4",
 		"ozone-search-helper": "^6.2.4",
 		"ozone-type": "^6.2.4",
