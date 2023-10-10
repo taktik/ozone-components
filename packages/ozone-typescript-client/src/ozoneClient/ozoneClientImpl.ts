@@ -1,5 +1,5 @@
 import type { Logger } from 'generic-logger-typings'
-import { AssumeStateIsNot, AssumeStateIs, StateMachineImpl, ListenerRegistration } from 'typescript-state-machine'
+import { AssumeStateIsNot, AssumeStateIs,AssumeStateIsNotIn, AssumeStateIsIn, StateMachineImpl, ListenerRegistration } from 'typescript-state-machine'
 import {
 	Response as HttpClientResponse,
 	Request,
@@ -440,7 +440,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 		return Math.min(2 * this._lastReAuthInterval, MAX_REAUTH_DELAY)
 	}
 
-	@AssumeStateIs(states.NETWORK_OR_SERVER_ERROR)
+	@AssumeStateIsIn([states.NETWORK_OR_SERVER_ERROR, states.AUTHENTICATION_ERROR])
 	private createAutoReAuthTimer() {
 		this._reAuthTimeout = window.setTimeout(() =>
 			(async () => {
@@ -459,7 +459,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 			})(), this.nextReAuthRetryInterval())
 	}
 
-	@AssumeStateIsNot(states.NETWORK_OR_SERVER_ERROR)
+	@AssumeStateIsNotIn([states.NETWORK_OR_SERVER_ERROR, states.AUTHENTICATION_ERROR])
 	private clearAutoReAuthTimer() {
 		window.clearTimeout(this._reAuthTimeout)
 		this._reAuthTimeout = 0
@@ -613,7 +613,8 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 		this.onEnterState(states.NETWORK_OR_SERVER_ERROR, () => this.createAutoReAuthTimer())
 		this.onLeaveState(states.NETWORK_OR_SERVER_ERROR, () => this.clearAutoReAuthTimer())
 		this.onEnterState(states.AUTHENTICATED, () => this.clearAutoReAuthRetryTimestamps())
-		this.onEnterState(states.AUTHENTICATION_ERROR, () => this.clearAutoReAuthRetryTimestamps())
+		this.onEnterState(states.AUTHENTICATION_ERROR, () => this.createAutoReAuthTimer())
+		this.onLeaveState(states.AUTHENTICATION_ERROR, () => this.clearAutoReAuthTimer())
 		// Auto-connect WebSocket when authenticated to Ozone
 		this.onEnterState(states.AUTHENTICATED, () => this.connectIfPossible())
 		// Connect to message server when entering state "CONNECTING"
