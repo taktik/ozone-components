@@ -24,11 +24,6 @@ export interface ConfigType {
 		items: string;
 		item: string;
 		session: string;
-		downloadRequest: string;
-		uploadStart: string;
-		uploadId: string;
-		upload: string;
-		uploadComplete: string;
 		wait: string;
 		blob: string;
 		fileType: string;
