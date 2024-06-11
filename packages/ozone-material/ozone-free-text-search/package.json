@@ -1,6 +1,6 @@
 {
   "name": "ozone-free-text-search",
-  "version": "6.2.4",
+  "version": "6.3.0",
   "publishConfig": {
     "access": "public"
   },
@@ -28,7 +28,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ozone-config": "^6.2.4",
+    "ozone-config": "^6.3.0",
     "taktik-polymer-typescript": "^6.2.4"
   }
 }
