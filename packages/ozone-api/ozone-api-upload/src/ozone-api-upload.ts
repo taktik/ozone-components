@@ -3,7 +3,8 @@ import { OzoneAPIRequest } from 'ozone-api-request'
 import { getDefaultClient } from 'ozone-default-client'
 import { OzoneClient } from 'ozone-typescript-client'
 import TaskHandlerOption = OzoneClient.TaskHandlerOption
-
+import { Request } from 'typescript-http-client'
+import {Blob, UUID} from "ozone-type";
 export interface UploadSessionResult {
 	file: FormData
 	sessionId: string
@@ -43,6 +44,7 @@ export interface WaitResponse {
 		[key: string]: TaskExecutions
 	}
 }
+
 
 export interface XMLHttpRequestLike {
 	upload: {
@@ -236,135 +238,76 @@ export class UploadFileRequest implements XMLHttpRequestLike {
 			.join('/')
 	}
 
+	private async createBlob(file: File): Promise<Blob> {
+		try {
+			const url = await this._buildUrl('blob')
+			const blobRequest = new Request(url).setMethod('PUT').setBody(file)
+			blobRequest.timeout = Infinity
+			blobRequest.upload.onprogress = this.upload.onprogress
+			blobRequest.contentType = 'application/octet-stream'
+			return await getDefaultClient().call<Blob>(blobRequest)
+		} catch (err) {
+			console.error('Error creating blob', err)
+			throw err
+		}
+	}
+
+	private async submitTask(blobId: UUID, fileName: string, options: TaskHandlerOption): Promise<TaskResult | undefined> {
+		try {
+			const url = await this._buildUrl('task')
+			const taskRequest = new Request(url, {
+				method: 'POST',
+				body: JSON.stringify({
+					$type: 'importblobasmedia',
+					blob: blobId,
+					media: { name: fileName, type: 'media' },
+					mediaInputChannel: 'inputChannel'
+				})
+			})
+			const taskId = await getDefaultClient().call<UUID>(taskRequest)
+			return await getDefaultClient().taskClient().waitForTask<TaskResult>(taskId, {
+				skipWaitingOnSubTask: options.skipWaitingOnSubTask
+			}).waitResult
+		} catch (err) {
+			console.error('Error submit upload task', err)
+			throw err
+		}
+	}
+
 	/**
 	 * alias to send method.
-	 * @param {FormData} file
+	 * @param {FormData} formData
 	 * @param {string} folderId
 	 * @param options TaskHandlerOption
 	 * @return {Promise<string | void>}
 	 */
-	uploadFile(file: FormData, folderId: string = '0', options: TaskHandlerOption = {}): Promise<TaskResult | null> {
-
-		return this._startUploadSession(file, folderId)
-			.then((result) => this._getUploadId(result))
-			.then((result) => this._performUpload(result))
-			.then((result) => this._endUploadSession(result))
-			.then((result) => this._waitForTask(result.uploadFileId, options))
-			.then((result) => {
-				if (!result?.mediaId) {
-					throw Error('No media define in Ozone')
-				}
-				this.status = 200
-				this._readyState = 4
-
-				this._mediaId = result.mediaId
-
-				if (this.eventTarget) {
-					this.eventTarget.dispatchEvent(
+	async uploadFile(formData: FormData, folderId: string = '0', options: TaskHandlerOption = {}): Promise<TaskResult | null> {
+		try {
+			const file = formData.get('file')
+			if (file instanceof File) {
+				const blob = await this.createBlob(file)
+				if (blob.id) {
+					const result = await this.submitTask(blob.id, file.name, options)
+					if (!result?.mediaId) {
+						console.error('No media define in Ozone')
+						return null
+					}
+					this.status = 200
+					this._mediaId = result.mediaId
+					this.eventTarget?.dispatchEvent(
 						new CustomEvent('ozone-upload-completed',
 							{ bubbles: true, detail: { mediaId: result.mediaId } })
 					)
+					return result
 				}
-				return result
-			}).catch((error: Error) => {
-				this.status = 555
-				this._readyState = 4
-				console.error(error.message)
-				return null
-			})
-	}
-
-	private notifyOnError(): ((this: XMLHttpRequest, ev: Event) => any) {
-		const self = this
-		return function(this: XMLHttpRequest, ev: Event) {
-			if (this.status === 0
-				|| this.status >= 500
-				|| this.status >= 400) {
-				self.status = this.status
-				self._readyState = 4
 			}
+			return null
+		} catch (err) {
+			this.status = 555
+			this._readyState = 4
+			console.error(err)
+			return null
 		}
-	}
-
-	async _startUploadSession(file: FormData, folderId: string): Promise<UploadSessionResult> {
-		const request = this._createRequest()
-		request.url = await this._buildUrl('uploadStart')
-		request.method = 'POST'
-
-		request.onreadystatechange = this.notifyOnError()
-
-		const config = await OzoneConfig.get()
-		const body = {
-			mediaUploadChannelIdentifier: config.uploadChannel,
-			autoCommit: false
-		}
-		request.body = JSON.stringify(body)
-		return request.sendRequest()
-			.then((xhr: XMLHttpRequest) => {
-				const response = xhr.response
-				return {
-					file: file,
-					sessionId: response.result as string
-				}
-			})
-	}
-
-	async _getUploadId(data: UploadSessionResult): Promise<UploadIdResult> {
-		const request = this._createRequest()
-		request.url = await this._buildUrl('uploadId', data.sessionId)
-		request.method = 'GET'
-
-		request.onreadystatechange = this.notifyOnError()
-
-		return request.sendRequest()
-			.then((xhr: XMLHttpRequest) => {
-				const response = xhr.response
-				const resultInfo: UploadIdResult = data as UploadIdResult
-				resultInfo.uploadId = response.result
-				resultInfo.folderId = response.folderId
-				return resultInfo
-			})
-	}
-
-	async _performUpload(data: UploadIdResult): Promise<UploadIdResult> {
-		const request = this._createRequest()
-		request.url = await this._buildUrl('upload', data.uploadId)
-		request.method = 'POST'
-
-		request.onreadystatechange = this.notifyOnError()
-		const xhr = request.createXMLHttpRequest(false)
-		xhr.upload.onprogress = this.upload.onprogress
-
-		request.body = data.file
-		return request.sendRequest(xhr)
-			.then(() => {
-				return data
-			})
-	}
-
-	async _endUploadSession(data: UploadIdResult): Promise<UploadEndResult> {
-		const request = this._createRequest()
-		request.url = await this._buildUrl('uploadComplete', data.sessionId)
-		request.method = 'POST'
-
-		request.onreadystatechange = this.notifyOnError()
-		const info = {
-			'selectedFileFieldNames': [['files']],
-			mediaMetadatas: [
-				{
-					type: { type: 'PROPERTY', identifier: 'org.taktik.metadata.folderId' },
-					valueObject: data.folderId
-				}
-			]
-		}
-		request.body = JSON.stringify(info)
-
-		return request.sendRequest()
-			.then((xhr: XMLHttpRequest) => {
-				const response: UploadEndResult = data as UploadEndResult
-				response.uploadFileId = xhr.response.file
-				return response
-			})
 	}
 
 	_waitForTask(taskId: string, options: TaskHandlerOption): Promise<TaskResult | undefined> {
