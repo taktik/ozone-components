@@ -45,8 +45,6 @@ export class  WCMediaControl extends Clappr.MediaControl {
 	stopDragHandler() {}
 	updateDragHandler() {}
 
-	// muted = false
-
 	startSeekDrag(event: MouseEvent) {
 		super.startSeekDrag(event)
 
