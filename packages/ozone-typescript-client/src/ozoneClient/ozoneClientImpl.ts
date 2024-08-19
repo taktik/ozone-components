@@ -25,7 +25,14 @@ import { RoleClientImpl } from '../roleClient/roleClientImpl'
 import { PermissionClientImpl } from '../permissionClient/permissionClientImpl'
 import { TypeClientImpl } from '../typeClient/typeClientImpl'
 import { Cache } from '../cache/cache'
-import { OzoneClient, OzoneCredentials, AuthInfo, ClientConfiguration, AuthenticatedPrincipal } from './ozoneClient'
+import {
+	OzoneClient,
+	OzoneCredentials,
+	AuthInfo,
+	ClientConfiguration,
+	AuthenticatedPrincipal,
+	DEFAULT_FILTERS
+} from './ozoneClient'
 import { TaskClient } from '../taskClient/taskClient'
 import { TaskClientImpl } from '../taskClient/taskClientImpl'
 import { ImportExportClient } from '../importExportClient/importExportClient'
@@ -98,7 +105,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 		this.setupTransitionListeners()
 		this._httpClient = newHttpClient()
 		// Setup client & filters
-		this.setupFilters()
+		this.setupFilters(configuration.defaultFilters)
 		this._roleClient = new RoleClientImpl(this, this._config.ozoneURL)
 		this._permissionClient = new PermissionClientImpl(this, this._config.ozoneURL)
 		this._typeClient = new TypeClientImpl(this, this._config.ozoneURL)
@@ -630,17 +637,28 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 		this.onEnterState(states.STOPPING, () => this.logout())
 	}
 
-	private setupFilters() {
-		// Add pre-filters
-		this._httpClient.addFilter(new FilterCollection(this.preFilters), 'pre-filters')
-		// Try to auto-refresh the session if expired
-		this._httpClient.addFilter(new SessionRefreshFilter(this, lastCheck => this._lastSessionCheck = lastCheck), 'session-refresh')
-		// Add Ozone session header to all requests
-		this._httpClient.addFilter(new SessionFilter(() => this._authInfo), 'session-filter')
-		// Set some sensible default to all requests
-		this._httpClient.addFilter(new DefaultsOptions(this._config.defaultTimeout || DEFAULT_TIMEOUT), 'default-options')
-		// Add post-filters
-		this._httpClient.addFilter(new FilterCollection(this.postFilters), 'post-filters')
+	private setupFilters(defaultFilters = Object.values(DEFAULT_FILTERS)) {
+		if (defaultFilters.includes(DEFAULT_FILTERS.PRE_FILTERS)) {
+			// Add pre-filters
+			this._httpClient.addFilter(new FilterCollection(this.preFilters), DEFAULT_FILTERS.PRE_FILTERS)
+		}
+		if (defaultFilters.includes(DEFAULT_FILTERS.SESSION_REFRESH)) {
+			// Try to auto-refresh the session if expired
+			this._httpClient.addFilter(new SessionRefreshFilter(this, lastCheck => this._lastSessionCheck = lastCheck), DEFAULT_FILTERS.SESSION_REFRESH)
+		}
+		if (defaultFilters.includes(DEFAULT_FILTERS.SESSION_FILTER)) {
+			// Add Ozone session header to all requests
+			this._httpClient.addFilter(new SessionFilter(() => this._authInfo), DEFAULT_FILTERS.SESSION_FILTER)
+		}
+		if (defaultFilters.includes(DEFAULT_FILTERS.DEFAULT_OPTIONS)) {
+			// Set some sensible default to all requests
+			this._httpClient.addFilter(new DefaultsOptions(this._config.defaultTimeout || DEFAULT_TIMEOUT), DEFAULT_FILTERS.DEFAULT_OPTIONS)
+		}
+		if (defaultFilters.includes(DEFAULT_FILTERS.POST_FILTERS)) {
+			// Add post-filters
+			this._httpClient.addFilter(new FilterCollection(this.postFilters), DEFAULT_FILTERS.POST_FILTERS)
+		}
+
 	}
 
 	itemClient<T extends Item>(typeIdentifier: string): ItemClient<T> {

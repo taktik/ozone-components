@@ -69,4 +69,6 @@ export namespace OzoneClient {
 	export import ClientConfiguration = ozoneClient.ClientConfiguration
 
 	export import OzoneLoginCredentials = ozoneCredentialsImpl.OzoneLoginCredentials
+
+	export import DEFAULT_FILTERS = ozoneClient.DEFAULT_FILTERS
 }
