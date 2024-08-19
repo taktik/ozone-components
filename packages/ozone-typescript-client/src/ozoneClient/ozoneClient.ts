@@ -17,6 +17,14 @@ import { ImportExportClient } from '../importExportClient/importExportClient'
 import { FileTypeClient } from '../filetypeClient/filetypeClient'
 import { TypedDocumentNode } from '@apollo/client/core'
 
+export enum DEFAULT_FILTERS {
+	PRE_FILTERS= 'pre-filters',
+	SESSION_REFRESH = 'session-refresh',
+	SESSION_FILTER = 'session-filter',
+	DEFAULT_OPTIONS = 'default-options',
+	POST_FILTERS = 'post-filters'
+}
+
 export interface AuthInfo {
 	principalClass: string,
 	principalId: string,
@@ -29,6 +37,7 @@ export interface ClientConfiguration {
 	ozoneCredentials?: OzoneCredentials
 	webSocketsURL?: string
 	defaultTimeout?: number
+	defaultFilters?: DEFAULT_FILTERS[] // If not defined, we add all defaults filters
 }
 
 export interface OzoneCredentials {
