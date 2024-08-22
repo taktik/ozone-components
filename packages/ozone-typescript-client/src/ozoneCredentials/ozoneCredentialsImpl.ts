@@ -20,12 +20,13 @@ export class SessionCredentials implements OzoneCredentials {
 
 export class UserCredentials implements OzoneCredentials {
 	constructor(readonly username: string,
-				readonly password: string) {
+				readonly password: string,
+				readonly setSessionCookie = true) {
 	}
 
 	authenticate(ozoneURL: string): Promise<AuthInfo> {
 		const httpClient = newHttpClient()
-		const request = new Request(`${ozoneURL}/rest/v3/authentication/login/user`)
+		const request = new Request(`${ozoneURL}/rest/v3/authentication/login/user?cookie=${this.setSessionCookie}`)
 			.setMethod('POST')
 			.setBody({
 				username: this.username,
@@ -52,12 +53,14 @@ export class TokenCredentials implements OzoneCredentials {
 
 export class ItemCredentials implements OzoneCredentials {
 	constructor(readonly itemId: string,
-				readonly secret: string) {
+				readonly secret: string,
+				readonly setSessionCookie = true
+				) {
 	}
 
 	authenticate(ozoneURL: string): Promise<AuthInfo> {
 		const httpClient = newHttpClient()
-		const request = new Request(`${ozoneURL}/rest/v3/authentication/login/item`)
+		const request = new Request(`${ozoneURL}/rest/v3/authentication/login/item?cookie=${this.setSessionCookie}`)
 			.set({
 				method: 'POST',
 				body: {
@@ -73,12 +76,14 @@ export class ItemByQueryCredentials implements OzoneCredentials {
 
 	constructor(readonly typeIdentifier: string,
 				readonly secret: string,
-				readonly query: object) {
+				readonly query: object,
+				readonly setSessionCookie = true
+				) {
 	}
 
 	async authenticate(ozoneURL: string): Promise<AuthInfo> {
 		const httpClient = newHttpClient()
-		const request = new Request(`${ozoneURL}/rest/v3/authentication/login/item/${this.typeIdentifier}`)
+		const request = new Request(`${ozoneURL}/rest/v3/authentication/login/item/${this.typeIdentifier}?cookie=${this.setSessionCookie}`)
 			.set({
 				method: 'POST',
 				body: {

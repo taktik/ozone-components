@@ -38,6 +38,7 @@ export interface ClientConfiguration {
 	webSocketsURL?: string
 	defaultTimeout?: number
 	defaultFilters?: DEFAULT_FILTERS[] // If not defined, we add all defaults filters
+	withCredentials?: boolean
 }
 
 export interface OzoneCredentials {
