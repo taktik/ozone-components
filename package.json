@@ -85,6 +85,6 @@
 		"bower": "^1.8.8",
 		"clappr-markers-plugin": "https://github.com/hubjac1/clappr-markers-plugin.git",
 		"helpful-decorators": "2.0.6",
-		"typescript-http-client": "0.10.4"
+		"typescript-http-client": "0.10.5"
 	}
 }
