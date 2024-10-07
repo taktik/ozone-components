@@ -31,7 +31,7 @@
 		"ozone-search-helper": "^6.2.4",
 		"ozone-type": "^6.2.4",
 		"sockjs-client": "1.4.0",
-		"typescript-http-client": "0.10.4",
+		"typescript-http-client": "0.10.5",
 		"typescript-state-machine": "0.9.9"
 	},
 	"devDependencies": {

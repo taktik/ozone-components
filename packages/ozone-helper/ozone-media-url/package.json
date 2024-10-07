@@ -29,6 +29,6 @@
     "ozone-api-request": "^6.2.4",
     "ozone-config": "^6.3.0",
     "ozone-typescript-client": "^6.3.3",
-    "typescript-http-client": "0.10.4"
+    "typescript-http-client": "0.10.5"
   }
 }
