@@ -24,7 +24,7 @@ export interface ImportExportClient {
 	/**
 	 * get the download URL from exportId
 	 */
-	getDownloadExportUrl(exportId: UUID): string
+	getDownloadExportUrl(exportId: UUID, filename?: string): string
 
 	/**
 	 * Import zip archive to ozone, return the task id
