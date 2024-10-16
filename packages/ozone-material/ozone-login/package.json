@@ -1,7 +1,7 @@
 {
 	"name": "ozone-login",
 	"private": true,
-	"version": "6.3.4",
+	"version": "6.3.5",
 	"description": "",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
@@ -19,9 +19,9 @@
 	"license": "ISC",
 	"dependencies": {
 		"ozone-api-request": "^6.2.4",
-		"ozone-default-client": "^6.3.4",
+		"ozone-default-client": "^6.3.5",
 		"ozone-type": "^6.2.4",
-		"ozone-typescript-client": "^6.3.4",
+		"ozone-typescript-client": "^6.3.5",
 		"taktik-polymer-typescript": "^6.2.4"
 	}
 }
