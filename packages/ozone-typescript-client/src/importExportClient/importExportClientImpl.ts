@@ -23,8 +23,8 @@ export class ImportExportClientImpl implements ImportExportClient {
 	}
 
 	getDownloadExportUrl(exportId: UUID, filename?: string): string {
-		const Url = `${this.baseUrl}/rest/v3/export/download/${exportId}`;
-		return filename ? `${Url}?filename=${encodeURIComponent(filename)}` : Url;
+		const Url = `${this.baseUrl}/rest/v3/export/download/${exportId}`
+		return filename ? `${Url}?filename=${encodeURIComponent(filename)}` : Url
 	}
 
 	uploadImport(zipFile: Blob, options: ImportSpec = {}, progressCallback?: (event: Event) => void): UploadRequest<UUID> {
