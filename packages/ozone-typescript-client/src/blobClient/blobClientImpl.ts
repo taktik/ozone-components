@@ -9,6 +9,7 @@ export class BlobClientImpl implements BlobClient {
 	async create(data: any): Promise<Blob> {
 		const request = new Request(`${this.baseUrl}/rest/v3/blob`)
 			.setMethod('PUT')
+
 			.setBody(data)
 		request.contentType = 'application/octet-stream'
 		return this.client.call<Blob>(request)
