@@ -265,6 +265,7 @@ export class OzoneApiUploadV3<T extends Item = Item> {
 					oldId: file.id,
 					newId: mediaAlreadyExists.id
 				})
+				this.onEndUpload?.({ id: mediaAlreadyExists.id! })
 				this.setMedia(mediaAlreadyExists)
 				return null // not create blob
 			}
