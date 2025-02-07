@@ -1,0 +1,33 @@
+{
+  "name": "ozone-api-upload-v3",
+  "version": "6.3.6",
+  "publishConfig": {
+    "access": "public"
+  },
+  "description": "UploadFileRequest is a JavaScrip class that upload media using ozone v3 api.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "build": "../../../node_modules/.bin/tsc",
+    "prepublish": "../../../node_modules/.bin/tsc",
+    "tslint": "../../../node_modules/.bin/tslint  --project tsconfig.json",
+    "test": "npm run tslint && npm run build",
+    "doc": "../../../node_modules/.bin/typedoc --excludeExternals --out  doc/ src/"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ozone-type": "^6.2.4"
+  },
+  "dependencies": {
+    "ozone-config": "^6.3.0",
+    "ozone-default-client": "^6.3.6",
+    "ozone-typescript-client": "^6.3.6",
+    "ozone-search-helper": "^6.2.4"
+  },
+  "repository": "https://github.com/taktik/ozone-components/packages/ozone-api/ozone-api-upload"
+}

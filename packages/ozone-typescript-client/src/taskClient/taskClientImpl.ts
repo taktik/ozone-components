@@ -9,6 +9,13 @@ export class TaskClientImpl implements TaskClient {
 	waitForTask<T>(taskId: UUID, options?: TaskHandlerOption): TaskHandlerImpl {
 		return new TaskHandlerImpl<T>(taskId, this.client, this.baseUrl, options || {})
 	}
+
+	submitTask(body: string): Promise<UUID> {
+		const url = `${this.baseUrl}/rest/v3/task`
+		const request = new Request(url)
+			.setMethod('POST').setBody(body)
+		return this.client.call<UUID>(request)
+	}
 }
 const waitingTime = 10000 // ms
 

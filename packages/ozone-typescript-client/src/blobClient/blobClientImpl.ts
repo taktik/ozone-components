@@ -1,16 +1,21 @@
 import { Blob, UUID } from 'ozone-type'
-import { BlobClient } from './blobClient'
+import { BlobClient, UploadParams } from './blobClient'
 import { OzoneClient } from '../ozoneClient/ozoneClient'
 import { Request } from 'typescript-http-client'
 
 export class BlobClientImpl implements BlobClient {
 	constructor(private client: OzoneClient, private baseUrl: string) {}
 
-	async create(data: any): Promise<Blob> {
+	async create(data: any, uploadParams?: UploadParams): Promise<Blob> {
 		const request = new Request(`${this.baseUrl}/rest/v3/blob`)
 			.setMethod('PUT')
-
 			.setBody(data)
+		if (uploadParams?.onprogress) {
+			request.upload.onprogress = uploadParams.onprogress
+		}
+		if (uploadParams?.onloadstart) {
+			request.upload.onloadstart = uploadParams.onloadstart
+		}
 		request.contentType = 'application/octet-stream'
 		return this.client.call<Blob>(request)
 	}
