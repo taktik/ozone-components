@@ -2,6 +2,7 @@ import { UUID, TaskExecution } from 'ozone-type'
 
 export interface TaskClient {
 	waitForTask<T>(taskId: UUID, options?: TaskHandlerOption): TaskHandler<T>
+	submitTask(body: string): Promise<UUID>
 }
 
 export interface TaskHandlerOption {
