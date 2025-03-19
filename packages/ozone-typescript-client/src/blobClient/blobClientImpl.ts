@@ -10,6 +10,9 @@ export class BlobClientImpl implements BlobClient {
 		const request = new Request(`${this.baseUrl}/rest/v3/blob`)
 			.setMethod('PUT')
 			.setBody(data)
+		if (uploadParams?.timeout) {
+			request.timeout = uploadParams.timeout
+		}
 		if (uploadParams?.onprogress) {
 			request.upload.onprogress = uploadParams.onprogress
 		}

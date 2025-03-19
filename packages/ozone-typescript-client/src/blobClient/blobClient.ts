@@ -6,6 +6,7 @@ export type UploadParams = {
 	onloadstart?: {
 		(event: Event): void;
 	};
+	timeout?: number
 }
 export interface BlobClient {
 	create(data: any, uploadParams?: UploadParams): Promise<Blob>

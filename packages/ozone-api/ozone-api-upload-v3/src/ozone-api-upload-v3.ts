@@ -52,6 +52,7 @@ export class OzoneApiUploadV3<T extends Item = Item> {
 	private importTaskQueue = new Queue<void>(10)
 	private checkIfMediaExists?: CheckIfMediaExistsParam
 	private metaData?: Partial<T>
+	private timeoutUpload?: number
 	constructor({
 					onStartUpload,
 					onEndBlobUpload,
@@ -65,7 +66,8 @@ export class OzoneApiUploadV3<T extends Item = Item> {
 					setMedia,
 					collection,
 					checkIfMediaExists,
-					metaData
+					metaData,
+					timeoutUpload
 	}: {
 		onStartUpload?: OnStartUploadFunction
 		onEndBlobUpload?: OnEndBlobUploadFunction
@@ -80,6 +82,7 @@ export class OzoneApiUploadV3<T extends Item = Item> {
 		collection: string
 		checkIfMediaExists?: CheckIfMediaExistsParam
 		metaData?: Partial<T>
+		timeoutUpload?: number
 	}) {
 		this.onStartUpload = onStartUpload
 		this.onEndBlobUpload = onEndBlobUpload
@@ -94,6 +97,7 @@ export class OzoneApiUploadV3<T extends Item = Item> {
 		this.collection = collection
 		this.checkIfMediaExists = checkIfMediaExists
 		this.metaData = metaData
+		this.timeoutUpload = timeoutUpload
 	}
 
 	/* Create blob files and put import task in stack "importingTasks"
@@ -108,7 +112,8 @@ export class OzoneApiUploadV3<T extends Item = Item> {
 		const createBlobTask = async (file: File, id: string, attempt = 1): Promise<void> => {
 			try {
 				const blob = await getDefaultClient().blobClient().create(file, {
-					onprogress: this.onProgress?.(id)
+					onprogress: this.onProgress?.(id),
+					timeout: this.timeoutUpload
 				})
 				this.onEndBlobUpload?.({ id: id })
 				this.importTaskQueue.push([() => this.submitBlobTask({ blob, file, id })])
