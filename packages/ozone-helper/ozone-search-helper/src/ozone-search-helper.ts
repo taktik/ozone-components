@@ -4,6 +4,7 @@
 import { SearchRequest, TermsAggregation, Query, BoolQuery, Sort } from 'ozone-type'
 import { existsQuery, idsQuery, quicksearch, rangeQuery, regexpQuery, tenantQuery, termQuery, termsQuery, termsQueryOptions, typeQuery, typeQueryWithSubType, wildcardQuery } from './functions'
 import { BoolQueryName } from './types'
+import SearchModeEnum = SearchRequest.SearchModeEnum
 
 /**
  * Class helper to create searchQuery.
@@ -122,6 +123,17 @@ export class SearchQuery {
 	 */
 	setOffset(offset: number): this {
 		this._searchRequest.offset = offset
+		return this
+	}
+
+	/**
+	 * set search request searchMode
+	 * Can be chain.
+	 * @param {number} searchMode
+	 * @return {this} this
+	 */
+	setSearchMode(searchMode: SearchModeEnum): this {
+		this._searchRequest.searchMode = searchMode
 		return this
 	}
 
