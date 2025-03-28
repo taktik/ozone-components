@@ -236,6 +236,10 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 
 	private static parseMessage(message: MessageEvent): DeviceMessage | null {
 		try {
+			if (typeof(message.data) === 'string') {
+				OzoneClientImpl.log?.warn('Received string message.data: ' + message)
+				return null
+			}
 			return JSON.parse(message.data) as DeviceMessage
 		} catch (e) {
 			OzoneClientImpl.log?.error('Unable to parse websocket message:', message, '// Error:', e)
