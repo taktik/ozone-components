@@ -85,10 +85,10 @@ graphql-tag@^2.12.6:
   dependencies:
     tslib "^2.1.0"
 
-graphql@16.4.0:
-  version "16.4.0"
-  resolved "https://registry.yarnpkg.com/graphql/-/graphql-16.4.0.tgz#bb10b1b4683045dedcb67000eb4ad134a36c59e6"
-  integrity sha512-tYDNcRvKCcfHREZYje3v33NSrSD/ZpbWWdPtBtUUuXx9NCo/2QDxYzNqCnMvfsrnbwRpEHMovVrPu/ERoLrIRg==
+graphql@16.8.1:
+  version "16.8.1"
+  resolved "https://registry.yarnpkg.com/graphql/-/graphql-16.8.1.tgz#1930a965bef1170603702acdb68aedd3f3cf6f07"
+  integrity sha512-59LZHPdGZVh695Ud9lRzPBVTtlX9ZCV150Er2W43ro37wVof0ctenSaskPPjN7lVTIN8mSZt8PHUNKZuNQUuxw==
 
 helpful-decorators@2.0.4:
   version "2.0.4"
@@ -184,6 +184,16 @@ original@^1.0.0:
   integrity sha512-hyBVl6iqqUOJ8FqRe+l/gS8H+kKYjrEndd5Pm1MfBtsEKA038HkkdbAl/72EAXGyonD/PFsvmVG+EvcIpliMBg==
   dependencies:
     url-parse "^1.4.3"
+
+ozone-search-helper@^6.2.4:
+  version "6.2.4"
+  resolved "https://registry.yarnpkg.com/ozone-search-helper/-/ozone-search-helper-6.2.4.tgz#d4e362ca6a2b8c21e5b22364e1012f40c71286b2"
+  integrity sha512-BD6n4xvAbTWmz4W/rAD6M6dKKRqSdzd+o4o+UBv86qc6HB2nSv+FO7FaaGoLISwALbRW8k+TmuHvZDauXrGg4A==
+
+ozone-type@^6.2.4:
+  version "6.2.4"
+  resolved "https://registry.yarnpkg.com/ozone-type/-/ozone-type-6.2.4.tgz#c70b9f914bf2055f232e53af43a97356e2975ca9"
+  integrity sha512-+X5AYJ2A2+zHk28++NtIntpRP7WInNZbwo95Ns4kgfyEsISLvhs1ccFi3fg3z2sk2dCFJusJkEf9DAYnFeWxDA==
 
 prop-types@^15.7.2:
   version "15.8.1"
