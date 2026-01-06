@@ -216,6 +216,7 @@ export class TaktikFreeTextSearch extends Polymer.Element {
 
     _clear(){
         this.set("searchValue", "");
+        this.fireTaktikSearch();
     }
     searchValueChange(){
         if(typeof this.searchValue !== "undefined" && this.searchValue.length > 0){
