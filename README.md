@@ -41,7 +41,7 @@ Elements are split in 5 categories:
 
 - ozone-material (Browser only)
   - [ozone-video-player](packages/ozone-material/ozone-video-player) WebComponent that play video from Ozone.
-  - [ozone-free-text-search](packages/ozone-material/ozone-free-text-search) WebComponent that play video from Ozone.
+  - [ozone-free-text-search](packages/ozone-material/ozone-free-text-search) WebComponent that search content based on value.
   - [ozone-upload](packages/ozone-material/ozone-upload) Configurable WebComponent to upload media files on Ozone. Based on `vaadin-upload`.
   - [ozone-item-preview](packages/ozone-material/ozone-item-preview) Webcomponent based on Polymer to preview an Ozone item.
   - [ozone-item-edit](packages/ozone-material/ozone-item-edit) This package contains several WebComponents based on Polymer to edit an Ozone item.
