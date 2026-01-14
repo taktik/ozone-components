@@ -226,7 +226,7 @@ export class TaktikFreeTextSearch extends Polymer.Element {
             this.$.clear.classList.add('hidden')
         }
 
-        if (!this.searchValue || this.searchValue === "undefined") {
+        if (!this.searchValue) {
             if (this.searchTimer) {
                 window.clearTimeout(this.searchTimer)
             }
