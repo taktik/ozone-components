@@ -215,13 +215,24 @@ export class TaktikFreeTextSearch extends Polymer.Element {
     }
 
     _clear(){
-        this.set("searchValue", "");
+        this.set("searchValue", "")
     }
+
+    private searchTimer?: any;
     searchValueChange(){
         if(typeof this.searchValue !== "undefined" && this.searchValue.length > 0){
             this.$.clear.classList.remove('hidden')
         } else {
             this.$.clear.classList.add('hidden')
+        }
+
+        if (!this.searchValue) {
+            if (this.searchTimer) {
+                window.clearTimeout(this.searchTimer)
+            }
+            this.searchTimer = window.setTimeout(() => {
+                this._pressEnter()
+            }, 150)
         }
     }
 
@@ -230,6 +241,14 @@ export class TaktikFreeTextSearch extends Polymer.Element {
             this.$.searchInput.classList.add('disabled')
         } else{
             this.$.searchInput.classList.remove('disabled')
+        }
+    }
+
+    disconnectedCallback() {
+        // @ts-ignore: Polymer types are missing disconnectedCallback, but it exists at runtime
+        super.disconnectedCallback();
+        if (this.searchTimer) {
+            window.clearTimeout(this.searchTimer)
         }
     }
 }

@@ -243,17 +243,17 @@ tslib@^2.1.0, tslib@^2.3.0:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.4.0.tgz#7cecaa7f073ce680a05847aa77be941098f36dc3"
   integrity sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==
 
-typescript-http-client@0.10.4:
-  version "0.10.4"
-  resolved "https://registry.yarnpkg.com/typescript-http-client/-/typescript-http-client-0.10.4.tgz#83c88f390ce9a015f788656571253b37a17f6220"
-  integrity sha512-0c42/4DVB5Ar6jD/1rXiebYQDsGQZSTdCXdZShy+v+d78nl/83aR4eeGnjDJyhyXxJeGnk5GykKpeRA5zWg4RA==
+typescript-http-client@0.10.5:
+  version "0.10.5"
+  resolved "https://registry.yarnpkg.com/typescript-http-client/-/typescript-http-client-0.10.5.tgz#576e1bae4d9773e6c0b9b75dbd0e81981721a337"
+  integrity sha512-lheHuZ4uDmcSwrf3dSa113TNF2N6byW4TbOS+9OWul6//6gHBzHHfkZJWSP66T5G81ggCBd+ZXx9UaryVFSJtA==
   dependencies:
     generic-logger-typings "1.0.0"
 
-typescript-state-machine@0.9.8:
-  version "0.9.8"
-  resolved "https://registry.yarnpkg.com/typescript-state-machine/-/typescript-state-machine-0.9.8.tgz#c368cfba5eca304d32c9378aab9d2584646f159c"
-  integrity sha512-Cb0WL7kgEWcRO9HzvYUQumcGwAzzkTJabLi3XRp6OLnAXsdFc9txd2rIA1rAUCB4sOL5NM8kWxwAH6QWPNZbPg==
+typescript-state-machine@0.9.9:
+  version "0.9.9"
+  resolved "https://registry.yarnpkg.com/typescript-state-machine/-/typescript-state-machine-0.9.9.tgz#fe9f11aec01fa8c401055e03eba6047e644997ce"
+  integrity sha512-rAysK8ReNF8SYKpTz0nXEcrCsybKaDHaJU2on9s5z22Fj9PHsZCsUs1ZbrwhARpB/e2yO2r4915iU8wjhf3MAQ==
   dependencies:
     generic-logger-typings "1.0.0"
 

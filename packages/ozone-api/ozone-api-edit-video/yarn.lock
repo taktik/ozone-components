@@ -12,9 +12,9 @@ hls-parser@0.1.8:
   resolved "https://registry.yarnpkg.com/hls-parser/-/hls-parser-0.1.8.tgz#19cc841bd4ed22cb0290eec1ddea8234e843168c"
   integrity sha512-29HX6ce+2kZGQkotVAexfOToQLagRHw+STyJ0w0w5HBueUhKbUBkywyfSVut5SCbwt2+IiC6DFkuSwMg2Dr8HQ==
 
-typescript-http-client@0.10.4:
-  version "0.10.4"
-  resolved "https://registry.yarnpkg.com/typescript-http-client/-/typescript-http-client-0.10.4.tgz#83c88f390ce9a015f788656571253b37a17f6220"
-  integrity sha512-0c42/4DVB5Ar6jD/1rXiebYQDsGQZSTdCXdZShy+v+d78nl/83aR4eeGnjDJyhyXxJeGnk5GykKpeRA5zWg4RA==
+typescript-http-client@0.10.5:
+  version "0.10.5"
+  resolved "https://registry.yarnpkg.com/typescript-http-client/-/typescript-http-client-0.10.5.tgz#576e1bae4d9773e6c0b9b75dbd0e81981721a337"
+  integrity sha512-lheHuZ4uDmcSwrf3dSa113TNF2N6byW4TbOS+9OWul6//6gHBzHHfkZJWSP66T5G81ggCBd+ZXx9UaryVFSJtA==
   dependencies:
     generic-logger-typings "1.0.0"
