@@ -20,6 +20,7 @@ export class TypeCacheImpl implements TypeCache {
 		}
 		let parentFields: FieldDescriptor[] = []
 		let traitFields: FieldDescriptor[] = []
+		let embedFields: FieldDescriptor[] = []
 		if (type.superType) {
 			parentFields = this.getAllFields(type.superType)
 		}
@@ -28,11 +29,29 @@ export class TypeCacheImpl implements TypeCache {
 		}
 
 		const fields = type.fields || []
+
+		fields.forEach(field => {
+			const embedType = TypeCacheImpl.getEmbeddedType(field.fieldType)
+			if (embedType && this.has(embedType)) {
+				const embeddedFields = this.getAllFields(embedType).map(f => ({
+					...f,
+					identifier: `${field.identifier}/${f.identifier}`
+				}))
+				embedFields.push(...embeddedFields)
+			}
+		})
+
 		return uniqBy([
 			...fields,
 			...parentFields,
-			...traitFields
+			...traitFields,
+			...embedFields
 		], 'identifier')
+	}
+
+	static getEmbeddedType(fieldType: string): string | undefined {
+		const match = fieldType.match(/^embed<(.+)>$/)
+		return match ? match[1] : undefined
 	}
 
 	isTypeInstanceOf(identifier: string, instance: string): boolean {
