@@ -13,7 +13,7 @@ export class TypeCacheImpl implements TypeCache {
 		this.updateCache(typeDescriptors)
 	}
 
-	getAllFields(identifier: string): FieldDescriptor[] {
+	getAllFields(identifier: string, withEmbeddedFields = false): FieldDescriptor[] {
 		const type = this.get(identifier)
 		if (!type) {
 			throw new Error('Type not found in cache : ' + identifier)
@@ -22,25 +22,26 @@ export class TypeCacheImpl implements TypeCache {
 		let traitFields: FieldDescriptor[] = []
 		let embedFields: FieldDescriptor[] = []
 		if (type.superType) {
-			parentFields = this.getAllFields(type.superType)
+			parentFields = this.getAllFields(type.superType, withEmbeddedFields)
 		}
 		if (type.traits && type.traits.length > 0) {
-			type.traits.forEach(trait => traitFields.push(...this.getAllFields(trait)))
+			type.traits.forEach(trait => traitFields.push(...this.getAllFields(trait, withEmbeddedFields)))
 		}
 
 		const fields = type.fields || []
 
-		fields.forEach(field => {
-			const embedType = TypeCacheImpl.getEmbeddedType(field.fieldType)
-			if (embedType && this.has(embedType)) {
-				const embeddedFields = this.getAllFields(embedType).map(f => ({
-					...f,
-					identifier: `${field.identifier}/${f.identifier}`
-				}))
-				embedFields.push(...embeddedFields)
-			}
-		})
-
+		if (withEmbeddedFields) {
+			fields.forEach(field => {
+				const embedType = TypeCacheImpl.getEmbeddedType(field.fieldType)
+				if (embedType && this.has(embedType)) {
+					const embeddedFields = this.getAllFields(embedType, withEmbeddedFields).map(f => ({
+						...f,
+						identifier: `${field.identifier}/${f.identifier}`
+					}))
+					embedFields.push(...embeddedFields)
+				}
+			})
+		}
 		return uniqBy([
 			...fields,
 			...parentFields,

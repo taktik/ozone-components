@@ -8,7 +8,7 @@ export interface TypeCache {
 	 * get list of all fields (including its parents and traits) from a type.
 	 * @param identifier
 	 */
-	getAllFields(identifier: string): FieldDescriptor[]
+	getAllFields(identifier: string, withEmbeddedFields?: boolean): FieldDescriptor[]
 
 	/**
 	 * verify if the is an instance of an other type
