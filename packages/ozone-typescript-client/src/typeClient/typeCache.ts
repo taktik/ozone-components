@@ -5,8 +5,10 @@ export type TypeDescriptorCollection = Map<string, Promise<TypeDescriptor>>
 export interface TypeCache {
 
 	/**
-	 * get list of all fields (including its parents and traits) from a type.
-	 * @param identifier
+	 * Get all fields for a type, including inherited fields from parents and traits.
+	 * @param identifier - Type identifier
+	 * @param withEmbeddedFields - If true, also includes fields from embedded types.
+	 * Embedded field identifiers use the format "parentField/embeddedField" (e.g. "address/street").
 	 */
 	getAllFields(identifier: string, withEmbeddedFields?: boolean): FieldDescriptor[]
 
