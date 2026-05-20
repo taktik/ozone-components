@@ -39,6 +39,8 @@ import { ImportExportClient } from '../importExportClient/importExportClient'
 import { ImportExportClientImpl } from '../importExportClient/importExportClientImpl'
 import { FiletypeClientImpl } from '../filetypeClient/filetypeClientImpl'
 import { FileTypeClient } from '../filetypeClient/filetypeClient'
+import { TenantClient } from '../tenantClient/tenantClient'
+import { TenantClientImpl } from '../tenantClient/tenantClientImpl'
 import {
 	ApolloClient,
 	HttpLink,
@@ -112,6 +114,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 		this._taskClient = new TaskClientImpl(this, this._config.ozoneURL)
 		this._importExportClient = new ImportExportClientImpl(this, this._config.ozoneURL)
 		this._filetypeClient = new FiletypeClientImpl(this, this._config.ozoneURL)
+		this._tenantClient = new TenantClientImpl(this, this._config.ozoneURL)
 		this._graphQLClient = this.createGraphQLClient(this, this._config.ozoneURL)
 	}
 
@@ -700,6 +703,11 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 	private _filetypeClient: FileTypeClient
 	fileTypeClient(): FileTypeClient {
 		return this._filetypeClient
+	}
+
+	private _tenantClient: TenantClient
+	tenantClient(): TenantClient {
+		return this._tenantClient
 	}
 	private _graphQLClient: ApolloClient<NormalizedCacheObject>
 

@@ -15,6 +15,7 @@ import { TypeClient } from '../typeClient/typeClient'
 import { TaskClient } from '../taskClient/taskClient'
 import { ImportExportClient } from '../importExportClient/importExportClient'
 import { FileTypeClient } from '../filetypeClient/filetypeClient'
+import { TenantClient } from '../tenantClient/tenantClient'
 import { TypedDocumentNode } from '@apollo/client/core'
 
 export enum DEFAULT_FILTERS {
@@ -168,6 +169,11 @@ export interface OzoneClient extends StateMachine<ClientState> {
 	 *  file file type client
 	 */
 	fileTypeClient(): FileTypeClient
+
+	/**
+	 * get client to work with tenants (organization hierarchy, ancestors, ...)
+	 */
+	tenantClient(): TenantClient
 
 	/*
         Insert the current Ozone session ID in the given URL ("/dsid=...).
