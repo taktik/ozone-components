@@ -9,6 +9,7 @@ import * as typeClient from './typeClient/typeClient'
 import * as taskClient from './taskClient/taskClient'
 import * as importExportClient from './importExportClient/importExportClient'
 import * as fileTypeClient from './filetypeClient/filetypeClient'
+import * as tenantClient from './tenantClient/tenantClient'
 import { OzoneClientImpl } from './ozoneClient/ozoneClientImpl'
 
 export namespace OzoneClient {
@@ -44,6 +45,8 @@ export namespace OzoneClient {
 	export import FileTypeClient = fileTypeClient.FileTypeClient
 
 	export import FileTypeCache = fileTypeClient.FileTypeCache
+
+	export import TenantClient = tenantClient.TenantClient
 
 	/*
 		Factory method
