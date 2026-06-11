@@ -26,10 +26,11 @@ export class TenantClientImpl implements TenantClient {
 		return this.client.call<Tenant | null>(request).catch(returnNullOn404)
 	}
 
-	findAll(): Promise<Tenant[]>
-	findAll(ids: UUID[]): Promise<Tenant[]>
 	findAll(ids?: UUID[]): Promise<Tenant[]> {
 		if (ids) {
+			if (ids.length === 0) {
+				return Promise.resolve([])
+			}
 			const request = new Request(`${this.baseUrl}/rest/v3/tenant/bulkGet`)
 				.setMethod('POST')
 				.setBody(ids)
