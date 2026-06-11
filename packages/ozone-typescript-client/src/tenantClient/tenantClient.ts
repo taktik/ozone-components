@@ -9,13 +9,13 @@ export interface TenantClient {
 	save(tenant: Tenant): Promise<Tenant>
 
 	/**
-	 * get a tenant
+	 * get a tenant by its id, or null if it does not exist
 	 * @param id
 	 */
 	findOne(id: UUID): Promise<Tenant | null>
 
 	/**
-	 * get a tenant
+	 * get a tenant by its identifier, or null if it does not exist
 	 * @param identifier
 	 */
 	findByIdentifier(identifier: string): Promise<Tenant | null>
@@ -27,7 +27,8 @@ export interface TenantClient {
 	findAll(ids?: UUID[]): Promise<Tenant[]>
 
 	/**
-	 * get the tenant hierarchy (tree of tenant nodes) rooted at the given tenant
+	 * get the tenant hierarchy (tree of tenant nodes) rooted at the given tenant,
+	 * or null if the tenant does not exist
 	 * @param rootId
 	 */
 	hierarchy(rootId: UUID): Promise<TenantNode | null>
@@ -41,7 +42,7 @@ export interface TenantClient {
 	ancestors(id: UUID, upTo?: UUID): Promise<UUID[]>
 
 	/**
-	 * delete a tenant
+	 * delete a tenant, resolving to null if it does not exist
 	 * @param id
 	 */
 	delete(id: UUID): Promise<UUID | null>
