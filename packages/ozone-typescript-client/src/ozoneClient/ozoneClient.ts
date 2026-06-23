@@ -37,6 +37,8 @@ export interface ClientConfiguration {
 	ozoneInstanceId?: string
 	ozoneCredentials?: OzoneCredentials
 	webSocketsURL?: string
+	/* Extra query params appended to the WS URL (e.g. device identifiers, surfaced in access logs) */
+	webSocketsParams?: { [key: string]: string }
 	defaultTimeout?: number
 	defaultFilters?: DEFAULT_FILTERS[] // If not defined, we add all defaults filters
 }
@@ -88,6 +90,12 @@ export interface OzoneClient extends StateMachine<ClientState> {
         The client will attempt to connect automatically to the new URL.
     */
 	updateWSURL(url: string): void
+
+	/*
+        Merge extra query params into the WS URL.
+        The client will reconnect if already connected and the params changed.
+    */
+	updateWSParams(params: { [key: string]: string }): void
 
 	/*
         Update the Ozone credentials.
