@@ -171,6 +171,33 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 		}
 	}
 
+	updateWSParams(params: { [key: string]: string }): void {
+		const merged = { ...this._config.webSocketsParams, ...params }
+		if (JSON.stringify(merged) === JSON.stringify(this._config.webSocketsParams)) {
+			return
+		}
+		this._config.webSocketsParams = merged
+		// If we are authenticated but not connected to WS, try to connect
+		if (this.canGoToState(states.WS_CONNECTING)) {
+			this.connectIfPossible()
+		} else if (this.inOneOfStates([states.WS_CONNECTED, states.WS_CONNECTING])) {
+			OzoneClientImpl.terminateWSConnectionForcefully(this._ws!)
+		}
+	}
+
+	private buildWebSocketUrl(): string {
+		const params: { [key: string]: string | undefined } = {
+			ozoneSessionId: this.authInfo!.sessionId,
+			...this._config.webSocketsParams
+		}
+		const query = Object.keys(params)
+			.filter(key => !!params[key])
+			.map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key]!)}`)
+			.join('&')
+		const base = this._config.webSocketsURL!
+		return `${base}${base.indexOf('?') === -1 ? '?' : '&'}${query}`
+	}
+
 	updateCredentials(credentials: OzoneCredentials): void {
 		this._config.ozoneCredentials = credentials
 		if (this.canGoToState(states.AUTHENTICATING)) {
@@ -342,7 +369,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 		this.log?.info(`Connecting to ${this._config.webSocketsURL}`)
 		return new Promise<void>((resolve, reject) => {
 			/* FIXME AB Something is wrong here. The promise resolve or reject method should always be called but it is not the case */
-			const ws = new SockJS(`${this._config.webSocketsURL}?ozoneSessionId=${this.authInfo!.sessionId}`)
+			const ws = new SockJS(this.buildWebSocketUrl())
 			this._ws = ws
 			ws.onerror = ev => {
 				if (this._ws === ws) {
