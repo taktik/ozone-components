@@ -14,9 +14,6 @@ import * as models from './models';
 
 export interface AuthenticationResponse {
     sessionId?: string;
-
-    principalClass?: string;
-
     principalId?: string;
-
+    principalType?: string;
 }

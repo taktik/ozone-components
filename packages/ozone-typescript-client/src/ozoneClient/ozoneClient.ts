@@ -27,9 +27,9 @@ export enum DEFAULT_FILTERS {
 }
 
 export interface AuthInfo {
-	principalClass: string,
-	principalId: string,
 	sessionId: string,
+	principalId: string,
+	principalType: string,
 }
 
 export interface ClientConfiguration {

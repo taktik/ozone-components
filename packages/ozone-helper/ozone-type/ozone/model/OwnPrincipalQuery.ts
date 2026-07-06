@@ -15,6 +15,5 @@ import * as models from './models';
 export interface OwnPrincipalQuery extends models.Query {
     field?: string;
 
-    principalClass?: string;
-
+    principalType?: string;
 }
