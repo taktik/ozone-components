@@ -50,8 +50,9 @@ import {
 	TypedDocumentNode
 } from '@apollo/client/core'
 
-const MAX_REAUTH_DELAY: number = 30000
+const MAX_REAUTH_DELAY: number = 60000
 const INITIAL_REAUTH_DELAY: number = 1000
+const REAUTH_BACKOFF_FACTOR: number = 2
 
 const MAX_WS_RECONNECT_DELAY: number = 120000
 const INITIAL_WS_RECONNECT_DELAY: number = 2000
@@ -476,37 +477,35 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 
 	// Auto Re-auth to Ozone
 
-	private _lastReAuth: number = 0
-	private _lastReAuthInterval: number = 0
+	private _lastReAuthDelay: number = 0
 	private _reAuthTimeout: number = 0
 
-	// Exponential back-off
+	/*
+		Exponential back-off, derived from the previous SCHEDULED delay, like the WS one below.
+		It used to be derived from the measured wall time between two attempts, which folds the
+		jitter into the progression and makes it drift instead of following a defined schedule.
+	*/
 	private nextReAuthRetryInterval(): number {
-		if (this._lastReAuth === 0) {
+		if (this._lastReAuthDelay === 0) {
 			return INITIAL_REAUTH_DELAY
-		} else if (this._lastReAuthInterval === 0) {
-			return Math.min(2 * INITIAL_REAUTH_DELAY, MAX_REAUTH_DELAY)
 		}
-		return Math.min(2 * this._lastReAuthInterval, MAX_REAUTH_DELAY)
+		return Math.min(REAUTH_BACKOFF_FACTOR * this._lastReAuthDelay, MAX_REAUTH_DELAY)
 	}
 
 	@AssumeStateIsIn([states.NETWORK_OR_SERVER_ERROR, states.AUTHENTICATION_ERROR])
 	private createAutoReAuthTimer() {
+		const retryInterval = this.nextReAuthRetryInterval()
+		this._lastReAuthDelay = retryInterval
 		this._reAuthTimeout = window.setTimeout(() =>
 			(async () => {
 				try {
 					if (this.canGoToState(states.AUTHENTICATING)) {
-						const now = Date.now()
-						if (this._lastReAuth !== 0) {
-							this._lastReAuthInterval = now - this._lastReAuth
-						}
-						this._lastReAuth = now
 						this.setState(states.AUTHENTICATING)
 					}
 				} catch (e) {
 					this.log?.info('login failed : ' + e)
 				}
-			})(), withRetryJitter(this.nextReAuthRetryInterval()))
+			})(), withRetryJitter(retryInterval))
 	}
 
 	@AssumeStateIsNotIn([states.NETWORK_OR_SERVER_ERROR, states.AUTHENTICATION_ERROR])
@@ -516,8 +515,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 	}
 
 	private clearAutoReAuthRetryTimestamps() {
-		this._lastReAuth = 0
-		this._lastReAuthInterval = 0
+		this._lastReAuthDelay = 0
 	}
 
 	// WS KeepAlive
