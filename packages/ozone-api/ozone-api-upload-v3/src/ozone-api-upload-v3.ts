@@ -1,6 +1,6 @@
 import { IUploadFile, UploadMediaError } from './models'
 import { Queue } from './Queue'
-import { Blob, ModeType, File as OzoneFile } from 'ozone-type'
+import { Blob, FromOzone, ModeType, File as OzoneFile } from 'ozone-type'
 import { getDefaultClient } from 'ozone-default-client'
 import { SearchQuery } from 'ozone-search-helper'
 
@@ -146,7 +146,10 @@ export class OzoneApiUploadV3<T extends Item = Item> {
 			type: 'media'
 		}, ...(this.metaData ? this.metaData : {})}
 
-		const generateTask = async (attempt = 1): Promise<void> => {
+		// retry scope is the task submission/wait ONLY: a failure while waiting on the
+		// thumbnails group must not re-submit the import task (the media already exists —
+		// a resubmit would import the blob a second time and create a duplicate media)
+		const submitAndWait = async (attempt = 1): Promise<ImportBlobAsMediaTaskResult | undefined> => {
 			try {
 				const taskId = await getDefaultClient().taskClient().submitTask(JSON.stringify({
 					$type: this.importBlobParams.$type,
@@ -154,45 +157,67 @@ export class OzoneApiUploadV3<T extends Item = Item> {
 					media,
 					mediaInputChannel: this.importBlobParams.mediaInputChannel
 				}))
-				const result = await getDefaultClient().taskClient().waitForTask<ImportBlobAsMediaTaskResult>(taskId, {
+				return await getDefaultClient().taskClient().waitForTask<ImportBlobAsMediaTaskResult>(taskId, {
 					skipWaitingOnSubTask: true
 				}).waitResult
-
-				this.onEndImportBlobAsMedia?.({
-					oldId: fileId,
-					newId: result?.mediaId
-				})
-				if (result?.mediaId) {
-					fileId = result.mediaId
-				}
-				if (result?.asyncTasksGroupId && result?.mediaId) {
-					await this.waitForThumbnails(result.asyncTasksGroupId, result.mediaId)
-				}
 			} catch (err) {
 				console.log('Error submit upload task', err)
 				if (attempt >= this.importTaskMaxRetry) {
-					if (fileId) {
-						this.onErrorUploadMedia?.({
-							id: fileId,
-							error: UploadMediaError.IMPORTING
-						})
-					}
-				} else {
-					return generateTask(attempt + 1)
+					return undefined
 				}
+				return submitAndWait(attempt + 1)
+			}
+		}
+
+		const generateTask = async (): Promise<void> => {
+			const result = await submitAndWait()
+			if (!result?.mediaId) {
+				if (fileId) {
+					this.onErrorUploadMedia?.({
+						id: fileId,
+						error: UploadMediaError.IMPORTING
+					})
+				}
+				return
+			}
+			this.onEndImportBlobAsMedia?.({
+				oldId: fileId,
+				newId: result.mediaId
+			})
+			fileId = result.mediaId
+			try {
+				if (result.asyncTasksGroupId) {
+					await this.waitForThumbnails(result.asyncTasksGroupId, result.mediaId)
+				} else {
+					// no async task group (nothing to transcode/thumbnail): the media is
+					// already final — deliver it and close the upload, otherwise the
+					// consumer never gets setMedia/onEndUpload for this file
+					await this.deliverMedia(result.mediaId)
+				}
+			} catch (err) {
+				console.log('Error waiting for media readiness', err)
+				this.onErrorUploadMedia?.({
+					id: fileId,
+					error: UploadMediaError.IMPORTING
+				})
 			}
 		}
 		return generateTask()
 	}
 
+	/** fetch the finished media, hand it to the consumer and signal the end of the upload */
+	private deliverMedia = async (mediaId: string): Promise<void> => {
+		const media = await getDefaultClient().itemClient<T>(this.collection).findOne(mediaId)
+		if (media) {
+			this.setMedia(media)
+		}
+		this.onEndUpload?.({ id: mediaId })
+	}
+
 	private waitForThumbnails = (tasksGroupId: string, mediaId: string) => {
 		const func = (resolve: () => void, reject: () => void, attemptThumbnails = 1) => {
 			const onSuccess = async () => {
-				const media = await getDefaultClient().itemClient<T>(this.collection).findOne(mediaId)
-				if (media) {
-					this.setMedia(media)
-				}
-				this.onEndUpload?.({ id: mediaId })
+				await this.deliverMedia(mediaId)
 				resolve()
 			}
 			const onError = () => {
@@ -238,7 +263,10 @@ export class OzoneApiUploadV3<T extends Item = Item> {
 				if (!files.length) {
 					return undefined
 				}
-				const existingFiles = await Promise.all(files.map(async ozoneFile => {
+				// the size check is async, so filter AFTER awaiting: filtering the pending
+				// promises keeps every entry (all truthy) and a null first slot would make
+				// the find below match a media with no file at all
+				const candidates = await Promise.all(files.map(async ozoneFile => {
 					if (ozoneFile.blob) {
 						const blob = await getDefaultClient().blobClient().getById(ozoneFile.blob)
 						if (blob?.size === file.size) {
@@ -246,10 +274,13 @@ export class OzoneApiUploadV3<T extends Item = Item> {
 						}
 					}
 					return null
-				}).filter(ozoneFile => ozoneFile)) as OzoneFile[]
-
-				const randomFile = existingFiles[0]
-				return medias.find(media => media.file === randomFile?.id)
+				}))
+				const existingFiles = candidates.filter((ozoneFile): ozoneFile is FromOzone<OzoneFile> => !!ozoneFile)
+				if (!existingFiles.length) {
+					return undefined
+				}
+				const matchedFile = existingFiles[0]
+				return medias.find(media => media.file === matchedFile.id)
 			}
 			return undefined
 		} catch (err) {
@@ -270,8 +301,10 @@ export class OzoneApiUploadV3<T extends Item = Item> {
 					oldId: file.id,
 					newId: mediaAlreadyExists.id
 				})
-				this.onEndUpload?.({ id: mediaAlreadyExists.id! })
+				// same event order as the fresh-upload path: the media is delivered
+				// BEFORE the upload is declared over
 				this.setMedia(mediaAlreadyExists)
+				this.onEndUpload?.({ id: mediaAlreadyExists.id! })
 				return null // not create blob
 			}
 			return file

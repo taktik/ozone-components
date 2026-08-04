@@ -24,10 +24,10 @@
     "ozone-type": "^6.5.2"
   },
   "dependencies": {
-    "ozone-config": "^6.5.2",
-    "ozone-default-client": "^6.5.2",
-    "ozone-search-helper": "^6.5.2",
-    "ozone-typescript-client": "^6.5.2"
+    "ozone-config": "^6.3.0",
+    "ozone-default-client": "^6.4.2",
+    "ozone-search-helper": "^6.2.4",
+    "ozone-typescript-client": "^6.4.2"
   },
   "repository": "https://github.com/taktik/ozone-components/packages/ozone-api/ozone-api-upload"
 }
