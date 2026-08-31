@@ -50,14 +50,28 @@ import {
 	TypedDocumentNode
 } from '@apollo/client/core'
 
-const MAX_REAUTH_DELAY: number = 30000
+const MAX_REAUTH_DELAY: number = 60000
 const INITIAL_REAUTH_DELAY: number = 1000
+const REAUTH_BACKOFF_FACTOR: number = 2
 
-const MAX_WS_RECONNECT_DELAY: number = 30000
-const INITIAL_WS_RECONNECT_DELAY: number = 1000
+const MAX_WS_RECONNECT_DELAY: number = 120000
+const INITIAL_WS_RECONNECT_DELAY: number = 2000
+const WS_RECONNECT_BACKOFF_FACTOR: number = 3
 
 const MAX_SESSION_CHECK_DELAY: number = 60000
 const DEFAULT_TIMEOUT = 5000
+const RETRY_JITTER_RATIO: number = 0.5
+
+/*
+	Spread a retry delay so that clients which failed simultaneously do not retry
+	simultaneously. Applied to the timer only, never to the value the back-off progression is
+	computed from, so the schedule stays exactly 2s / 6s / 18s / 54s / 120s while the actual
+	firing time of each step is randomized around it.
+*/
+function withRetryJitter(delayMs: number): number {
+	const spread: number = 1 - RETRY_JITTER_RATIO + 2 * RETRY_JITTER_RATIO * Math.random()
+	return Math.round(delayMs * spread)
+}
 
 class Listener {
 	active: boolean = true
@@ -463,37 +477,35 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 
 	// Auto Re-auth to Ozone
 
-	private _lastReAuth: number = 0
-	private _lastReAuthInterval: number = 0
+	private _lastReAuthDelay: number = 0
 	private _reAuthTimeout: number = 0
 
-	// Exponential back-off
+	/*
+		Exponential back-off, derived from the previous SCHEDULED delay, like the WS one below.
+		It used to be derived from the measured wall time between two attempts, which folds the
+		jitter into the progression and makes it drift instead of following a defined schedule.
+	*/
 	private nextReAuthRetryInterval(): number {
-		if (this._lastReAuth === 0) {
+		if (this._lastReAuthDelay === 0) {
 			return INITIAL_REAUTH_DELAY
-		} else if (this._lastReAuthInterval === 0) {
-			return Math.min(2 * INITIAL_REAUTH_DELAY, MAX_REAUTH_DELAY)
 		}
-		return Math.min(2 * this._lastReAuthInterval, MAX_REAUTH_DELAY)
+		return Math.min(REAUTH_BACKOFF_FACTOR * this._lastReAuthDelay, MAX_REAUTH_DELAY)
 	}
 
 	@AssumeStateIsIn([states.NETWORK_OR_SERVER_ERROR, states.AUTHENTICATION_ERROR])
 	private createAutoReAuthTimer() {
+		const retryInterval = this.nextReAuthRetryInterval()
+		this._lastReAuthDelay = retryInterval
 		this._reAuthTimeout = window.setTimeout(() =>
 			(async () => {
 				try {
 					if (this.canGoToState(states.AUTHENTICATING)) {
-						const now = Date.now()
-						if (this._lastReAuth !== 0) {
-							this._lastReAuthInterval = now - this._lastReAuth
-						}
-						this._lastReAuth = now
 						this.setState(states.AUTHENTICATING)
 					}
 				} catch (e) {
 					this.log?.info('login failed : ' + e)
 				}
-			})(), this.nextReAuthRetryInterval())
+			})(), withRetryJitter(retryInterval))
 	}
 
 	@AssumeStateIsNotIn([states.NETWORK_OR_SERVER_ERROR, states.AUTHENTICATION_ERROR])
@@ -503,8 +515,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 	}
 
 	private clearAutoReAuthRetryTimestamps() {
-		this._lastReAuth = 0
-		this._lastReAuthInterval = 0
+		this._lastReAuthDelay = 0
 	}
 
 	// WS KeepAlive
@@ -563,34 +574,34 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 
 	// WS Auto-reconnect
 
-	private _lastWSReconnect: number = 0
-	private _lastWSReconnectInterval: number = 0
+	private _lastWSRetryDelay: number = 0
 	private _wsReconnectTimeout: number = 0
 
-	// Exponential back-off
+	/*
+		Exponential back-off, derived from the previous SCHEDULED delay.
+
+		It used to be derived from the measured wall time between two attempts
+		(`now - _lastWSReconnect`), which also contained the duration of the failed attempt
+		and, since jitter was added, the jitter itself. The progression therefore drifted
+		with network conditions instead of following a defined schedule. Tracking the
+		scheduled value keeps the sequence exactly 2s, 6s, 18s, 54s, 120s, 120s, ...
+	*/
 	private nextWSRetryInterval(): number {
-		if (this._lastWSReconnect === 0) {
+		if (this._lastWSRetryDelay === 0) {
 			return INITIAL_WS_RECONNECT_DELAY
-		} else if (this._lastWSReconnectInterval === 0) {
-			return Math.min(2 * INITIAL_WS_RECONNECT_DELAY, MAX_WS_RECONNECT_DELAY)
 		}
-		return Math.min(2 * this._lastWSReconnectInterval, MAX_WS_RECONNECT_DELAY)
+		return Math.min(WS_RECONNECT_BACKOFF_FACTOR * this._lastWSRetryDelay, MAX_WS_RECONNECT_DELAY)
 	}
 
 	@AssumeStateIs(states.WS_CONNECTION_ERROR)
 	private createAutoReconnectWSTimer() {
-		const nextWSRetryInterval = this.nextWSRetryInterval()
+		const retryInterval = this.nextWSRetryInterval()
+		this._lastWSRetryDelay = retryInterval
 		this._wsReconnectTimeout = window.setTimeout(() => (async () => {
 			if (this.canGoToState(states.WS_CONNECTING)) {
-				const now = Date.now()
-				if (this._lastWSReconnect !== 0) {
-					this._lastWSReconnectInterval = now - this._lastWSReconnect
-				}
-				this._lastWSReconnect = now
 				this.setState(states.WS_CONNECTING)
 			}
-		})(), nextWSRetryInterval)
-
+		})(), withRetryJitter(retryInterval))
 	}
 
 	@AssumeStateIsNot(states.WS_CONNECTION_ERROR)
@@ -604,8 +615,7 @@ export class OzoneClientImpl extends StateMachineImpl<ClientState> implements Oz
 	@AssumeStateIs(states.WS_CONNECTED)
 	private scheduleClearAutoReconnectWSRetryTimestamps() {
 		this._clearWSRetryTimestampsTimeout = window.setTimeout(() => {
-			this._lastWSReconnect = 0
-			this._lastWSReconnectInterval = 0
+			this._lastWSRetryDelay = 0
 		}, 30000)
 	}
 

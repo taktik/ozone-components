@@ -1,13 +1,17 @@
-import { Response, Request, newHttpClient } from 'typescript-http-client'
+import { Response, Request, newHttpClient, Headers } from 'typescript-http-client'
 import { AuthInfo, OzoneCredentials } from '../ozoneClient/ozoneClient'
 
 export class SessionCredentials implements OzoneCredentials {
+	constructor(readonly headers?: Headers) {
+	}
+
 	async authenticate(ozoneURL: string): Promise<AuthInfo> {
 		const httpClient = newHttpClient()
 		const request = new Request(`${ozoneURL}/rest/v3/authentication/current/session`)
 			.set({
 				method: 'GET',
-				withCredentials: true
+				withCredentials: true,
+				headers: this.headers
 			})
 		let authInfo = await (httpClient.call<AuthInfo>(request))
 		if (!authInfo || !authInfo.principalId) {
@@ -21,31 +25,39 @@ export class SessionCredentials implements OzoneCredentials {
 export class UserCredentials implements OzoneCredentials {
 	constructor(readonly username: string,
 				readonly password: string,
-				readonly setSessionCookie = true) {
+				readonly setSessionCookie = true,
+				readonly headers?: Headers) {
 	}
 
 	authenticate(ozoneURL: string): Promise<AuthInfo> {
 		const httpClient = newHttpClient()
 		const request = new Request(`${ozoneURL}/rest/v3/authentication/login/user?cookie=${this.setSessionCookie}`)
-			.setMethod('POST')
-			.setBody({
-				username: this.username,
-				password: this.password
+			.set({
+				method: 'POST',
+				body: {
+					username: this.username,
+					password: this.password
+				},
+				headers: this.headers
 			})
 		return httpClient.call<AuthInfo>(request)
 	}
 }
 
 export class TokenCredentials implements OzoneCredentials {
-	constructor(readonly token: string) {
+	constructor(readonly token: string,
+				readonly headers?: Headers) {
 	}
 
 	authenticate(ozoneURL: string): Promise<AuthInfo> {
 		const httpClient = newHttpClient()
 		const request = new Request(`${ozoneURL}/rest/v3/authentication/login/token?cookie=false`)
-			.setMethod('POST')
-			.setBody({
-				token: this.token
+			.set({
+				method: 'POST',
+				body: {
+					token: this.token
+				},
+				headers: this.headers
 			})
 		return httpClient.call<AuthInfo>(request)
 	}
@@ -54,7 +66,8 @@ export class TokenCredentials implements OzoneCredentials {
 export class ItemCredentials implements OzoneCredentials {
 	constructor(readonly itemId: string,
 				readonly secret: string,
-				readonly setSessionCookie = true
+				readonly setSessionCookie = true,
+				readonly headers?: Headers
 				) {
 	}
 
@@ -66,7 +79,8 @@ export class ItemCredentials implements OzoneCredentials {
 				body: {
 					itemId: this.itemId,
 					secret: this.secret
-				}
+				},
+				headers: this.headers
 			})
 		return (httpClient.call(request))
 	}
@@ -77,7 +91,8 @@ export class ItemByQueryCredentials implements OzoneCredentials {
 	constructor(readonly typeIdentifier: string,
 				readonly secret: string,
 				readonly query: object,
-				readonly setSessionCookie = true
+				readonly setSessionCookie = true,
+				readonly headers?: Headers
 				) {
 	}
 
@@ -89,7 +104,8 @@ export class ItemByQueryCredentials implements OzoneCredentials {
 				body: {
 					query: this.query,
 					secret: this.secret
-				}
+				},
+				headers: this.headers
 			})
 		return (httpClient.call<AuthInfo>(request))
 	}
@@ -113,8 +129,8 @@ export class OzoneLoginCredentials extends SessionCredentials {
 		}
 	}
 
-	constructor() {
-		super()
+	constructor(headers?: Headers) {
+		super(headers)
 
 		if (!OzoneLoginCredentials.isInBrowser()) {
 			throw Error('Not in a browser, you probably want to use another type of OzoneCredentials.')
