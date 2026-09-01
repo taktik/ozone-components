@@ -12,10 +12,10 @@
   },
   "scripts": {
     "build": "../../../node_modules/.bin/tsc",
-    "prepublish": "../../../node_modules/.bin/tsc",
     "tslint": "../../../node_modules/.bin/tslint  --project tsconfig.json",
     "test": "npm run tslint && npm run build",
-    "doc": "../../../node_modules/.bin/typedoc --excludeExternals --out  doc/ src/"
+    "doc": "../../../node_modules/.bin/typedoc --excludeExternals --out  doc/ src/",
+    "prepublishOnly": "../../../node_modules/.bin/tsc"
   },
   "keywords": [],
   "author": "",
