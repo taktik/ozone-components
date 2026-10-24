@@ -13,36 +13,29 @@ describe('tool OzoneMediaUrl', function() {
 			done()
 		})
 	})
-	describe('getNumericId', function() {
-		it('should convert id: "00000000-046c-7fc4-0000-000000006030" to 24624', (done) => {
-			const element = new OzoneMediaUrl('00000000-046c-7fc4-0000-000000006030', 'host')
-			expect(element.getNumericId()).to.equal(24624)
-			done()
-		})
-	})
 	describe('getPreviewUrlJpg', function() {
-		it('should convert id: "00000000-046c-7fc4-0000-000000006030" to 24624', (done) => {
+		it('should put the id in the url', (done) => {
 			const element = new OzoneMediaUrl('00000000-046c-7fc4-0000-000000006030', config)
-			expect(element.getPreviewUrlJpg(1500)).to.equal('/ozone/view/24624/org.taktik.filetype.image.preview.1500')
+			expect(element.getPreviewUrlJpg(1500)).to.equal('/ozone/view/00000000-046c-7fc4-0000-000000006030/org.taktik.filetype.image.preview.1500')
 			done()
 		})
 
 		it('should work with enum', (done) => {
 			const element = new OzoneMediaUrl('00000000-046c-7fc4-0000-000000006030', config)
-			expect(element.getPreviewUrlJpg(OzonePreviewSize.Small)).to.equal('/ozone/view/24624/org.taktik.filetype.image.preview.250')
+			expect(element.getPreviewUrlJpg(OzonePreviewSize.Small)).to.equal('/ozone/view/00000000-046c-7fc4-0000-000000006030/org.taktik.filetype.image.preview.250')
 			done()
 		})
 	})
 	describe('getPreviewUrlPng', function() {
-		it('should convert id: "00000000-046c-7fc4-0000-000000006030" to 24624', (done) => {
+		it('should put the id in the url', (done) => {
 			const element = new OzoneMediaUrl('00000000-046c-7fc4-0000-000000006030', config)
-			expect(element.getPreviewUrlPng(1500)).to.equal('/ozone/view/24624/preview.png.1500')
+			expect(element.getPreviewUrlPng(1500)).to.equal('/ozone/view/00000000-046c-7fc4-0000-000000006030/preview.png.1500')
 			done()
 		})
 
 		it('should work with enum', (done) => {
 			const element = new OzoneMediaUrl('00000000-046c-7fc4-0000-000000006030', config)
-			expect(element.getPreviewUrlPng(OzonePreviewSize.Small)).to.equal('/ozone/view/24624/preview.png.250')
+			expect(element.getPreviewUrlPng(OzonePreviewSize.Small)).to.equal('/ozone/view/00000000-046c-7fc4-0000-000000006030/preview.png.250')
 			done()
 		})
 	})
@@ -51,7 +44,7 @@ describe('tool OzoneMediaUrl', function() {
 		it('should return video url', function(done) {
 
 			const element = new OzoneMediaUrl('00000000-046c-7fc4-0000-000000006028', config)
-			expect(element.getVideoUrl(FlowrVideoEnum.flowr)).to.equal('/ozone/view/24616/org.taktik.filetype.flowr.video/index.m3u8')
+			expect(element.getVideoUrl(FlowrVideoEnum.flowr)).to.equal('/ozone/view/00000000-046c-7fc4-0000-000000006028/org.taktik.filetype.flowr.video/index.m3u8')
 			done()
 		})
 	})
@@ -59,7 +52,18 @@ describe('tool OzoneMediaUrl', function() {
 		it('should return video url', function(done) {
 
 			const element = new OzoneMediaUrl('00000000-046c-7fc4-0000-000000006028', config)
-			expect(element.getVideoUrlMp4()).to.equal('/ozone/view/24616/org.taktik.filetype.video.mp4')
+			expect(element.getVideoUrlMp4()).to.equal('/ozone/view/00000000-046c-7fc4-0000-000000006028/org.taktik.filetype.video.mp4')
+			done()
+		})
+	})
+	describe('createMediaDownloadForm', function() {
+		it('should post the ids in the body', function(done) {
+			const ids = ['00000000-046c-7fc4-0000-000000006028', 'c5d2d737-64d8-483b-ac1c-a969e90661be']
+			const form = OzoneMediaUrl.createMediaDownloadForm(ids, config + '/')
+			expect(form.method).to.equal('post')
+			expect(form.getAttribute('action')).to.equal('/ozone/media')
+			expect((form.elements.namedItem('medias') as HTMLInputElement).value).to.equal('00000000-046c-7fc4-0000-000000006028,c5d2d737-64d8-483b-ac1c-a969e90661be')
+			expect((form.elements.namedItem('types') as HTMLInputElement).value).to.equal('org.taktik.filetype.original')
 			done()
 		})
 	})

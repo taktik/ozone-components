@@ -20,6 +20,22 @@ Helper to convert ozone id to media preview
 ````
 
 
+## Downloading medias
+
+````typeScript
+                import { OzoneMediaUrl } from 'ozone-media-url'
+
+				// Posts the selection as a form into a hidden frame: a url could not list a large one
+				OzoneMediaUrl.downloadMedias(ids, getDefaultClient().config.ozoneURL)
+````
+
+## Since 7.0.0
+
+The urls carry the media UUID instead of the integer of the legacy ids, which a media created with a random UUID
+does not have: `/view` needs an Ozone accepting UUIDs (3.3, ee2c1650c1), and `downloadMedias` one accepting a posted
+selection on `/media` (3.3, 89da8c24e6). `convertToNumericID` and `getNumericId` are gone, and
+`getMediaUploadUrl`, which returned a download url through the v2 API, gave way to `downloadMedias`.
+
 ## OzoneVideoUrl
 
 ````typeScript
